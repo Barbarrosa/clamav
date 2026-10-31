@@ -1,0 +1,2156 @@
+{
+  "scope": "standalone token-byte representation experiment; no scanner integration",
+  "source_commit": "3ee1e5d9903efa5048751859f2b738dfcf8ddb2a",
+  "python": "3.12.14",
+  "python_sat": "1.9.dev17",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "cases": [
+    {
+      "case": "complementarity",
+      "rows": 5,
+      "source_payload_bytes": 63,
+      "candidates": 7,
+      "maxsat_variables": 144,
+      "maximum_candidate_fragment_bytes": 16,
+      "maxsat_hard_clauses": 425,
+      "common_bytes": 77,
+      "encoding_seconds": 0.0007317550002881035,
+      "maxsat_seconds": 0.003133960000013758,
+      "every_byte_and_width_verified": true,
+      "measurements": {
+        "raw": {
+          "image_bytes": 140,
+          "variable_bytes": 63,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 15,
+          "image_sha256": "0f3eb7ecafbae73257733c001c76db3651f09fa539760399fdde9ef2e285bd9d",
+          "empty_cache_layout_bytes": 140,
+          "hydrated_cache_layout_bytes": 140,
+          "reload_two_image_bytes": 280,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 5,
+            "dictionary_entries": 0,
+            "image_bytes": 140,
+            "scratch_bytes": 15,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "a457ee3b6c91a825",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 100000,
+                "seconds": 0.002124039,
+                "cpu_seconds": 0.002122675,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 100000,
+                "seconds": 0.002040724,
+                "cpu_seconds": 0.002040113,
+                "decoded_fnv64": "32c15e63fd30cf27",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 100000,
+                "seconds": 0.002192391,
+                "cpu_seconds": 0.002191987,
+                "decoded_fnv64": "387e79bd71772325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 100000,
+                "seconds": 0.00198458,
+                "cpu_seconds": 0.001978422,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 280,
+              "scratch_bytes": 30,
+              "rss_kib": 736,
+              "rusage_maxrss_kib": 20324,
+              "max_observed_rss_kib": 736,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "greedy": {
+          "image_bytes": 140,
+          "variable_bytes": 63,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 15,
+          "image_sha256": "0f3eb7ecafbae73257733c001c76db3651f09fa539760399fdde9ef2e285bd9d",
+          "empty_cache_layout_bytes": 140,
+          "hydrated_cache_layout_bytes": 140,
+          "reload_two_image_bytes": 280,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 5,
+            "dictionary_entries": 0,
+            "image_bytes": 140,
+            "scratch_bytes": 15,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "a457ee3b6c91a825",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 100000,
+                "seconds": 0.001994765,
+                "cpu_seconds": 0.001993784,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 100000,
+                "seconds": 0.001935095,
+                "cpu_seconds": 0.001934526,
+                "decoded_fnv64": "32c15e63fd30cf27",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 100000,
+                "seconds": 0.002213212,
+                "cpu_seconds": 0.002212859,
+                "decoded_fnv64": "387e79bd71772325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 100000,
+                "seconds": 0.00194479,
+                "cpu_seconds": 0.00194429,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 280,
+              "scratch_bytes": 30,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 20324,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "all_candidates": {
+          "image_bytes": 181,
+          "variable_bytes": 104,
+          "dictionary_entries": 7,
+          "dictionary_payload_bytes": 46,
+          "scratch_bytes_per_decoder": 15,
+          "image_sha256": "7d3cfaa684f5f8aaa5da531d6b59a77fdd6f0574ba98f27ac6fbec4f7852a3ef",
+          "empty_cache_layout_bytes": 181,
+          "hydrated_cache_layout_bytes": 181,
+          "reload_two_image_bytes": 362,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 5,
+            "dictionary_entries": 7,
+            "image_bytes": 181,
+            "scratch_bytes": 15,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "a457ee3b6c91a825",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 100000,
+                "seconds": 0.0026597,
+                "cpu_seconds": 0.002658239,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 100000,
+                "seconds": 0.002899038,
+                "cpu_seconds": 0.002898574,
+                "decoded_fnv64": "32c15e63fd30cf27",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 100000,
+                "seconds": 0.003348932,
+                "cpu_seconds": 0.003348531,
+                "decoded_fnv64": "387e79bd71772325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 100000,
+                "seconds": 0.002663846,
+                "cpu_seconds": 0.002663306,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 362,
+              "scratch_bytes": 30,
+              "rss_kib": 736,
+              "rusage_maxrss_kib": 20324,
+              "max_observed_rss_kib": 736,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "maxsat": {
+          "image_bytes": 130,
+          "variable_bytes": 53,
+          "dictionary_entries": 2,
+          "dictionary_payload_bytes": 9,
+          "scratch_bytes_per_decoder": 15,
+          "image_sha256": "90aed5ed51f71875e9215823904af2dbb2597d02fb6b834c5fc6a2208971a9f2",
+          "empty_cache_layout_bytes": 130,
+          "hydrated_cache_layout_bytes": 130,
+          "reload_two_image_bytes": 260,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 5,
+            "dictionary_entries": 2,
+            "image_bytes": 130,
+            "scratch_bytes": 15,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "a457ee3b6c91a825",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 100000,
+                "seconds": 0.002342996,
+                "cpu_seconds": 0.002341789,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 100000,
+                "seconds": 0.003054511,
+                "cpu_seconds": 0.003054005,
+                "decoded_fnv64": "32c15e63fd30cf27",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 100000,
+                "seconds": 0.002860911,
+                "cpu_seconds": 0.002860277,
+                "decoded_fnv64": "387e79bd71772325",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 100000,
+                "seconds": 0.002443497,
+                "cpu_seconds": 0.002443009,
+                "decoded_fnv64": "fc0651b72719c325",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 260,
+              "scratch_bytes": 30,
+              "rss_kib": 736,
+              "rusage_maxrss_kib": 20324,
+              "max_observed_rss_kib": 736,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        }
+      },
+      "sat_budget_search": {
+        "minimum_variable_bytes": 53,
+        "calls": [
+          {
+            "budget": 31,
+            "feasible": false
+          },
+          {
+            "budget": 47,
+            "feasible": false
+          },
+          {
+            "budget": 55,
+            "feasible": true
+          },
+          {
+            "budget": 51,
+            "feasible": false
+          },
+          {
+            "budget": 53,
+            "feasible": true
+          },
+          {
+            "budget": 52,
+            "feasible": false
+          }
+        ],
+        "encoding_seconds": 0.029423231000237138,
+        "sat_seconds": 1.0744896800006245
+      },
+      "budget_cnf_checks": [
+        {
+          "variable_byte_budget": 52,
+          "feasible": false,
+          "encoding_seconds": 0.0037048039998808235,
+          "sat_seconds": 0.21331906200020967,
+          "dimacs_bytes": 93587,
+          "variables": 1805,
+          "clauses": 6194,
+          "literal_occurrences": 16676,
+          "maximum_clause_width": 3,
+          "lean_canonical_input_symbols": 116026467
+        },
+        {
+          "variable_byte_budget": 53,
+          "feasible": true,
+          "encoding_seconds": 0.0038945420001255115,
+          "sat_seconds": 0.10135013999979492,
+          "dimacs_bytes": 93548,
+          "variables": 1804,
+          "clauses": 6192,
+          "literal_occurrences": 16670,
+          "maximum_clause_width": 3,
+          "lean_canonical_input_symbols": 115943902
+        }
+      ],
+      "public_fixture_sources": []
+    },
+    {
+      "case": "public-literal-fixtures-8",
+      "rows": 10,
+      "source_payload_bytes": 634,
+      "candidates": 8,
+      "maxsat_variables": 828,
+      "maximum_candidate_fragment_bytes": 16,
+      "maxsat_hard_clauses": 2470,
+      "common_bytes": 122,
+      "encoding_seconds": 0.004621883999789134,
+      "maxsat_seconds": 0.020095283000046038,
+      "every_byte_and_width_verified": true,
+      "measurements": {
+        "raw": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.016035721,
+                "cpu_seconds": 0.016033424,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.016046167,
+                "cpu_seconds": 0.01601686,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.019385087,
+                "cpu_seconds": 0.019383377,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.017572751,
+                "cpu_seconds": 0.017571322,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 744,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 744,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "greedy": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.015409382,
+                "cpu_seconds": 0.01540305,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.015609796,
+                "cpu_seconds": 0.015608504,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.01845642,
+                "cpu_seconds": 0.018455152,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.016817566,
+                "cpu_seconds": 0.016815974,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 744,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 744,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "all_candidates": {
+          "image_bytes": 878,
+          "variable_bytes": 756,
+          "dictionary_entries": 8,
+          "dictionary_payload_bytes": 90,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "96b8d661e411cbdf8b7a5375841c1ea4b767a8020e1fae96843a834ec4c189a1",
+          "empty_cache_layout_bytes": 878,
+          "hydrated_cache_layout_bytes": 878,
+          "reload_two_image_bytes": 1756,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 8,
+            "image_bytes": 878,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.016027819,
+                "cpu_seconds": 0.016025953,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.017048065,
+                "cpu_seconds": 0.017046325,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.019131573,
+                "cpu_seconds": 0.019129701,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.017039152,
+                "cpu_seconds": 0.017037562,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1756,
+              "scratch_bytes": 156,
+              "rss_kib": 744,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 744,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "maxsat": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.016579064,
+                "cpu_seconds": 0.01656332,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.015908589,
+                "cpu_seconds": 0.015903491,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.019397636,
+                "cpu_seconds": 0.019395475,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.016737304,
+                "cpu_seconds": 0.016735995,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        }
+      },
+      "sat_budget_search": null,
+      "budget_cnf_checks": [],
+      "public_fixture_sources": [
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+          "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+          "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+          "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+          "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+          "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+          "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+          "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+          "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+        }
+      ]
+    },
+    {
+      "case": "public-literal-fixtures-16",
+      "rows": 10,
+      "source_payload_bytes": 634,
+      "candidates": 16,
+      "maxsat_variables": 1012,
+      "maximum_candidate_fragment_bytes": 16,
+      "maxsat_hard_clauses": 3052,
+      "common_bytes": 122,
+      "encoding_seconds": 0.0056862070000534,
+      "maxsat_seconds": 0.02259504099993137,
+      "every_byte_and_width_verified": true,
+      "measurements": {
+        "raw": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.016118346,
+                "cpu_seconds": 0.016116077,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.015537666,
+                "cpu_seconds": 0.015535877,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.019543807,
+                "cpu_seconds": 0.019541942,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.016939881,
+                "cpu_seconds": 0.016938535,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "greedy": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.016448848,
+                "cpu_seconds": 0.016443602,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.016281754,
+                "cpu_seconds": 0.016279068,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.019330474,
+                "cpu_seconds": 0.019187376,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.016775241,
+                "cpu_seconds": 0.016765129,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "all_candidates": {
+          "image_bytes": 984,
+          "variable_bytes": 862,
+          "dictionary_entries": 16,
+          "dictionary_payload_bytes": 164,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "2396e7e20551c474ba6071d58c0bdb551f483f95b6253ef8b00b746e493dec34",
+          "empty_cache_layout_bytes": 984,
+          "hydrated_cache_layout_bytes": 984,
+          "reload_two_image_bytes": 1968,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 16,
+            "image_bytes": 984,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.017219395,
+                "cpu_seconds": 0.017217388,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.015961549,
+                "cpu_seconds": 0.015959154,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.019387301,
+                "cpu_seconds": 0.019385671,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.017465408,
+                "cpu_seconds": 0.017463994,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1968,
+              "scratch_bytes": 156,
+              "rss_kib": 748,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 748,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "maxsat": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.01606146,
+                "cpu_seconds": 0.016059363,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.015578929,
+                "cpu_seconds": 0.015577819,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.018582281,
+                "cpu_seconds": 0.018580648,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.016821472,
+                "cpu_seconds": 0.01682028,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 25060,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        }
+      },
+      "sat_budget_search": null,
+      "budget_cnf_checks": [],
+      "public_fixture_sources": [
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+          "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+          "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+          "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+          "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+          "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+          "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+          "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+          "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+        }
+      ]
+    },
+    {
+      "case": "public-literal-fixtures-64",
+      "rows": 10,
+      "source_payload_bytes": 634,
+      "candidates": 64,
+      "maxsat_variables": 1866,
+      "maximum_candidate_fragment_bytes": 32,
+      "maxsat_hard_clauses": 5620,
+      "common_bytes": 122,
+      "encoding_seconds": 0.011713831000179198,
+      "maxsat_seconds": 0.06788146000008055,
+      "every_byte_and_width_verified": true,
+      "measurements": {
+        "raw": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.015261248,
+                "cpu_seconds": 0.015258766,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.015326607,
+                "cpu_seconds": 0.015325285,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.020158359,
+                "cpu_seconds": 0.020155311,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.016427876,
+                "cpu_seconds": 0.016425815,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "greedy": {
+          "image_bytes": 756,
+          "variable_bytes": 634,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "82f6fa5a364ae58fa540700208a6661a7d4b864fa479be7c68f261509e5492bc",
+          "empty_cache_layout_bytes": 756,
+          "hydrated_cache_layout_bytes": 756,
+          "reload_two_image_bytes": 1512,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 0,
+            "image_bytes": 756,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.017186085,
+                "cpu_seconds": 0.017183559,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.016428736,
+                "cpu_seconds": 0.016427238,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.020056384,
+                "cpu_seconds": 0.020055113,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.018906271,
+                "cpu_seconds": 0.018904868,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1512,
+              "scratch_bytes": 156,
+              "rss_kib": 744,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 744,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "all_candidates": {
+          "image_bytes": 1565,
+          "variable_bytes": 1443,
+          "dictionary_entries": 64,
+          "dictionary_payload_bytes": 693,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "aa0a01f1e7d793b4f7cf5f4b7eb7068826102d6fc644d3aeb2b47cfc87274150",
+          "empty_cache_layout_bytes": 1565,
+          "hydrated_cache_layout_bytes": 1565,
+          "reload_two_image_bytes": 3130,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 64,
+            "image_bytes": 1565,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.016509059,
+                "cpu_seconds": 0.016506545,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.018046979,
+                "cpu_seconds": 0.018045545,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.018515069,
+                "cpu_seconds": 0.018513969,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.018439514,
+                "cpu_seconds": 0.018437977,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 3130,
+              "scratch_bytes": 156,
+              "rss_kib": 748,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 748,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "maxsat": {
+          "image_bytes": 689,
+          "variable_bytes": 567,
+          "dictionary_entries": 4,
+          "dictionary_payload_bytes": 53,
+          "scratch_bytes_per_decoder": 78,
+          "image_sha256": "657fc7154583d4d89c3edbb06fb010254f758270d9d11b8c6f439f38175e9298",
+          "empty_cache_layout_bytes": 689,
+          "hydrated_cache_layout_bytes": 689,
+          "reload_two_image_bytes": 1378,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 10,
+            "dictionary_entries": 4,
+            "image_bytes": 689,
+            "scratch_bytes": 78,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "de3f195b9281fe47",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 200000,
+                "seconds": 0.017409653,
+                "cpu_seconds": 0.017268864,
+                "decoded_fnv64": "00e3a5ff5d988025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 200000,
+                "seconds": 0.018107501,
+                "cpu_seconds": 0.018106185,
+                "decoded_fnv64": "f38905e53012c5eb",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 200000,
+                "seconds": 0.02042336,
+                "cpu_seconds": 0.020421966,
+                "decoded_fnv64": "caa2a5f03abde025",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 200000,
+                "seconds": 0.019074046,
+                "cpu_seconds": 0.019072106,
+                "decoded_fnv64": "8db622a57e979025",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 1378,
+              "scratch_bytes": 156,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        }
+      },
+      "sat_budget_search": null,
+      "budget_cnf_checks": [],
+      "public_fixture_sources": [
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+          "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+          "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+          "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+          "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+          "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+          "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+          "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+          "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+        }
+      ]
+    },
+    {
+      "case": "distinct",
+      "rows": 8,
+      "source_payload_bytes": 192,
+      "candidates": 0,
+      "maxsat_variables": 200,
+      "maximum_candidate_fragment_bytes": 16,
+      "maxsat_hard_clauses": 576,
+      "common_bytes": 104,
+      "encoding_seconds": 0.0019007699997928285,
+      "maxsat_seconds": 0.00321243799999138,
+      "every_byte_and_width_verified": true,
+      "measurements": {
+        "raw": {
+          "image_bytes": 296,
+          "variable_bytes": 192,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 24,
+          "image_sha256": "d9c233e3720e536016fba5c4288e1a620e055fd6fe1c677b7af4eb41df82b559",
+          "empty_cache_layout_bytes": 296,
+          "hydrated_cache_layout_bytes": 296,
+          "reload_two_image_bytes": 592,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 0,
+            "image_bytes": 296,
+            "scratch_bytes": 24,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "08a30fcd27d55a3e",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.005449979,
+                "cpu_seconds": 0.005448032,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.005368335,
+                "cpu_seconds": 0.005367553,
+                "decoded_fnv64": "867840397494bb72",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.006295009,
+                "cpu_seconds": 0.006294275,
+                "decoded_fnv64": "874f54e894646625",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.006766364,
+                "cpu_seconds": 0.006524566,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 592,
+              "scratch_bytes": 48,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "greedy": {
+          "image_bytes": 296,
+          "variable_bytes": 192,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 24,
+          "image_sha256": "d9c233e3720e536016fba5c4288e1a620e055fd6fe1c677b7af4eb41df82b559",
+          "empty_cache_layout_bytes": 296,
+          "hydrated_cache_layout_bytes": 296,
+          "reload_two_image_bytes": 592,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 0,
+            "image_bytes": 296,
+            "scratch_bytes": 24,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "08a30fcd27d55a3e",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.005243877,
+                "cpu_seconds": 0.005236328,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.005238488,
+                "cpu_seconds": 0.005237399,
+                "decoded_fnv64": "867840397494bb72",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.005700709,
+                "cpu_seconds": 0.005677697,
+                "decoded_fnv64": "874f54e894646625",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.005126088,
+                "cpu_seconds": 0.005125143,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 592,
+              "scratch_bytes": 48,
+              "rss_kib": 744,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 744,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "all_candidates": {
+          "image_bytes": 296,
+          "variable_bytes": 192,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 24,
+          "image_sha256": "d9c233e3720e536016fba5c4288e1a620e055fd6fe1c677b7af4eb41df82b559",
+          "empty_cache_layout_bytes": 296,
+          "hydrated_cache_layout_bytes": 296,
+          "reload_two_image_bytes": 592,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 0,
+            "image_bytes": 296,
+            "scratch_bytes": 24,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "08a30fcd27d55a3e",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.005159318,
+                "cpu_seconds": 0.005157802,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.005128532,
+                "cpu_seconds": 0.005127817,
+                "decoded_fnv64": "867840397494bb72",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.005099218,
+                "cpu_seconds": 0.005098694,
+                "decoded_fnv64": "874f54e894646625",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.005130345,
+                "cpu_seconds": 0.00512988,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 592,
+              "scratch_bytes": 48,
+              "rss_kib": 744,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 744,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "maxsat": {
+          "image_bytes": 296,
+          "variable_bytes": 192,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 24,
+          "image_sha256": "d9c233e3720e536016fba5c4288e1a620e055fd6fe1c677b7af4eb41df82b559",
+          "empty_cache_layout_bytes": 296,
+          "hydrated_cache_layout_bytes": 296,
+          "reload_two_image_bytes": 592,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 0,
+            "image_bytes": 296,
+            "scratch_bytes": 24,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "08a30fcd27d55a3e",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.006073574,
+                "cpu_seconds": 0.006066959,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.005182263,
+                "cpu_seconds": 0.005181507,
+                "decoded_fnv64": "867840397494bb72",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.005353513,
+                "cpu_seconds": 0.00535282,
+                "decoded_fnv64": "874f54e894646625",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.005129093,
+                "cpu_seconds": 0.005128628,
+                "decoded_fnv64": "c79aed4bed2341e5",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 592,
+              "scratch_bytes": 48,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        }
+      },
+      "sat_budget_search": null,
+      "budget_cnf_checks": [],
+      "public_fixture_sources": []
+    },
+    {
+      "case": "tagged-wide",
+      "rows": 8,
+      "source_payload_bytes": 112,
+      "candidates": 16,
+      "maxsat_variables": 512,
+      "maximum_candidate_fragment_bytes": 16,
+      "maxsat_hard_clauses": 1488,
+      "common_bytes": 104,
+      "encoding_seconds": 0.001413382000009733,
+      "maxsat_seconds": 0.004301118000057613,
+      "every_byte_and_width_verified": true,
+      "measurements": {
+        "raw": {
+          "image_bytes": 216,
+          "variable_bytes": 112,
+          "dictionary_entries": 0,
+          "dictionary_payload_bytes": 0,
+          "scratch_bytes_per_decoder": 14,
+          "image_sha256": "20445f77035cff795bcf60dfbb9885ad734ed7fade0b525cb6582f5067c07c78",
+          "empty_cache_layout_bytes": 216,
+          "hydrated_cache_layout_bytes": 216,
+          "reload_two_image_bytes": 432,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 0,
+            "image_bytes": 216,
+            "scratch_bytes": 14,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "eef65f5545abb035",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.003938158,
+                "cpu_seconds": 0.003937013,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.004081084,
+                "cpu_seconds": 0.004079904,
+                "decoded_fnv64": "3d96aa872c027a73",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.003583481,
+                "cpu_seconds": 0.003582508,
+                "decoded_fnv64": "35afd27119a12f25",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.003433223,
+                "cpu_seconds": 0.003432786,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 432,
+              "scratch_bytes": 28,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "greedy": {
+          "image_bytes": 168,
+          "variable_bytes": 64,
+          "dictionary_entries": 1,
+          "dictionary_payload_bytes": 12,
+          "scratch_bytes_per_decoder": 14,
+          "image_sha256": "68226569bffa8a137afcb310b62ec7e6e6949781df4138b4e19c877891ca8fc9",
+          "empty_cache_layout_bytes": 168,
+          "hydrated_cache_layout_bytes": 168,
+          "reload_two_image_bytes": 336,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 1,
+            "image_bytes": 168,
+            "scratch_bytes": 14,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 616,
+            "rss_loaded_no_decodes_kib": 680,
+            "rss_after_all_rows_kib": 680,
+            "decoded_checksum": "eef65f5545abb035",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.003414975,
+                "cpu_seconds": 0.003406698,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.003657182,
+                "cpu_seconds": 0.003656518,
+                "decoded_fnv64": "3d96aa872c027a73",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.003759968,
+                "cpu_seconds": 0.003759209,
+                "decoded_fnv64": "35afd27119a12f25",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.003831767,
+                "cpu_seconds": 0.003830946,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 336,
+              "scratch_bytes": 28,
+              "rss_kib": 740,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 740,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "all_candidates": {
+          "image_bytes": 363,
+          "variable_bytes": 259,
+          "dictionary_entries": 16,
+          "dictionary_payload_bytes": 147,
+          "scratch_bytes_per_decoder": 14,
+          "image_sha256": "95d050b044c04f3987257e859f0f423311dc798084dacbc379d7db2790216a5b",
+          "empty_cache_layout_bytes": 363,
+          "hydrated_cache_layout_bytes": 363,
+          "reload_two_image_bytes": 726,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 16,
+            "image_bytes": 363,
+            "scratch_bytes": 14,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "eef65f5545abb035",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.003693918,
+                "cpu_seconds": 0.003692461,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.003597753,
+                "cpu_seconds": 0.00359107,
+                "decoded_fnv64": "3d96aa872c027a73",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.00346423,
+                "cpu_seconds": 0.003463612,
+                "decoded_fnv64": "35afd27119a12f25",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.003345259,
+                "cpu_seconds": 0.003344625,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 726,
+              "scratch_bytes": 28,
+              "rss_kib": 736,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 736,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        },
+        "maxsat": {
+          "image_bytes": 168,
+          "variable_bytes": 64,
+          "dictionary_entries": 1,
+          "dictionary_payload_bytes": 12,
+          "scratch_bytes_per_decoder": 14,
+          "image_sha256": "68226569bffa8a137afcb310b62ec7e6e6949781df4138b4e19c877891ca8fc9",
+          "empty_cache_layout_bytes": 168,
+          "hydrated_cache_layout_bytes": 168,
+          "reload_two_image_bytes": 336,
+          "native": {
+            "kind": "joint_dictionary_probe",
+            "rows": 8,
+            "dictionary_entries": 1,
+            "image_bytes": 168,
+            "scratch_bytes": 14,
+            "decoded_cache_bytes": 0,
+            "rss_before_kib": 612,
+            "rss_loaded_no_decodes_kib": 676,
+            "rss_after_all_rows_kib": 676,
+            "decoded_checksum": "eef65f5545abb035",
+            "scope": "standalone byte decoder, image read eagerly; not engine or service memory",
+            "timings": [
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 0,
+                "queries": 160000,
+                "seconds": 0.004153355,
+                "cpu_seconds": 0.00415142,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 1,
+                "queries": 160000,
+                "seconds": 0.003920732,
+                "cpu_seconds": 0.003909713,
+                "decoded_fnv64": "3d96aa872c027a73",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 2,
+                "queries": 160000,
+                "seconds": 0.004113373,
+                "cpu_seconds": 0.004112483,
+                "decoded_fnv64": "35afd27119a12f25",
+                "includes_full_decoded_hash": true
+              },
+              {
+                "kind": "joint_dictionary_timing",
+                "trace": 3,
+                "queries": 160000,
+                "seconds": 0.003562529,
+                "cpu_seconds": 0.003561867,
+                "decoded_fnv64": "16442173b2397525",
+                "includes_full_decoded_hash": true
+              }
+            ],
+            "reload": {
+              "kind": "joint_dictionary_reload",
+              "simultaneous_images": 2,
+              "image_bytes": 336,
+              "scratch_bytes": 28,
+              "rss_kib": 736,
+              "rusage_maxrss_kib": 28388,
+              "max_observed_rss_kib": 736,
+              "scope": "old and replacement standalone images, not scanner engine reload"
+            }
+          }
+        }
+      },
+      "sat_budget_search": null,
+      "budget_cnf_checks": [],
+      "public_fixture_sources": []
+    }
+  ],
+  "tool_sha256": {
+    "joint_token_dictionary.py": "149317221f7ade3d9da9dd8a2a0651910b9a9e05a87cd0349e543c035b31a662",
+    "joint_budget_cnf.py": "6faa2717ca34fc6f21bb260fedb217f1314ffaf9de634c4c02268aa8baaa51f0",
+    "run_joint_dictionary.py": "afb21ad386b27b6beb1f9500e1b8318e7f90859bd5912459a2b4c483b895ac6f",
+    "probe_joint_dictionary.c": "8c6ff63d53ca797502d33798c53e33cc4214fa00f5a7efb79c88d4a14454e31b"
+  },
+  "native_probe_sha256": "2e383fb9905fb37fa810abb8cc9ab5c9ebf079d295f73b7eee6c1c6e8a977862",
+  "limitations": [
+    "Public literal fixtures are not compiled token exports or representative official databases.",
+    "Candidate pruning and the flat format restrict the modeled optimum.",
+    "Native decoder RSS includes process overhead; small-image differences are below page granularity.",
+    "No engine RSS, detection/order equivalence, full/restricted database qualification or solver speedup is established."
+  ]
+}
