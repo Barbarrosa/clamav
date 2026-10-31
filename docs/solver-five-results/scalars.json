@@ -1,0 +1,462 @@
+{
+  "experiment": "adaptive scalar block boundaries and formats",
+  "scope": "bounded fixture-derived/synthetic uint32 columns, not ClamAV compiled metadata",
+  "format_modes": [
+    "raw",
+    "constant",
+    "affine",
+    "frame",
+    "sparse"
+  ],
+  "source_fixture_files": [
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+      "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+      "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+      "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+      "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+      "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+      "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+      "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+      "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+    },
+    {
+      "path": "unit_tests/input/other_sigs/Clamav-Unit-Test-Signature.ndb",
+      "sha256": "f7303c1de4cc902f3ea57209ab78e661f50ce0461a7b243879254ae385c505d2"
+    }
+  ],
+  "cases": [
+    {
+      "case": "fixture_targets",
+      "rows": 21,
+      "image_bytes": {
+        "raw_single_block": 116,
+        "single_block_best": 39,
+        "fixed_8": 70,
+        "fixed_16": 55,
+        "joint": 39
+      },
+      "mode_counts": {
+        "frame": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 5,
+      "modeled_lookup_work_upper_bound": 7,
+      "empty_cache_image_bytes": 39,
+      "hydrated_image_bytes": 39,
+      "two_generation_image_bytes": 78,
+      "maximum_block_decoded_uint32_payload_bytes": 84,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 84,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 1861,
+        "hard_clauses": 4811,
+        "solve_seconds": 0.010880100000576931
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.0012959189998582588,
+        "cpu_seconds": 0.001298274000000002,
+        "checksum": 221
+      },
+      "source_uint32_sha256": "3ce15337caca7448b3cb3a9e56890d119f76a590162d3abd42c3c22754e2a080",
+      "image_sha256": "a6e7e1aa5dd7b8016763c7b7be229d55540c7a37f06a3ff589e33e496d5e6840"
+    },
+    {
+      "case": "fixture_literal_lengths",
+      "rows": 21,
+      "image_bytes": {
+        "raw_single_block": 116,
+        "single_block_best": 52,
+        "fixed_8": 77,
+        "fixed_16": 68,
+        "joint": 52
+      },
+      "mode_counts": {
+        "frame": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 5,
+      "modeled_lookup_work_upper_bound": 7,
+      "empty_cache_image_bytes": 52,
+      "hydrated_image_bytes": 52,
+      "two_generation_image_bytes": 104,
+      "maximum_block_decoded_uint32_payload_bytes": 84,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 84,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 1714,
+        "hard_clauses": 4430,
+        "solve_seconds": 0.01950639799997589
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.001114847999815538,
+        "cpu_seconds": 0.0011161040000000066,
+        "checksum": 13383
+      },
+      "source_uint32_sha256": "c6a403c438e0b8e0793c9789e330d0b2aa350c9148023e2e65c8a47645c53b85",
+      "image_sha256": "99db12b66b955c7ab94c9d4d96276c100c3758b222cf4703c640c975af5738e1"
+    },
+    {
+      "case": "fixture_numeric_offsets",
+      "rows": 1,
+      "image_bytes": {
+        "raw_single_block": 36,
+        "single_block_best": 36,
+        "fixed_8": 36,
+        "fixed_16": 36,
+        "joint": 36
+      },
+      "mode_counts": {
+        "constant": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 1,
+      "modeled_lookup_work_upper_bound": 2,
+      "empty_cache_image_bytes": 36,
+      "hydrated_image_bytes": 36,
+      "two_generation_image_bytes": 72,
+      "maximum_block_decoded_uint32_payload_bytes": 4,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 4,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 2,
+        "hard_clauses": 4,
+        "solve_seconds": 0.0001988889998756349
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.000457758999800717,
+        "cpu_seconds": 0.0004582890000000006,
+        "checksum": 0
+      },
+      "source_uint32_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "image_sha256": "c41de84c350f8442ec2bf1048ab5fc3e5c91d5abe71dbea705e00b9364bd8f1d"
+    },
+    {
+      "case": "constant",
+      "rows": 32,
+      "image_bytes": {
+        "raw_single_block": 160,
+        "single_block_best": 36,
+        "fixed_8": 84,
+        "fixed_16": 52,
+        "joint": 36
+      },
+      "mode_counts": {
+        "constant": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 6,
+      "modeled_lookup_work_upper_bound": 7,
+      "empty_cache_image_bytes": 36,
+      "hydrated_image_bytes": 36,
+      "two_generation_image_bytes": 72,
+      "maximum_block_decoded_uint32_payload_bytes": 128,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 128,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 3375,
+        "hard_clauses": 8820,
+        "solve_seconds": 0.012270100000023376
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.0004963669998687692,
+        "cpu_seconds": 0.0004976879999999961,
+        "checksum": 1099511627520
+      },
+      "source_uint32_sha256": "e9175db65a9789096ca9cb5524d3abc2107df03e3c9ba3af1aca628f9c5d3bd2",
+      "image_sha256": "91e48dd0a1bebe35224c163b74c27fa069949334460c6bfc14d0a1ca2a0ac5ff"
+    },
+    {
+      "case": "changing_runs",
+      "rows": 32,
+      "image_bytes": {
+        "raw_single_block": 160,
+        "single_block_best": 160,
+        "fixed_8": 137,
+        "fixed_16": 122,
+        "joint": 88
+      },
+      "mode_counts": {
+        "constant": 3,
+        "frame": 1
+      },
+      "selected_blocks": 4,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 6,
+      "modeled_lookup_work_upper_bound": 8,
+      "empty_cache_image_bytes": 88,
+      "hydrated_image_bytes": 88,
+      "two_generation_image_bytes": 176,
+      "maximum_block_decoded_uint32_payload_bytes": 40,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 128,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 2943,
+        "hard_clauses": 7681,
+        "solve_seconds": 0.06620341400048346
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.0013402570002654102,
+        "cpu_seconds": 0.001341707999999997,
+        "checksum": 231928236127
+      },
+      "source_uint32_sha256": "80f205316d54ffd48b9780bf5a46c427623e1021bd5c7dd8ff661a79c86e1598",
+      "image_sha256": "d26732c54819209a6632f3be7078dc9b9835d5cb132213f9c1a275aa8b084ea3"
+    },
+    {
+      "case": "sparse_outlier",
+      "rows": 32,
+      "image_bytes": {
+        "raw_single_block": 160,
+        "single_block_best": 44,
+        "fixed_8": 92,
+        "fixed_16": 60,
+        "joint": 44
+      },
+      "mode_counts": {
+        "sparse": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 6,
+      "modeled_lookup_work_upper_bound": 8,
+      "empty_cache_image_bytes": 44,
+      "hydrated_image_bytes": 44,
+      "two_generation_image_bytes": 88,
+      "maximum_block_decoded_uint32_payload_bytes": 128,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 128,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 3381,
+        "hard_clauses": 8836,
+        "solve_seconds": 0.016488516999743297
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.000550888999896415,
+        "cpu_seconds": 0.0005524290000000209,
+        "checksum": 21474861575
+      },
+      "source_uint32_sha256": "e6f39f072225bf94907cf81247c5bdfa12c560b8bd4d7187e6b85b1622010e15",
+      "image_sha256": "e61020db03b8a5e0be0c698d59cdf292135c72d40cf757ab0115d47089dd0e0a"
+    },
+    {
+      "case": "distinct_random",
+      "rows": 32,
+      "image_bytes": {
+        "raw_single_block": 160,
+        "single_block_best": 160,
+        "fixed_8": 196,
+        "fixed_16": 172,
+        "joint": 160
+      },
+      "mode_counts": {
+        "raw": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 6,
+      "modeled_lookup_work_upper_bound": 7,
+      "empty_cache_image_bytes": 160,
+      "hydrated_image_bytes": 160,
+      "two_generation_image_bytes": 320,
+      "maximum_block_decoded_uint32_payload_bytes": 128,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 128,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 2655,
+        "hard_clauses": 6924,
+        "solve_seconds": 0.06055900199953612
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.0006335640000543208,
+        "cpu_seconds": 0.0006347199999999775,
+        "checksum": 577722334247
+      },
+      "source_uint32_sha256": "76e33f061263b99ba8363271f8e790f238b7a24a07f1792b4f5d08cf4100cf71",
+      "image_sha256": "3352cec5ab1c06a1ece6f9cf3cea2a3d61cc428a573e448d6d00ea5f765d1e8c"
+    },
+    {
+      "case": "descending_boundary",
+      "rows": 24,
+      "image_bytes": {
+        "raw_single_block": 128,
+        "single_block_best": 44,
+        "fixed_8": 77,
+        "fixed_16": 63,
+        "joint": 44
+      },
+      "mode_counts": {
+        "affine": 1
+      },
+      "selected_blocks": 1,
+      "max_regular_block_rows": 16,
+      "max_mode_work": 4,
+      "whole_column_direct_format_fallback_enabled": true,
+      "directory_search_comparisons_upper_bound": 5,
+      "modeled_lookup_work_upper_bound": 7,
+      "empty_cache_image_bytes": 44,
+      "hydrated_image_bytes": 44,
+      "two_generation_image_bytes": 88,
+      "maximum_block_decoded_uint32_payload_bytes": 96,
+      "diagnostic_decoder_all_values_uint32_payload_bytes": 96,
+      "all_values_and_random_lookups_verified": true,
+      "independent_shortest_path_cost_agrees": true,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 2461,
+        "hard_clauses": 6398,
+        "solve_seconds": 0.01967449099993246
+      },
+      "python_validation_and_lookup": {
+        "queries": 256,
+        "wall_seconds": 0.0011715230002664612,
+        "cpu_seconds": 0.0011738490000000046,
+        "checksum": 1099511624678
+      },
+      "source_uint32_sha256": "7d2c1bccaca4bfc8e477b29d9faf3fdafff5e7cd12091a958c367658abe7e0a8",
+      "image_sha256": "0d153bdf7a03fc3a00108fe396aee9b4c901b076ceb72797de260d8dfac28de3"
+    }
+  ],
+  "fixed_width_feasibility_audit": {
+    "rows": 8,
+    "global_fixed_bytes": 20,
+    "engine": "conventional Minisat22; not the linked counting program",
+    "checks": [
+      {
+        "variable_byte_budget": 31,
+        "satisfiable": false,
+        "variables": 2373,
+        "clauses": 6011,
+        "max_clause_width": 3,
+        "encoding_seconds": 0.0033166390003316337,
+        "sat_seconds": 0.03801452399966365
+      },
+      {
+        "variable_byte_budget": 32,
+        "satisfiable": true,
+        "variables": 2384,
+        "clauses": 6053,
+        "max_clause_width": 3,
+        "encoding_seconds": 0.003624693999881856,
+        "sat_seconds": 0.002075982999485859
+      }
+    ]
+  },
+  "limitations": [
+    "Uses conventional RC2 and Minisat, not execution of the linked counting program.",
+    "A shortest-path dynamic program solves this bounded family without SAT; no solver advantage is claimed.",
+    "Image counts exclude process/allocator overhead, engine state and compiler/solver peak.",
+    "The decoder materializes blocks in Python; timings include validation and are not native ClamAV CPU measurements.",
+    "Decoded uint32 payload counts exclude Python objects/list overhead and are not measured RAM or a native scratch guarantee.",
+    "Work bound is an abstract representation-access bound; decoder implementation and CPU cost differ.",
+    "No decoded cache exists; no C pointer lifetime or scanner output-order qualification is claimed."
+  ]
+}

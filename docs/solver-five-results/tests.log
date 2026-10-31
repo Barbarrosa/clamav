@@ -1,0 +1,47 @@
+test_all_distinct_uses_inline (test_candidate_tails.CandidateTests.test_all_distinct_uses_inline) ... ok
+test_empty_lists (test_candidate_tails.CandidateTests.test_empty_lists) ... ok
+test_every_tuple_field_is_part_of_sharing_identity (test_candidate_tails.CandidateTests.test_every_tuple_field_is_part_of_sharing_identity) ... ok
+test_hop_limit_restricts_shared_suffix (test_candidate_tails.CandidateTests.test_hop_limit_restricts_shared_suffix) ... ok
+test_invalid_descriptor_and_resource_header_rejected (test_candidate_tails.CandidateTests.test_invalid_descriptor_and_resource_header_rejected) ... ok
+test_invalid_next_same_and_duplicate_occurrence_rejected (test_candidate_tails.CandidateTests.test_invalid_next_same_and_duplicate_occurrence_rejected) ... ok
+test_public_duplicate_pattern_chain (test_candidate_tails.CandidateTests.test_public_duplicate_pattern_chain) ... ok
+test_random_small_problems_match_independent_enumeration (test_candidate_tails.CandidateTests.test_random_small_problems_match_independent_enumeration) ... ok
+test_shared_tail_wins_with_setup_cost_charged (test_candidate_tails.CandidateTests.test_shared_tail_wins_with_setup_cost_charged) ... ok
+test_truncation_trailing_bytes_and_cycle_rejected (test_candidate_tails.CandidateTests.test_truncation_trailing_bytes_and_cycle_rejected) ... ok
+test_adaptive_boundaries_beat_fixed_blocks (test_name_blocks.NameBlockTests.test_adaptive_boundaries_beat_fixed_blocks) ... ok
+test_corrupt_reference_descriptor_and_prefix_rejected (test_name_blocks.NameBlockTests.test_corrupt_reference_descriptor_and_prefix_rejected) ... ok
+test_cumulative_budget_rejects_later_names_before_copy (test_name_blocks.NameBlockTests.test_cumulative_budget_rejects_later_names_before_copy) ... ok
+test_decoded_views_survive_other_block_materialization (test_name_blocks.NameBlockTests.test_decoded_views_survive_other_block_materialization) ... ok
+test_empty_duplicate_and_nonascii_names_preserve_order (test_name_blocks.NameBlockTests.test_empty_duplicate_and_nonascii_names_preserve_order) ... ok
+test_fixed_layout_cannot_bypass_span_bound (test_name_blocks.NameBlockTests.test_fixed_layout_cannot_bypass_span_bound) ... ok
+test_forged_short_decode_budget_rejected_before_suffix_copy (test_name_blocks.NameBlockTests.test_forged_short_decode_budget_rejected_before_suffix_copy) ... ok
+test_forged_short_raw_budget_rejected_before_copy (test_name_blocks.NameBlockTests.test_forged_short_raw_budget_rejected_before_copy) ... ok
+test_inadmissible_name_and_dimensions_rejected (test_name_blocks.NameBlockTests.test_inadmissible_name_and_dimensions_rejected) ... ok
+test_public_fixture_names_preserve_original_order (test_name_blocks.NameBlockTests.test_public_fixture_names_preserve_original_order) ... ok
+test_random_small_instances_against_exhaustive_oracle (test_name_blocks.NameBlockTests.test_random_small_instances_against_exhaustive_oracle) ... ok
+test_raw_fallback_and_stable_raw_views_add_no_arena (test_name_blocks.NameBlockTests.test_raw_fallback_and_stable_raw_views_add_no_arena) ... ok
+test_stable_backing_is_immutable_even_with_mutable_input (test_name_blocks.NameBlockTests.test_stable_backing_is_immutable_even_with_mutable_input) ... ok
+test_truncation_and_trailing_bytes_rejected (test_name_blocks.NameBlockTests.test_truncation_and_trailing_bytes_rejected) ... ok
+test_work_bound_applies_to_raw_and_compressed (test_name_blocks.NameBlockTests.test_work_bound_applies_to_raw_and_compressed) ... ok
+test_checked_affine_and_frame_overflow (test_scalar_blocks.ScalarBlocksTests.test_checked_affine_and_frame_overflow) ... ok
+test_empty_and_non_uint32_inputs (test_scalar_blocks.ScalarBlocksTests.test_empty_and_non_uint32_inputs) ... ok
+test_every_mode_roundtrips (test_scalar_blocks.ScalarBlocksTests.test_every_mode_roundtrips) ... ok
+test_every_truncated_prefix_and_trailing_byte (test_scalar_blocks.ScalarBlocksTests.test_every_truncated_prefix_and_trailing_byte) ... ok
+test_global_baselines_are_retained_when_extra_boundaries_lose (test_scalar_blocks.ScalarBlocksTests.test_global_baselines_are_retained_when_extra_boundaries_lose) ... ok
+test_invalid_directory_mode_and_lengths (test_scalar_blocks.ScalarBlocksTests.test_invalid_directory_mode_and_lengths) ... ok
+test_random_small_models_match_independent_oracle (test_scalar_blocks.ScalarBlocksTests.test_random_small_models_match_independent_oracle) ... ok
+test_sparse_positions_and_decode_bound (test_scalar_blocks.ScalarBlocksTests.test_sparse_positions_and_decode_bound) ... ok
+test_filter_is_deterministic_and_respects_bounds (test_tokens.TokenExperiments.test_filter_is_deterministic_and_respects_bounds) ... ok
+test_public_duplicate_references_remain_exact (test_tokens.TokenExperiments.test_public_duplicate_references_remain_exact) ... ok
+test_zero_work_rejects_nonempty_data (test_tokens.TokenExperiments.test_zero_work_rejects_nonempty_data) ... ok
+test_all_transitions_empty_table_and_independent_profiles (test_transitions.TransitionTests.test_all_transitions_empty_table_and_independent_profiles) ... ok
+test_global_block_setup_and_dense_fallback_both_matter (test_transitions.TransitionTests.test_global_block_setup_and_dense_fallback_both_matter) ... ok
+test_inputs_and_lookup_bounds_rejected (test_transitions.TransitionTests.test_inputs_and_lookup_bounds_rejected) ... ok
+test_literal_automaton_against_direct_substring_matching (test_transitions.TransitionTests.test_literal_automaton_against_direct_substring_matching) ... ok
+test_malformed_images_rejected (test_transitions.TransitionTests.test_malformed_images_rejected) ... ok
+test_random_models_against_independent_exhaustive_oracle (test_transitions.TransitionTests.test_random_models_against_independent_exhaustive_oracle) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.266s
+
+OK

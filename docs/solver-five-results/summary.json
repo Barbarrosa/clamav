@@ -1,0 +1,132 @@
+{
+  "scope": "five bounded offline memory-layout experiments; no scanner integration",
+  "solver_executed": "PySAT RC2 and Minisat22; linked Lean counting construction not executed",
+  "source_base_commit": "3c2492e1cd5b927ea7549e12ff4f73b3f583e3db",
+  "python": "3.12.14",
+  "python_sat": "1.9.dev17",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "runs": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/clamav/tools/compact-memory/solver-five",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "wall_seconds": 0.41491335699993215,
+      "log": "tests.log",
+      "log_sha256": "66eb3675c5ef04794307053819cc15e28c82d9f3bf9079ed349d44bc22074e04"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/test_joint_budget_cnf.py"
+      ],
+      "wall_seconds": 0.11430639599984715,
+      "log": "test_joint_budget_cnf.log",
+      "log_sha256": "835b34e6bb88f6d665a8ad277c130ed2b1b9765900aaaee51646afc1ec04f522"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/test_joint_token_dictionary.py"
+      ],
+      "wall_seconds": 0.11411947499982489,
+      "log": "test_joint_token_dictionary.log",
+      "log_sha256": "f3a48db1c62940b0d6a39ec0cf777ab457202e58f80cc819621b3630b14d3f9c"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/solver-five/tokens.py",
+        "--output",
+        "/workspace/solver-five-final",
+        "--probe",
+        "/workspace/probe-joint-dictionary"
+      ],
+      "wall_seconds": 2.1699074509997445,
+      "log": "tokens.log",
+      "log_sha256": "99074dea7588a4f1682b716127d062712f3179a36dfb08f049804a2844fc0ded"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/solver-five/name_blocks.py",
+        "--output",
+        "/workspace/solver-five-final/names.json"
+      ],
+      "wall_seconds": 0.1642209030005688,
+      "log": "names.log",
+      "log_sha256": "3c6be578043d603fc5ef2c026bb3fdd0df41210f1c703be3c2ab294e30f57e33"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/solver-five/transitions.py",
+        "--output",
+        "/workspace/solver-five-final/transitions.json"
+      ],
+      "wall_seconds": 0.6154766700001346,
+      "log": "transitions.log",
+      "log_sha256": "86f88338925486e73b6d2a1c67eb5699dd36b1d0baa44571d3bba6bcd5a57aa6"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/solver-five/candidate_tails.py",
+        "--output",
+        "/workspace/solver-five-final/candidates.json"
+      ],
+      "wall_seconds": 0.21472283300045092,
+      "log": "candidates.log",
+      "log_sha256": "2143200d084177aeaed6289d3b8d2f906057c85f963ba6436155e7ae66267997"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/clamav/tools/compact-memory/solver-five/scalar_blocks.py",
+        "--output",
+        "/workspace/solver-five-final/scalars.json"
+      ],
+      "wall_seconds": 0.41525284799990914,
+      "log": "scalars.log",
+      "log_sha256": "aa992450f7d9bf879d6750e3dd4f7b89315a1ecfdfdaf4dea0e4916747efab05"
+    }
+  ],
+  "source_sha256": {
+    "tools/compact-memory/joint_budget_cnf.py": "6faa2717ca34fc6f21bb260fedb217f1314ffaf9de634c4c02268aa8baaa51f0",
+    "tools/compact-memory/joint_token_dictionary.py": "149317221f7ade3d9da9dd8a2a0651910b9a9e05a87cd0349e543c035b31a662",
+    "tools/compact-memory/probe_joint_dictionary.c": "8c6ff63d53ca797502d33798c53e33cc4214fa00f5a7efb79c88d4a14454e31b",
+    "tools/compact-memory/solver-five/candidate_tails.py": "94f02613206ac3c3a9cefc83f373460a901cd6670ee059c50201b6f7c981b070",
+    "tools/compact-memory/solver-five/common.py": "4eb2a4cfafabce0381cc1540ff6c656469e5f9a0bce003c7f5b3ba7c6da752ad",
+    "tools/compact-memory/solver-five/name_blocks.py": "52d253454ec09337a268250181209368fc0ccfde3c54602b88f109010317d80c",
+    "tools/compact-memory/solver-five/run_five.py": "d4ac9e61eef63f39be22c23f96de1d5eee790dfea9a6af6eae73bad5e0493a7b",
+    "tools/compact-memory/solver-five/scalar_blocks.py": "f472b53054f93c0f5297ff1de2addb2bfa5f73c2109fd0f91a1a7c0e9a05af16",
+    "tools/compact-memory/solver-five/test_candidate_tails.py": "d103e15043080f04c2fad4ca7e7429763bb265ce3759bcf0f96139060b45e3d1",
+    "tools/compact-memory/solver-five/test_name_blocks.py": "971ce97049e841f85a07b88752792075d5e6122205fb5bf6bea8f40a49d54369",
+    "tools/compact-memory/solver-five/test_scalar_blocks.py": "662707321f894531571ddae92157a9968cc96365ff9bd8bba49bfb68d12fae20",
+    "tools/compact-memory/solver-five/test_tokens.py": "e460bb30ba6b24b7f1891d766ebc3c7a6948aeca196281a824792eb638bcdaae",
+    "tools/compact-memory/solver-five/test_transitions.py": "7f9e8b0606c8a98ff08e9bb5d42d578b0ecbb299c1ddd0e65e27caa005176cc8",
+    "tools/compact-memory/solver-five/tokens.py": "4d578383b6c0fd8d4e906affb4f62667e7dad21794f2474b64c7704fdb5911fe",
+    "tools/compact-memory/solver-five/transitions.py": "c2c19833805bd9133e028b3e8be42a79ad59b9e7e6a18017b2487d4df5f0742b"
+  },
+  "result_sha256": {
+    "tokens": "44e1c94d6dc852382c720b916afed6a6afc90716b709dcd9d6ea82c41c7dc49e",
+    "names": "32238c659d574cd71e7918ae895001b386f4ee0e418604c6f511a37d951ab456",
+    "transitions": "55ff61b41907fcb5777eef77153047865bae211cc214098aa6958bff2c3e2462",
+    "candidates": "0442d39778b0c777177a7c4ee26df9a9ed34a0c6c8fda5a507946121f827f453",
+    "scalars": "a47e1108fc43f005ffac320486835ef58d82ce2f4a804c00bdfd4973e36f81c6"
+  },
+  "native_probe_sha256": "2e383fb9905fb37fa810abb8cc9ab5c9ebf079d295f73b7eee6c1c6e8a977862",
+  "limitations": [
+    "Fixtures are public literal/synthetic data, not official compiled databases.",
+    "Image and persistent decoded payload counts exclude process/allocator/solver peak.",
+    "Bounded <=3-CNF audits use small representative problems; larger runs use RC2.",
+    "No practical advantage of the linked algorithm or whole-engine memory saving is established."
+  ]
+}

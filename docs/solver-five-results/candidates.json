@@ -1,0 +1,431 @@
+{
+  "experiment": "ordered candidate suffix sharing",
+  "scope": "offline byte-AC lists and synthetic tuple records; not ClamAV allocation or callback-order qualification",
+  "record_format": "four uint32: pattern identity, occurrence identity, attributes, next_same occurrence; shared node adds uint32 next",
+  "cases": [
+    {
+      "case": "public-literal-byte-ac-output-lists",
+      "lists": 10,
+      "record_occurrences": 20,
+      "unique_candidate_tail_nodes": 20,
+      "maximum_shared_hops": 16,
+      "common_descriptor_bytes": 184,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 62,
+        "hard_clauses": 82,
+        "solve_seconds": 0.0006967379995330703
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 504,
+          "variable_bytes": 320,
+          "cold_image_bytes": 504,
+          "fully_hydrated_image_bytes": 504,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 320,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1200,
+          "python_decode_cpu_seconds_200_full_passes": 0.003604631000000004,
+          "sha256": "7402b9a4549f16d133e4774af6edbfc47601156db2f5eec3d5f0e0eb126330dc"
+        },
+        "always_share": {
+          "image_bytes": 584,
+          "variable_bytes": 400,
+          "cold_image_bytes": 584,
+          "fully_hydrated_image_bytes": 584,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 320,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1360,
+          "python_decode_cpu_seconds_200_full_passes": 0.004055068000000002,
+          "sha256": "ea56eb76193b16fb44ec146f6ac452592410b2ab0d2c92f6e16d6f935bc6c990"
+        },
+        "greedy": {
+          "image_bytes": 504,
+          "variable_bytes": 320,
+          "cold_image_bytes": 504,
+          "fully_hydrated_image_bytes": 504,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 320,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1200,
+          "python_decode_cpu_seconds_200_full_passes": 0.0034143590000000057,
+          "sha256": "7402b9a4549f16d133e4774af6edbfc47601156db2f5eec3d5f0e0eb126330dc"
+        },
+        "joint": {
+          "image_bytes": 504,
+          "variable_bytes": 320,
+          "cold_image_bytes": 504,
+          "fully_hydrated_image_bytes": 504,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 320,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1200,
+          "python_decode_cpu_seconds_200_full_passes": 0.003624299999999997,
+          "sha256": "7402b9a4549f16d133e4774af6edbfc47601156db2f5eec3d5f0e0eb126330dc"
+        }
+      },
+      "every_full_record_and_order_verified": true,
+      "sources": [
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+          "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+          "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+          "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+          "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+          "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+          "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+          "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+          "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+        }
+      ]
+    },
+    {
+      "case": "synthetic-common-tail",
+      "lists": 8,
+      "record_occurrences": 48,
+      "unique_candidate_tail_nodes": 13,
+      "maximum_shared_hops": 16,
+      "common_descriptor_bytes": 152,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 117,
+        "hard_clauses": 204,
+        "solve_seconds": 0.0010486569999557105
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 920,
+          "variable_bytes": 768,
+          "cold_image_bytes": 920,
+          "fully_hydrated_image_bytes": 920,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 2032,
+          "python_decode_cpu_seconds_200_full_passes": 0.007153888999999997,
+          "sha256": "a5ddd6d9d8331f3ab889309559889924e75652aa7e6e0093764eeaa2bf2a65b0"
+        },
+        "always_share": {
+          "image_bytes": 412,
+          "variable_bytes": 260,
+          "cold_image_bytes": 412,
+          "fully_hydrated_image_bytes": 412,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1016,
+          "python_decode_cpu_seconds_200_full_passes": 0.006505298000000007,
+          "sha256": "9ea927d7ef49b08d32d714fddd533b143a31ba13de8b61bbdad5876db8eda111"
+        },
+        "greedy": {
+          "image_bytes": 380,
+          "variable_bytes": 228,
+          "cold_image_bytes": 380,
+          "fully_hydrated_image_bytes": 380,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 952,
+          "python_decode_cpu_seconds_200_full_passes": 0.006649191000000013,
+          "sha256": "a599a92497eb50c531f6f39eb168ec978f429d98f3bf4d419ff8d386f8da5a8e"
+        },
+        "joint": {
+          "image_bytes": 380,
+          "variable_bytes": 228,
+          "cold_image_bytes": 380,
+          "fully_hydrated_image_bytes": 380,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 952,
+          "python_decode_cpu_seconds_200_full_passes": 0.00660152,
+          "sha256": "a599a92497eb50c531f6f39eb168ec978f429d98f3bf4d419ff8d386f8da5a8e"
+        }
+      },
+      "every_full_record_and_order_verified": true,
+      "sources": []
+    },
+    {
+      "case": "synthetic-all-distinct",
+      "lists": 5,
+      "record_occurrences": 30,
+      "unique_candidate_tail_nodes": 30,
+      "maximum_shared_hops": 16,
+      "common_descriptor_bytes": 104,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 95,
+        "hard_clauses": 145,
+        "solve_seconds": 0.0009323730000687647
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 584,
+          "variable_bytes": 480,
+          "cold_image_bytes": 584,
+          "fully_hydrated_image_bytes": 584,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 480,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1360,
+          "python_decode_cpu_seconds_200_full_passes": 0.003969391000000003,
+          "sha256": "958d897713dc0325f3e2899682f8f96efb042d414d0bfb951c116549a072cb04"
+        },
+        "always_share": {
+          "image_bytes": 704,
+          "variable_bytes": 600,
+          "cold_image_bytes": 704,
+          "fully_hydrated_image_bytes": 704,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 480,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1600,
+          "python_decode_cpu_seconds_200_full_passes": 0.004933409999999999,
+          "sha256": "a5be541d900a97af49c977ffef064cb6a0ffb399e6b1ba4199b3e95a95a3464f"
+        },
+        "greedy": {
+          "image_bytes": 584,
+          "variable_bytes": 480,
+          "cold_image_bytes": 584,
+          "fully_hydrated_image_bytes": 584,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 480,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1360,
+          "python_decode_cpu_seconds_200_full_passes": 0.0052846790000000005,
+          "sha256": "958d897713dc0325f3e2899682f8f96efb042d414d0bfb951c116549a072cb04"
+        },
+        "joint": {
+          "image_bytes": 584,
+          "variable_bytes": 480,
+          "cold_image_bytes": 584,
+          "fully_hydrated_image_bytes": 584,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 480,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1360,
+          "python_decode_cpu_seconds_200_full_passes": 0.004198809999999997,
+          "sha256": "958d897713dc0325f3e2899682f8f96efb042d414d0bfb951c116549a072cb04"
+        }
+      },
+      "every_full_record_and_order_verified": true,
+      "sources": []
+    },
+    {
+      "case": "synthetic-duplicate-pattern-different-identities",
+      "lists": 4,
+      "record_occurrences": 8,
+      "unique_candidate_tail_nodes": 8,
+      "maximum_shared_hops": 16,
+      "common_descriptor_bytes": 88,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 28,
+        "hard_clauses": 36,
+        "solve_seconds": 0.0003827959999398445
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 216,
+          "variable_bytes": 128,
+          "cold_image_bytes": 216,
+          "fully_hydrated_image_bytes": 216,
+          "maximum_list_record_payload_bytes": 32,
+          "aggregate_decoded_record_payload_bytes": 128,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 496,
+          "python_decode_cpu_seconds_200_full_passes": 0.0014218669999999933,
+          "sha256": "f86afd8c1817b6aa4731c553e8ba00bb456cd1ff1d42f1ee71609728c19c4163"
+        },
+        "always_share": {
+          "image_bytes": 248,
+          "variable_bytes": 160,
+          "cold_image_bytes": 248,
+          "fully_hydrated_image_bytes": 248,
+          "maximum_list_record_payload_bytes": 32,
+          "aggregate_decoded_record_payload_bytes": 128,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 560,
+          "python_decode_cpu_seconds_200_full_passes": 0.001632278000000001,
+          "sha256": "5e21047fe0b38b60bc12db3cce4debb405dd09fb3a8e51fa60b4b2bc201299d7"
+        },
+        "greedy": {
+          "image_bytes": 216,
+          "variable_bytes": 128,
+          "cold_image_bytes": 216,
+          "fully_hydrated_image_bytes": 216,
+          "maximum_list_record_payload_bytes": 32,
+          "aggregate_decoded_record_payload_bytes": 128,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 496,
+          "python_decode_cpu_seconds_200_full_passes": 0.0018303219999999953,
+          "sha256": "f86afd8c1817b6aa4731c553e8ba00bb456cd1ff1d42f1ee71609728c19c4163"
+        },
+        "joint": {
+          "image_bytes": 216,
+          "variable_bytes": 128,
+          "cold_image_bytes": 216,
+          "fully_hydrated_image_bytes": 216,
+          "maximum_list_record_payload_bytes": 32,
+          "aggregate_decoded_record_payload_bytes": 128,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 496,
+          "python_decode_cpu_seconds_200_full_passes": 0.0013763990000000004,
+          "sha256": "f86afd8c1817b6aa4731c553e8ba00bb456cd1ff1d42f1ee71609728c19c4163"
+        }
+      },
+      "every_full_record_and_order_verified": true,
+      "sources": []
+    },
+    {
+      "case": "synthetic-hop-bound-two",
+      "lists": 8,
+      "record_occurrences": 48,
+      "unique_candidate_tail_nodes": 2,
+      "maximum_shared_hops": 2,
+      "common_descriptor_bytes": 152,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 42,
+        "hard_clauses": 65,
+        "solve_seconds": 0.0005064920005679596
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 920,
+          "variable_bytes": 768,
+          "cold_image_bytes": 920,
+          "fully_hydrated_image_bytes": 920,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 2032,
+          "python_decode_cpu_seconds_200_full_passes": 0.007048802999999992,
+          "sha256": "5edd491cf0ac3293c21fa11d10e8827ad038e9df11bc95c27893707d2d35a0c2"
+        },
+        "always_share": {
+          "image_bytes": 704,
+          "variable_bytes": 552,
+          "cold_image_bytes": 704,
+          "fully_hydrated_image_bytes": 704,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1600,
+          "python_decode_cpu_seconds_200_full_passes": 0.007951340000000001,
+          "sha256": "45bec5bc03435b141f5cc6e01716eebdc5822eb9e90c5217e97de20eb646e04b"
+        },
+        "greedy": {
+          "image_bytes": 704,
+          "variable_bytes": 552,
+          "cold_image_bytes": 704,
+          "fully_hydrated_image_bytes": 704,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1600,
+          "python_decode_cpu_seconds_200_full_passes": 0.007157774000000006,
+          "sha256": "45bec5bc03435b141f5cc6e01716eebdc5822eb9e90c5217e97de20eb646e04b"
+        },
+        "joint": {
+          "image_bytes": 704,
+          "variable_bytes": 552,
+          "cold_image_bytes": 704,
+          "fully_hydrated_image_bytes": 704,
+          "maximum_list_record_payload_bytes": 96,
+          "aggregate_decoded_record_payload_bytes": 768,
+          "reload_two_images_plus_two_modeled_list_payloads_bytes": 1600,
+          "python_decode_cpu_seconds_200_full_passes": 0.006575211999999997,
+          "sha256": "45bec5bc03435b141f5cc6e01716eebdc5822eb9e90c5217e97de20eb646e04b"
+        }
+      },
+      "every_full_record_and_order_verified": true,
+      "sources": []
+    }
+  ],
+  "fixed_width_feasibility_audit": {
+    "engine": "conventional Minisat22; not the linked counting program",
+    "checks": [
+      {
+        "variable_byte_budget": 39,
+        "satisfiable": false,
+        "variables": 53,
+        "clauses": 157,
+        "max_clause_width": 3,
+        "encoding_seconds": 0.0001540120001664036,
+        "sat_seconds": 0.0005400929994721082
+      },
+      {
+        "variable_byte_budget": 40,
+        "satisfiable": true,
+        "variables": 53,
+        "clauses": 157,
+        "max_clause_width": 3,
+        "encoding_seconds": 0.00013197899988881545,
+        "sat_seconds": 0.00031326099997386336
+      }
+    ]
+  },
+  "small_exhaustive_oracle_agrees": true,
+  "limitations": [
+    "The byte-only AC builder supplies model order; it does not reproduce ClamAV address-based ordering.",
+    "Public-list attributes are deterministic test attributes, not engine severity metadata.",
+    "No names are dropped and every record/order/multiplicity/next_same coordinate reconstructs exactly.",
+    "The images have no decoded cache; physical RSS and whole-engine/reload peaks were not measured.",
+    "The Python decoder materializes all lists; payload counts exclude Python objects and are not an actual temporary-peak or native scratch measurement.",
+    "Two-image plus two list-payload accounting is a prospective one-list-at-a-time decoder estimate, not measured Python reload RAM.",
+    "This restricted suffix family is also a weighted closure problem; it does not establish a need for an expensive counting solver."
+  ]
+}

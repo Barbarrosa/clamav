@@ -1,0 +1,292 @@
+{
+  "experiment": "adaptive_name_blocks",
+  "scope": "bounded offline name representation; no scanner or C name-pointer integration",
+  "algorithm_executed": "conventional RC2 MaxSAT and MiniSat budget feasibility, not linked counting construction",
+  "cases": [
+    {
+      "case": "public-original-order-names",
+      "names": 20,
+      "source_name_bytes_with_nul": 778,
+      "maximum_names_per_block": 8,
+      "maximum_decode_work": 512,
+      "optimized_image_bytes": 707,
+      "optimized_variable_bytes": 611,
+      "common_bytes": 96,
+      "blocks": 3,
+      "front_coded_blocks": 3,
+      "baseline_image_bytes": {
+        "raw": 934,
+        "fixed_1": 1274,
+        "fixed_4": 781,
+        "fixed_8": 707
+      },
+      "cold_image_bytes": 707,
+      "all_hydrated_image_and_stable_name_bytes": 1485,
+      "reload_two_cold_images_bytes": 1414,
+      "reload_two_hydrated_payload_bytes": 2970,
+      "maximum_block_decoded_payload_bytes": 331,
+      "transient_python_peak_measured": false,
+      "cpu_seconds_for_100_complete_python_decodes": 0.0014145949999999907,
+      "baseline_cpu_seconds_for_100_complete_python_decodes": {
+        "raw": 0.003494908000000005,
+        "fixed_1": 0.004564973,
+        "fixed_4": 0.0016647560000000033,
+        "fixed_8": 0.0014403939999999976
+      },
+      "worst_block_modeled_decode_work": 339,
+      "every_name_and_original_order_verified": true,
+      "prototype_retained_views_verified": true,
+      "independent_dp_optimum_verified": true,
+      "image_sha256": "573b747eb575adfa730a250354d91b78dff833bf6634a03c37c792e3422f1448",
+      "encoding_seconds": 0.0022408109998650616,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 750,
+        "hard_clauses": 1920,
+        "solve_seconds": 0.017167988000437617
+      },
+      "sources": [
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+          "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+          "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+          "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+          "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+          "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+          "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+          "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+          "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+          "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+        },
+        {
+          "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+          "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+        }
+      ]
+    },
+    {
+      "case": "clustered-name-boundaries",
+      "names": 13,
+      "source_name_bytes_with_nul": 364,
+      "maximum_names_per_block": 8,
+      "maximum_decode_work": 512,
+      "optimized_image_bytes": 251,
+      "optimized_variable_bytes": 183,
+      "common_bytes": 68,
+      "blocks": 2,
+      "front_coded_blocks": 2,
+      "baseline_image_bytes": {
+        "raw": 472,
+        "fixed_1": 692,
+        "fixed_4": 366,
+        "fixed_8": 277
+      },
+      "cold_image_bytes": 251,
+      "all_hydrated_image_and_stable_name_bytes": 615,
+      "reload_two_cold_images_bytes": 502,
+      "reload_two_hydrated_payload_bytes": 1230,
+      "maximum_block_decoded_payload_bytes": 196,
+      "transient_python_peak_measured": false,
+      "cpu_seconds_for_100_complete_python_decodes": 0.0009535320000000069,
+      "baseline_cpu_seconds_for_100_complete_python_decodes": {
+        "raw": 0.0019909999999999928,
+        "fixed_1": 0.0025038399999999933,
+        "fixed_4": 0.0011631440000000048,
+        "fixed_8": 0.000950498000000008
+      },
+      "worst_block_modeled_decode_work": 203,
+      "every_name_and_original_order_verified": true,
+      "prototype_retained_views_verified": true,
+      "independent_dp_optimum_verified": true,
+      "image_sha256": "bde91976622bf7c236984ad7c6f3aea1b548e98470ea6c5c3fb3bb77ddceebed",
+      "encoding_seconds": 0.0011387730000933516,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 428,
+        "hard_clauses": 1080,
+        "solve_seconds": 0.0081433109999125
+      },
+      "sources": []
+    },
+    {
+      "case": "distinct-name-control",
+      "names": 12,
+      "source_name_bytes_with_nul": 588,
+      "maximum_names_per_block": 4,
+      "maximum_decode_work": 512,
+      "optimized_image_bytes": 712,
+      "optimized_variable_bytes": 648,
+      "common_bytes": 64,
+      "blocks": 3,
+      "front_coded_blocks": 0,
+      "baseline_image_bytes": {
+        "raw": 712,
+        "fixed_1": 892,
+        "fixed_4": 712,
+        "fixed_8": null
+      },
+      "cold_image_bytes": 712,
+      "all_hydrated_image_and_stable_name_bytes": 712,
+      "reload_two_cold_images_bytes": 1424,
+      "reload_two_hydrated_payload_bytes": 1424,
+      "maximum_block_decoded_payload_bytes": 196,
+      "transient_python_peak_measured": false,
+      "cpu_seconds_for_100_complete_python_decodes": 0.0023561210000000027,
+      "baseline_cpu_seconds_for_100_complete_python_decodes": {
+        "raw": 0.0024117629999999973,
+        "fixed_1": 0.0029874559999999994,
+        "fixed_4": 0.002342610000000009
+      },
+      "worst_block_modeled_decode_work": 196,
+      "every_name_and_original_order_verified": true,
+      "prototype_retained_views_verified": true,
+      "independent_dp_optimum_verified": true,
+      "image_sha256": "2a38ad99055526fd36adaf5f24632dd525519a3de872e78816c7e6d62e1b604e",
+      "encoding_seconds": 0.0003240870000809082,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 226,
+        "hard_clauses": 560,
+        "solve_seconds": 0.002890259000196238
+      },
+      "sources": []
+    },
+    {
+      "case": "tiny-budget-witness",
+      "names": 3,
+      "source_name_bytes_with_nul": 25,
+      "maximum_names_per_block": 3,
+      "maximum_decode_work": 64,
+      "optimized_image_bytes": 73,
+      "optimized_variable_bytes": 45,
+      "common_bytes": 28,
+      "blocks": 1,
+      "front_coded_blocks": 0,
+      "baseline_image_bytes": {
+        "raw": 73,
+        "fixed_1": 113,
+        "fixed_4": null,
+        "fixed_8": null
+      },
+      "cold_image_bytes": 73,
+      "all_hydrated_image_and_stable_name_bytes": 73,
+      "reload_two_cold_images_bytes": 146,
+      "reload_two_hydrated_payload_bytes": 146,
+      "maximum_block_decoded_payload_bytes": 25,
+      "transient_python_peak_measured": false,
+      "cpu_seconds_for_100_complete_python_decodes": 0.00032253699999999774,
+      "baseline_cpu_seconds_for_100_complete_python_decodes": {
+        "raw": 0.00031268299999999416,
+        "fixed_1": 0.0005461489999999958
+      },
+      "worst_block_modeled_decode_work": 25,
+      "every_name_and_original_order_verified": true,
+      "prototype_retained_views_verified": true,
+      "independent_dp_optimum_verified": true,
+      "image_sha256": "ad413d6c2eba100f582c68888eeecd97adf6980af8065756a774ae5c75e4c459",
+      "encoding_seconds": 0.0002921289997175336,
+      "solver": {
+        "solver": "PySAT RC2",
+        "variables": 28,
+        "hard_clauses": 60,
+        "solve_seconds": 0.0004122000000279513
+      },
+      "sources": [],
+      "fixed_width_budget_checks": {
+        "engine": "conventional Minisat22; not the linked counting program",
+        "checks": [
+          {
+            "variable_byte_budget": 44,
+            "satisfiable": false,
+            "variables": 195,
+            "clauses": 608,
+            "max_clause_width": 3,
+            "encoding_seconds": 0.0003707980004037381,
+            "sat_seconds": 0.000801004999630095
+          },
+          {
+            "variable_byte_budget": 45,
+            "satisfiable": true,
+            "variables": 220,
+            "clauses": 695,
+            "max_clause_width": 3,
+            "encoding_seconds": 0.0004238880001139478,
+            "sat_seconds": 0.00046908599961170694
+          }
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Public names are test fixture labels, not official-database name distributions.",
+    "Hydrated accounting retains the entire encoded image plus immutable decoded name blocks; no eviction or compressed retirement.",
+    "Payload counts exclude Python objects, allocator rounding, and actual process RSS.",
+    "Maximum block decoded payload is not Python temporary scratch: decoded names and joined immutable arenas coexist; transient allocation peak is unmeasured.",
+    "Python memoryview lifetimes are prototype evidence, not proof of the C ABI borrowed-pointer contract.",
+    "Decode work is abstract expanded bytes plus one dispatch per front-coded name; CPU data is Python-only."
+  ]
+}

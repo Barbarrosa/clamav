@@ -1,0 +1,510 @@
+{
+  "scope": "offline literal-byte AC and synthetic transition model; not a compiled ClamAV automaton",
+  "source_patterns": 20,
+  "source_unique_patterns": 10,
+  "source_files": [
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_01of22_companyname.UNOFFICIAL.ndb",
+      "sha256": "35fa2f1ae96ad7629f88d59ff264bb36c17bca4eed33e617f0ac5a5ecf358845"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_02of22_filedescription.UNOFFICIAL.ndb",
+      "sha256": "a249e10a6d24e6fd561259519c628f8b148b1ad76a34f56380d284d695a6fd8e"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_03of22_fileversion.UNOFFICIAL.ndb",
+      "sha256": "e4b2c5a8e7ccbf73207f7eabfbb3bb4168368c3f3063e6b96d3b54f9ad4580be"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_04of22_internalname.UNOFFICIAL.ndb",
+      "sha256": "e3c3f4ca19f92cc2db0621526197d5330a7872e4c2990762e9f2604d5b45d0c3"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_05of22_legalcopyright.UNOFFICIAL.ndb",
+      "sha256": "a2ff0cba51f8e8e44132b40e1fd48eec71688bf29a2655de2674b798e65d5fea"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_06of22_originalfilename.UNOFFICIAL.ndb",
+      "sha256": "bf989a368788de58fc8c2719306701d2c7a8d0f3cb65ef4b5b813654ffd6cf15"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_07of22_productname.UNOFFICIAL.ndb",
+      "sha256": "f07372490960a3d194fc92cd3bfcfd469b234f2af36228c53a8abf9f53b2511d"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_08of22_productversion.UNOFFICIAL.ndb",
+      "sha256": "54fe410719c0c9adc87a98aa51913c7a9774ff20323ce171adcf7b7e4bb131f5"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_09of22_ANY_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "f1a65ba06d89064b71260e81c0b5127228bcf7f215d6d433d2e01e9af40634e7"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_10of22_PE_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "7af2d35d9429d88f43f669ab3f0304c0febf10335feb24d8ef629eb47a6bb9d8"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_11of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "d89e08bd8c98f29e795fafed3b0a67c6b2e820c60d32644b260db065842885b0"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_12of22_PE_EP_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "3c97b02ed197fe9c0f5e15033581508e7aa8c82ba17361f5a4cea8aa4607a55e"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_13of22_PE_S1_EXACT_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "528e33d4d3fe55e34113ac6fdfcc337e25feb28397ecd938076c0e7e175b2f13"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_14of22_PE_S1_BROAD_testexe_0.UNOFFICIAL.ndb",
+      "sha256": "7c4d89ff412fad15bb345a6aceddcd8612e010d6e5d70f7f58ba2efc1826b9c2"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_16of22_ANY_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "f99defe718af128239e0273fe361f829cbf13e8fd906af977c1c0d0f5665ee55"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_17of22_PE_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "90d055a3311eacc8323b0ec97e09df7b51c92d3f6819bff94c04df958618c0d7"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_18of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "ef8aa1c9502dcff8a5da2a849a789112b288b578aab88524e35b021b2fbd3bbe"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_19of22_PE_EP_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "3eeddcd98f5cfdf0bf7111b86681098be16ffffe4a4d967b78aac5583f9d6857"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_20of22_PE_S1_EXACT_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "c17291d0c8eced035f8f9d08a44bb39cdc7bccc6323ce33066d2703c48afdd24"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/alert-sigs/Test.GenSig.NDB_21of22_PE_S1_BROAD_testexe_1.UNOFFICIAL.ndb",
+      "sha256": "5470f322e4899d5e1cdf1c643ab145bb2743ac843916c41f554ad22993cebfd3"
+    }
+  ],
+  "cases": [
+    {
+      "case": "public_fixture_literal_byte_ac",
+      "rows": 586,
+      "transitions_verified_per_variant": 150016,
+      "shared_rows": 586,
+      "dense_rows": 0,
+      "maxsat_variables": 1753,
+      "hard_clauses": 3452,
+      "maxsat_seconds": 0.12007458399966708,
+      "actual_serialized_optimum": 58890,
+      "per_lookup_payload_reads_excluding_common_row_directory_and_mode": {
+        "dense": 1,
+        "shared": 2
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 603018,
+          "sha256": "b1feac89bd541d360b050453cd55aecd44b7f7e792554ee32709b1bbfe3c5292",
+          "cold_component_bytes": 603018,
+          "hydrated_component_bytes": 603018,
+          "reload_two_image_bytes": 1206036,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 56228,
+              "wall_seconds": 0.0025396009996256907,
+              "cpu_seconds": 0.0025390920000000206,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 62371,
+              "wall_seconds": 0.0027743840000766795,
+              "cpu_seconds": 0.002775562000000009,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "all_shared": {
+          "image_bytes": 58890,
+          "sha256": "da13d3c6d42f96e69d3927d40338165ef3d374a7a2c5df740eaaf97c0e5a23a4",
+          "cold_component_bytes": 58890,
+          "hydrated_component_bytes": 58890,
+          "reload_two_image_bytes": 117780,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 56228,
+              "wall_seconds": 0.0033608860003369045,
+              "cpu_seconds": 0.003359536999999968,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 62371,
+              "wall_seconds": 0.0032785930006866693,
+              "cpu_seconds": 0.0032788569999999684,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "optimized": {
+          "image_bytes": 58890,
+          "sha256": "da13d3c6d42f96e69d3927d40338165ef3d374a7a2c5df740eaaf97c0e5a23a4",
+          "cold_component_bytes": 58890,
+          "hydrated_component_bytes": 58890,
+          "reload_two_image_bytes": 117780,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 56228,
+              "wall_seconds": 0.003478382999674068,
+              "cpu_seconds": 0.0034766709999999867,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 62371,
+              "wall_seconds": 0.0034797150001395494,
+              "cpu_seconds": 0.0034807870000000407,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "public_fixture_8_row_budget_audit",
+      "rows": 8,
+      "transitions_verified_per_variant": 2048,
+      "shared_rows": 8,
+      "dense_rows": 0,
+      "maxsat_variables": 27,
+      "hard_clauses": 47,
+      "maxsat_seconds": 0.0005952950004939339,
+      "actual_serialized_optimum": 1024,
+      "per_lookup_payload_reads_excluding_common_row_directory_and_mode": {
+        "dense": 1,
+        "shared": 2
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 8256,
+          "sha256": "7789176c7d79e92b8c742d0001b5088a24550b71191bb52c925f28e6532e5203",
+          "cold_component_bytes": 8256,
+          "hydrated_component_bytes": 8256,
+          "reload_two_image_bytes": 16512,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 48672,
+              "wall_seconds": 0.0023330399999395013,
+              "cpu_seconds": 0.0023324560000000383,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 54108,
+              "wall_seconds": 0.0022827740003776853,
+              "cpu_seconds": 0.002283482999999975,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "all_shared": {
+          "image_bytes": 1024,
+          "sha256": "ece7115f6ae7f21272f56e4b95baf508ad883978333d73fc220d434b7c717c28",
+          "cold_component_bytes": 1024,
+          "hydrated_component_bytes": 1024,
+          "reload_two_image_bytes": 2048,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 48672,
+              "wall_seconds": 0.0031086059998415294,
+              "cpu_seconds": 0.0031083350000000176,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 54108,
+              "wall_seconds": 0.0030696579997311346,
+              "cpu_seconds": 0.003070429000000041,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "optimized": {
+          "image_bytes": 1024,
+          "sha256": "ece7115f6ae7f21272f56e4b95baf508ad883978333d73fc220d434b7c717c28",
+          "cold_component_bytes": 1024,
+          "hydrated_component_bytes": 1024,
+          "reload_two_image_bytes": 2048,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 48672,
+              "wall_seconds": 0.0032321429998773965,
+              "cpu_seconds": 0.003232027999999998,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 54108,
+              "wall_seconds": 0.0032467149994772626,
+              "cpu_seconds": 0.0032479319999999534,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        }
+      },
+      "fixed_width_feasibility": [
+        {
+          "variable_budget": 959,
+          "feasible": false,
+          "variables": 152,
+          "clauses": 498,
+          "maximum_width": 3,
+          "encoding_seconds": 0.00039934100004757056,
+          "sat_seconds": 0.0002630159997352166
+        },
+        {
+          "variable_budget": 960,
+          "feasible": true,
+          "variables": 27,
+          "clauses": 55,
+          "maximum_width": 2,
+          "encoding_seconds": 5.215800047153607e-05,
+          "sat_seconds": 5.956900076853344e-05
+        }
+      ]
+    },
+    {
+      "case": "distinct_microblocks_raw_fallback",
+      "rows": 8,
+      "transitions_verified_per_variant": 2048,
+      "shared_rows": 0,
+      "dense_rows": 8,
+      "maxsat_variables": 144,
+      "hard_clauses": 144,
+      "maxsat_seconds": 0.0029316209993339726,
+      "actual_serialized_optimum": 8256,
+      "per_lookup_payload_reads_excluding_common_row_directory_and_mode": {
+        "dense": 1,
+        "shared": 2
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 8256,
+          "sha256": "beb716b36458e71b2d7c1ddcac77ae76b7581a33019b3d85ffd12335251d7941",
+          "cold_component_bytes": 8256,
+          "hydrated_component_bytes": 8256,
+          "reload_two_image_bytes": 16512,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 21574434,
+              "wall_seconds": 0.0023094150001270464,
+              "cpu_seconds": 0.0023088399999999787,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 20752614,
+              "wall_seconds": 0.002267782000672014,
+              "cpu_seconds": 0.0022681810000000358,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "all_shared": {
+          "image_bytes": 8512,
+          "sha256": "afa3c892a780efbcd2a024ccad0d3949e23c1072b1db903f9cb92f0eb44b9509",
+          "cold_component_bytes": 8512,
+          "hydrated_component_bytes": 8512,
+          "reload_two_image_bytes": 17024,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 21574434,
+              "wall_seconds": 0.0037440330006575095,
+              "cpu_seconds": 0.0037441670000000205,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 20752614,
+              "wall_seconds": 0.003763061999961792,
+              "cpu_seconds": 0.003763857000000037,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "optimized": {
+          "image_bytes": 8256,
+          "sha256": "beb716b36458e71b2d7c1ddcac77ae76b7581a33019b3d85ffd12335251d7941",
+          "cold_component_bytes": 8256,
+          "hydrated_component_bytes": 8256,
+          "reload_two_image_bytes": 16512,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 21574434,
+              "wall_seconds": 0.0046970069997769315,
+              "cpu_seconds": 0.004697300000000015,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 20752614,
+              "wall_seconds": 0.0023947140007294365,
+              "cpu_seconds": 0.0023958299999999877,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": "global_setup_hybrid_control",
+      "rows": 3,
+      "transitions_verified_per_variant": 768,
+      "shared_rows": 2,
+      "dense_rows": 1,
+      "maxsat_variables": 38,
+      "hard_clauses": 54,
+      "maxsat_seconds": 0.0008078749997366685,
+      "actual_serialized_optimum": 2151,
+      "per_lookup_payload_reads_excluding_common_row_directory_and_mode": {
+        "dense": 1,
+        "shared": 2
+      },
+      "measurements": {
+        "raw": {
+          "image_bytes": 3111,
+          "sha256": "995d8ab8510407b28335ce0da7db4e8a0b1fee027cdd89f8e1a6cf08cfbf8278",
+          "cold_component_bytes": 3111,
+          "hydrated_component_bytes": 3111,
+          "reload_two_image_bytes": 6222,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 2126328,
+              "wall_seconds": 0.00216276400078641,
+              "cpu_seconds": 0.0021613620000000555,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 2140089,
+              "wall_seconds": 0.0023415319992636796,
+              "cpu_seconds": 0.0023422300000000007,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "all_shared": {
+          "image_bytes": 2183,
+          "sha256": "65fb1da8185ec0ff0de14f7963146c30c5dfdd15c84b26d07f7fcc2b79fb7fba",
+          "cold_component_bytes": 2183,
+          "hydrated_component_bytes": 2183,
+          "reload_two_image_bytes": 4366,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 2126328,
+              "wall_seconds": 0.0036496809998425306,
+              "cpu_seconds": 0.003649876999999968,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 2140089,
+              "wall_seconds": 0.0037911639992671553,
+              "cpu_seconds": 0.003792237999999948,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        },
+        "optimized": {
+          "image_bytes": 2151,
+          "sha256": "22073ff1607d5115a813c231442bdedf48db98772f8c1f67c77df80b72930277",
+          "cold_component_bytes": 2151,
+          "hydrated_component_bytes": 2151,
+          "reload_two_image_bytes": 4302,
+          "decoded_cache_bytes": 0,
+          "scratch_bytes": 0,
+          "timings": [
+            {
+              "trace": "sequential",
+              "queries": 10000,
+              "checksum": 2126328,
+              "wall_seconds": 0.002984179000122822,
+              "cpu_seconds": 0.0029844020000000526,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            },
+            {
+              "trace": "random",
+              "queries": 10000,
+              "checksum": 2140089,
+              "wall_seconds": 0.0034962299996550428,
+              "cpu_seconds": 0.0034979330000000086,
+              "scope": "Python scalar decoder only; not native scanner CPU"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "cost_model": "20-byte header + u32 row offsets/terminal + byte modes + 64 bytes per shared block + 32 per shared row or 1024 per dense row",
+  "exact_all_transitions_verified": true,
+  "limitations": [
+    "No ClamAV extended verifier/output semantics or runtime representation was changed.",
+    "Component image bytes are not process RSS or full-engine memory savings.",
+    "Shared lookups add a dependent table read; Python timings are not deployment CPU forecasts.",
+    "Only the bounded eight-row slice was translated to byte-budget <=3-CNF.",
+    "Conventional RC2/Minisat tested the reductions; the linked counting algorithm was not executed."
+  ]
+}

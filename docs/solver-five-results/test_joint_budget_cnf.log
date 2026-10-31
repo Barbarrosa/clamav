@@ -1,0 +1,9 @@
+test_boundaries_and_large_weights (__main__.BudgetCNFTests.test_boundaries_and_large_weights) ... ok
+test_invalid_inputs (__main__.BudgetCNFTests.test_invalid_inputs) ... ok
+test_long_hard_clauses_and_gapped_primary_ids (__main__.BudgetCNFTests.test_long_hard_clauses_and_gapped_primary_ids) ... ok
+test_random_tiny_budgets (__main__.BudgetCNFTests.test_random_tiny_budgets) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.034s
+
+OK
