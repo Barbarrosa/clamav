@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-27",
+  "scope": "Standalone exact-layout prototypes; unchanged repaired engine used as oracle; no new engine RSS or whole-scan timings",
+  "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+  "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+  "recovery_snapshot_commit": "6f8af2a055acfe755ac54174627dc70727a66589",
+  "recovered_archive_sha256": "ea71e4c11c49c1bc8578bc75ed505223419f632c597fefe44d475ac0d6757652",
+  "source_sha256": {
+    "tools/compact-memory/export_exact_layouts.c": "46e55384aa6dcbb76df86957f8d02007ad94c69f27646fc44f61511daadbbe8d",
+    "tools/compact-memory/probe_scalar_columns.c": "f4a975453a3dcc97974c866ee19141bd3152860ec7fde2d3c7c90bb8b0e7b43b",
+    "tools/compact-memory/prepare_token_store.py": "a636f8481c0444ecc4e12592b03179e08c32f0ff8469cb47f49b370bab30b1b7",
+    "tools/compact-memory/probe_token_blocks.c": "efa6dafb097f2a57154e3b491ad7d44d66181e6a759111e3ec7418456afbc065",
+    "tools/compact-memory/prepare_logical_store.py": "fe0071d173655f70184e4ffd8570209034e6ff487c03bce1bbab6de480127bda",
+    "tools/compact-memory/run_profile_prototypes.py": "5fbc692163a380de63411ebe855b51519fea304c7e60999195238b8c54708e2f",
+    "tools/compact-memory/analyze_profile_prototypes.py": "ecbcc585fbe22c7d45cc1f9cb4469949147b489df021962776b39baa2aa62217",
+    "tools/compact-memory/test_profile_codecs.py": "12699735c9c587f60945c5419322a88e6f3c8f3b507e54873af7aa6cb2863bfc"
+  },
+  "binary_sha256": {
+    "export-exact-layouts": "cd15664b31d60ce896f05256e8071795cd96095635880c650fa6d22aa192f6b6",
+    "probe-scalar-columns": "05988233ea1d42d33f614a27f9b3790444f724b2bcd5f528a61c4d0f56129114",
+    "probe-token-blocks": "9160eeb8e1116ec062b5c3f60d8a8d672218ba179ad564e91a1b95a87263cb13",
+    "probe-scalar-columns-asan": "a65907d603a4780600abb64500636e63a8f9b77270a2592e5a9fd897464e864f",
+    "probe-token-blocks-asan": "7bc952f44ea32d131017f1d9a05b80a8d5bcafea3a6f522e10d693f5026390fa"
+  },
+  "input_sha256": {
+    "links.bin": "023ff3878fc87500d2b366768346c8576b9a2397ebc666443ec76cd5375f2079",
+    "logical-interned.bin": "3d285e3df3dda3b51b8b139add1a545592f8bfd872539e696447fb350a0676df",
+    "logical.bin": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+    "names.bin": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+    "nodes.bin": "2cf2aef3ec306d4131c3f1652da39e5ca564eb1e100c240f265d4718b9f79add",
+    "patterns-interned.bin": "57fb54a3f65e9badcf68bc9fc96ecccbaeb51a85d8058471e7a87bb72a716009",
+    "patterns.bin": "407b1828886879caaa1095d1e6b7a15d86149912252d15a69063ae91f5806b9d",
+    "programs-data.bin": "1214deb850895b73fe65ef231cdbbaeb92ca411323f56a70861b632ce3c91cf3",
+    "programs-index.bin": "8927858388ed847dd62a46a9193a2d9c5363587a9e5bbdd8f0d9f36a6313b7f0",
+    "programs.bin": "24576c46612acc170e24609c147e47205a0699bfa7427b7acb411ede6b00adea",
+    "templates-data.bin": "9d45d8b2fc4ea58697664ebcc2bb5c3984183be7e057afe6c78ba7321b96fe9d",
+    "templates-index.bin": "83647419042b0b492aa058dc3a8234c12e9e898a09b032cf7e86e73143d27124",
+    "templates.bin": "937e35b7bbe6af66188cb3063e908a96f7ea3b1829e47771ec85d8ff4fd3e3f4",
+    "token-data.bin": "bc37abb227548dc2bafeaa642efff4cedba83a426e49e34943cf60bd83aabdc4",
+    "token-index.bin": "fa2b63b284b379944476a5b38b2df20bab26bdb43629d5b8d405a48e4b2b35b0",
+    "tokens.bin": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e"
+  },
+  "database_sha256": {
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "daily.cvd": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+  },
+  "previous_component_evidence_sha256": {
+    "correlation-summary.json": "82bafa2e69f032c23233b4a5a8c2cdcf1bd75c7a11014e376f2900043056ee55",
+    "encoding-census.jsonl": "54dfd6bdba3e9a12ebdf0625a65bcf332ebb0c8ffb1d5200cf55e8eccf2b1b8d"
+  },
+  "platform": {
+    "architecture": "x86_64",
+    "kernel": "6.18.55",
+    "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+    "affinity_cpu": 2
+  },
+  "versions": {
+    "c_compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+    "rust": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+    "python": "Python 3.12.14",
+    "zstd_pkg_config": "1.5.5",
+    "cmake": "cmake version 3.28.3"
+  },
+  "commands": {
+    "scalar_optimization": "-O3 -mpopcnt -Wall -Wextra",
+    "token_optimization": "-O3 -Wall -Wextra; native libzstd",
+    "sanitizers": "-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer; ASAN_OPTIONS=detect_leaks=0"
+  },
+  "stderr_empty": {
+    "exporter": true,
+    "all_18_matrix_runs": true
+  },
+  "tests": {
+    "baseline_c_checks": 1816,
+    "baseline_c_failures": 0,
+    "baseline_c_errors": 0,
+    "scalar_full_field_comparisons": 143529231,
+    "token_roundtrip_configurations": 6,
+    "token_roundtrips_per_configuration": 1066576,
+    "scanner_integration_suite_rerun": false,
+    "rust_suite_rerun": false
+  },
+  "limitations": [
+    "Timing is on a shared virtual host; affinity does not imply isolated CPU allocation.",
+    "Native record/token access is not scanner throughput.",
+    "The oracle and exports remain resident during layout probes; payload totals are not RSS.",
+    "Input and binary hashes are provenance; raw signatures, databases and machine binaries are not redistributed."
+  ]
+}

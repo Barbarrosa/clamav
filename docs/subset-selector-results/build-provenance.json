@@ -1,0 +1,26 @@
+{
+  "cpu": 0,
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "probe_sha256": "d3d1d6c10da9b91b1e0287d1bcf5a7c2c0b46921cf976de1b80ade570b615c93",
+  "lib_sha256": "343fae262ae45dfda51726b469c1a39014e456518b83430ec31179cbd9b3df19",
+  "database_manifest_sha256": "3d67eae87d4b981e478dac0f8534163e17dc35c3dec1e09dba383295a63ef0e3",
+  "concurrency": 1,
+  "scan_cache": "disabled",
+  "metadata": "enabled equally",
+  "memory_units": "KiB unless bytes explicit",
+  "cgroup_scope": "shared task group; samples cannot establish isolated service charge",
+  "input_list_sha256": "5e37829c76b712101bd4cbba6b45b5a92fcb35fa4e09fa786033efd92cc5891b",
+  "retained_library_matches_existing_build": true,
+  "rust_version": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+  "engine_build_options": [
+    "CMAKE_BUILD_TYPE:STRING=Release",
+    "CMAKE_C_COMPILER:FILEPATH=/usr/bin/cc",
+    "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG",
+    "ENABLE_AC_DISPOSABLE_BUILD:BOOL=OFF",
+    "ENABLE_AC_FLAT_NODES:BOOL=ON",
+    "ENABLE_AC_NODE_IDS:BOOL=ON",
+    "ENABLE_COMPACT_LSIG_STATE:BOOL=ON",
+    "ENABLE_FLAT_HASH_STORE:BOOL=OFF"
+  ]
+}

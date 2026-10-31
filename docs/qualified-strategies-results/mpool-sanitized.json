@@ -1,0 +1,23 @@
+{
+  "scope": "production mpool_flush isolated regression",
+  "mpool_source_sha256": "248d610f06d2df298bb8e66e11decfe546916a8a9408167516e78a87ed3b07ed",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "sanitized": true,
+  "advice_enabled": true,
+  "asan_options": "detect_leaks=0",
+  "runs": [
+    {
+      "page_bytes": 4096,
+      "fragments": 102,
+      "advice_calls": 36,
+      "advised_bytes": 33558528,
+      "advice_failures": 0,
+      "rss_before_kib": 37416,
+      "rss_after_kib": 4668,
+      "rss_reduction_kib": 32748,
+      "small_only_advice_calls": 0,
+      "checks": "passed"
+    }
+  ]
+}

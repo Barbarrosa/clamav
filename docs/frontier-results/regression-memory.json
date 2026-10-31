@@ -1,0 +1,194 @@
+{
+  "kind": "fresh_process_memory_smoke_test",
+  "time_utc": "2026-10-27T07:21:28.059200+00:00",
+  "limitations": "Sample maxima are not worst-case bounds; short trials do not qualify performance.",
+  "host": [
+    "Linux",
+    "28755942b525",
+    "6.18.55",
+    "#1 SMP Wed Oct 14 19:45:18 UTC 2026",
+    "x86_64"
+  ],
+  "seed": 261027,
+  "rounds": 3,
+  "iterations": 3,
+  "input": {
+    "path": "/workspace/scratch/2605ffe80d9d/research/smoke-comparison/small-clean.bin",
+    "bytes": 4096,
+    "sha256": "07a6078d9ca9424a52b88bbdf4d6249f12fbd2cc1dea54158d2d9663f7fec186"
+  },
+  "database": [
+    {
+      "name": "bytecode.cvd",
+      "bytes": 281702,
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+    },
+    {
+      "name": "daily.cvd",
+      "bytes": 23443876,
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+    },
+    {
+      "name": "main.cvd",
+      "bytes": 89072577,
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+    }
+  ],
+  "benchmark_source_sha256": "081c9b2aadfcf0b96d5972e3897caaa80dc102a0b34366934a5a71de8615bf61",
+  "builds": {
+    "before": {
+      "build": "/workspace/scratch/2605ffe80d9d/research/resident-reference",
+      "library_sha256": "e3a971288c8684fcca59d68962ed210c742d1977f91d7888d8f638330632eeb6",
+      "cmake_cache_sha256": "99b457919f38d20c6ff705b2e99d117b5cd6dfd2a6e95f8483be363fd19993b1",
+      "binary_sha256": "b7986c93a1821d6d20a868e425a612524741c183b04dc32f7a7f3065979add93",
+      "compiler_comment": "\nString dump of section '.comment':\n  [     0]  GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\n  [    2b]  rustc version 1.90.0 (1159e78c4 2025-09-14)\n\n"
+    },
+    "fixed": {
+      "build": "/workspace/scratch/2605ffe80d9d/build-compact",
+      "library_sha256": "8d0dc329aa0bea3981c7f49ffefce12c3e2d86b8df992298da5a71bd4e7d16a6",
+      "cmake_cache_sha256": "6e4ea24d19f3baf202af4596a85cf83f51fdaf744a1fdbbd6f734c21d535cbcb",
+      "binary_sha256": "73d25a8766841889c730323dd1ae5eb725ed4ea8673ad91c448f81f9415b7c16",
+      "compiler_comment": "\nString dump of section '.comment':\n  [     0]  GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\n  [    2b]  rustc version 1.90.0 (1159e78c4 2025-09-14)\n\n"
+    }
+  },
+  "summary": {
+    "before": {
+      "compiled_rss_kib": {
+        "mean": 844117.3333333334,
+        "median": 844156,
+        "minimum": 843988,
+        "maximum": 844208
+      },
+      "peak_rss_kib": {
+        "mean": 844805.3333333334,
+        "median": 844716,
+        "minimum": 844656,
+        "maximum": 845044
+      },
+      "load_seconds": {
+        "mean": 26.612294486666666,
+        "median": 27.120317789,
+        "minimum": 17.597229981,
+        "maximum": 35.11933569
+      },
+      "compile_seconds": {
+        "mean": 7.9168261719999995,
+        "median": 5.975306044,
+        "minimum": 4.955286692,
+        "maximum": 12.81988578
+      },
+      "scan_seconds": {
+        "mean": 0.084469126,
+        "median": 0.0738425,
+        "minimum": 0.06787304,
+        "maximum": 0.111691838
+      }
+    },
+    "fixed": {
+      "compiled_rss_kib": {
+        "mean": 843721.3333333334,
+        "median": 843740,
+        "minimum": 843672,
+        "maximum": 843752
+      },
+      "peak_rss_kib": {
+        "mean": 844166.6666666666,
+        "median": 844184,
+        "minimum": 844012,
+        "maximum": 844304
+      },
+      "load_seconds": {
+        "mean": 29.938012501666666,
+        "median": 29.207426445,
+        "minimum": 18.415426224,
+        "maximum": 42.191184836
+      },
+      "compile_seconds": {
+        "mean": 7.044225764666667,
+        "median": 5.69399879,
+        "minimum": 3.410286972,
+        "maximum": 12.028391532
+      },
+      "scan_seconds": {
+        "mean": 0.118309157,
+        "median": 0.082078404,
+        "minimum": 0.045715668,
+        "maximum": 0.227133399
+      }
+    }
+  },
+  "observations": [
+    {
+      "trial": 0,
+      "build": "before",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 17.597229981,
+      "compile_seconds": 5.975306044,
+      "scan_seconds": 0.0738425,
+      "compiled_rss_kib": 844208,
+      "peak_rss_kib": 845044
+    },
+    {
+      "trial": 0,
+      "build": "fixed",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 18.415426224,
+      "compile_seconds": 3.410286972,
+      "scan_seconds": 0.045715668,
+      "compiled_rss_kib": 843740,
+      "peak_rss_kib": 844012
+    },
+    {
+      "trial": 1,
+      "build": "fixed",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 42.191184836,
+      "compile_seconds": 5.69399879,
+      "scan_seconds": 0.082078404,
+      "compiled_rss_kib": 843752,
+      "peak_rss_kib": 844184
+    },
+    {
+      "trial": 1,
+      "build": "before",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 27.120317789,
+      "compile_seconds": 4.955286692,
+      "scan_seconds": 0.06787304,
+      "compiled_rss_kib": 843988,
+      "peak_rss_kib": 844716
+    },
+    {
+      "trial": 2,
+      "build": "before",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 35.11933569,
+      "compile_seconds": 12.81988578,
+      "scan_seconds": 0.111691838,
+      "compiled_rss_kib": 844156,
+      "peak_rss_kib": 844656
+    },
+    {
+      "trial": 2,
+      "build": "fixed",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 29.207426445,
+      "compile_seconds": 12.028391532,
+      "scan_seconds": 0.227133399,
+      "compiled_rss_kib": 843672,
+      "peak_rss_kib": 844304
+    }
+  ]
+}

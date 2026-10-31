@@ -1,0 +1,32 @@
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index bc7b5bb..010de62 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -1008,13 +1008,6 @@ pub struct cli_sz_hash {
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+-pub struct cli_hash_patt {
+-    pub sizehashes: [cli_htu32; 3usize],
+-    pub compiled: *mut cli_hash_compiled,
+-    pub buildpool: *mut ::std::os::raw::c_void,
+-}
+-#[repr(C)]
+-#[derive(Debug, Copy, Clone)]
+ pub struct cli_hash_compiled {
+     pub directory: cli_htu32,
+     pub starts: *mut usize,
+@@ -1028,6 +1021,13 @@ pub struct cli_hash_compiled {
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
++pub struct cli_hash_patt {
++    pub sizehashes: [cli_htu32; 3usize],
++    pub compiled: *mut cli_hash_compiled,
++    pub buildpool: *mut MP,
++}
++#[repr(C)]
++#[derive(Debug, Copy, Clone)]
+ pub struct cli_hash_wild {
+     pub hashes: [cli_sz_hash; 3usize],
+ }

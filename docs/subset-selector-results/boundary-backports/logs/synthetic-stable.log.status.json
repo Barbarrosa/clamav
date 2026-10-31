@@ -1,0 +1,15 @@
+{
+  "command": [
+    "python3",
+    "stable/tools/subset-selector/test_integration.py",
+    "--probe",
+    "backport-run/probe-stable",
+    "--certs",
+    "stable/certs",
+    "--output",
+    "backport-run/synthetic-stable",
+    "--require-detections"
+  ],
+  "returncode": 0,
+  "seconds": 3.442434787750244
+}

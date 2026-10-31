@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python3",
+    "fork/tools/subset-selector/select_db.py",
+    "--lib",
+    "build-fork/libclamav/libclamav.so",
+    "--probe",
+    "backport-run/probe-main",
+    "--certs",
+    "fork/certs",
+    "--output",
+    "backport-run/generation-main",
+    "database/main.cvd",
+    "database/daily.cvd",
+    "database/bytecode.cvd"
+  ],
+  "returncode": 0,
+  "seconds": 22.277690887451172
+}

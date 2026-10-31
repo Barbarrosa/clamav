@@ -1,0 +1,374 @@
+{
+  "baseline": {
+    "engine": {
+      "kind": "hash_equivalence",
+      "signatures": 3628192,
+      "records": 3213522,
+      "queries": 9640566,
+      "result_sha256": "82d80724141f53a3adba75a8316bb250c4bfbf790de1fc0e6e965f0dac704928",
+      "hits": [
+        3213522,
+        0,
+        0
+      ],
+      "load_seconds": 9.003111881,
+      "compile_seconds": 2.298975615,
+      "load_rss_kib": 831440,
+      "compiled_rss_kib": 845312,
+      "compile_peak_rss_kib": 845124
+    },
+    "lookup_median_ns": {
+      "0": 44.09975,
+      "1": 24.248649999999998,
+      "2": 6.0246,
+      "3": 211.18985
+    }
+  },
+  "flat": {
+    "engine": {
+      "kind": "hash_equivalence",
+      "signatures": 3628192,
+      "records": 3213522,
+      "queries": 9640566,
+      "result_sha256": "82d80724141f53a3adba75a8316bb250c4bfbf790de1fc0e6e965f0dac704928",
+      "hits": [
+        3213522,
+        0,
+        0
+      ],
+      "load_seconds": 15.009306664,
+      "compile_seconds": 3.992001182,
+      "load_rss_kib": 844100,
+      "compiled_rss_kib": 789816,
+      "compile_peak_rss_kib": 946720
+    },
+    "lookup_median_ns": {
+      "0": 415.3944,
+      "1": 45.390100000000004,
+      "2": 11.1542,
+      "3": 112.52085
+    }
+  },
+  "indexed": {
+    "engine": {
+      "kind": "hash_equivalence",
+      "signatures": 3628192,
+      "records": 3213522,
+      "queries": 9640566,
+      "result_sha256": "82d80724141f53a3adba75a8316bb250c4bfbf790de1fc0e6e965f0dac704928",
+      "hits": [
+        3213522,
+        0,
+        0
+      ],
+      "load_seconds": 8.40602076,
+      "compile_seconds": 2.797736688,
+      "load_rss_kib": 843988,
+      "compiled_rss_kib": 794760,
+      "compile_peak_rss_kib": 951984
+    },
+    "lookup_median_ns": {
+      "0": 36.9959,
+      "1": 17.0182,
+      "2": 5.8087,
+      "3": 80.35865
+    }
+  },
+  "indexed_vs_baseline": {
+    "resident_saved_mib": 49.3671875,
+    "resident_saved_percent": 5.980277104784982,
+    "peak_change_mib": 104.35546875
+  },
+  "scan_corpus": {
+    "baseline": [
+      {
+        "kind": "engine",
+        "signatures": 3628192,
+        "load_seconds": 8.16254678,
+        "compile_seconds": 2.379727429,
+        "compiled_rss_kib": 844408,
+        "compile_peak_rss_kib": 844220
+      },
+      {
+        "kind": "scan_corpus",
+        "allmatch": 0,
+        "files": 3319,
+        "virus_files": 87,
+        "errors": 0,
+        "callbacks": 87,
+        "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e",
+        "seconds": 81.522946897,
+        "rss_kib": 870500
+      },
+      {
+        "kind": "scan_corpus",
+        "allmatch": 1,
+        "files": 3319,
+        "virus_files": 87,
+        "errors": 0,
+        "callbacks": 89,
+        "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3",
+        "seconds": 124.126216584,
+        "rss_kib": 870500
+      }
+    ],
+    "indexed": [
+      {
+        "kind": "engine",
+        "signatures": 3628192,
+        "load_seconds": 10.114172119,
+        "compile_seconds": 3.177558015,
+        "compiled_rss_kib": 794268,
+        "compile_peak_rss_kib": 951504
+      },
+      {
+        "kind": "scan_corpus",
+        "allmatch": 0,
+        "files": 3319,
+        "virus_files": 87,
+        "errors": 0,
+        "callbacks": 87,
+        "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e",
+        "seconds": 82.311591677,
+        "rss_kib": 820300
+      },
+      {
+        "kind": "scan_corpus",
+        "allmatch": 1,
+        "files": 3319,
+        "virus_files": 87,
+        "errors": 0,
+        "callbacks": 89,
+        "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3",
+        "seconds": 111.478082346,
+        "rss_kib": 820300
+      }
+    ]
+  },
+  "onpair": {
+    "12": {
+      "layout": {
+        "kind": "onpair",
+        "dict_bits": 12,
+        "flagged_offsets": false,
+        "rows": 1066576,
+        "raw_payload_bytes": 31609521,
+        "codes": 16236600,
+        "code_bytes": 32473200,
+        "index_bytes": 4266308,
+        "dictionary_bytes": 27198,
+        "width_bitmap_bytes": 133322,
+        "scratch_bytes": 8016,
+        "total_layout_bytes": 36908188,
+        "allocated_layout_bytes": 36908188,
+        "build_seconds": 0.844887904,
+        "every_token_verified": true,
+        "too_small_output_rejected": true,
+        "malformed_dictionary_rejected": true
+      },
+      "median_access_ns": {
+        "0": {
+          "raw": 18.828475952148438,
+          "packed": 104.6319694519043
+        },
+        "1": {
+          "raw": 2.3214759826660156,
+          "packed": 30.755443572998047
+        },
+        "2": {
+          "raw": 1.5980453491210938,
+          "packed": 9.093978881835938
+        },
+        "3": {
+          "raw": 2.8343849182128906,
+          "packed": 8115.2056312561035
+        },
+        "4": {
+          "raw": 1.866905212402344,
+          "packed": 8.435539245605469
+        }
+      }
+    },
+    "14": {
+      "layout": {
+        "kind": "onpair",
+        "dict_bits": 14,
+        "flagged_offsets": false,
+        "rows": 1066576,
+        "raw_payload_bytes": 31609521,
+        "codes": 12750743,
+        "code_bytes": 25501486,
+        "index_bytes": 4266308,
+        "dictionary_bytes": 116670,
+        "width_bitmap_bytes": 133322,
+        "scratch_bytes": 8016,
+        "total_layout_bytes": 30025946,
+        "allocated_layout_bytes": 30025946,
+        "build_seconds": 0.752728295,
+        "every_token_verified": true,
+        "too_small_output_rejected": true,
+        "malformed_dictionary_rejected": true
+      },
+      "median_access_ns": {
+        "0": {
+          "raw": 14.688102722167969,
+          "packed": 94.47301864624023
+        },
+        "1": {
+          "raw": 2.279499053955078,
+          "packed": 24.77562713623047
+        },
+        "2": {
+          "raw": 1.6333961486816406,
+          "packed": 7.056465148925781
+        },
+        "3": {
+          "raw": 2.042888641357422,
+          "packed": 7417.956153869629
+        },
+        "4": {
+          "raw": 1.7023468017578125,
+          "packed": 7.619525909423828
+        }
+      }
+    },
+    "16": {
+      "layout": {
+        "kind": "onpair",
+        "dict_bits": 16,
+        "flagged_offsets": false,
+        "rows": 1066576,
+        "raw_payload_bytes": 31609521,
+        "codes": 10934905,
+        "code_bytes": 21869810,
+        "index_bytes": 4266308,
+        "dictionary_bytes": 512867,
+        "width_bitmap_bytes": 133322,
+        "scratch_bytes": 8016,
+        "total_layout_bytes": 26790467,
+        "allocated_layout_bytes": 26790467,
+        "build_seconds": 0.790143576,
+        "every_token_verified": true,
+        "too_small_output_rejected": true,
+        "malformed_dictionary_rejected": true
+      },
+      "median_access_ns": {
+        "0": {
+          "raw": 22.53978729248047,
+          "packed": 96.23764419555664
+        },
+        "1": {
+          "raw": 4.159076690673828,
+          "packed": 26.379276275634766
+        },
+        "2": {
+          "raw": 1.6746101379394531,
+          "packed": 9.119937896728516
+        },
+        "3": {
+          "raw": 2.4287071228027344,
+          "packed": 6407.892551422119
+        },
+        "4": {
+          "raw": 2.1484222412109375,
+          "packed": 13.152782440185547
+        }
+      }
+    },
+    "16-flagged": {
+      "layout": {
+        "kind": "onpair",
+        "dict_bits": 16,
+        "flagged_offsets": true,
+        "rows": 1066576,
+        "raw_payload_bytes": 31609521,
+        "codes": 10934905,
+        "code_bytes": 21869810,
+        "index_bytes": 4266308,
+        "dictionary_bytes": 512867,
+        "width_bitmap_bytes": 0,
+        "scratch_bytes": 8016,
+        "total_layout_bytes": 26657121,
+        "allocated_layout_bytes": 26657121,
+        "build_seconds": 1.381895911,
+        "every_token_verified": true,
+        "too_small_output_rejected": true,
+        "malformed_dictionary_rejected": true
+      },
+      "median_access_ns": {
+        "0": {
+          "raw": 59.19866943359375,
+          "packed": 160.70365142822266
+        },
+        "1": {
+          "raw": 4.631710052490234,
+          "packed": 49.99992370605469
+        },
+        "2": {
+          "raw": 3.6302261352539062,
+          "packed": 15.014038085937502
+        },
+        "3": {
+          "raw": 3.826179504394531,
+          "packed": 11999.68786239624
+        },
+        "4": {
+          "raw": 3.8171920776367183,
+          "packed": 18.40534210205078
+        }
+      }
+    }
+  },
+  "token_blocks": {
+    "4096": {
+      "layout": {
+        "kind": "token_blocks",
+        "block_bytes": 4096,
+        "cache_bytes": 1050624,
+        "level": 3,
+        "records": 1066576,
+        "raw_payload_bytes": 31609521,
+        "encoded_payload_bytes": 19249664,
+        "block_directory_bytes": 185232,
+        "token_index_bytes": 4266308,
+        "decoder_bytes": 95992,
+        "scratch_bytes": 8000,
+        "total_layout_bytes": 24855916,
+        "build_seconds": 0.363764811,
+        "every_token_bytes_verified": true,
+        "corruption_and_truncation_rejected": true
+      },
+      "median_access_ns": {
+        "0": 11110.720092773438,
+        "1": 177.290771484375,
+        "2": 10.6209716796875,
+        "3": 9614.321166992188
+      }
+    },
+    "262144": {
+      "layout": {
+        "kind": "token_blocks",
+        "block_bytes": 262144,
+        "cache_bytes": 1048608,
+        "level": 3,
+        "records": 1066576,
+        "raw_payload_bytes": 31609521,
+        "encoded_payload_bytes": 17622082,
+        "block_directory_bytes": 2904,
+        "token_index_bytes": 4266308,
+        "decoder_bytes": 95992,
+        "scratch_bytes": 262144,
+        "total_layout_bytes": 23298134,
+        "build_seconds": 0.417003058,
+        "every_token_bytes_verified": true,
+        "corruption_and_truncation_rejected": true
+      },
+      "median_access_ns": {
+        "0": 517813.0291748047,
+        "1": 138.7467041015625,
+        "2": 48.461669921875,
+        "3": 343966.95568847656
+      }
+    }
+  }
+}

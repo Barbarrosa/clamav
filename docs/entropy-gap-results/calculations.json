@@ -1,0 +1,28 @@
+{
+  "baseline_revision": "4eae1adaee7d89da5959f41ec251c263836cd2c4",
+  "lengths": {
+    "native_bytes": 12065680,
+    "block1024_bytes": 3193168,
+    "conditional_exception_bytes": 1876,
+    "additional_extension_bytes": 140072,
+    "native_projected_extension_layout_net_saving_bytes": 11925608
+  },
+  "seven_fields": {
+    "native_bytes": 36197040,
+    "block1024_bytes": 209615,
+    "simple_bytes": 57528
+  },
+  "tdb": {
+    "native_bytes": 46240367,
+    "witness_budget_bytes": 246422,
+    "ratio": 187.64707290745145
+  },
+  "routing": {
+    "edges": 555935,
+    "counting_leading_term_bits": 5247886.383300231,
+    "transition_bytes": 78815232
+  },
+  "c_scalar_accounting_matches_python": true,
+  "c_pattern_field_comparisons": 37705250,
+  "runtime_changed": false
+}

@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "rules_per_family": 10000,
+  "families": [
+    {
+      "kind": "strong",
+      "original_full_equivalent": true,
+      "reduced_equivalent": true,
+      "named_callback_count": 10000,
+      "modern_severity_available": false
+    },
+    {
+      "kind": "weak",
+      "original_full_equivalent": true,
+      "reduced_equivalent": true,
+      "named_callback_count": 10000,
+      "modern_severity_available": false
+    },
+    {
+      "kind": "pua",
+      "original_full_equivalent": true,
+      "reduced_equivalent": true,
+      "named_callback_count": 10000,
+      "modern_severity_available": false
+    },
+    {
+      "kind": "weak-only",
+      "original_full_equivalent": true,
+      "reduced_equivalent": true,
+      "named_callback_count": 10000,
+      "modern_severity_available": false
+    },
+    {
+      "kind": "pua-only",
+      "original_full_equivalent": true,
+      "reduced_equivalent": true,
+      "named_callback_count": 10000,
+      "modern_severity_available": false
+    }
+  ],
+  "contract": "legacy return codes, named callback multisets, layer sequence and policy holds",
+  "automatic_release_qualified": false
+}

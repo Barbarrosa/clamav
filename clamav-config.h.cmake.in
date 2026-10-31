@@ -471,6 +471,13 @@
 /* enable memory pools */
 #cmakedefine USE_MPOOL 1
 
+/* Compact resident matcher build policies. */
+#cmakedefine ENABLE_COMPACT_LSIG_STATE 1
+#cmakedefine ENABLE_AC_NODE_IDS 1
+#cmakedefine ENABLE_AC_FLAT_NODES 1
+#cmakedefine ENABLE_AC_DISPOSABLE_BUILD 1
+#cmakedefine ENABLE_FLAT_HASH_STORE 1
+
 /* use syslog */
 #cmakedefine USE_SYSLOG 1
 

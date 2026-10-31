@@ -585,7 +585,7 @@ cl_error_t cli_pcre_scanbuf(const unsigned char *buffer, uint32_t length, const 
 #ifdef PCRE_BYPASS
             if (strcmp(pm->trigger, PCRE_BYPASS))
 #endif
-                if (cli_ac_chklsig(pm->trigger, pm->trigger + strlen(pm->trigger), mdata->lsigcnt[pm->lsigid[1]], &evalcnt, &evalids, 0) != 1)
+                if (cli_ac_chklsig(pm->trigger, pm->trigger + strlen(pm->trigger), cli_ac_lsig_counts(mdata, pm->lsigid[1]), &evalcnt, &evalids, 0) != 1)
                     continue;
         } else {
             cli_dbgmsg("cli_pcre_scanbuf: skipping %s check due to uninitialized lsigid\n", pm->trigger);

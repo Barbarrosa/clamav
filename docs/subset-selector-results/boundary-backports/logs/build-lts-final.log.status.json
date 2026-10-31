@@ -1,0 +1,10 @@
+{
+  "command": [
+    "cmake",
+    "--build",
+    "build-lts",
+    "-j3"
+  ],
+  "returncode": 1,
+  "seconds": 19.154654502868652
+}

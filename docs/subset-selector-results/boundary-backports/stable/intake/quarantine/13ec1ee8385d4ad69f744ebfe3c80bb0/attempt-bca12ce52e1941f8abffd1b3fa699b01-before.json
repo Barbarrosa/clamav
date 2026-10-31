@@ -1,0 +1,19 @@
+{
+  "schema": 2,
+  "attachment_id": "13ec1ee8385d4ad69f744ebfe3c80bb0",
+  "original_filename": "clean.png",
+  "source_bytes": 4090,
+  "source_mtime_ns": 1793258710580161144,
+  "source_ctime_ns": 1793258710580161144,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "outcome": "held",
+  "reason": "pending-scan",
+  "release_qualified": false,
+  "created_at_unix": 1793269567.704143,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+  "bytes": 4090
+}

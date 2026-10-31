@@ -1,0 +1,447 @@
+[
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-aspack.exe",
+    "bytes": 7680,
+    "sha256": "fa2901d4e97497165ce275bd8a9e94fe5266ea7a0795d96e0e439da0c7645c36"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-fsg.exe",
+    "bytes": 6656,
+    "sha256": "13f8764444fb9a0ffc9bfe2120e1ad163779846b747163bf14b71519504cb9ae"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-mew.exe",
+    "bytes": 1560,
+    "sha256": "bfe7eeb1939e8bc16f90cb5d921437056e0e456a00a8ea3b31bd9754f6c89885"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-nsis.exe",
+    "bytes": 47437,
+    "sha256": "652847877739943f99273c1388c56c375cb6715b01c7135f7bab882a0be3f888"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-pespin.exe",
+    "bytes": 16384,
+    "sha256": "1dba66766f99bbd55c28113775a54a9cc22d93735494be96237a4081be89e82b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-petite.exe",
+    "bytes": 4096,
+    "sha256": "f4091b710d78322370e849381cddedc878bbe580563d993f4195b2bcb1ffc5b8"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-upack.exe",
+    "bytes": 1852,
+    "sha256": "80a03f1b06996e084f54e6218019e1f0e2c3e789c72a9264145c8e0602c84702"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-upx.exe",
+    "bytes": 3072,
+    "sha256": "d1973ca87229f403ef214905c4a9c2f2a4cca73e1b5b0217eb3f7595e706e16f"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-v2.rar",
+    "bytes": 350,
+    "sha256": "db8de765a932a60fa5acf2321e07f4ed2c336e6a78474cf8228e730577bc3a75"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-v3.rar",
+    "bytes": 364,
+    "sha256": "9ce61f3a6a692618f4969af44fc70867eafca86b27a9cd10ea801262635d3e87"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-wwpack.exe",
+    "bytes": 4096,
+    "sha256": "f8a027d8f09a8943c32e0cdee35fe0d4ce77da174c7773cafde752397d4a75f4"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam-yc.exe",
+    "bytes": 6226,
+    "sha256": "4ebe56972199136a749eca73eb221272cabf725436d6b939b8c1182383c562a9"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.7z",
+    "bytes": 362,
+    "sha256": "eb9075912c0ecd1ddc840922f87795061466314f403f20ea8bb9daf5d533c242"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.arj",
+    "bytes": 393,
+    "sha256": "8fdcc534e30eb458ae180a32fc533b6d97635ba56ec8de5598e30be5396bba14"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.bin-be.cpio",
+    "bytes": 1024,
+    "sha256": "b7a4701f8555156559f7957c4f395f88e1d1253a42578d96f5ebacf19528533c"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.bin-le.cpio",
+    "bytes": 1024,
+    "sha256": "579b55e1dc10d79d232c43289658f206a946ee69131332b63ff2613dc117cea9"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.bz2.zip",
+    "bytes": 462,
+    "sha256": "cf435f5c22acbaf2270985d651b29b48ef2fed210cc48f1720ef8c539582920b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.cab",
+    "bytes": 621,
+    "sha256": "489ffd1f819cf09d742de715a20f4e0cc6b8d50bc837452b59f5b09304e961a5"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.chm",
+    "bytes": 10950,
+    "sha256": "f22f10a9fa67f984589d85db753b83e1e3dd6780aa9f425d0fa27fd545d9bd7e"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.d64.zip",
+    "bytes": 422,
+    "sha256": "36d58e6da9c33c5fae8fd5086adcdaf77180dfb5d8daafd74843b83fd2b318fd"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.ea05.exe",
+    "bytes": 211738,
+    "sha256": "981564018dff1f07a4ce0afe4388a2804b5db94cfd22a9dd4d6047761041effc"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.ea06.exe",
+    "bytes": 257960,
+    "sha256": "04e2ca3b7f3f55736bd3cd56c7c6b9e4423fa9574870d3ae316552c118e32fe3"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe",
+    "bytes": 544,
+    "sha256": "71e7b604d18aefd839e51a39c88df8383bb4c071dc31f87f00a2b5df580d4495"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.2007.one",
+    "bytes": 1147720,
+    "sha256": "d0a9df85d9c3042263dd9c32e2b8110b7a5c3f295e222a8fa48029f8bf0a5583"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.2010.one",
+    "bytes": 1529144,
+    "sha256": "1139a72ab95778e4dcc473603bdcb126cf1d7d796eb9d6fc59d64a3d5468a2c4"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.binhex",
+    "bytes": 833,
+    "sha256": "1cf8e74b9f77c8a1cabf325670a9a01075713de50a2e0c5be9ff361d25f5f7f1"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.bz2",
+    "bytes": 348,
+    "sha256": "0376edde0203be9370ffcf52a15e0b19ad8ebc342f67c3c1743241d0ba230fd1"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.html",
+    "bytes": 782,
+    "sha256": "7629414b98069b77fa0022e545a28651e2fc8f96e3435dafd43ee9387b97ebcf"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.mbox.base64",
+    "bytes": 919,
+    "sha256": "0878e94280d2f5f02268c733f91bc3293f8a89b4ae65ed8dc606bb489e09a388"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.mbox.uu",
+    "bytes": 960,
+    "sha256": "a3c2e42cadd5cb0ea69b4fc47d4bf45040b66ade44c33cb288cb44ce6fe8b5f9"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.rtf",
+    "bytes": 20255,
+    "sha256": "bba4eab51c27a6ffbd86bf870048da1902cc7235a4de49cf30208906dac50f85"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.szdd",
+    "bytes": 308,
+    "sha256": "29a6a08fa2effe9ab4ee9fd7d7e72f13f621ad7d41fd980843e5005130c0fa8e"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe.webapp-export.one",
+    "bytes": 52297,
+    "sha256": "f5ae4bdb59719b8b9fde153ebcaf12a5b67c214de7c4083c0e968d3c3db0e02f"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.exe_and_mail.tar.gz",
+    "bytes": 528,
+    "sha256": "ab18f7b704299301c38ca5254e14c25e59f8510c26c1a6ea531eaafa80a1eea7"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.impl.zip",
+    "bytes": 394,
+    "sha256": "a8bd0287347484f46769f608a63c56fc35d78bd6b1b0a8acdf466465296040f4"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.iso",
+    "bytes": 360448,
+    "sha256": "7acc034732b3406dd8cf210bb4016e426628708c5444c948ab8d323279e72dab"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail",
+    "bytes": 1337,
+    "sha256": "e42bcd485cd1c3f145a465eacae2a8f6dffe69b2319f84d9bd7d97b670363338"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-backslash.eml",
+    "bytes": 1237,
+    "sha256": "036482918cb56757c0b953ce9c1d642c3d2713e74e9318983c6f16c7932555c0"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-comment-quote.eml",
+    "bytes": 1252,
+    "sha256": "9b0923ed8a0d0a78ec3f11c1171a2dbbcd9a89b7ecc7699676336c314efea90b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-comment-quoted-pair.eml",
+    "bytes": 1239,
+    "sha256": "94d25b6effde2226b6662487850a15c52f52abe973ccd9643ffdaaefe895e4ae"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-comment-unquoted-pair.eml",
+    "bytes": 1266,
+    "sha256": "7ef67cf040e24c451c34d0de3764670f7381500bb33f2dd356dee15065c4f6e3"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-comment-unquoted-semicolon.eml",
+    "bytes": 1271,
+    "sha256": "9be758c191516af3f25e6f838755908b8a034de3d2785b01f06b08fba42425df"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-comment-unquoted-whitespace.eml",
+    "bytes": 1271,
+    "sha256": "1dbbe3e7c59391121dac5c723a7044a0975ad64516d5805e8e7a01dfa761115f"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-content-disposition.eml",
+    "bytes": 1296,
+    "sha256": "1e490e0fcdb73e4dc985cf11517c5de3775343a3a3492590054f520dd85eb075"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-escaped-quote.eml",
+    "bytes": 1258,
+    "sha256": "192cf4e44f83c12730914d4115c9edec5fbaa338eb1bb9867ef93fce074632ac"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-escaped-semicolon-spaced-parameter.eml",
+    "bytes": 1116,
+    "sha256": "3a9d553c44a26fa328082fe3dd5edc6352d21a20672feb7697ff2ba1fb7f742d"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-escaped-whitespace-parameter.eml",
+    "bytes": 1099,
+    "sha256": "129d7b29a037d67e9a5c6b54c9e6e9c44c2206da065f857562c5aa112e5733ce"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-intervening-parameter.eml",
+    "bytes": 1111,
+    "sha256": "4d406023645cf25c4e14c7d80c5486b2fe92331e8e8be537108f8c567b70bee9"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-invalid-continuation.eml",
+    "bytes": 1112,
+    "sha256": "119e25937efefd5bec77c0eec0e21d576bc19e86977e417876bdbb453e9ccd62"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-leading-whitespace.eml",
+    "bytes": 1242,
+    "sha256": "34fc2d74eb36b74d026e0e969344b59b9b9f22074794219df04e60bcf101febc"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-lone-escaped-semicolon.eml",
+    "bytes": 1228,
+    "sha256": "eb63fa8e6f01fd717ce0dbb7e622e3f9bde52aafb53d212d44655ec8f1009ac2"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-malformed-spaced-parameter.eml",
+    "bytes": 1095,
+    "sha256": "632977cb76532e8002a58d6b7dca4f2cb3b938effad85dcb43603a40df4ed5f0"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-ordinary-parameter.eml",
+    "bytes": 1101,
+    "sha256": "b8361d47941ae3253479ee2311a7bac957ebb85cc0742b992506ab96a4cd0e30"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-continuation.eml",
+    "bytes": 1256,
+    "sha256": "874aabddfa502031204e303bae010e19578a266a2f29ca534857be9873357119"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-duplicate-canonical.eml",
+    "bytes": 1125,
+    "sha256": "3e1e79368bb0ac24532bb716727d1a699113f3b21e19d5ec2776023da95e7223"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-encoded-first.eml",
+    "bytes": 1276,
+    "sha256": "a7d2971cd02b35e0e9d6e2b1002e675d32c5545d801d15b08ac16b2ad9d75874"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-literal-quotes.eml",
+    "bytes": 1287,
+    "sha256": "7e333196b834202c8e2bd899c681f19b2e3957e3ddeb4cfc79ebb78e43f23908"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-literal-syntax-continuation.eml",
+    "bytes": 1290,
+    "sha256": "507a757280f45d5a4fb44a06d134ce0f7503552f356106d287956f8070640a1b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-nonascii-continuation.eml",
+    "bytes": 1281,
+    "sha256": "22edbef9be604da0e6607c45cd9aabfe1e0e0375850c4d4c2c12afe5d85f0417"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-rfc2231-repeated-section-zero.eml",
+    "bytes": 1286,
+    "sha256": "48e1af58dd5f98c26538cd38091e1186b805018ff78f8faf652ff961dde811a1"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-space-delimiter.eml",
+    "bytes": 1268,
+    "sha256": "8becdb800ee509c164018f90d46bba74d0aadbd9764dbb7fcf7452657960d7ec"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-spaced-continuation.eml",
+    "bytes": 1279,
+    "sha256": "e52a8320ae9fd9e81df06ed60279f5a604bd2b6d4912e0e4a4cc92d7a372338a"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-spaced-escaped-semicolon-parameter.eml",
+    "bytes": 1100,
+    "sha256": "b88e8ecd1b489b4fb85ddc4de773fea598c8f3a1cc3608136e4accdd4bc8dd94"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-spaced-parameter.eml",
+    "bytes": 1102,
+    "sha256": "55ae290edc1439ecfd9f91056fa6320a0cc7cb770bb11ca1b6dd0189554dd782"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-spaced-rfc2231-parameter.eml",
+    "bytes": 1098,
+    "sha256": "7d881e48147c32ddb4b6628c399a80fed0532c99239ba188894a2f652d5bdebc"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-boundary-unquoted-escaped-semicolon.eml",
+    "bytes": 1266,
+    "sha256": "a1511cca4c4f1d69586b03e85bd28bc778b93a1a2c299f3edb1745c920ceefdd"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-comment-header-name.eml",
+    "bytes": 1248,
+    "sha256": "e6cb90ee8fb4326f8a8c8554e340dfacc52133e4ed190416965e1117599e23a7"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-content-disposition-escaped-semicolon.eml",
+    "bytes": 1251,
+    "sha256": "e48e0364032e21912cbf32eccbd4bf2e64da5c7c1ac6f5cc5ff9abc0823fa756"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-disposition-rfc2231-boundary.eml",
+    "bytes": 1320,
+    "sha256": "9b7300ce3c61c8a07debb223a71354d565da02899293a0a1f3a8fb10b67ab484"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-multiple-boundaries.eml",
+    "bytes": 1235,
+    "sha256": "9baaac36c36324025e75f022c1caf027a04e4c1c4e71dde918b00e0b0614148d"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-multiple-content-type.eml",
+    "bytes": 1266,
+    "sha256": "eab994c16d64a087819c4376ab4ac3c587345891782bb710991f011a5b221be2"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-nested-comment-header-name.eml",
+    "bytes": 1327,
+    "sha256": "71696cf686681837be1994f07e678fc28d6f0a85dd5163b1183a204a9152953b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.mail-semicolon-boundary.eml",
+    "bytes": 1235,
+    "sha256": "842b10d285b57984b013a4845a5709e632e05f1f23e3263bc24af938b9b50904"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.newc.cpio",
+    "bytes": 1024,
+    "sha256": "fbdea780c00804b6bc26dbbfc959f39f6899e50cb805844c20c2a2dce0ff1546"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.odc.cpio",
+    "bytes": 1024,
+    "sha256": "6a8b1e791abc8a9423d085c83cef7870413b985c79390262bf2bcbae66215d18"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.ole.doc",
+    "bytes": 16384,
+    "sha256": "5ecdc3d43a7632d400bf3c6fd9422f31d67467da0feca98f2f414f7dde803c39"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.pdf",
+    "bytes": 7277,
+    "sha256": "c46d28b54a8efe5821125e9002c6de29f52f5ad736625637326e47ceb49a07e7"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.ppt",
+    "bytes": 33793,
+    "sha256": "e9dcedfb1014b23fc7895db5eb8e0eb9613e3a28210faccb337c100615c48b1f"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.sis",
+    "bytes": 596,
+    "sha256": "2e75399c9f6fa7741db9ccf506de2895b3a78a3d574fa776c65f533b717555b5"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.split.oneseg.zip",
+    "bytes": 502,
+    "sha256": "317ee71100aa2470fb5f327d18e5f5558e7cfe411840b589e8d1261228bea507"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.tar.gz",
+    "bytes": 486,
+    "sha256": "52cfcc90cffafe62a0abe41013c01be4e1b45cc880b2d2d1db083fda6d767fc4"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.tnef",
+    "bytes": 9738,
+    "sha256": "cd5b6e9c5e1c76f13eeb367d58ee2115e54be0215e9336764134c78b93044110"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam.zip",
+    "bytes": 404,
+    "sha256": "21495c3a579d537dc63b0df710f63e60a0bfbc74d1c2739a313dbd42dd31e1fa"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam_IScab_ext.exe",
+    "bytes": 1748612,
+    "sha256": "12034f5b33659db235db83a18b4f5d972219a07aab633c6e23a6de8372205a0a"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam_IScab_int.exe",
+    "bytes": 1744032,
+    "sha256": "124d5f640891430e4f7fa9bbb95c46601f132d6cfb070924c85f81e221acbe9b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam_ISmsi_ext.exe",
+    "bytes": 1215239,
+    "sha256": "d33908f09dfee2c0299618beb0b5b24fd40db0a8285f46841cbd2b42b179b58b"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam_ISmsi_int.exe",
+    "bytes": 1184248,
+    "sha256": "f7531f276c9ce9558676a435d926c1234226215e4392c57143b589c470f7235f"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clam_cache_emax.tgz",
+    "bytes": 3079,
+    "sha256": "f2b5fd5eaf1c4526ac39559964dc360d28de673599b8676f8718307cbb38ef89"
+  },
+  {
+    "path": "build/unit_tests/input/clamav_hdb_scanfiles/clamjol.iso",
+    "bytes": 374784,
+    "sha256": "89116d0005e023fabc2cdd61a3c5a9050a8a8982c96ba145ee3df295625d91d5"
+  }
+]

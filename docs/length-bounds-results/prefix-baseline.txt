@@ -1,0 +1,2 @@
+load 0
+short 0 long 1

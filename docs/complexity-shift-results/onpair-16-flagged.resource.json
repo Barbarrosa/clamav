@@ -1,0 +1,14 @@
+{
+  "command": [
+    "build-onpair/release/clamav-onpair-probe",
+    "exports/token-data.bin",
+    "exports/token-index.bin",
+    "16"
+  ],
+  "cpu": 2,
+  "exit": 0,
+  "wall_seconds": 17.92724996600009,
+  "user_seconds": 17.724156,
+  "system_seconds": 0.197287,
+  "peak_rss_kib": 91276
+}

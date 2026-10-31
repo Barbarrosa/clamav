@@ -1,0 +1,4 @@
+{"kind":"engine","signatures":601004,"skipped":3027189,"sigload_calls":3628623,"selector_mapping_and_index_bytes":14925375,"load_seconds":3.4912311900006898,"compile_seconds":0.10727354200207628,"compiled_rss_kib":132652,"construction_hwm_kib":164220,"max_file_bytes":104857600,"max_scan_bytes":419430400,"max_recursion":17,"max_files":10000}
+{"kind":"reload_overlap","signatures":601004,"skipped":3027189,"sigload_calls":3628623,"selector_mapping_and_index_bytes":14925375,"load_seconds":3.4650486669997917,"compile_seconds":0.10578689300018596,"compiled_rss_kib":277784,"construction_hwm_kib":310228,"max_file_bytes":104857600,"max_scan_bytes":419430400,"max_recursion":17,"max_files":10000}
+{"kind":"batch","round":0,"allmatch":0,"seconds":3.8489997677970678e-06,"rss_kib":158736,"scan_hwm_kib":310228}
+{"kind":"batch","round":0,"allmatch":1,"seconds":6.8200097302906215e-07,"rss_kib":158736,"scan_hwm_kib":310228}

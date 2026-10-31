@@ -1,0 +1,94 @@
+name: Compact resident engine
+on:
+  push:
+    branches: [compact-resident-engine, demand-loaded-engine]
+  pull_request:
+    paths:
+      - 'libclamav/**'
+      - 'libclamav_rust/**'
+      - 'unit_tests/**'
+      - 'CMakeOptions.cmake'
+      - 'cmake/FindRust.cmake'
+      - 'clamav-config.h.cmake.in'
+      - 'tools/compact-memory/**'
+      - '.github/workflows/compact-memory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: default-flat-ids
+            options: '-DENABLE_AC_NODE_IDS=ON -DENABLE_AC_FLAT_NODES=ON -DENABLE_COMPACT_LSIG_STATE=ON'
+            sanitize: false
+          - name: experimental-build-pool
+            options: '-DENABLE_AC_NODE_IDS=ON -DENABLE_AC_FLAT_NODES=ON -DENABLE_AC_DISPOSABLE_BUILD=ON -DENABLE_COMPACT_LSIG_STATE=ON'
+            sanitize: false
+          - name: indirect-ids
+            options: '-DENABLE_AC_NODE_IDS=ON -DENABLE_AC_FLAT_NODES=OFF -DENABLE_COMPACT_LSIG_STATE=ON'
+            sanitize: false
+          - name: native-transitions
+            options: '-DENABLE_AC_NODE_IDS=OFF -DENABLE_COMPACT_LSIG_STATE=ON'
+            sanitize: false
+          - name: legacy-state
+            options: '-DENABLE_AC_NODE_IDS=ON -DENABLE_COMPACT_LSIG_STATE=OFF'
+            sanitize: false
+          - name: compact-sanitized
+            options: '-DENABLE_AC_NODE_IDS=ON -DENABLE_COMPACT_LSIG_STATE=ON -DDISABLE_MPOOL=1'
+            sanitize: true
+    name: ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build pkg-config check libbz2-dev libcurl4-openssl-dev libjson-c-dev libmilter-dev libncurses-dev libpcre2-dev libssl-dev libxml2-dev zlib1g-dev
+          python3 -m pip install pytest
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: '1.90.0'
+      - name: Configure
+        env:
+          SANITIZE: ${{ matrix.sanitize }}
+        run: |
+          flags=()
+          if [ "$SANITIZE" = true ]; then
+            flags+=('-DCMAKE_C_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer')
+            flags+=('-DCMAKE_CXX_FLAGS=-fsanitize=address,undefined -fno-omit-frame-pointer')
+          fi
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_MAN_PAGES=OFF -DENABLE_SYSTEMD=OFF -DCVD_CERTS_DIRECTORY="$PWD/certs" ${{ matrix.options }} "${flags[@]}"
+      - name: Build
+        run: cmake --build build --parallel 2
+      - name: Check C and Rust record layouts
+        run: python3 tools/compact-memory/check_layout.py --build build --include /usr/include/json-c --include /usr/include/libxml2
+      - name: Test
+        env:
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+          SANITIZE: ${{ matrix.sanitize }}
+        run: |
+          if [ "$SANITIZE" = true ]; then
+            # Scope strict UBSan to the changed matcher and regex paths. The full upstream C
+            # suite currently stops on an unaligned load in matcher-hash.c.
+            CK_RUN_SUITE=matchers ctest --test-dir build -R '^libclamav$' --output-on-failure
+            CK_RUN_SUITE=regex ctest --test-dir build -R '^libclamav$' --output-on-failure
+          else
+            ctest --test-dir build --output-on-failure
+          fi
+      - name: Preserve test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compact-memory-${{ matrix.name }}
+          path: |
+            build/Testing/Temporary/
+            build/unit_tests/test*.log

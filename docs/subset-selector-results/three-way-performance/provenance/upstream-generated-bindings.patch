@@ -1,0 +1,16 @@
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index a56a25c..7e8f373 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -790,9 +790,10 @@ extern "C" {
+     ) -> cl_error_t;
+ }
+ extern "C" {
++    #[doc = " @brief If the SCAN_HEURISTIC_EXCEEDS_MAX option is enabled, append a \"potentially unwanted\" indicator.\n\n There is no return value because the caller should select the appropriate \"CL_EMAX*\" error code regardless\n of whether or not an FP sig is found, or allmatch is enabled, or whatever.\n That is, the scan must not continue because of an FP sig.\n\n @param ctx       The scan context.\n @param virname   The name of the potentially unwanted indicator."]
+     pub fn cli_append_potentially_unwanted_if_heur_exceedsmax(
+         ctx: *mut cli_ctx,
+-        vname: *mut ::std::os::raw::c_char,
++        virname: *mut ::std::os::raw::c_char,
+     );
+ }
+ extern "C" {

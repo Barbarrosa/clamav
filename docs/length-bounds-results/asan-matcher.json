@@ -1,0 +1,6 @@
+{
+  "exit": 0,
+  "instrumented": "libclamav/matcher-ac.c",
+  "scope": "matchers C suite",
+  "leak_detection": false
+}

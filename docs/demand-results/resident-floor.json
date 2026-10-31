@@ -1,0 +1,24 @@
+{
+  "architecture": "resident routing, stable interned names, current logical descriptors",
+  "components": {
+    "ac_core_bytes": 92682712,
+    "unique_name_bytes": 87171124,
+    "logical_records_bytes": 54966560
+  },
+  "subtotal_bytes": 234820396,
+  "subtotal_mib": 223.94218063354492,
+  "budget_bytes": 200000000,
+  "gate": "blocked",
+  "concurrent_reload_subtotal_bytes": 469640792,
+  "excludes": [
+    "cache",
+    "scan and parser state",
+    "code and runtime",
+    "logical expression and target metadata payloads",
+    "other resident matchers and compatibility objects",
+    "allocator overhead",
+    "build scratch",
+    "kernel file cache"
+  ],
+  "interpretation": "A bound for the planned layouts, not an information-theoretic limit."
+}

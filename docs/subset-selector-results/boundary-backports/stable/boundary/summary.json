@@ -1,0 +1,1735 @@
+{
+  "passed": true,
+  "expected_cases": 65,
+  "observed_cases": 65,
+  "required_witness_sites": [
+    "cli_scan_fmap-PE",
+    "cli_scanpe",
+    "scan_pe_imp",
+    "scan_pe_mdb"
+  ],
+  "cases": [
+    {
+      "family": "ndb",
+      "file": "root-pe.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "embedded-raw.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "embedded-flate.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "embedded-asciihex.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "nested-zip.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "nested-pdf.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "png-appended.png",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "root.zip",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "raw-embedded.exe",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ndb",
+      "file": "clean.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ndb",
+      "file": "clean.png",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ndb",
+      "file": "broken.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ndb",
+      "file": "jpeg-appended.jpg",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": true,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ldb",
+      "file": "root-pe.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "embedded-raw.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "embedded-flate.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "embedded-asciihex.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "nested-zip.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "nested-pdf.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "png-appended.png",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "root.zip",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "raw-embedded.exe",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "ldb",
+      "file": "clean.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ldb",
+      "file": "clean.png",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ldb",
+      "file": "broken.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "ldb",
+      "file": "jpeg-appended.jpg",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": true,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "mdb",
+      "file": "root-pe.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "embedded-raw.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "embedded-flate.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "embedded-asciihex.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "nested-zip.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "nested-pdf.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "png-appended.png",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "root.zip",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "raw-embedded.exe",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "mdb",
+      "file": "clean.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "mdb",
+      "file": "clean.png",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "mdb",
+      "file": "broken.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "mdb",
+      "file": "jpeg-appended.jpg",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": true,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "msb",
+      "file": "root-pe.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "embedded-raw.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "embedded-flate.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "embedded-asciihex.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "nested-zip.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "nested-pdf.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "png-appended.png",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "root.zip",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "raw-embedded.exe",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "msb",
+      "file": "clean.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "msb",
+      "file": "clean.png",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "msb",
+      "file": "broken.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "msb",
+      "file": "jpeg-appended.jpg",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": true,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "imp",
+      "file": "root-pe.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "embedded-raw.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "embedded-flate.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "embedded-asciihex.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "nested-zip.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "nested-pdf.pdf",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "png-appended.png",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 1
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 1
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "root.zip",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "raw-embedded.exe",
+      "expected_positive": true,
+      "full_detected_target_rule": true,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": true,
+      "full_boundary_guarded": true,
+      "baseline_unobserved_content": false,
+      "witnesses": [
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scan_fmap-PE",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "cli_scanpe",
+          "hold_bits_before": 3
+        },
+        {
+          "event": "boundary_witness",
+          "site": "scan_pe_imp",
+          "hold_bits_before": 3
+        }
+      ],
+      "passed": true,
+      "full_candidate": "held",
+      "reduced_candidate": "held"
+    },
+    {
+      "family": "imp",
+      "file": "clean.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "imp",
+      "file": "clean.png",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "imp",
+      "file": "broken.pdf",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": false,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    },
+    {
+      "family": "imp",
+      "file": "jpeg-appended.jpg",
+      "expected_positive": false,
+      "full_detected_target_rule": false,
+      "reduced_omitted_target_rule": true,
+      "specific_pe_hold": false,
+      "full_boundary_guarded": null,
+      "baseline_unobserved_content": true,
+      "witnesses": [],
+      "passed": true,
+      "full_candidate": "clean",
+      "reduced_candidate": "clean"
+    }
+  ],
+  "failures": [],
+  "witness_sites_seen": [
+    "cli_scan_fmap-PE",
+    "cli_scanpe",
+    "scan_pe_imp",
+    "scan_pe_mdb"
+  ],
+  "mutation_without_PE_hold_rejected": true,
+  "handler_guard_passed": true,
+  "embedded_limit_skip_observed": true,
+  "embedded_limit_specific_hold": true,
+  "blanket_release_hold_not_used_as_evidence": true,
+  "shared_baseline_limitations": [
+    "JPEG appended PE is not reached/detected by either variant; not counted as a positive coverage case.",
+    "Malformed PDF has no automatic parse-error hold in either variant."
+  ],
+  "automatic_release_qualified": false
+}

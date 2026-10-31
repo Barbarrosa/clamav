@@ -1,0 +1,1201 @@
+{
+  "kind": "composable_component_prototypes_not_integrated_scanner",
+  "best_scalar_layouts": {
+    "patterns": {
+      "kind": "scalar_layout",
+      "schema": "patterns",
+      "group": 1024,
+      "rows": 1508210,
+      "fields": 25,
+      "raw_normalized_bytes": 111607540,
+      "encoded_payload_bytes": 12012797,
+      "directory_bytes": 441900,
+      "total_bytes": 12455049,
+      "modes": [
+        22467,
+        9202,
+        5156,
+        0
+      ],
+      "build_seconds": 1.004273683,
+      "all_fields_verified": true
+    },
+    "links": {
+      "kind": "scalar_layout",
+      "schema": "links",
+      "group": 256,
+      "rows": 2279919,
+      "fields": 3,
+      "raw_normalized_bytes": 27359028,
+      "encoded_payload_bytes": 8301659,
+      "directory_bytes": 320616,
+      "total_bytes": 8622627,
+      "modes": [
+        4345,
+        9137,
+        9380,
+        3856
+      ],
+      "build_seconds": 0.284094587,
+      "all_fields_verified": true
+    },
+    "nodes": {
+      "kind": "scalar_layout",
+      "schema": "nodes",
+      "group": 64,
+      "rows": 555950,
+      "fields": 2,
+      "raw_normalized_bytes": 4447600,
+      "encoded_payload_bytes": 2887598,
+      "directory_bytes": 208488,
+      "total_bytes": 3096438,
+      "modes": [
+        0,
+        11636,
+        5733,
+        5
+      ],
+      "build_seconds": 0.065434788,
+      "all_fields_verified": true
+    },
+    "logical": {
+      "kind": "scalar_layout",
+      "schema": "logical",
+      "group": 256,
+      "rows": 312310,
+      "fields": 7,
+      "raw_normalized_bytes": 8744680,
+      "encoded_payload_bytes": 1356974,
+      "directory_bytes": 102480,
+      "total_bytes": 1459806,
+      "modes": [
+        3668,
+        3131,
+        530,
+        1211
+      ],
+      "build_seconds": 0.061484317,
+      "all_fields_verified": true
+    }
+  },
+  "token_layouts": [
+    {
+      "kind": "token_blocks",
+      "block_bytes": 4096,
+      "cache_bytes": 1050624,
+      "level": 3,
+      "records": 1066576,
+      "raw_payload_bytes": 31609521,
+      "encoded_payload_bytes": 19249664,
+      "block_directory_bytes": 185232,
+      "token_index_bytes": 4266308,
+      "decoder_bytes": 95992,
+      "scratch_bytes": 8000,
+      "total_layout_bytes": 24855916,
+      "build_seconds": 0.51270458,
+      "every_token_bytes_verified": true,
+      "corruption_and_truncation_rejected": true
+    },
+    {
+      "kind": "token_blocks",
+      "block_bytes": 4096,
+      "cache_bytes": 8404992,
+      "level": 3,
+      "records": 1066576,
+      "raw_payload_bytes": 31609521,
+      "encoded_payload_bytes": 19249664,
+      "block_directory_bytes": 185232,
+      "token_index_bytes": 4266308,
+      "decoder_bytes": 95992,
+      "scratch_bytes": 8000,
+      "total_layout_bytes": 32210284,
+      "build_seconds": 0.464279596,
+      "every_token_bytes_verified": true,
+      "corruption_and_truncation_rejected": true
+    },
+    {
+      "kind": "token_blocks",
+      "block_bytes": 65536,
+      "cache_bytes": 1048704,
+      "level": 3,
+      "records": 1066576,
+      "raw_payload_bytes": 31609521,
+      "encoded_payload_bytes": 18067627,
+      "block_directory_bytes": 11592,
+      "token_index_bytes": 4266308,
+      "decoder_bytes": 95992,
+      "scratch_bytes": 65536,
+      "total_layout_bytes": 23555855,
+      "build_seconds": 0.521300358,
+      "every_token_bytes_verified": true,
+      "corruption_and_truncation_rejected": true
+    },
+    {
+      "kind": "token_blocks",
+      "block_bytes": 65536,
+      "cache_bytes": 8389632,
+      "level": 3,
+      "records": 1066576,
+      "raw_payload_bytes": 31609521,
+      "encoded_payload_bytes": 18067627,
+      "block_directory_bytes": 11592,
+      "token_index_bytes": 4266308,
+      "decoder_bytes": 95992,
+      "scratch_bytes": 65536,
+      "total_layout_bytes": 30896783,
+      "build_seconds": 0.566306568,
+      "every_token_bytes_verified": true,
+      "corruption_and_truncation_rejected": true
+    },
+    {
+      "kind": "token_blocks",
+      "block_bytes": 262144,
+      "cache_bytes": 1048608,
+      "level": 3,
+      "records": 1066576,
+      "raw_payload_bytes": 31609521,
+      "encoded_payload_bytes": 17622082,
+      "block_directory_bytes": 2904,
+      "token_index_bytes": 4266308,
+      "decoder_bytes": 95992,
+      "scratch_bytes": 262144,
+      "total_layout_bytes": 23298134,
+      "build_seconds": 0.502733229,
+      "every_token_bytes_verified": true,
+      "corruption_and_truncation_rejected": true
+    },
+    {
+      "kind": "token_blocks",
+      "block_bytes": 262144,
+      "cache_bytes": 8388864,
+      "level": 3,
+      "records": 1066576,
+      "raw_payload_bytes": 31609521,
+      "encoded_payload_bytes": 17622082,
+      "block_directory_bytes": 2904,
+      "token_index_bytes": 4266308,
+      "decoder_bytes": 95992,
+      "scratch_bytes": 262144,
+      "total_layout_bytes": 30638390,
+      "build_seconds": 0.518345579,
+      "every_token_bytes_verified": true,
+      "corruption_and_truncation_rejected": true
+    }
+  ],
+  "smallest_token_layout": {
+    "kind": "token_blocks",
+    "block_bytes": 262144,
+    "cache_bytes": 1048608,
+    "level": 3,
+    "records": 1066576,
+    "raw_payload_bytes": 31609521,
+    "encoded_payload_bytes": 17622082,
+    "block_directory_bytes": 2904,
+    "token_index_bytes": 4266308,
+    "decoder_bytes": 95992,
+    "scratch_bytes": 262144,
+    "total_layout_bytes": 23298134,
+    "build_seconds": 0.502733229,
+    "every_token_bytes_verified": true,
+    "corruption_and_truncation_rejected": true
+  },
+  "components": {
+    "pattern_records": {
+      "old_bytes": 156853840,
+      "new_bytes": 12595121
+    },
+    "candidate_links": {
+      "old_bytes": 72957408,
+      "new_bytes": 8622627
+    },
+    "logical_records_and_known_auxiliary": {
+      "old_bytes": 64280439,
+      "new_bytes": 1616321
+    },
+    "tokens": {
+      "old_bytes": 90363298,
+      "new_bytes": 23298134
+    }
+  },
+  "reused_component_bytes": {
+    "exact_digest_keys": 51419900,
+    "cyclic_routes": 11148946,
+    "names_and_hash_name_links_cold": 44122313,
+    "names_and_hash_name_links_expanded": 108894480
+  },
+  "combined_component_subtotal_bytes": {
+    "cold": 155919800,
+    "expanded": 220691967
+  },
+  "timings": [
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        64,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3.51396568385132,
+      "bootstrap_95pct": [
+        3.2684558129415118,
+        3.751711753678616
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 214.9396629333496,
+      "packed_median_ns_per_query": 771.0795974731445
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        64,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 3.9255279062055064,
+      "bootstrap_95pct": [
+        3.573880590061112,
+        4.307273023422134
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 49.98495864868164,
+      "packed_median_ns_per_query": 182.2826919555664
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        64,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 5.569212408256416,
+      "bootstrap_95pct": [
+        4.826819538765473,
+        6.335179876454204
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 39.92973709106445,
+      "packed_median_ns_per_query": 229.13698196411133
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        256,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3.413489397906402,
+      "bootstrap_95pct": [
+        3.0968497906839834,
+        3.802293012834593
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 224.28114318847656,
+      "packed_median_ns_per_query": 765.5860786437988
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        256,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 4.8944718674173355,
+      "bootstrap_95pct": [
+        4.261275483992664,
+        5.6792647399419165
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 40.34795379638672,
+      "packed_median_ns_per_query": 197.0384750366211
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        256,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 6.254392354463343,
+      "bootstrap_95pct": [
+        5.292270110151798,
+        7.256451562699188
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 39.15597915649414,
+      "packed_median_ns_per_query": 251.20659255981445
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        1024,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 2.941420023219608,
+      "bootstrap_95pct": [
+        2.1008797850581127,
+        3.6899111096232553
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 200.85468673706055,
+      "packed_median_ns_per_query": 690.5303192138672
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        1024,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 4.573755718416268,
+      "bootstrap_95pct": [
+        4.0829375836726145,
+        5.054992097525789
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 41.29096603393555,
+      "packed_median_ns_per_query": 194.40070724487305
+    },
+    {
+      "configuration": [
+        "scalar",
+        "patterns",
+        1024,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 6.086300341689283,
+      "bootstrap_95pct": [
+        5.454843980853512,
+        6.877917104321741
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 41.18678665161133,
+      "packed_median_ns_per_query": 242.6844482421875
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        64,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3.71852432637383,
+      "bootstrap_95pct": [
+        2.433078982086734,
+        5.896077957285925
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 41.951717376708984,
+      "packed_median_ns_per_query": 145.95769882202148
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        64,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 9.519417566706272,
+      "bootstrap_95pct": [
+        8.522993554242788,
+        10.835629037019066
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 3.5954818725585938,
+      "packed_median_ns_per_query": 31.611968994140625
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        64,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 9.22233820230709,
+      "bootstrap_95pct": [
+        6.757388993808273,
+        12.386651300921736
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 3.925365447998047,
+      "packed_median_ns_per_query": 33.09711837768555
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        256,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3.265972718612005,
+      "bootstrap_95pct": [
+        2.7952892198480304,
+        3.8022956780955566
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 39.649383544921875,
+      "packed_median_ns_per_query": 135.73209762573242
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        256,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 7.212096688520211,
+      "bootstrap_95pct": [
+        5.567953699088251,
+        9.276883779093476
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 5.3171234130859375,
+      "packed_median_ns_per_query": 36.871070861816406
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        256,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 12.963600601616134,
+      "bootstrap_95pct": [
+        12.036053623110087,
+        13.837413550560248
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.2053794860839844,
+      "packed_median_ns_per_query": 29.726024627685547
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        1024,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3.3413260080880742,
+      "bootstrap_95pct": [
+        2.814349900812576,
+        4.069837037109775
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 39.64667510986328,
+      "packed_median_ns_per_query": 139.59665298461914
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        1024,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 10.027690947275195,
+      "bootstrap_95pct": [
+        8.039811942594753,
+        12.586726716382067
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 3.3074989318847656,
+      "packed_median_ns_per_query": 32.94612121582031
+    },
+    {
+      "configuration": [
+        "scalar",
+        "links",
+        1024,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 10.82142389571722,
+      "bootstrap_95pct": [
+        8.21575017464211,
+        13.97481365917471
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.8357887268066406,
+      "packed_median_ns_per_query": 32.73572540283203
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        64,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 4.058340156934596,
+      "bootstrap_95pct": [
+        3.2440784410708687,
+        5.135368552017692
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 17.411853790283203,
+      "packed_median_ns_per_query": 69.32640838623047
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        64,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 9.875908530111799,
+      "bootstrap_95pct": [
+        7.69108740981924,
+        12.753199193665566
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 3.0470428466796875,
+      "packed_median_ns_per_query": 30.583091735839844
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        64,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 10.851943925065768,
+      "bootstrap_95pct": [
+        8.545224199976872,
+        13.728169899367991
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.1189041137695312,
+      "packed_median_ns_per_query": 20.940139770507812
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        256,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 4.545234730538,
+      "bootstrap_95pct": [
+        3.232333114289544,
+        6.577963953224984
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 21.693992614746094,
+      "packed_median_ns_per_query": 73.85041427612305
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        256,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 12.046680655301518,
+      "bootstrap_95pct": [
+        9.01189175090374,
+        16.452569163538787
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.780872344970703,
+      "packed_median_ns_per_query": 32.374576568603516
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        256,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 10.256856824383151,
+      "bootstrap_95pct": [
+        8.174619369420235,
+        12.832379273402799
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.085163116455078,
+      "packed_median_ns_per_query": 22.21393585205078
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        1024,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3.9119011065321807,
+      "bootstrap_95pct": [
+        2.8921219710607744,
+        5.55067967614816
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 16.309925079345703,
+      "packed_median_ns_per_query": 72.38808059692383
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        1024,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 10.170818972934033,
+      "bootstrap_95pct": [
+        8.028803501074691,
+        13.13421123289381
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.9938621520996094,
+      "packed_median_ns_per_query": 28.348834991455078
+    },
+    {
+      "configuration": [
+        "scalar",
+        "nodes",
+        1024,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 7.561895329246717,
+      "bootstrap_95pct": [
+        4.875633818329561,
+        11.4676463259658
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 2.5113677978515625,
+      "packed_median_ns_per_query": 19.91919708251953
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        64,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 2.078007374946744,
+      "bootstrap_95pct": [
+        1.724753576434021,
+        2.51201097964042
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 52.373226165771484,
+      "packed_median_ns_per_query": 103.8942985534668
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        64,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 6.294802392070463,
+      "bootstrap_95pct": [
+        4.960649656418152,
+        8.16579770305138
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 9.199081420898438,
+      "packed_median_ns_per_query": 52.65376663208008
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        64,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 7.629568707560081,
+      "bootstrap_95pct": [
+        6.155994417804391,
+        9.039283611705782
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 6.195224761962891,
+      "packed_median_ns_per_query": 52.78716278076172
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        256,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 2.158437939767147,
+      "bootstrap_95pct": [
+        1.8686756691346884,
+        2.503236822337423
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 126.92889404296875,
+      "packed_median_ns_per_query": 230.6117706298828
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        256,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 6.312358201079215,
+      "bootstrap_95pct": [
+        5.128736693530821,
+        7.951289701544411
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 8.403450012207031,
+      "packed_median_ns_per_query": 59.820980072021484
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        256,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 6.695490573791405,
+      "bootstrap_95pct": [
+        5.790035522014656,
+        8.057486515918333
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 8.217025756835938,
+      "packed_median_ns_per_query": 53.673004150390625
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        1024,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 2.0008227567790913,
+      "bootstrap_95pct": [
+        1.6813500868223186,
+        2.427680018652669
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 50.44283676147461,
+      "packed_median_ns_per_query": 95.28129196166992
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        1024,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 5.921220668674054,
+      "bootstrap_95pct": [
+        4.9946102421731355,
+        7.000246208370671
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 9.61798095703125,
+      "packed_median_ns_per_query": 53.917850494384766
+    },
+    {
+      "configuration": [
+        "scalar",
+        "logical",
+        1024,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 8.29297158512208,
+      "bootstrap_95pct": [
+        7.2515001660631615,
+        9.56379427335152
+      ],
+      "pairs": 8,
+      "raw_median_ns_per_query": 6.584606170654297,
+      "packed_median_ns_per_query": 54.27949142456055
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        1048576,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 183.95973566910268,
+      "bootstrap_95pct": [
+        63.9283716310586,
+        585.1319618879362
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 95.7152099609375,
+      "packed_median_ns_per_query": 15546.696044921875
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        1048576,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 62.43202935781556,
+      "bootstrap_95pct": [
+        35.01342842798669,
+        111.32181179434616
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 4.39111328125,
+      "packed_median_ns_per_query": 208.5238037109375
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        1048576,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 20.514899479969866,
+      "bootstrap_95pct": [
+        9.933164283331323,
+        44.14380100399452
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.188232421875,
+      "packed_median_ns_per_query": 20.9710693359375
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        1048576,
+        3
+      ],
+      "paired_geomean_packed_over_raw": 7724.67027842671,
+      "bootstrap_95pct": [
+        6334.221545437419,
+        9323.476790047724
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.6903076171875,
+      "packed_median_ns_per_query": 11959.185302734375
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        8388608,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 146.9673431397929,
+      "bootstrap_95pct": [
+        17.70057518093829,
+        1220.2654280313996
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 215.7503662109375,
+      "packed_median_ns_per_query": 32985.44921875
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        8388608,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 30.816865753393884,
+      "bootstrap_95pct": [
+        11.006438450543383,
+        109.46846230455054
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 11.787109375,
+      "packed_median_ns_per_query": 267.2369384765625
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        8388608,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 10.426530820361528,
+      "bootstrap_95pct": [
+        1.7302569667856502,
+        42.0794636167843
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.19580078125,
+      "packed_median_ns_per_query": 21.1466064453125
+    },
+    {
+      "configuration": [
+        "tokens",
+        4096,
+        8388608,
+        3
+      ],
+      "paired_geomean_packed_over_raw": 9343.893651749564,
+      "bootstrap_95pct": [
+        7615.955604897893,
+        11463.873098085944
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.5728759765625,
+      "packed_median_ns_per_query": 14880.01416015625
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        1048576,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 1210.0286143110434,
+      "bootstrap_95pct": [
+        262.3496173950021,
+        4038.070069674973
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 91.540283203125,
+      "packed_median_ns_per_query": 157323.33447265625
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        1048576,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 23.14407521228582,
+      "bootstrap_95pct": [
+        6.62115921236439,
+        72.42612367029558
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 7.9324951171875,
+      "packed_median_ns_per_query": 219.1123046875
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        1048576,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 41.11412006783154,
+      "bootstrap_95pct": [
+        16.81737721495706,
+        74.36506260935585
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.5794677734375,
+      "packed_median_ns_per_query": 85.1304931640625
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        1048576,
+        3
+      ],
+      "paired_geomean_packed_over_raw": 44780.44695561312,
+      "bootstrap_95pct": [
+        11584.788651559462,
+        173096.67788151975
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 4.02685546875,
+      "packed_median_ns_per_query": 130027.64685058594
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        8388608,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 717.7658191605659,
+      "bootstrap_95pct": [
+        443.1329692690238,
+        1438.0578097500627
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 219.1314697265625,
+      "packed_median_ns_per_query": 117697.90844726562
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        8388608,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 16.239332136954204,
+      "bootstrap_95pct": [
+        2.456769990830914,
+        107.34253073692145
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 46.3641357421875,
+      "packed_median_ns_per_query": 273.78173828125
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        8388608,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 15.972650779330387,
+      "bootstrap_95pct": [
+        12.947044577683016,
+        17.88099343310183
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.187255859375,
+      "packed_median_ns_per_query": 21.111083984375
+    },
+    {
+      "configuration": [
+        "tokens",
+        65536,
+        8388608,
+        3
+      ],
+      "paired_geomean_packed_over_raw": 34789.65830547357,
+      "bootstrap_95pct": [
+        8381.152765935783,
+        77234.6421289897
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.741455078125,
+      "packed_median_ns_per_query": 110006.83142089844
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        1048576,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 3116.509666545564,
+      "bootstrap_95pct": [
+        1488.5855772489615,
+        4717.152174641126
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 145.5880126953125,
+      "packed_median_ns_per_query": 601157.0584716797
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        1048576,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 53.54547307933604,
+      "bootstrap_95pct": [
+        30.675370707520823,
+        90.25014129888585
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 5.0335693359375,
+      "packed_median_ns_per_query": 195.4183349609375
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        1048576,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 67.37133796131106,
+      "bootstrap_95pct": [
+        40.067227475086995,
+        106.91663331280014
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.2052001953125,
+      "packed_median_ns_per_query": 90.1771240234375
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        1048576,
+        3
+      ],
+      "paired_geomean_packed_over_raw": 403216.6339056727,
+      "bootstrap_95pct": [
+        281751.4529506469,
+        662355.6636631886
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.549072265625,
+      "packed_median_ns_per_query": 557495.1458740234
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        8388608,
+        0
+      ],
+      "paired_geomean_packed_over_raw": 2510.1984363315114,
+      "bootstrap_95pct": [
+        918.2045643057111,
+        5406.413884090126
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 777.65380859375,
+      "packed_median_ns_per_query": 703681.5850830078
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        8388608,
+        1
+      ],
+      "paired_geomean_packed_over_raw": 26.846210678018082,
+      "bootstrap_95pct": [
+        4.72943792450279,
+        91.50677578931162
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 6.8634033203125,
+      "packed_median_ns_per_query": 164.333740234375
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        8388608,
+        2
+      ],
+      "paired_geomean_packed_over_raw": 42.00975621103193,
+      "bootstrap_95pct": [
+        31.724468332846556,
+        51.83374979686916
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 1.2208251953125,
+      "packed_median_ns_per_query": 57.771728515625
+    },
+    {
+      "configuration": [
+        "tokens",
+        262144,
+        8388608,
+        3
+      ],
+      "paired_geomean_packed_over_raw": 62335.67130327809,
+      "bootstrap_95pct": [
+        11994.922883798103,
+        459208.49836158036
+      ],
+      "pairs": 4,
+      "raw_median_ns_per_query": 13.9886474609375,
+      "packed_median_ns_per_query": 611899.0289306641
+    }
+  ],
+  "limitations": [
+    "Component minima are compatible proposed layouts, but have not been integrated together.",
+    "Subtotal reuses the prior cyclic route and modeled name ownership; it is not RSS.",
+    "The token-reference field is included in packed pattern records and is not counted twice.",
+    "Raw names/decoder lifetime, all other matchers, parser state, allocator costs and reload overlap still require whole-engine accounting.",
+    "Microbenchmarks compare normalized record access or token retrieval, not complete scans.",
+    "The original engine remains as an oracle; compiler peak is not reduced by these post-build probes.",
+    "External extension data, special tables, exceptional descriptor payloads and many auxiliary indexes are outside the subtotal."
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "baseline_commit": "fe52606b9348d537f608518df31d5ea9105bd967",
+  "experiment_commit": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "rust": "1.90.0",
+  "cmake_options": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "ENABLE_FLAT_HASH_STORE": "ON",
+    "ENABLE_COMPACT_LSIG_STATE": "ON",
+    "ENABLE_AC_NODE_IDS": "ON",
+    "ENABLE_AC_FLAT_NODES": "ON",
+    "ENABLE_AC_DISPOSABLE_BUILD": "OFF",
+    "DISABLE_MPOOL": 0,
+    "BYTECODE_RUNTIME": "interpreter",
+    "ENABLE_MAN_PAGES": "OFF",
+    "ENABLE_CLAMONACC": "OFF",
+    "ENABLE_MILTER": "OFF"
+  },
+  "binary_hashes": {
+    "before/libclamav/libclamav.so.14.0.0": "124b2115fa28fbf47086869d554ec8c47bdfef4a4f6d082258f419f6320da736",
+    "before/clamscan/clamscan": "bac9f01e574ec49ee5c5fbb9f8c4b271dfc55e5a7ab5a861eb08e035a64c61a5",
+    "after/libclamav/libclamav.so.14.0.0": "58489f54e38b863fe911bf95f2fe378ac49cd919db479fa36af600c13870246c",
+    "after/clamscan/clamscan": "58b5ecfa5a1ac911ff87f917c9e179891bc954f24e51833f5bb6d475dc43100c"
+  },
+  "source_hashes": {
+    "docs/complexity-shift-leads.md": "b3176f8e26232bee685ccd6067784afc731980634f2e7855ef2805715f5a4012",
+    "libclamav/filtering.c": "7e6a2bcee220e91a82df890d9267cfaaf7064a6de63edcdd8927c893f40c7283",
+    "libclamav/libclamav.map": "8652cfc93aadacfd08a2c4d937383248f475d12c925a3c09caf2ff23f4de7b6b",
+    "libclamav/matcher-ac.c": "19b15f65e935eee5e586994820aae133d9453cb9e8e19241d5d592b71d24ff10",
+    "libclamav/matcher-ac.h": "78fa55d7b044c83069d5e3e6b202c93a75a3db5f6afc56b83e20b7085dcb9b02",
+    "libclamav/readdb.c": "d6c22c0bfc70b054c50ee3ed435080d2f97caf0460b49af38c6134d074a10a80",
+    "libclamav/regex_list.c": "9cf5b9c2e7aaa063dfc2764a31deeb9aa1669f8717f741013d426e227e636c74",
+    "libclamav_rust/src/sys.rs": "6a901d802d08e6040c4070d77dda9a7b754e2b83a2543d83537c568ea0d85bab",
+    "tools/compact-memory/check_layout.py": "2dbc77523900ccc379ab29d928c74bf49ebcc3f7fc1f342a3d23db7c2f4fcbc1",
+    "tools/compact-memory/engine_census.c": "7bca8a4f2d7837a294ee261aee0d6b502c015250d5fd6f54e51f12aef6ffeb45",
+    "tools/compact-memory/export_exact_layouts.c": "450c892a4d74d6a589c2800c70d046ab57bd88b93a3466fa99e2ebb9487495bf",
+    "unit_tests/check_matchers.c": "8670525f787c9e8221019fef511f7f71ddae10494e4b13c27d7c2dd3c557159e"
+  },
+  "qualification": "experimental: strict duplicate first-name and all-match order gates fail",
+  "build_note": "Experimental binary built with the same final runtime sources and private test exports; final commit also records the tested fixture correction and lead notes. Generated development version is date-based. C and Rust layouts agree.",
+  "tests": {
+    "baseline_c_checks": 1816,
+    "experimental_c_checks": 1825,
+    "experimental_rust_tests": 65,
+    "matcher_asan_ubsan_checks": 53,
+    "sanitizer_scope": "Only libclamav/matcher-ac.c instrumented; LeakSanitizer disabled; other C/Rust objects uninstrumented.",
+    "scanner": "145 passed, 1 skipped, 5 subtests passed after restoring executable permission on generated check_xlm_scanmap helper. Initial run: 144 passed and one permission error.",
+    "coverage_limit": "64-bit Linux release, pool enabled, compact transition/flat-node and opt-in flat-hash profile; no daemon, reload, 32-bit, malloc-only or Windows qualification."
+  }
+}

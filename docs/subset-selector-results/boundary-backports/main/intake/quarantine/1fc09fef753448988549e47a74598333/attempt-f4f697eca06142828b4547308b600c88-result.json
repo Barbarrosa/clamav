@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "attachment_id": "1fc09fef753448988549e47a74598333",
+  "original_filename": "clean.png",
+  "source_bytes": 4090,
+  "source_mtime_ns": 1793258710580161144,
+  "source_ctime_ns": 1793258710580161144,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "outcome": "failed",
+  "reason": "daily database is stale or future-dated",
+  "release_qualified": false,
+  "created_at_unix": 1793269543.9593616,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+  "bytes": 4090,
+  "database_profile": "legal-redress",
+  "assessment_id": "f4f697eca06142828b4547308b600c88",
+  "assessment_started_unix": 1793269543.964834,
+  "assessment_finished_unix": 1793269543.9667456,
+  "linux_process_high_water_kib": {
+    "parent": 15180,
+    "terminated_children_max": 844924,
+    "note": "separate high-water values, not simultaneous or cgroup charge"
+  }
+}

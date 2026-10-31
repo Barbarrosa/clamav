@@ -1,0 +1,27 @@
+{
+  "image": "clamav/clamav",
+  "manifest_digest": "sha256:4a97d36895b9aa116c8db42c3dd701e7a713f7c3c3aea15a11006644f55c1d3c",
+  "layer": {
+    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+    "digest": "sha256:a22c0b706b1c0449911d0825f10b050427161e811b7655b55a4f6d187b080c36",
+    "size": 112848650
+  },
+  "databases": [
+    {
+      "name": "bytecode.cvd",
+      "bytes": 281702,
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+    },
+    {
+      "name": "daily.cvd",
+      "bytes": 23443876,
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+    },
+    {
+      "name": "main.cvd",
+      "bytes": 89072577,
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+    }
+  ],
+  "clamav_verification": "required before use"
+}

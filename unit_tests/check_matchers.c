@@ -32,6 +32,7 @@
 #include "matcher.h"
 #include "matcher-ac.h"
 #include "matcher-bm.h"
+#include "matcher-byte-comp.h"
 #include "matcher-pcre.h"
 #include "others.h"
 #include "default.h"
@@ -198,6 +199,218 @@ static void teardown(void)
     free(ctx.recursion_stack);
 }
 
+START_TEST(test_ac_compact_lsig_state)
+{
+    struct cli_matcher root    = {0};
+    struct cli_ac_lsig sigs[9] = {{0}};
+    struct cli_ac_lsig *table[10];
+    struct cli_bcomp_meta bytecomp     = {0};
+    struct cli_bcomp_meta *bytecomps[] = {&bytecomp};
+    struct cli_ac_data compact, independent, legacy;
+#ifdef ENABLE_COMPACT_LSIG_STATE
+    const unsigned widths[] = {1, 3, 64, 64, 64, 64, 64, 64, 64, 64};
+#else
+    const unsigned widths[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
+#endif
+    uint32_t macro = 0;
+    size_t slots = 0, pos = 0;
+    unsigned i, j;
+
+    for (i = 0; i < 9; i++) {
+        table[i]     = &sigs[i];
+        sigs[i].type = CLI_LSIG_NORMAL;
+    }
+    table[9]                = NULL;
+    sigs[0].tdb.subsigs     = 1;
+    sigs[1].tdb.subsigs     = 3;
+    sigs[2].tdb.subsigs     = 64;
+    sigs[3].tdb.subsigs     = 6;
+    sigs[3].bc_idx          = 1;
+    sigs[4].tdb.subsigs     = 4;
+    sigs[4].type            = CLI_YARA_NORMAL;
+    sigs[5].tdb.subsigs     = 2;
+    sigs[5].tdb.macro_ptids = &macro;
+    sigs[7].tdb.subsigs     = 65;
+    sigs[8].tdb.subsigs     = 2;
+    bytecomp.lsigid[0]      = 1;
+    bytecomp.lsigid[1]      = 8;
+    bytecomp.ref_subsigid   = 63;
+    root.bcomp_metas        = 1;
+    root.bcomp_metatable    = bytecomps;
+    root.ac_lsigs           = 10;
+    root.ac_lsigtable       = table;
+#ifdef USE_MPOOL
+    root.mempool = mpool_create();
+    ck_assert_ptr_nonnull(root.mempool);
+#endif
+    ck_assert_int_eq(cli_ac_init(&root, 2, 3, 0), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_buildtrie(&root), CL_SUCCESS);
+    for (i = 0; i < 10; i++) {
+#ifdef ENABLE_COMPACT_LSIG_STATE
+        ck_assert_uint_eq((root.ac_lsig_offsets[i + 1] - root.ac_lsig_offsets[i]), widths[i]);
+#else
+        ck_assert_ptr_null(root.ac_lsig_offsets);
+#endif
+        slots += widths[i];
+    }
+#ifdef ENABLE_COMPACT_LSIG_STATE
+    ck_assert_uint_eq(root.ac_lsig_slots, slots);
+#endif
+    ck_assert_int_eq(cli_ac_initdata_for_matcher(&compact, &root), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_initdata_for_matcher(&independent, &root), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_initdata(&legacy, 0, 10, 0, CLI_DEFAULT_AC_TRACKLEN), CL_SUCCESS);
+    ck_assert_ptr_eq(compact.lsig_row_offsets, root.ac_lsig_offsets);
+    ck_assert_ptr_eq(independent.lsig_row_offsets, root.ac_lsig_offsets);
+    ck_assert_ptr_null(legacy.lsig_row_offsets);
+    for (i = 0; i < 10; i++) {
+        ck_assert_ptr_eq(cli_ac_lsig_counts(&compact, i), cli_ac_lsig_counts(&compact, 0) + pos);
+        ck_assert_ptr_eq(cli_ac_lsig_first(&compact, i), cli_ac_lsig_first(&compact, 0) + pos);
+        ck_assert_ptr_eq(cli_ac_lsig_last(&compact, i), cli_ac_lsig_last(&compact, 0) + pos);
+        ck_assert_ptr_eq(cli_ac_lsig_counts(&legacy, i), cli_ac_lsig_counts(&legacy, 0) + i * 64);
+        for (j = 0; j < widths[i]; j++) {
+            ck_assert_uint_eq(cli_ac_lsig_counts(&compact, i)[j], 0);
+            ck_assert_uint_eq(cli_ac_lsig_first(&compact, i)[j], CLI_OFF_NONE);
+            ck_assert_uint_eq(cli_ac_lsig_last(&compact, i)[j], CLI_OFF_NONE);
+        }
+        /* Writing the end of one row must not overwrite the next row,
+         * nor any state belonging to another scan of the same engine. */
+        cli_ac_lsig_counts(&compact, i)[widths[i] - 1] = 100 + i;
+        cli_ac_lsig_first(&compact, i)[widths[i] - 1]  = 200 + i;
+        cli_ac_lsig_last(&compact, i)[widths[i] - 1]   = 300 + i;
+        ck_assert_uint_eq(cli_ac_lsig_counts(&independent, i)[widths[i] - 1], 0);
+        ck_assert_uint_eq(cli_ac_lsig_first(&independent, i)[widths[i] - 1], CLI_OFF_NONE);
+        ck_assert_uint_eq(cli_ac_lsig_last(&independent, i)[widths[i] - 1], CLI_OFF_NONE);
+        pos += widths[i];
+    }
+    cli_ac_freedata(&compact);
+    cli_ac_freedata(&independent);
+    cli_ac_freedata(&legacy);
+    cli_ac_free(&root);
+#ifdef USE_MPOOL
+    mpool_destroy(root.mempool);
+#endif
+    ck_assert_int_eq(cli_ac_initdata_for_matcher(&compact, NULL), CL_SUCCESS);
+    cli_ac_freedata(&compact);
+    ck_assert_int_eq(cli_ac_buildtrie(NULL), CL_EMALFDB);
+}
+END_TEST
+
+/* Run the same stateful matcher with compact and legacy storage. This checks
+ * duplicate suppression, overlapping windows, suffix outputs, case folding,
+ * wildcard verification, and the highest legal subsignature ID. */
+START_TEST(test_ac_compact_scan_equivalence)
+{
+    static const unsigned widths[] = {1, 64, 3};
+    static const struct {
+        const char *hex;
+        uint32_t lsig, subsig;
+        uint8_t options;
+    } patterns[] = {
+        {"6162636465", 0, 0, 0},
+        {"6162636465", 1, 63, 0},
+        {"62636465", 2, 0, 0},
+        {"6162636465", 2, 1, ACPATT_OPTION_NOCASE},
+        {"6162??6465", 2, 2, 0},
+    };
+    static const unsigned char input[] = "abcde--ABCDE--abXde--abcde--bcde";
+    struct cli_matcher *root           = ctx.engine->root[0];
+    struct cli_ac_data compact, legacy;
+    uint32_t ids[2];
+    unsigned i, j, pass;
+
+    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
+    root->ac_lsigtable = MPOOL_CALLOC(root->mempool, 3, sizeof(*root->ac_lsigtable));
+    ck_assert_ptr_nonnull(root->ac_lsigtable);
+    for (i = 0; i < 3; i++) {
+        struct cli_ac_lsig *sig = MPOOL_CALLOC(root->mempool, 1, sizeof(*sig));
+        ck_assert_ptr_nonnull(sig);
+        sig->type                            = CLI_LSIG_NORMAL;
+        sig->tdb.subsigs                     = widths[i];
+        sig->id                              = i;
+        root->ac_lsigtable[root->ac_lsigs++] = sig;
+    }
+    for (i = 0; i < sizeof(patterns) / sizeof(patterns[0]); i++) {
+        ids[0] = patterns[i].lsig;
+        ids[1] = patterns[i].subsig;
+        ck_assert_int_eq(cli_add_content_match_pattern(root, "CompactEquivalence", patterns[i].hex,
+                                                       patterns[i].options, 0, 0, "*", ids, 0),
+                         CL_SUCCESS);
+    }
+    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
+#ifdef CLI_AC_FLAT_NODES
+    ck_assert_ptr_nonnull(root->ac_flatnodes);
+    ck_assert_ptr_eq(root->ac_root, root->ac_flatnodes + 1);
+    ck_assert_ptr_null(root->ac_nodeidx);
+    ck_assert_ptr_null(root->ac_buildpool);
+    ck_assert_ptr_null(root->ac_nodetable);
+    for (i = 1; i < root->ac_nodes + 2; i++) {
+        const struct cli_ac_node *node = root->ac_flatnodes + i;
+        if (node->fail) {
+            uintptr_t fail = (uintptr_t)node->fail;
+            ck_assert_msg(fail >= (uintptr_t)(root->ac_flatnodes + 1) &&
+                              fail < (uintptr_t)(root->ac_flatnodes + root->ac_nodes + 2),
+                          "failure pointer must reference the packed arena");
+        }
+        for (j = 0; j < 256; j++) {
+            ck_assert_msg(node->trans[j] > 0 && node->trans[j] < root->ac_nodes + 2,
+                          "completed transition must be a valid arena index");
+        }
+    }
+#else
+    ck_assert_ptr_null(root->ac_flatnodes);
+    ck_assert_ptr_nonnull(root->ac_nodeidx);
+#endif
+    /* Every retained list link must refer to a list, never a discarded build
+     * node, including the last member of a next_same chain. */
+    for (i = 0; i < root->ac_lists; i++) {
+        struct cli_ac_list *next = root->ac_listtable[i]->next;
+        if (!next) continue;
+        for (j = 0; j < root->ac_lists && root->ac_listtable[j] != next; j++) {
+        }
+        ck_assert_msg(j < root->ac_lists, "compiled list retained a construction pointer");
+    }
+    ck_assert_int_eq(cli_ac_initdata_for_matcher(&compact, root), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_initdata(&legacy, root->ac_partsigs, root->ac_lsigs,
+                                     root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN),
+                     CL_SUCCESS);
+    for (pass = 0; pass < 4; pass++) {
+        /* Repeat the first window, then overlap it, then advance. */
+        uint32_t offset = pass < 2 ? 0 : (pass == 2 ? 7 : 100);
+        ck_assert_int_eq(cli_ac_scanbuff(input, sizeof(input) - 1, NULL, NULL, NULL,
+                                         root, &compact, offset, 0, NULL, AC_SCAN_VIR, NULL),
+                         CL_CLEAN);
+        ck_assert_int_eq(cli_ac_scanbuff(input, sizeof(input) - 1, NULL, NULL, NULL,
+                                         root, &legacy, offset, 0, NULL, AC_SCAN_VIR, NULL),
+                         CL_CLEAN);
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < widths[i]; j++) {
+                ck_assert_uint_eq(cli_ac_lsig_counts(&compact, i)[j], cli_ac_lsig_counts(&legacy, i)[j]);
+                ck_assert_uint_eq(cli_ac_lsig_first(&compact, i)[j], cli_ac_lsig_first(&legacy, i)[j]);
+                ck_assert_uint_eq(cli_ac_lsig_last(&compact, i)[j], cli_ac_lsig_last(&legacy, i)[j]);
+            }
+        }
+    }
+    ck_assert_uint_gt(cli_ac_lsig_counts(&compact, 0)[0], 0);
+    ck_assert_uint_eq(cli_ac_lsig_counts(&compact, 0)[0], cli_ac_lsig_counts(&compact, 1)[63]);
+    ck_assert_uint_gt(cli_ac_lsig_counts(&compact, 2)[2], 0);
+
+    /* Offsets keep their full uint32_t range, including zero and both
+     * reserved values; the original update routine defines the semantics. */
+    {
+        const uint32_t offsets[] = {0, 0, 1, UINT32_MAX - 2, CLI_OFF_NONE, CLI_OFF_ANY};
+        for (i = 0; i < sizeof(offsets) / sizeof(offsets[0]); i++) {
+            ck_assert_int_eq(lsig_sub_matched(root, &compact, 1, 63, offsets[i], i & 1), CL_SUCCESS);
+            ck_assert_int_eq(lsig_sub_matched(root, &legacy, 1, 63, offsets[i], i & 1), CL_SUCCESS);
+            ck_assert_uint_eq(cli_ac_lsig_counts(&compact, 1)[63], cli_ac_lsig_counts(&legacy, 1)[63]);
+            ck_assert_uint_eq(cli_ac_lsig_last(&compact, 1)[63], cli_ac_lsig_last(&legacy, 1)[63]);
+        }
+    }
+    cli_ac_freedata(&compact);
+    cli_ac_freedata(&legacy);
+    cli_ac_freedata(&compact); /* Cleanup is safe after partial/complete cleanup. */
+}
+END_TEST
+
 START_TEST(test_ac_logical_pattern_does_not_keep_borrowed_virname)
 {
     struct cli_matcher *root;
@@ -222,6 +435,38 @@ START_TEST(test_ac_logical_pattern_does_not_keep_borrowed_virname)
     ck_assert_msg(root->ac_pattable[0]->lsigid[0] == 1,
                   "pattern was not recorded as a logical subsignature");
     ck_assert_ptr_null(root->ac_pattable[0]->virname);
+}
+END_TEST
+
+START_TEST(test_ac_compact_allocation_boundaries)
+{
+    struct cli_matcher *root   = ctx.engine->root[0];
+    struct cli_ac_data partial = {0};
+    cl_error_t status;
+
+    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
+    /* An unrepresentable next ID must fail before accessing the node table,
+     * and the rejected pattern must not become owned by the trie. */
+    root->ac_nodes = UINT32_MAX - 1;
+    root->ac_only  = 1;
+    status         = cli_add_content_match_pattern(root, "Overflow", "61626364", 0, 0, 0, "*", NULL, 0);
+    root->ac_nodes = 0;
+    ck_assert_int_eq(status, CL_EMEM);
+    ck_assert_uint_eq(root->ac_patterns, 0);
+
+    /* Model failure after some, but not all, scan-state allocations. */
+    partial.partsigs         = 4;
+    partial.reloffsigs       = 2;
+    partial.lsigs            = 2;
+    partial.lsigcnt          = calloc(128, sizeof(*partial.lsigcnt));
+    partial.lsigsuboff_first = calloc(128, sizeof(*partial.lsigsuboff_first));
+    ck_assert_ptr_nonnull(partial.lsigcnt);
+    ck_assert_ptr_nonnull(partial.lsigsuboff_first);
+    cli_ac_freedata(&partial);
+    ck_assert_ptr_null(partial.lsigcnt);
+    ck_assert_uint_eq(partial.lsigs, 0);
+    cli_ac_freedata(&partial);
+    ck_assert_int_eq(cli_ac_initdata_for_matcher(NULL, root), CL_ENULLARG);
 }
 END_TEST
 
@@ -468,6 +713,109 @@ START_TEST(test_ac_scanbuff_allscan_ex)
 }
 END_TEST
 
+struct matcher_callback_state {
+    unsigned calls;
+    cl_error_t first_result;
+};
+
+static cl_error_t matcher_alert_callback(cl_scan_layer_t *layer, void *context)
+{
+    struct matcher_callback_state *state = context;
+    (void)layer;
+    return state->calls++ == 0 ? state->first_result : CL_VIRUS;
+}
+
+/* Exercise the complete matcher_run path so duplicate callback dispatch in
+ * its caller is also detected. The first marker ends before the second starts,
+ * making this independent of pointer-order tie breaking. */
+START_TEST(test_matcher_nonterminal_indicators)
+{
+    static const char *names[] = {
+        "Weak.First", "PUA.First", "Heuristics.First", "Ignored.First",
+        "Break.First", "Trusted.First", "Weak.Only", "PUA.Only",
+        "Strong.First", "PUA.Precedence"
+    };
+    static const char *patterns[] = {
+        "41424344??464748", "41424344{1}464748", "4142434445464748"
+    };
+    static const unsigned char input[] = "ABCDEFGH--IJKLMNOP";
+    unsigned matcher = _i / 10, scenario = _i % 10;
+    struct cli_matcher *root = ctx.engine->root[0];
+    struct matcher_callback_state state = {0, CL_VIRUS};
+    cl_error_t expected = CL_VIRUS;
+    unsigned length = sizeof(input) - 1, calls = 1;
+
+    root->ac_only = matcher != 2;
+    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
+    if (matcher == 2)
+        ck_assert_int_eq(cli_bm_init(root), CL_SUCCESS);
+    ck_assert_int_eq(cli_add_content_match_pattern(root, names[scenario], patterns[matcher],
+                                                   0, 0, 0, "*", NULL, 0), CL_SUCCESS);
+    ck_assert_int_eq(cli_add_content_match_pattern(root, "Strong.Second",
+                                                   matcher == 2 ? "494a4b4c4d4e4f50" : "494a4b4c??4e4f50",
+                                                   0, 0, 0, "*", NULL, 0), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
+    cl_engine_set_scan_callback((struct cl_engine *)ctx.engine, matcher_alert_callback, CL_SCAN_CALLBACK_ALERT);
+    ctx.cb_ctx = &state;
+
+    if (scenario == 3) {
+        state.first_result = CL_CLEAN;
+        calls = 2;
+    } else if (scenario == 4 || scenario == 5) {
+        /* All-match must still honor an explicit stop/trust callback. */
+        options.general |= CL_SCAN_GENERAL_ALLMATCHES;
+        expected = state.first_result = scenario == 4 ? CL_BREAK : CL_VERIFIED;
+    } else if (scenario == 6 || scenario == 7) {
+        length = 8;
+        expected = CL_SUCCESS;
+        calls = 0;
+    } else if (scenario == 9) {
+        options.general |= CL_SCAN_GENERAL_HEURISTIC_PRECEDENCE;
+    }
+    ck_assert_int_eq(cli_scan_buff(input, length, 0, &ctx, 0, NULL), expected);
+    ck_assert_uint_eq(state.calls, calls);
+    if (scenario <= 3) {
+        ck_assert_str_eq(evidence_get_last_alert(ctx.this_layer_evidence), "Strong.Second.UNOFFICIAL");
+        ck_assert_int_eq(ctx.recursion_stack[0].verdict, CL_VERDICT_STRONG_INDICATOR);
+    } else if (scenario == 6) {
+        ck_assert_ptr_null(evidence_get_last_alert(ctx.this_layer_evidence));
+    } else if (scenario == 7 || scenario >= 8) {
+        char expected_name[64];
+        snprintf(expected_name, sizeof(expected_name), "%s.UNOFFICIAL", names[scenario]);
+        ck_assert_str_eq(evidence_get_last_alert(ctx.this_layer_evidence), expected_name);
+    }
+}
+END_TEST
+
+START_TEST(test_ac_weak_hit_preserves_lsig_accounting)
+{
+    struct cli_matcher *root = ctx.engine->root[0];
+    struct cli_ac_data data;
+    uint32_t ids[] = {0, 0};
+    static const unsigned char input[] = "ABCDEFGH--IJKLMNOP";
+    root->ac_only = 1;
+    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
+    root->ac_lsigtable = MPOOL_CALLOC(root->mempool, 1, sizeof(*root->ac_lsigtable));
+    ck_assert_ptr_nonnull(root->ac_lsigtable);
+    root->ac_lsigtable[0] = MPOOL_CALLOC(root->mempool, 1, sizeof(*root->ac_lsigtable[0]));
+    ck_assert_ptr_nonnull(root->ac_lsigtable[0]);
+    root->ac_lsigs = 1;
+    root->ac_lsigtable[0]->tdb.subsigs = 1;
+    root->ac_lsigtable[0]->type = CLI_LSIG_NORMAL;
+    ck_assert_int_eq(cli_add_content_match_pattern(root, "Weak.First", "41424344??464748",
+                                                   0, 0, 0, "*", NULL, 0), CL_SUCCESS);
+    ck_assert_int_eq(cli_add_content_match_pattern(root, "Logical.Second", "494a4b4c??4e4f50",
+                                                   0, 0, 0, "*", ids, 0), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_initdata(&data, 0, 1, 0, CLI_DEFAULT_AC_TRACKLEN), CL_SUCCESS);
+    ck_assert_int_eq(cli_ac_scanbuff(input, sizeof(input) - 1, &virname, NULL, NULL,
+                                     root, &data, 0, 0, NULL, AC_SCAN_VIR, &ctx), CL_SUCCESS);
+    ck_assert_uint_eq(cli_ac_lsig_counts(&data, 0)[0], 1);
+    ck_assert_uint_eq(cli_ac_lsig_first(&data, 0)[0], 10);
+    cli_ac_freedata(&data);
+}
+END_TEST
+
 START_TEST(test_bm_scanbuff)
 {
     struct cli_matcher *root;
@@ -654,6 +1002,9 @@ Suite *test_matchers_suite(void)
     suite_add_tcase(s, tc_matchers);
     tcase_add_checked_fixture(tc_matchers, setup, teardown);
     tcase_add_test(tc_matchers, test_ac_logical_pattern_does_not_keep_borrowed_virname);
+    tcase_add_test(tc_matchers, test_ac_compact_lsig_state);
+    tcase_add_test(tc_matchers, test_ac_compact_scan_equivalence);
+    tcase_add_test(tc_matchers, test_ac_compact_allocation_boundaries);
     tcase_add_test(tc_matchers, test_ac_scanbuff);
     tcase_add_test(tc_matchers, test_ac_repeated_prefix_does_not_shift_to_repeated_window);
     tcase_add_test(tc_matchers, test_ac_scanbuff_ex);
@@ -662,6 +1013,8 @@ Suite *test_matchers_suite(void)
     tcase_add_test(tc_matchers, test_ac_scanbuff_allscan);
     tcase_add_test(tc_matchers, test_ac_scanbuff_allscan_ex);
     tcase_add_test(tc_matchers, test_bm_scanbuff_allscan);
+    tcase_add_loop_test(tc_matchers, test_matcher_nonterminal_indicators, 0, 30);
+    tcase_add_test(tc_matchers, test_ac_weak_hit_preserves_lsig_accounting);
     tcase_add_test(tc_matchers, test_pcre_scanbuff_allscan);
     return s;
 }

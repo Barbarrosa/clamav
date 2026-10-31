@@ -1,0 +1,9 @@
+{
+  "command": [
+    "bash",
+    "configure.sh",
+    "lts-original"
+  ],
+  "returncode": 0,
+  "seconds": 7.307945728302002
+}

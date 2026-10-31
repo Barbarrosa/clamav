@@ -1,0 +1,22 @@
+{
+  "command": [
+    "python3",
+    "fork/tools/subset-selector/test_flags.py",
+    "--baseline-probe",
+    "production-run/scan_probe",
+    "--probe",
+    "backport-run/probe-main",
+    "--lib",
+    "build-fork/libclamav/libclamav.so",
+    "--certs",
+    "fork/certs",
+    "--generation",
+    "backport-run/generation-main",
+    "--fixtures",
+    "production-run/all-fixtures.txt",
+    "--output",
+    "backport-run/flags-main"
+  ],
+  "returncode": 0,
+  "seconds": 297.06207275390625
+}

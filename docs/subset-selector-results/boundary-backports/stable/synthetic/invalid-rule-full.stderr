@@ -1,0 +1,6 @@
+LibClamAV Error: cli_mpool_hex2ui(): Malformed hexstring: THIS_IS_NOT_HEX (length: 15)
+LibClamAV Error: cli_add_content_match_pattern: Problem adding signature (3).
+LibClamAV Error: Problem parsing database at line 2
+LibClamAV Error: Can't load /workspace/scratch/48dde463229d/analysis-run/backport-run/synthetic-stable/invalid-pe-rule/test.ndb: Malformed database
+LibClamAV Error: cli_loaddbdir: error loading database /workspace/scratch/48dde463229d/analysis-run/backport-run/synthetic-stable/invalid-pe-rule/test.ndb
+subset-probe: cl_load(db,e,&n,CL_DB_STDOPT)==CL_SUCCESS

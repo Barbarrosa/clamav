@@ -1,0 +1,208 @@
+{
+  "acceptance": "REJECTED for scanner integration: repeated all-match ordering difference in duplicate-pattern fixture",
+  "measurement_profile": "pre-existing flat hash option enabled in both binaries; scan cache disabled; affinity CPU 2; two AB/BA process pairs; diagnostic-symbol library relink with normal full scanner features",
+  "scan": {
+    "before": {
+      "0_compiled_rss_kib": {
+        "runs": [
+          794648,
+          794860
+        ],
+        "mean": 794754,
+        "minimum": 794648,
+        "maximum": 794860
+      },
+      "0_compile_peak_rss_kib": {
+        "runs": [
+          951876,
+          951992
+        ],
+        "mean": 951934,
+        "minimum": 951876,
+        "maximum": 951992
+      },
+      "0_load_seconds": {
+        "runs": [
+          10.217997701,
+          8.795069233
+        ],
+        "mean": 9.506533467,
+        "minimum": 8.795069233,
+        "maximum": 10.217997701
+      },
+      "0_compile_seconds": {
+        "runs": [
+          4.602999867,
+          2.95213115
+        ],
+        "mean": 3.7775655085000004,
+        "minimum": 2.95213115,
+        "maximum": 4.602999867
+      },
+      "1_seconds": {
+        "runs": [
+          92.451866277,
+          82.180777726
+        ],
+        "mean": 87.3163220015,
+        "minimum": 82.180777726,
+        "maximum": 92.451866277
+      },
+      "2_seconds": {
+        "runs": [
+          118.214886765,
+          121.160528567
+        ],
+        "mean": 119.687707666,
+        "minimum": 118.214886765,
+        "maximum": 121.160528567
+      },
+      "2_rss_kib": {
+        "runs": [
+          821072,
+          820784
+        ],
+        "mean": 820928,
+        "minimum": 820784,
+        "maximum": 821072
+      }
+    },
+    "after": {
+      "0_compiled_rss_kib": {
+        "runs": [
+          741804,
+          741836
+        ],
+        "mean": 741820,
+        "minimum": 741804,
+        "maximum": 741836
+      },
+      "0_compile_peak_rss_kib": {
+        "runs": [
+          899108,
+          899192
+        ],
+        "mean": 899150,
+        "minimum": 899108,
+        "maximum": 899192
+      },
+      "0_load_seconds": {
+        "runs": [
+          9.224843765,
+          10.018385599
+        ],
+        "mean": 9.621614682,
+        "minimum": 9.224843765,
+        "maximum": 10.018385599
+      },
+      "0_compile_seconds": {
+        "runs": [
+          2.54259911,
+          2.733460408
+        ],
+        "mean": 2.638029759,
+        "minimum": 2.54259911,
+        "maximum": 2.733460408
+      },
+      "1_seconds": {
+        "runs": [
+          78.530189058,
+          75.110131703
+        ],
+        "mean": 76.8201603805,
+        "minimum": 75.110131703,
+        "maximum": 78.530189058
+      },
+      "2_seconds": {
+        "runs": [
+          107.449553178,
+          116.352378647
+        ],
+        "mean": 111.9009659125,
+        "minimum": 107.449553178,
+        "maximum": 116.352378647
+      },
+      "2_rss_kib": {
+        "runs": [
+          768148,
+          768092
+        ],
+        "mean": 768120,
+        "minimum": 768092,
+        "maximum": 768148
+      }
+    }
+  },
+  "corpus_transcripts_equal": true,
+  "logical_shared_totals": {
+    "rules": 312310,
+    "descriptors": 1248,
+    "expressions": 1479,
+    "rule_and_directory_bytes": 14990880,
+    "descriptor_bytes": 169728,
+    "aux_bytes": 19257,
+    "key_bytes": 339282,
+    "expression_bytes": 30206,
+    "table_bytes": 117504
+  },
+  "logical_bytes": {
+    "before_full_counted": 61773786,
+    "after_full_counted": 15666857,
+    "saving": 46106929,
+    "saving_mib": 43.970993995666504,
+    "includes": "headers, rule pointer directory, full scalar/range/string/macro auxiliary arrays, expressions, unique TDBs, full interner keys and table capacities; excludes allocator rounding and names"
+  },
+  "corrected_export_comparison": {
+    "links": {
+      "before_sha256": "aacc0c5e75b73e623187a4c4d2493d1e56860c0f28c3d0b6497019bce6426086",
+      "after_sha256": "6219c2e288daa6809f489c8186a78fcda32e0222e8c43efc5f3840147350aa0d",
+      "bytes": 27359028,
+      "equal": false
+    },
+    "logical": {
+      "before_sha256": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+      "after_sha256": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+      "bytes": 8744680,
+      "equal": true
+    },
+    "names": {
+      "before_sha256": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+      "after_sha256": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+      "bytes": 97814242,
+      "equal": true
+    },
+    "nodes": {
+      "before_sha256": "d4f1e7c0a9a83b18315257da7824182e98c00c6fe8dc48884bb25fefda797da5",
+      "after_sha256": "6db1ba960b3d159eb4e0ddde8735d5077aa58db06c7d2b1e40c21d715f5632cb",
+      "bytes": 4447600,
+      "equal": false
+    },
+    "patterns": {
+      "before_sha256": "246a48a7e75fd73a6a8b0878f0bbb3a94e72d81398ef55343132a20b9d6d42d8",
+      "after_sha256": "251bc5fae9ef0e072e57abd903d9034e3ad1fcc125b3ac9f2e4edb99d300e067",
+      "bytes": 111607540,
+      "equal": false
+    },
+    "programs": {
+      "before_sha256": "24576c46612acc170e24609c147e47205a0699bfa7427b7acb411ede6b00adea",
+      "after_sha256": "24576c46612acc170e24609c147e47205a0699bfa7427b7acb411ede6b00adea",
+      "bytes": 4290259,
+      "equal": true
+    },
+    "templates": {
+      "before_sha256": "7bf0ffddf5bb39832f7fae47a8ecaffe8d1c3d3f0b77478b0f8d92f5b38dd1fe",
+      "after_sha256": "7bf0ffddf5bb39832f7fae47a8ecaffe8d1c3d3f0b77478b0f8d92f5b38dd1fe",
+      "bytes": 18751536,
+      "equal": true
+    },
+    "tokens": {
+      "before_sha256": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e",
+      "after_sha256": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e",
+      "bytes": 96396138,
+      "equal": true
+    }
+  },
+  "export_note": "Logical headers, templates, expressions, names and tokens equal. Link/node references differ with allocation sorting; some pattern reference fields consequently differ. No claim of whole-graph ordered equality.",
+  "quarter_target_mib": 202.042,
+  "prototype_gap_mib": 522.39159375
+}

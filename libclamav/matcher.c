@@ -150,24 +150,14 @@ static inline cl_error_t matcher_run(const struct cli_matcher *root,
         } else {
             ret = cli_bm_scanbuff(buffer, length, virname, NULL, root, offset, tinfo, offdata, ctx);
         }
-        if (ret != CL_SUCCESS) {
-            if (ret != CL_VIRUS)
-                return ret;
-            /* else (ret == CL_VIRUS) */
-
-            ret = cli_append_virus(ctx, *virname);
-            if (ret != CL_SUCCESS)
-                return ret;
-        }
+        /* Context-aware matchers already record evidence and run callbacks. */
+        if (ret != CL_SUCCESS)
+            return ret;
     }
     perf_log_tries(acmode, 0, length);
     ret = cli_ac_scanbuff(buffer, length, virname, NULL, acres, root, mdata, offset, ftype, ftoffset, acmode, ctx);
     if (ret != CL_SUCCESS) {
-        if (ret == CL_VIRUS) {
-            ret = cli_append_virus(ctx, *virname);
-            if (ret != CL_SUCCESS)
-                return ret;
-        } else if (ret > CL_TYPENO && acmode & AC_SCAN_VIR) {
+        if (ret > CL_TYPENO && acmode & AC_SCAN_VIR) {
             saved_ret = ret;
         } else {
             return ret;
@@ -247,12 +237,6 @@ static inline cl_error_t matcher_run(const struct cli_matcher *root,
 
     /* end experimental fragment */
 
-    if (ctx && ret == CL_VIRUS) {
-        ret = cli_append_virus(ctx, *virname);
-        if (ret != CL_SUCCESS)
-            return ret;
-    }
-
     if (saved_ret && ret == CL_CLEAN) {
         return saved_ret;
     }
@@ -296,7 +280,7 @@ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t 
 
         if (!acdata) {
             // no ac matcher data was provided, so we need to initialize our own.
-            ret = cli_ac_initdata(&matcher_data, target_ac_root->ac_partsigs, target_ac_root->ac_lsigs, target_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
+            ret = cli_ac_initdata_for_matcher(&matcher_data, target_ac_root);
             if (CL_SUCCESS != ret) {
                 return ret;
             }
@@ -311,7 +295,7 @@ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t 
             cli_ac_freedata(&matcher_data);
         }
 
-        if (ret == CL_EMEM || ret == CL_VIRUS) {
+        if (ret != CL_SUCCESS && ret < CL_TYPENO) {
             return ret;
         }
 
@@ -321,7 +305,7 @@ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t 
 
     if (!acdata) {
         // no ac matcher data was provided, so we need to initialize our own.
-        ret = cli_ac_initdata(&matcher_data, generic_ac_root->ac_partsigs, generic_ac_root->ac_lsigs, generic_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
+        ret = cli_ac_initdata_for_matcher(&matcher_data, generic_ac_root);
         if (CL_SUCCESS != ret) {
             return ret;
         }
@@ -856,7 +840,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
     if (status != CL_SUCCESS)
         return status;
 
-    if (cli_ac_chklsig(exp, exp_end, acdata->lsigcnt[lsid], &evalcnt, &evalids, 0) != 1) {
+    if (cli_ac_chklsig(exp, exp_end, cli_ac_lsig_counts(acdata, lsid), &evalcnt, &evalids, 0) != 1) {
         // Logical expression did not match.
         goto done;
     }
@@ -973,7 +957,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
         }
     } else {
         // Logical sig depends on bytecode match. Check for the bytecode match.
-        status = cli_bytecode_runlsig(ctx, target_info, &ctx->engine->bcs, ac_lsig->bc_idx, acdata->lsigcnt[lsid], acdata->lsigsuboff_first[lsid], ctx->fmap);
+        status = cli_bytecode_runlsig(ctx, target_info, &ctx->engine->bcs, ac_lsig->bc_idx, cli_ac_lsig_counts(acdata, lsid), cli_ac_lsig_first(acdata, lsid), ctx->fmap);
         if (CL_SUCCESS != status) {
             goto done;
         }
@@ -1180,7 +1164,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
         /* If we're not doing a filetype-only scan, so we definitely need to include generic signatures.
            So initialize the ac data for the generic signatures root. */
 
-        ret = cli_ac_initdata(&generic_ac_data, generic_ac_root->ac_partsigs, generic_ac_root->ac_lsigs, generic_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
+        ret = cli_ac_initdata_for_matcher(&generic_ac_data, generic_ac_root);
         if (CL_SUCCESS != ret) {
             goto done;
         }
@@ -1205,7 +1189,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
         /* We have to match against target-specific signatures.
            So initialize the ac data for the target-specific signatures root. */
 
-        ret = cli_ac_initdata(&target_ac_data, target_ac_root->ac_partsigs, target_ac_root->ac_lsigs, target_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
+        ret = cli_ac_initdata_for_matcher(&target_ac_data, target_ac_root);
         if (CL_SUCCESS != ret) {
             goto done;
         }
@@ -1300,7 +1284,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
                               &info, ftype, ftoffset, acmode, PCRE_SCAN_FMAP, acres, ctx->fmap,
                               bm_offsets_table_initialized ? &bm_offsets_table : NULL,
                               &target_pcre_offsets_table, ctx);
-            if (ret == CL_VIRUS || ret == CL_EMEM) {
+            if (ret != CL_SUCCESS && ret < CL_TYPENO) {
                 goto done;
             }
         }
@@ -1312,7 +1296,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
                               &info, ftype, ftoffset, acmode, PCRE_SCAN_FMAP, acres, ctx->fmap,
                               NULL,
                               &generic_pcre_offsets_table, ctx);
-            if (ret == CL_VIRUS || ret == CL_EMEM) {
+            if (ret != CL_SUCCESS && ret < CL_TYPENO) {
                 goto done;
             } else if ((acmode & AC_SCAN_FT) && ((cli_file_t)ret >= CL_TYPENO)) {
                 if (ret > type)

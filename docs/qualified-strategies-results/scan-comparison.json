@@ -1,0 +1,157 @@
+{
+  "cpu": 2,
+  "order": [
+    "before",
+    "after",
+    "after",
+    "before"
+  ],
+  "files": 3570,
+  "all_transcripts_equal": true,
+  "runs": [
+    {
+      "trial": 1,
+      "variant": "before",
+      "observations": [
+        {
+          "kind": "engine",
+          "signatures": 3628192,
+          "load_seconds": 6.369216481,
+          "compile_seconds": 1.588804787,
+          "compiled_rss_kib": 843580,
+          "compile_peak_rss_kib": 843484
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.773698634,
+          "rss_kib": 867120
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.392144675,
+          "rss_kib": 867120
+        }
+      ]
+    },
+    {
+      "trial": 2,
+      "variant": "after",
+      "observations": [
+        {
+          "kind": "engine",
+          "signatures": 3628192,
+          "load_seconds": 5.829521591,
+          "compile_seconds": 1.613854112,
+          "compiled_rss_kib": 809028,
+          "compile_peak_rss_kib": 843316
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.287139427,
+          "rss_kib": 832504
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.703239386,
+          "rss_kib": 832504
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "variant": "after",
+      "observations": [
+        {
+          "kind": "engine",
+          "signatures": 3628192,
+          "load_seconds": 5.894272103,
+          "compile_seconds": 1.614587862,
+          "compiled_rss_kib": 808752,
+          "compile_peak_rss_kib": 843040
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.140217897,
+          "rss_kib": 831988
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.258144288,
+          "rss_kib": 831988
+        }
+      ]
+    },
+    {
+      "trial": 4,
+      "variant": "before",
+      "observations": [
+        {
+          "kind": "engine",
+          "signatures": 3628192,
+          "load_seconds": 5.896563089,
+          "compile_seconds": 1.600301861,
+          "compiled_rss_kib": 843600,
+          "compile_peak_rss_kib": 843504
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 45.539820409,
+          "rss_kib": 866868
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3570,
+          "virus_files": 0,
+          "errors": 0,
+          "callbacks": 0,
+          "transcript_sha256": "4d615981bc9eab463331d3f343e16dc5024f16c28728f2840fe79de871e07b2d",
+          "seconds": 46.492089475,
+          "rss_kib": 866868
+        }
+      ]
+    }
+  ]
+}

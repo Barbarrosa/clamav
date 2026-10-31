@@ -1,5 +1,10 @@
 # ClamAV
 
+This branch is the **compact resident engine development fork**, based on
+upstream commit `dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d`.
+See [implementation, tuning, and validation](docs/compact-resident-engine.md).
+It is an experimental fork, not an official ClamAV release.
+
 <p align="center">
   <img width="250" height="250" src="https://raw.githubusercontent.com/Cisco-Talos/clamav/main/logo.png" alt='Maeve, the ClamAV mascot'>
 </p>

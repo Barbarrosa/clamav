@@ -1,0 +1,26 @@
+[
+  {
+    "label": "before",
+    "run": 1,
+    "exit": 0,
+    "cpu": 0
+  },
+  {
+    "label": "after",
+    "run": 2,
+    "exit": 0,
+    "cpu": 0
+  },
+  {
+    "label": "after",
+    "run": 3,
+    "exit": 0,
+    "cpu": 0
+  },
+  {
+    "label": "before",
+    "run": 4,
+    "exit": 0,
+    "cpu": 0
+  }
+]

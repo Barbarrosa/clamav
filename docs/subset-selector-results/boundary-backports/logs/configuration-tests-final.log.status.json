@@ -1,0 +1,8 @@
+{
+  "command": [
+    "python3",
+    "fork/tools/subset-selector/test_configuration.py"
+  ],
+  "returncode": 0,
+  "seconds": 0.2120053768157959
+}

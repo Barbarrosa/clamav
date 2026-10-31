@@ -1,0 +1,7 @@
+{
+  "valid_signature_accepted": true,
+  "modified_signature_rejected": true,
+  "original_sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+  "tampered_sha256": "5d70a52e957d29bde545cc430b2b208f014dff5650dfcf3484fdda5c83ac05a9",
+  "same_signed_members_cld_transport_verified": true
+}

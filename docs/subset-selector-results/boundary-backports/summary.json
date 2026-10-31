@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-29",
+  "production_ready": false,
+  "automatic_reduced_release": false,
+  "selector_version": "1.4.0-boundary-tested-experimental",
+  "python_tests": {
+    "selector": 35,
+    "configuration": 18,
+    "hardening_and_legacy_protocol": 35,
+    "total": 88,
+    "passed": true
+  },
+  "releases": {
+    "main": {
+      "upstream_tag": null,
+      "pre_backport_commit": "777cba95f55563f0b93d814d5eb86697d8c2ac87",
+      "library_file": "libclamav.so.14.0.0",
+      "library_sha256": "874e26079246a3b3276e526128c9b0260ec8d482e157df549969e4c90913017d",
+      "probe_sha256": "d9d6f103d3aaac4a4aa94e078ff3fab453e9715ee9dc0df7295bfbccd02d4756",
+      "probe_rebuild_identical": true,
+      "shipping_engine_has_no_witness": true,
+      "shipping_probe_has_no_PE_hold_override": true,
+      "boundary_cases": 65,
+      "boundary_passed": true,
+      "mutation_rejected": true,
+      "handler_passed": true,
+      "PE_in_PE_limit_passed": true,
+      "full_exact_corpus_comparisons": 414,
+      "full_baseline": "previous retained probe",
+      "reduced_eligible_matches": 30,
+      "held_cases": 108,
+      "real_intake_scans": 12,
+      "original_bytes_preserved": true,
+      "stale_default_rejected": true,
+      "measurements": {
+        "full": {
+          "loaded_signatures": 3628192,
+          "skipped_callbacks": 0,
+          "integration_samples": 6,
+          "integration_means": {
+            "wall_seconds": 11.490750965498592,
+            "child_cpu_seconds": 11.315014499999998,
+            "compiled_rss_mib": 791.337890625,
+            "construction_hwm_mib": 824.8821614583334
+          }
+        },
+        "legal-redress": {
+          "loaded_signatures": 601004,
+          "skipped_callbacks": 3027189,
+          "integration_samples": 6,
+          "integration_means": {
+            "wall_seconds": 4.8063221145008965,
+            "child_cpu_seconds": 4.640402,
+            "compiled_rss_mib": 131.01692708333334,
+            "construction_hwm_mib": 161.8125
+          },
+          "loaded_signature_percent": 16.56483449607959
+        },
+        "signed_database_bytes_retained_percent": 100
+      }
+    },
+    "stable": {
+      "upstream_tag": "clamav-1.5.4",
+      "pre_backport_commit": "fa59fca15872bb8a914ba4c68188bcc8a502cbdf",
+      "library_file": "libclamav.so.12.1.0",
+      "library_sha256": "6163340a72652c5c4d1aaccee5ba3c480efec187425d2c7848b51311b98e63a5",
+      "probe_sha256": "d17db1155ed5afb5f755c83589d0c51d52ddae8adb2bc4f8512e7bd2e52dec1b",
+      "probe_rebuild_identical": true,
+      "shipping_engine_has_no_witness": true,
+      "shipping_probe_has_no_PE_hold_override": true,
+      "boundary_cases": 65,
+      "boundary_passed": true,
+      "mutation_rejected": true,
+      "handler_passed": true,
+      "PE_in_PE_limit_passed": true,
+      "full_exact_corpus_comparisons": 414,
+      "full_baseline": "unmodified same-release engine and matching API probe",
+      "reduced_eligible_matches": 30,
+      "held_cases": 108,
+      "real_intake_scans": 12,
+      "original_bytes_preserved": true,
+      "stale_default_rejected": true,
+      "measurements": {
+        "full": {
+          "loaded_signatures": 3628192,
+          "skipped_callbacks": 0,
+          "integration_samples": 6,
+          "integration_means": {
+            "wall_seconds": 8.390782614000878,
+            "child_cpu_seconds": 8.215554333333333,
+            "compiled_rss_mib": 824.2981770833334,
+            "construction_hwm_mib": 824.189453125
+          }
+        },
+        "legal-redress": {
+          "loaded_signatures": 601004,
+          "skipped_callbacks": 3027189,
+          "integration_samples": 6,
+          "integration_means": {
+            "wall_seconds": 3.8775530336679367,
+            "child_cpu_seconds": 3.690809833333333,
+            "compiled_rss_mib": 135.51106770833334,
+            "construction_hwm_mib": 161.41666666666666
+          },
+          "loaded_signature_percent": 16.56483449607959
+        },
+        "signed_database_bytes_retained_percent": 100
+      }
+    },
+    "lts": {
+      "upstream_tag": "clamav-1.4.6",
+      "pre_backport_commit": "5853e1396777bae4d909cd3dd44f58352e7cf9b3",
+      "library_file": "libclamav.so.12.0.3",
+      "library_sha256": "1d2078ad3afe9289dd3fa5166fac897efbaec09e9bfd628babcf89e059275f99",
+      "probe_sha256": "77b641e2fe0bb64e5b0103c691f40967f77c6b8ca41b15e5b8ba6e320c32a893",
+      "probe_rebuild_identical": true,
+      "shipping_engine_has_no_witness": true,
+      "shipping_probe_has_no_PE_hold_override": true,
+      "boundary_cases": 65,
+      "boundary_passed": true,
+      "mutation_rejected": true,
+      "handler_passed": true,
+      "PE_in_PE_limit_passed": true,
+      "full_exact_corpus_comparisons": 414,
+      "full_baseline": "unmodified same-release engine and matching API probe",
+      "reduced_eligible_matches": 30,
+      "held_cases": 108,
+      "real_intake_scans": 12,
+      "original_bytes_preserved": true,
+      "stale_default_rejected": true,
+      "measurements": {
+        "full": {
+          "loaded_signatures": 3628192,
+          "skipped_callbacks": 0,
+          "integration_samples": 6,
+          "integration_means": {
+            "wall_seconds": 11.05529751766638,
+            "child_cpu_seconds": 10.864650500000002,
+            "compiled_rss_mib": 822.560546875,
+            "construction_hwm_mib": 822.4654947916666
+          }
+        },
+        "legal-redress": {
+          "loaded_signatures": 601004,
+          "skipped_callbacks": 3027189,
+          "integration_samples": 6,
+          "integration_means": {
+            "wall_seconds": 4.507996077501351,
+            "child_cpu_seconds": 4.327882833333331,
+            "compiled_rss_mib": 134.00065104166666,
+            "construction_hwm_mib": 145.92838541666666
+          },
+          "loaded_signature_percent": 16.56483449607959
+        },
+        "signed_database_bytes_retained_percent": 100
+      }
+    }
+  },
+  "toolchain": {
+    "cc": "GCC 13.3.0",
+    "rustc": "1.90.0",
+    "cmake": "4.4.4",
+    "configuration": "Release, x86_64 Linux, UNRAR=ON, bytecode interpreter"
+  },
+  "scope": "Boundary tests plus release-specific correctness qualification; integration telemetry is not a replacement benchmark.",
+  "known_limits": [
+    "Shared JPEG appended-PE and malformed-PDF parser limitations remain.",
+    "Stable synthetic first-hit results differ, including weak vs strong severity selection; all-match detection contracts pass.",
+    "LTS has no modern severity or object-ID API.",
+    "LTS daemon/update suite cannot pass here: socket creation and initgroups are restricted.",
+    "Deployment isolation, maintenance, update and recovery are not qualified."
+  ]
+}

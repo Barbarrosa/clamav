@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python3",
+    "lts/tools/subset-selector/select_db.py",
+    "--lib",
+    "build-lts/libclamav/libclamav.so",
+    "--probe",
+    "backport-run/probe-lts",
+    "--certs",
+    "lts/certs",
+    "--output",
+    "backport-run/generation-lts",
+    "database/main.cvd",
+    "database/daily.cvd",
+    "database/bytecode.cvd"
+  ],
+  "returncode": 0,
+  "seconds": 20.323173999786377
+}

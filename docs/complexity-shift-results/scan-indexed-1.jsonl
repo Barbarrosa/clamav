@@ -1,0 +1,3 @@
+{"kind":"engine","signatures":3628192,"load_seconds":10.114172119,"compile_seconds":3.177558015,"compiled_rss_kib":794268,"compile_peak_rss_kib":951504}
+{"kind":"scan_corpus","allmatch":0,"files":3319,"virus_files":87,"errors":0,"callbacks":87,"transcript_sha256":"2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e","seconds":82.311591677,"rss_kib":820300}
+{"kind":"scan_corpus","allmatch":1,"files":3319,"virus_files":87,"errors":0,"callbacks":89,"transcript_sha256":"59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3","seconds":111.478082346,"rss_kib":820300}

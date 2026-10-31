@@ -40,6 +40,7 @@
 #include <sys/mman.h>
 #endif
 #include <stddef.h>
+#include <errno.h>
 
 #include "clamav.h"
 #include "others.h"
@@ -513,9 +514,41 @@ void mpool_destroy(struct MP *mp)
 #endif
 }
 
+/* Release only complete pages inside free fragments. Keep the free-list link
+ * and both boundary pages, so live objects, virtual addresses and allocation
+ * order are unchanged. Linux's anonymous-private MADV_DONTNEED zeroes future
+ * accesses; that is safe only for the payload of an already freed allocation.
+ * Advice failure is harmless: the pool keeps ownership and remains reusable.
+ */
+static size_t mpool_release_free_pages(struct MP *mp)
+{
+    size_t advised = 0;
+#if defined(C_LINUX) && defined(HAVE_MADVISE) && defined(MADV_DONTNEED)
+    unsigned int b;
+    int saved_errno = errno;
+
+    for (b = 0; b < FRAGSBITS; b++) {
+        struct FRAG *f;
+        if (from_bits(b) < mp->psize + sizeof(struct FRAG))
+            continue;
+        for (f = mp->avail[b]; f; f = f->u.next.ptr) {
+            uintptr_t start = align_to_pagesize(mp, (uintptr_t)f + sizeof(*f));
+            uintptr_t end   = (uintptr_t)f + from_bits(b);
+            end -= end % mp->psize;
+            if (end > start && madvise((void *)start, end - start, MADV_DONTNEED) == 0)
+                advised += end - start;
+        }
+    }
+    errno = saved_errno;
+#else
+    UNUSEDPARAM(mp);
+#endif
+    return advised;
+}
+
 void mpool_flush(struct MP *mp)
 {
-    size_t used            = 0, mused;
+    size_t used            = 0, mused, advised;
     struct MPMAP *mpm_next = mp->u.mpm.next, *mpm;
 
 #ifdef EXIT_ON_FLUSH
@@ -552,6 +585,8 @@ void mpool_flush(struct MP *mp)
         mp->u.mpm.size = mused - sizeof(*mp);
     }
     used += mp->u.mpm.size;
+    advised = mpool_release_free_pages(mp);
+    cli_dbgmsg("pool free-page advice: %lu bytes\n", (unsigned long)advised);
     cli_dbgmsg("pool memory used: %.3f MB\n", used / (1024 * 1024.0));
     spam("Map flushed @%p, in use: %lu\n", mp, (unsigned long)used);
 }

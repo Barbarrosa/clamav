@@ -1,0 +1,99 @@
+{
+  "baseline_probe_sha256": "e7dda58e88424695e7c8980e27d48f2a05d2685aa114d3c20c18597bbd3c8053",
+  "probe_sha256": "77b641e2fe0bb64e5b0103c691f40967f77c6b8ca41b15e5b8ba6e320c32a893",
+  "library_sha256": "1d2078ad3afe9289dd3fa5166fac897efbaec09e9bfd628babcf89e059275f99",
+  "generation_manifest_sha256": "14acec5b3a536932aec2432ba86f4b5fa0f543f72e2d37742097dee8073f4f62",
+  "fixture_list_sha256": "ffab7050774aeb3b21d28c427f928a7a47ea35c6d70d198e2087b55ee9324bdb",
+  "commands": {
+    "baseline": [
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/probe-lts-original",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/generation-lts/databases",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/certs",
+      "-",
+      "/workspace/scratch/48dde463229d/analysis-run/production-run/all-fixtures.txt",
+      "1",
+      "0",
+      "0",
+      "0"
+    ],
+    "default": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/generation-lts",
+      "--probe",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/probe-lts",
+      "--lib",
+      "/workspace/scratch/48dde463229d/analysis-run/build-lts/libclamav/libclamav.so.12.0.3",
+      "--certs",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/analysis-run/production-run/all-fixtures.txt"
+    ],
+    "full": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/generation-lts",
+      "--probe",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/probe-lts",
+      "--lib",
+      "/workspace/scratch/48dde463229d/analysis-run/build-lts/libclamav/libclamav.so.12.0.3",
+      "--certs",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/analysis-run/production-run/all-fixtures.txt",
+      "--database-profile=full"
+    ],
+    "full-all": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/generation-lts",
+      "--probe",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/probe-lts",
+      "--lib",
+      "/workspace/scratch/48dde463229d/analysis-run/build-lts/libclamav/libclamav.so.12.0.3",
+      "--certs",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/analysis-run/production-run/all-fixtures.txt",
+      "--database-profile=full",
+      "--allmatch"
+    ],
+    "restricted": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/generation-lts",
+      "--probe",
+      "/workspace/scratch/48dde463229d/analysis-run/backport-run/probe-lts",
+      "--lib",
+      "/workspace/scratch/48dde463229d/analysis-run/build-lts/libclamav/libclamav.so.12.0.3",
+      "--certs",
+      "/workspace/scratch/48dde463229d/analysis-run/lts/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/analysis-run/production-run/all-fixtures.txt",
+      "--database-profile=legal-redress"
+    ]
+  },
+  "full_comparisons": [
+    {
+      "mode": "default",
+      "exact_full_baseline_matches": 138
+    },
+    {
+      "mode": "full",
+      "exact_full_baseline_matches": 138
+    },
+    {
+      "mode": "full-all",
+      "exact_full_baseline_matches": 138
+    }
+  ],
+  "restricted_allmatch_only": true,
+  "eligible_detection_equivalence_matches": 30,
+  "held_cases": 108,
+  "reduced_automatic_release": false,
+  "passed": true
+}

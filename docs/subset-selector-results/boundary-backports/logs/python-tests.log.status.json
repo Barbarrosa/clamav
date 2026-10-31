@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "fork/tools/subset-selector",
+    "-p",
+    "test_*.py"
+  ],
+  "returncode": 1,
+  "seconds": 2.6063392162323
+}

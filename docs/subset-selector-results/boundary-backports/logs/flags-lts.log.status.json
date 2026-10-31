@@ -1,0 +1,22 @@
+{
+  "command": [
+    "python3",
+    "lts/tools/subset-selector/test_flags.py",
+    "--baseline-probe",
+    "backport-run/probe-lts-original",
+    "--probe",
+    "backport-run/probe-lts",
+    "--lib",
+    "build-lts/libclamav/libclamav.so",
+    "--certs",
+    "lts/certs",
+    "--generation",
+    "backport-run/generation-lts",
+    "--fixtures",
+    "production-run/all-fixtures.txt",
+    "--output",
+    "backport-run/flags-lts"
+  ],
+  "returncode": 0,
+  "seconds": 301.8359854221344
+}

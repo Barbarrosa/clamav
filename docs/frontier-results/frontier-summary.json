@@ -1,0 +1,67 @@
+{
+  "kind": "component_experiments_not_integrated_scanner",
+  "routing": {
+    "active_targets": 12,
+    "keys_checked_per_target": 16777216,
+    "original_transition_bytes": 78815232,
+    "hybrid_transition_bytes": 22316024,
+    "transition_bytes_saved": 56499208,
+    "selected_directory_targets": [
+      0,
+      1,
+      2,
+      6
+    ],
+    "pe_lookup_timings": {
+      "0": {
+        "case": "random",
+        "dense_median_seconds": 10.319053177499999,
+        "directory_median_seconds": 0.17641716699999999,
+        "paired_geomean_directory_over_dense": 0.018543912158041766,
+        "paired_bootstrap_95pct": [
+          0.015007048808702085,
+          0.02365163332195528
+        ]
+      },
+      "1": {
+        "case": "zeros",
+        "dense_median_seconds": 0.074260615,
+        "directory_median_seconds": 0.0421853015,
+        "paired_geomean_directory_over_dense": 0.5576820343637803,
+        "paired_bootstrap_95pct": [
+          0.522080434937542,
+          0.5950104473595795
+        ]
+      },
+      "2": {
+        "case": "repeated_0_to_255",
+        "dense_median_seconds": 0.198636366,
+        "directory_median_seconds": 0.044700867500000005,
+        "paired_geomean_directory_over_dense": 0.2244415879791992,
+        "paired_bootstrap_95pct": [
+          0.2126940662717008,
+          0.23704170142644548
+        ]
+      }
+    }
+  },
+  "tokens": {
+    "original_bytes": 90363298,
+    "encoded_bytes_including_two_indexes": 41908669,
+    "saved_before_flags_alignment_and_metadata": 48454629
+  },
+  "chosen_representation_floor": {
+    "raw_stable_names_bytes": 87171124,
+    "exact_digest_keys_bytes": 51419900,
+    "encoded_token_bytes": 41908669,
+    "subtotal_bytes": 180499693,
+    "subtotal_mib": 172.137921333313
+  },
+  "limitations": [
+    "Routing oracle and outputs remain resident in the probe; these are table bytes, not RSS.",
+    "Long-stream state comparisons and timing cover three 8 MiB PE streams, not all inputs.",
+    "Routing timing excludes filters, candidates, verification, parsing and output work.",
+    "Encoded tokens omit flags, alignment, auxiliary tables, compiler and verifier costs.",
+    "Stable decoded name memory is excluded from compressed-name sizes."
+  ]
+}

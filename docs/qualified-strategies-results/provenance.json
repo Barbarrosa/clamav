@@ -1,0 +1,39 @@
+{
+  "input_library_version": 10,
+  "input_archive_sha256": "53dd7a830c66da77730024b60f269cbc3d701d115f7bd814ea60177417969ac1",
+  "baseline_revision": "282052bd1577d918a2a5de135f47567d8d78830f",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "compiler": "GCC 13.3.0",
+  "rust": "1.90.0",
+  "rust_release_codegen_units": 1,
+  "rust_build_override_codegen_units": 1,
+  "build_controls": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "ENABLE_FLAT_HASH_STORE": false,
+    "ENABLE_COMPACT_LSIG_STATE": true,
+    "ENABLE_AC_NODE_IDS": true,
+    "ENABLE_AC_FLAT_NODES": true,
+    "ENABLE_AC_DISPOSABLE_BUILD": false,
+    "DISABLE_MPOOL": false,
+    "BYTECODE_RUNTIME": "interpreter",
+    "ENABLE_UNRAR": true
+  },
+  "binary_sha256": {
+    "before": "a7de76477a98f89a1deffca14acb2edb698e93a5cf7d891c07b54eb37aa751f6",
+    "after": "343fae262ae45dfda51726b469c1a39014e456518b83430ec31179cbd9b3df19"
+  },
+  "tested_runtime_source_sha256": {
+    "CMakeLists.txt": "25362292ce1669122f21d1147e7af303d7eb2566a4f4284dd5edf88eb7ca19f9",
+    "libclamav/mpool.c": "248d610f06d2df298bb8e66e11decfe546916a8a9408167516e78a87ed3b07ed",
+    "libclamav_rust/src/evidence.rs": "063c499a5f0f321b059122e3b316beee095569bff639c9c43297468a846f9873"
+  },
+  "test_environment_repairs": [
+    "Re-extracted a truncated compiler library from the hash-verified official archive",
+    "Used the same one-codegen-unit Rust profile in both builds after truncated intermediate artifacts",
+    "Configured SDK development-library search paths for Rust test linking",
+    "Installed/discovered pytest so scanner tests were collected",
+    "Added explicit --certs arguments to portable alert harnesses; no signature verification bypass"
+  ],
+  "database_verification": "normal CVD signature verification with source/certs",
+  "source_api_or_layout_changes": false
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "evidence_run_compression_model",
+  "random_operations": 20000,
+  "full_ordered_stacks_equal_after_every_operation": true,
+  "pop_counterexample_to_latest_only_verified": true,
+  "repeated_metas": 1000000,
+  "native_64bit_uncompressed_payload_bytes": 24000000,
+  "native_meta_plus_u64_count_run_bytes": 32,
+  "distinct_meta_worst_case_run_overhead_fraction": 0.3333333333333333,
+  "limitations": [
+    "Only a model; not an implementation or Rust/FFI test.",
+    "JSON metadata and callbacks must still preserve every required occurrence.",
+    "Plain RLE expands all-distinct stacks; a literal/run hybrid or measured fallback is required.",
+    "Count and depth overflow, allocation behavior and API lifecycle need native tests."
+  ]
+}

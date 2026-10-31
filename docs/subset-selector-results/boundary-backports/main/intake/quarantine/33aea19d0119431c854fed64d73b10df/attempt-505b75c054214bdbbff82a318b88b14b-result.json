@@ -1,0 +1,151 @@
+{
+  "schema": 2,
+  "attachment_id": "33aea19d0119431c854fed64d73b10df",
+  "original_filename": "clam-v3.rar",
+  "source_bytes": 364,
+  "source_mtime_ns": 1793258449056395249,
+  "source_ctime_ns": 1793258449056395249,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "outcome": "held",
+  "reason": "unsupported-encrypted-limited-or-incomplete",
+  "release_qualified": false,
+  "created_at_unix": 1793269533.992741,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "sha256": "9ce61f3a6a692618f4969af44fc70867eafca86b27a9cd10ea801262635d3e87",
+  "bytes": 364,
+  "database_profile": "legal-redress",
+  "assessment_id": "505b75c054214bdbbff82a318b88b14b",
+  "assessment_started_unix": 1793269533.9982257,
+  "scan_evidence": [
+    {
+      "kind": "scan",
+      "path": "/workspace/scratch/48dde463229d/analysis-run/backport-run/intake-main/quarantine/33aea19d0119431c854fed64d73b10df/original",
+      "round": 0,
+      "allmatch": 1,
+      "return_code": 0,
+      "verdict": 2,
+      "final_name": "Clamav.Test.File-6",
+      "root_type": "CL_TYPE_RAR",
+      "sha256": "9ce61f3a6a692618f4969af44fc70867eafca86b27a9cd10ea801262635d3e87",
+      "after_sha256": "9ce61f3a6a692618f4969af44fc70867eafca86b27a9cd10ea801262635d3e87",
+      "hold_bits": 3,
+      "candidate_outcome": "held",
+      "outcome": "held",
+      "release_blocker": "parser-completeness-unproven",
+      "scanned_bytes": 908,
+      "seconds": 0.006418295997718815,
+      "events": [
+        {
+          "event": "file_type",
+          "type": "CL_TYPE_RAR",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_hash",
+          "type": "CL_TYPE_RAR",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_scan",
+          "type": "CL_TYPE_RAR",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "file_type",
+          "type": "CL_TYPE_MSEXE",
+          "depth": 1,
+          "object_id": 1,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_hash",
+          "type": "CL_TYPE_MSEXE",
+          "depth": 1,
+          "object_id": 1,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_scan",
+          "type": "CL_TYPE_MSEXE",
+          "depth": 1,
+          "object_id": 1,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "legacy_virus",
+          "name": "Clamav.Test.File-6"
+        },
+        {
+          "event": "alert",
+          "type": "CL_TYPE_MSEXE",
+          "depth": 1,
+          "object_id": 1,
+          "attributes": 0,
+          "name": "Clamav.Test.File-6"
+        },
+        {
+          "event": "post_scan",
+          "type": "CL_TYPE_MSEXE",
+          "depth": 1,
+          "object_id": 1,
+          "attributes": 0,
+          "name": "Clamav.Test.File-6"
+        },
+        {
+          "event": "post_scan",
+          "type": "CL_TYPE_RAR",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": "Clamav.Test.File-6"
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "kind": "runtime",
+    "engine_path": "/workspace/scratch/48dde463229d/analysis-run/build-fork/libclamav/libclamav.so.14.0.0",
+    "engine_sha256": "874e26079246a3b3276e526128c9b0260ec8d482e157df549969e4c90913017d",
+    "engine_version": "1.6.0-devel-20261029",
+    "unrar_modules_verified": 1
+  },
+  "engine": {
+    "kind": "engine",
+    "signatures": 601004,
+    "skipped": 3027189,
+    "sigload_calls": 3628623,
+    "selector_mapping_and_index_bytes": 14925375,
+    "load_seconds": 4.51713996399485,
+    "compile_seconds": 0.10286211900529452,
+    "compiled_rss_kib": 134196,
+    "construction_hwm_kib": 165732,
+    "max_file_bytes": 104857600,
+    "max_scan_bytes": 419430400,
+    "max_recursion": 17,
+    "max_files": 10000
+  },
+  "detection_result": "held",
+  "generation_manifest_sha256": "1041d70662c3fc5d57a68f0fdf01974b0bac8885a210c4882f65178331971e95",
+  "database_age_seconds": 360081.999612093,
+  "assessment_finished_unix": 1793269538.9246864,
+  "linux_process_high_water_kib": {
+    "parent": 15168,
+    "terminated_children_max": 844924,
+    "note": "separate high-water values, not simultaneous or cgroup charge"
+  }
+}

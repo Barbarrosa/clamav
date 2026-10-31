@@ -575,7 +575,7 @@ int yr_execute_code(
 #if REAL_YARA
         push(string->matches[tidx].tail != NULL ? 1 : 0);
 #else
-        push(acdata->lsigsuboff_first[aclsig->id][string->subsig_id] != CLI_OFF_NONE ? 1 : 0);
+        push(cli_ac_lsig_first(acdata, aclsig->id)[string->subsig_id] != CLI_OFF_NONE ? 1 : 0);
 #endif
         break;
 
@@ -694,7 +694,7 @@ int yr_execute_code(
 #if REAL_YARA
         push(string->matches[tidx].count);
 #else
-        push(acdata->lsigcnt[aclsig->id][string->subsig_id]);
+        push(cli_ac_lsig_counts(acdata, aclsig->id)[string->subsig_id]);
 #endif
         break;
 
@@ -764,8 +764,8 @@ int yr_execute_code(
         {
           string = UINT64_TO_PTR(YR_STRING*, r1);
           lsig_id = string->subsig_id;
-          if (acdata->lsigsuboff_first[aclsig->id][lsig_id] != CLI_OFF_NONE)
-            found++;
+          if (cli_ac_lsig_first(acdata, aclsig->id)[lsig_id] != CLI_OFF_NONE)
+              found++;
           count++;
           pop(r1);
         }

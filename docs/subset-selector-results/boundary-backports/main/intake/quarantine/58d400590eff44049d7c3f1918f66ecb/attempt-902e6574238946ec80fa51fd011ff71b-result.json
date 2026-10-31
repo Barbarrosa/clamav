@@ -1,0 +1,107 @@
+{
+  "schema": 2,
+  "attachment_id": "58d400590eff44049d7c3f1918f66ecb",
+  "original_filename": "clean.png",
+  "source_bytes": 4090,
+  "source_mtime_ns": 1793258710580161144,
+  "source_ctime_ns": 1793258710580161144,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "outcome": "clean",
+  "reason": "full-database-no-detection",
+  "release_qualified": true,
+  "created_at_unix": 1793269455.3981051,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+  "bytes": 4090,
+  "database_profile": "full",
+  "assessment_id": "902e6574238946ec80fa51fd011ff71b",
+  "assessment_started_unix": 1793269455.4040391,
+  "scan_evidence": [
+    {
+      "kind": "scan",
+      "path": "/workspace/scratch/48dde463229d/analysis-run/backport-run/intake-main/quarantine/58d400590eff44049d7c3f1918f66ecb/original",
+      "round": 0,
+      "allmatch": 0,
+      "return_code": 0,
+      "verdict": 0,
+      "final_name": null,
+      "root_type": "CL_TYPE_PNG",
+      "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+      "after_sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+      "hold_bits": 0,
+      "candidate_outcome": "clean",
+      "outcome": "clean",
+      "release_blocker": null,
+      "scanned_bytes": 4090,
+      "seconds": 0.02490400100214174,
+      "events": [
+        {
+          "event": "file_type",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_hash",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_scan",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "post_scan",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "kind": "runtime",
+    "engine_path": "/workspace/scratch/48dde463229d/analysis-run/build-fork/libclamav/libclamav.so.14.0.0",
+    "engine_sha256": "874e26079246a3b3276e526128c9b0260ec8d482e157df549969e4c90913017d",
+    "engine_version": "1.6.0-devel-20261029",
+    "unrar_modules_verified": 1
+  },
+  "engine": {
+    "kind": "engine",
+    "signatures": 3628192,
+    "skipped": 0,
+    "sigload_calls": 0,
+    "selector_mapping_and_index_bytes": 0,
+    "load_seconds": 9.624015616995166,
+    "compile_seconds": 2.84762816500006,
+    "compiled_rss_kib": 810288,
+    "construction_hwm_kib": 844676,
+    "max_file_bytes": 104857600,
+    "max_scan_bytes": 419430400,
+    "max_recursion": 17,
+    "max_files": 10000
+  },
+  "detection_result": "clean",
+  "generation_manifest_sha256": "1041d70662c3fc5d57a68f0fdf01974b0bac8885a210c4882f65178331971e95",
+  "database_age_seconds": 360003.40578222275,
+  "assessment_finished_unix": 1793269468.597409,
+  "linux_process_high_water_kib": {
+    "parent": 15136,
+    "terminated_children_max": 844676,
+    "note": "separate high-water values, not simultaneous or cgroup charge"
+  }
+}

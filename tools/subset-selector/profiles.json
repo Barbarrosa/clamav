@@ -1,0 +1,19 @@
+{
+  "id": "legal-redress-pe-hold-v1",
+  "status": "opt-in-restricted-scan; automatic release held",
+  "configuration_flag": "--database-profile=legal-redress",
+  "default_database_profile": "full",
+  "required_scan_mode": "all-match; accepting alert callbacks",
+  "equivalence_contract": "Same detection multisets (including legacy weak/PUA evidence), verdict, layer traversal and policy holds. Selected final name and alert order may differ. Full mode preserves original ordered results.",
+  "initial_root_types": ["CL_TYPE_PDF", "CL_TYPE_JPEG", "CL_TYPE_PNG"],
+  "initial_profile_is_approved_form_allowlist": false,
+  "broader_shadow_root_types": ["CL_TYPE_MSOLE2", "CL_TYPE_MSOXML", "CL_TYPE_OOXML_WORD", "CL_TYPE_OOXML_PPT", "CL_TYPE_OOXML_XL", "CL_TYPE_OOXML_HWP", "CL_TYPE_MAIL", "CL_TYPE_ZIP", "CL_TYPE_RAR", "CL_TYPE_7Z", "CL_TYPE_RTF"],
+  "forbidden_matcher_target": 1,
+  "forbidden_observed_types": ["CL_TYPE_MSEXE"],
+  "retained_targets": "all except proven plain PE-only NDB/LDB callback-name groups",
+  "retained_effects": ["generic rules", "whole-file hashes", "bytecode", "handlers", "type recognition", "macro dependencies", "allowlists", "trust", "unknown rules"],
+  "outcomes": ["clean", "detected", "held", "failed"],
+  "reduced_automatic_release": false,
+  "evidence_policy": "Preserve original bytes and metadata in a private immutable intake object; derivatives have independent verdicts. Narrative submission must proceed independently. Holds have an authorized full-scan/manual exception path, including executable evidence.",
+  "known_limits": "Callback coverage and corpus agreement are not proof of complete parsing. Silent parser/embedded-size skips prevent automatic-release qualification. Alert order differences are accepted only with equal detection multisets and severity; first-hit and early-stop/trust callbacks are outside the restricted configuration."
+}

@@ -24,7 +24,7 @@ use std::{ffi::CStr, mem::ManuallyDrop, os::raw::c_char};
 
 use log::{debug, error, warn};
 
-use indexmap::IndexMap;
+use indexmap::{map::RawEntryApiV1, IndexMap};
 
 use crate::{ffi_error, ffi_util::FFIError, rrf_call, sys, validate_str_param};
 
@@ -401,19 +401,19 @@ impl Evidence {
             object_id,
         };
 
-        match indicator_type {
-            IndicatorType::Strong => {
-                self.strong.entry(name.to_string()).or_default().push(meta);
-            }
-
-            IndicatorType::PotentiallyUnwanted => {
-                self.pua.entry(name.to_string()).or_default().push(meta);
-            }
-
-            IndicatorType::Weak => {
-                self.weak.entry(name.to_string()).or_default().push(meta);
-            }
-        }
+        let indicators = match indicator_type {
+            IndicatorType::Strong => &mut self.strong,
+            IndicatorType::PotentiallyUnwanted => &mut self.pua,
+            IndicatorType::Weak => &mut self.weak,
+        };
+        // Look up the borrowed name before allocating its owned key. Repeated
+        // evidence keeps every metadata item and the existing insertion order.
+        indicators
+            .raw_entry_mut_v1()
+            .from_key(name)
+            .or_insert_with(|| (name.to_owned(), Vec::new()))
+            .1
+            .push(meta);
 
         Ok(())
     }
@@ -528,5 +528,116 @@ impl Evidence {
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::ffi::CString;
+
+    #[test]
+    fn duplicate_names_preserve_pointer_history_and_insertion_order() {
+        let first = CString::new("same").unwrap();
+        let second = CString::new("same").unwrap();
+        let other = CString::new("other").unwrap();
+        assert_ne!(first.as_ptr(), second.as_ptr());
+        for kind in 0..3 {
+            let indicator_type = || match kind {
+                0 => IndicatorType::Strong,
+                1 => IndicatorType::PotentiallyUnwanted,
+                _ => IndicatorType::Weak,
+            };
+            let mut evidence = Evidence::default();
+            evidence
+                .add_indicator("same", first.as_ptr(), indicator_type(), 2, 10)
+                .unwrap();
+            evidence
+                .add_indicator("other", other.as_ptr(), indicator_type(), 3, 11)
+                .unwrap();
+            evidence
+                .add_indicator("same", second.as_ptr(), indicator_type(), 4, 12)
+                .unwrap();
+            let map = match kind {
+                0 => &evidence.strong,
+                1 => &evidence.pua,
+                _ => &evidence.weak,
+            };
+            assert_eq!(
+                map.keys().map(String::as_str).collect::<Vec<_>>(),
+                ["same", "other"]
+            );
+            let history = &map["same"];
+            assert_eq!(history.len(), 2);
+            assert_eq!(
+                (
+                    history[0].static_virname,
+                    history[0].depth,
+                    history[0].object_id
+                ),
+                (first.as_ptr(), 2, 10)
+            );
+            assert_eq!(
+                (
+                    history[1].static_virname,
+                    history[1].depth,
+                    history[1].object_id
+                ),
+                (second.as_ptr(), 4, 12)
+            );
+
+            evidence.remove_indicator("same", indicator_type()).unwrap();
+            let map = match kind {
+                0 => &evidence.strong,
+                1 => &evidence.pua,
+                _ => &evidence.weak,
+            };
+            assert_eq!(map["same"].last().unwrap().static_virname, first.as_ptr());
+            evidence.remove_indicator("same", indicator_type()).unwrap();
+            evidence
+                .add_indicator("same", second.as_ptr(), indicator_type(), 5, 13)
+                .unwrap();
+            let map = match kind {
+                0 => &evidence.strong,
+                1 => &evidence.pua,
+                _ => &evidence.weak,
+            };
+            assert_eq!(
+                map.keys().map(String::as_str).collect::<Vec<_>>(),
+                ["other", "same"]
+            );
+        }
+    }
+
+    #[test]
+    fn child_merge_retains_every_context_and_severity() {
+        let name = CString::new("name").unwrap();
+        let mut child = Evidence::default();
+        for indicator_type in [
+            IndicatorType::Strong,
+            IndicatorType::PotentiallyUnwanted,
+            IndicatorType::Weak,
+        ] {
+            child
+                .add_indicator("name", name.as_ptr(), indicator_type, 7, 91)
+                .unwrap();
+        }
+        let mut parent = Evidence::default();
+        parent.add_child_evidence(&child, false).unwrap();
+        parent.add_child_evidence(&child, true).unwrap();
+        for map in [&parent.strong, &parent.pua, &parent.weak] {
+            assert_eq!(map.len(), 1);
+            let history = &map["name"];
+            assert_eq!(history.len(), 2);
+            assert_eq!((history[0].depth, history[1].depth), (8, 7));
+            for meta in history {
+                assert_eq!(meta.static_virname, name.as_ptr());
+                assert_eq!(meta.object_id, 91);
+            }
+        }
+        assert_eq!(child.strong["name"][0].depth, 7);
+        assert!(Evidence::default()
+            .add_child_evidence(&Evidence::default(), false)
+            .is_err());
     }
 }

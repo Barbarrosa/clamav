@@ -1,0 +1,172 @@
+LibClamAV debug: Using filter for trie 0
+LibClamAV debug: Matcher[0]: GENERIC: AC sigs: 21018 (reloff: 16, absoff: 0) BM sigs: 30847 (reloff: 15, absoff: 132) PCREs: 830 (reloff: 368, absoff: 1) maxpatlen 8000 
+LibClamAV debug: Using filter for trie 1
+LibClamAV debug: Matcher[1]: PE: AC sigs: 1403880 (reloff: 5245, absoff: 0) BM sigs: 49029 (reloff: 44875, absoff: 4154) PCREs: 40 (reloff: 1, absoff: 0) maxpatlen 5584 
+LibClamAV debug: Matcher[2]: OLE2: AC sigs: 34886 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 55 (reloff: 0, absoff: 1) maxpatlen 3548 (ac_only mode)
+LibClamAV debug: Matcher[3]: HTML: AC sigs: 10019 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 25 (reloff: 0, absoff: 0) maxpatlen 866 (ac_only mode)
+LibClamAV debug: Using filter for trie 4
+LibClamAV debug: Matcher[4]: MAIL: AC sigs: 2904 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 172 (reloff: 0, absoff: 0) maxpatlen 270 (ac_only mode)
+LibClamAV debug: Matcher[5]: GRAPHICS: AC sigs: 45 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 227 (ac_only mode)
+LibClamAV debug: Matcher[6]: ELF: AC sigs: 20562 (reloff: 34, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 3 (reloff: 0, absoff: 0) maxpatlen 400 (ac_only mode)
+LibClamAV debug: Using filter for trie 7
+LibClamAV debug: Matcher[7]: ASCII: AC sigs: 7225 (reloff: 27, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 51 (reloff: 0, absoff: 2) maxpatlen 1060 (ac_only mode)
+LibClamAV debug: Matcher[8]: NOT USED: AC sigs: 0 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 0 (ac_only mode)
+LibClamAV debug: Matcher[9]: MACH-O: AC sigs: 5876 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 273 (ac_only mode)
+LibClamAV debug: Matcher[10]: PDF: AC sigs: 879 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 25 (reloff: 0, absoff: 0) maxpatlen 388 (ac_only mode)
+LibClamAV debug: Matcher[11]: FLASH: AC sigs: 725 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 1 (reloff: 0, absoff: 0) maxpatlen 128 (ac_only mode)
+LibClamAV debug: Matcher[12]: JAVA: AC sigs: 191 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 6 (reloff: 0, absoff: 0) maxpatlen 95 (ac_only mode)
+LibClamAV debug: Matcher[13]: INTERNAL: AC sigs: 0 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 0 (ac_only mode)
+LibClamAV debug: Matcher[14]: OTHER: AC sigs: 0 (reloff: 0, absoff: 0) BM sigs: 0 (reloff: 0, absoff: 0) PCREs: 0 (reloff: 0, absoff: 0) maxpatlen 0 (ac_only mode)
+LibClamAV debug: Building regex list
+LibClamAV debug: Using filter for trie 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: Building regex list
+LibClamAV debug: Using filter for trie 0
+LibClamAV debug: hashtab: Freeing hashset, elements: 0, capacity: 0
+LibClamAV debug: Dynamic engine configuration settings:
+LibClamAV debug: --------------------------------------
+LibClamAV debug: Module PE: On
+LibClamAV debug:    * Submodule     PARITE:	On
+LibClamAV debug:    * Submodule       KRIZ:	On
+LibClamAV debug:    * Submodule    MAGISTR:	On
+LibClamAV debug:    * Submodule    POLIPOS:	On
+LibClamAV debug:    * Submodule    MD5SECT:	On
+LibClamAV debug:    * Submodule        UPX:	On
+LibClamAV debug:    * Submodule        FSG:	On
+LibClamAV debug:    * Submodule    SWIZZOR:	** Off **
+LibClamAV debug:    * Submodule     PETITE:	On
+LibClamAV debug:    * Submodule     PESPIN:	On
+LibClamAV debug:    * Submodule         YC:	On
+LibClamAV debug:    * Submodule     WWPACK:	On
+LibClamAV debug:    * Submodule     NSPACK:	On
+LibClamAV debug:    * Submodule        MEW:	On
+LibClamAV debug:    * Submodule      UPACK:	On
+LibClamAV debug:    * Submodule     ASPACK:	On
+LibClamAV debug:    * Submodule    CATALOG:	On
+LibClamAV debug:    * Submodule      CERTS:	On
+LibClamAV debug:    * Submodule  MATCHICON:	On
+LibClamAV debug:    * Submodule     IMPTBL:	On
+LibClamAV debug: Module ELF: On
+LibClamAV debug: Module MACHO: On
+LibClamAV debug: Module ARCHIVE: On
+LibClamAV debug:    * Submodule        RAR:	On
+LibClamAV debug:    * Submodule        ZIP:	On
+LibClamAV debug:    * Submodule       GZIP:	On
+LibClamAV debug:    * Submodule       BZIP:	On
+LibClamAV debug:    * Submodule        ARJ:	On
+LibClamAV debug:    * Submodule       SZDD:	On
+LibClamAV debug:    * Submodule        CAB:	On
+LibClamAV debug:    * Submodule        CHM:	On
+LibClamAV debug:    * Submodule       OLE2:	On
+LibClamAV debug:    * Submodule        TAR:	On
+LibClamAV debug:    * Submodule       CPIO:	On
+LibClamAV debug:    * Submodule     BINHEX:	On
+LibClamAV debug:    * Submodule        SIS:	On
+LibClamAV debug:    * Submodule       NSIS:	On
+LibClamAV debug:    * Submodule     AUTOIT:	On
+LibClamAV debug:    * Submodule    ISHIELD:	On
+LibClamAV debug:    * Submodule       7zip:	On
+LibClamAV debug:    * Submodule    ISO9660:	On
+LibClamAV debug:    * Submodule        DMG:	On
+LibClamAV debug:    * Submodule        XAR:	On
+LibClamAV debug:    * Submodule    HFSPLUS:	On
+LibClamAV debug:    * Submodule         XZ:	On
+LibClamAV debug:    * Submodule     PASSWD:	On
+LibClamAV debug:    * Submodule        MBR:	On
+LibClamAV debug:    * Submodule        GPT:	On
+LibClamAV debug:    * Submodule        APM:	On
+LibClamAV debug:    * Submodule        EGG:	On
+LibClamAV debug:    * Submodule        UDF:	On
+LibClamAV debug:    * Submodule        LHA:	On
+LibClamAV debug:    * Submodule        ALZ:	On
+LibClamAV debug:    * Submodule       ZSTD:	On
+LibClamAV debug: Module DOCUMENT: On
+LibClamAV debug:    * Submodule       HTML:	On
+LibClamAV debug:    * Submodule        RTF:	On
+LibClamAV debug:    * Submodule        PDF:	On
+LibClamAV debug:    * Submodule     SCRIPT:	On
+LibClamAV debug:    * Submodule HTMLSKIPRAW:	On
+LibClamAV debug:    * Submodule     JSNORM:	On
+LibClamAV debug:    * Submodule        SWF:	On
+LibClamAV debug:    * Submodule      OOXML:	On
+LibClamAV debug:    * Submodule      MSPML:	On
+LibClamAV debug:    * Submodule        HWP:	On
+LibClamAV debug:    * Submodule    ONENOTE:	On
+LibClamAV debug: Module MAIL: On
+LibClamAV debug:    * Submodule       MBOX:	On
+LibClamAV debug:    * Submodule       TNEF:	On
+LibClamAV debug: Module OTHER: On
+LibClamAV debug:    * Submodule  UUENCODED:	On
+LibClamAV debug:    * Submodule     SCRENC:	On
+LibClamAV debug:    * Submodule       RIFF:	On
+LibClamAV debug:    * Submodule       JPEG:	On
+LibClamAV debug:    * Submodule    CRYPTFF:	On
+LibClamAV debug:    * Submodule        DLP:	On
+LibClamAV debug:    * Submodule PREFILTERING:	On
+LibClamAV debug:    * Submodule PDFNAMEOBJ:	On
+LibClamAV debug:    * Submodule  PRTNINTXN:	On
+LibClamAV debug:    * Submodule        LZW:	On
+LibClamAV debug:    * Submodule        GIF:	On
+LibClamAV debug:    * Submodule        PNG:	On
+LibClamAV debug:    * Submodule       TIFF:	On
+LibClamAV debug:    * Submodule IMAGE FUZZY HASH:	On
+LibClamAV debug: Module PHISHING On
+LibClamAV debug:    * Submodule     ENGINE:	On
+LibClamAV debug:    * Submodule    ENTCONV:	On
+LibClamAV debug: Module BYTECODE On
+LibClamAV debug:    * Submodule INTERPRETER:	On
+LibClamAV debug:    * Submodule    JIT X86:	On
+LibClamAV debug:    * Submodule    JIT PPC:	On
+LibClamAV debug:    * Submodule    JIT ARM:	** Off **
+LibClamAV debug: Module PCRE On
+LibClamAV debug:    * Submodule    SUPPORT:	On
+LibClamAV debug:    * Submodule    OPTIONS:	On
+LibClamAV debug:    * Submodule     GLOBAL:	On
+LibClamAV debug: pool free-page advice: 35516416 bytes
+LibClamAV debug: pool memory used: 830.386 MB
+LibClamAV debug: environment detected:
+LibClamAV debug: check_platform(0x0a21f0f0, 0x08000000, 0x020d0300)
+LibClamAV debug: check_platform(0x0a  2  1  f0  f0,0x0  8       00 00 00,0x02    0d 03 00)
+LibClamAV debug: check_platform( OS CPU COM FL DCONF,BE PTR CXX VV.VV.VV, FLG CC VV.VV.VV)
+LibClamAV debug: Engine version: 1.6.0-devel-20261029
+LibClamAV debug: Host triple: 
+LibClamAV debug: Host CPU: 
+LibClamAV debug: OS: Linux
+LibClamAV debug: OS release: 6.18.55
+LibClamAV debug: OS version: #1 SMP Wed Oct 14 19:45:18 UTC 2026
+LibClamAV debug: OS hardware: x86_64
+LibClamAV debug: OS LLVM category: 0
+LibClamAV debug: Has JIT compiled: 0
+LibClamAV debug: ------------------------------------------------------
+LibClamAV debug: Bytecode: mode is 0
+LibClamAV debug: Loading trusted bytecode
+LibClamAV debug: bytecode: Parsed 9 APIcalls, maxapi 74
+LibClamAV debug: unknown inst type: 96
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: unknown inst type: 67
+LibClamAV debug: Parsed 53 BBs, 226 instructions
+LibClamAV debug: Parsed 1 functions
+LibClamAV debug: Bytecode: BC_STARTUP running (builtin)
+LibClamAV debug: Bytecode 0: executing in interpreter mode
+LibClamAV debug: bytecode: registered ctx variable at 0x7f2816089720 (+256) id 6
+LibClamAV debug: bytecode: registered ctx variable at 0x7f281608970c (+2) id 2
+LibClamAV debug: bytecode: registered ctx variable at 0x7f2816089820 (+256) id 1
+LibClamAV debug: bytecode: registered ctx variable at 0x7f2816089708 (+4) id 5
+LibClamAV debug: bytecode: registered ctx variable at 0x7f2816089480 (+648) id 4
+LibClamAV debug: bytecode: registered ctx variable at 0x560f3147d710 (+744) id 7
+LibClamAV debug: bytecode debug: startup: bytecode execution in auto mode
+LibClamAV debug: interpreter bytecode run finished in 12us, after executing 96 opcodes
+LibClamAV debug: previous tempfile had 0 bytes
+LibClamAV debug: Bytecode: disable status is 0
+LibClamAV debug: bytecode: JIT disabled
+LibClamAV debug: Cannot prepare for JIT, LLVM is not compiled or not linked
+LibClamAV debug: Bytecode: 0 bytecode prepared with JIT, 82 prepared with interpreter, 82 total
+LibClamAV debug: Cleaning up phishcheck
+LibClamAV debug: Freeing phishcheck struct
+LibClamAV debug: Phishcheck cleaned up

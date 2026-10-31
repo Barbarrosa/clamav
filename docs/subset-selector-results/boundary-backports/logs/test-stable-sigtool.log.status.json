@@ -1,0 +1,12 @@
+{
+  "command": [
+    "ctest",
+    "--test-dir",
+    "build-stable",
+    "-R",
+    "^sigtool$",
+    "--output-on-failure"
+  ],
+  "returncode": 0,
+  "seconds": 1.4888756275177002
+}

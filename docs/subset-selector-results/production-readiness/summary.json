@@ -1,0 +1,39 @@
+{
+  "production_ready": false,
+  "base_source_commit": "754416569d175a6fb50212fdd25475cab2add1c1",
+  "selector_version": "1.3.0-hardened-experimental",
+  "engine_source_unchanged": true,
+  "unit_tests": {
+    "selector": 35,
+    "configuration_contract": 18,
+    "hardening_fault_lifecycle": 32,
+    "total": 85,
+    "passed": true
+  },
+  "full_exact_scan_comparisons": 414,
+  "reduced_eligible_detection_matches": 30,
+  "held_cases": 108,
+  "native_intake_scans": 12,
+  "native_intake_bytes_preserved": true,
+  "default_stale_database_rejected": true,
+  "signed_input_verification": {
+    "valid_signature_accepted": true,
+    "modified_signature_rejected": true,
+    "original_sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "tampered_sha256": "5d70a52e957d29bde545cc430b2b208f014dff5650dfcf3484fdda5c83ac05a9",
+    "same_signed_members_cld_transport_verified": true
+  },
+  "probe_rebuild_byte_identical": true,
+  "historical_signature_snapshot": "Official pinned database from the prior benchmark; test-only age limit168h. Default intake max age48h rejects it.",
+  "performance_scope": "No new performance claim. Native intake telemetry ran concurrently with regression tests; prior 78-process figures and images are preserved unchanged.",
+  "resolved_initial_failures": [
+    "Unrar modules missing with rpath alone: correct runtime library path applied; final generation requires modules.",
+    "Tampering test attempted write to newly read-only skip file: test explicitly chmods before corruption; final unit suite passes."
+  ],
+  "release_blockers": [
+    "parser completeness",
+    "custom development-engine release/security qualification",
+    "target deployment isolation and recovery",
+    "deployed update promotion/rollback monitoring"
+  ]
+}

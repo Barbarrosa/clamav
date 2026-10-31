@@ -1,0 +1,8 @@
+{
+  "command": [
+    "python3",
+    "backport-run/compare_stable_synthetic.py"
+  ],
+  "returncode": 0,
+  "seconds": 1.8564298152923584
+}

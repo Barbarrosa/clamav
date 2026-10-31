@@ -1,0 +1,105 @@
+{
+  "source_revision": "2c464040eddf2c04951a21e6277f16823f5e5bf8",
+  "classification": "Research calculations from existing evidence; no new codec or engine measurements",
+  "items": {
+    "hash_bucket_metadata": {
+      "old_bytes": 12211056,
+      "proposed_base_bytes": 1959916,
+      "buckets": 244986,
+      "groups": 7,
+      "method": "uint32 size keys and bucket starts; per-group sentinel included",
+      "excludes": "optional search index and group/wildcard descriptors",
+      "gross_bytes_saved": 10251140
+    },
+    "hash_name_ids": {
+      "old_bytes": 12854088,
+      "proposed_base_bytes": 8837186,
+      "records": 3213522,
+      "method": "22-bit exact name IDs; reserved code remains available",
+      "gross_bytes_saved": 4016902
+    },
+    "name_offsets": {
+      "entries": 3547706,
+      "universe_upper": 87171124,
+      "low_bits": 4,
+      "old_bytes": 7095412,
+      "proposed_base_bytes": 3104243,
+      "tighter_base_bytes": 2898341,
+      "flag_bits": 0,
+      "excludes": "select support, alignment and decoder metadata",
+      "gross_bytes_saved": 3991169
+    },
+    "token_offsets": {
+      "entries": 1066577,
+      "universe_upper": 31609522,
+      "low_bits": 4,
+      "old_bytes": 4266308,
+      "proposed_base_bytes": 1066577,
+      "tighter_base_bytes": 1046883,
+      "flag_bits": 1066576,
+      "excludes": "select support, alignment and decoder metadata",
+      "gross_bytes_saved": 3199731
+    }
+  },
+  "gross_savings_bytes": 21458942,
+  "partial_subtotals": {
+    "cold": {
+      "prior_partial_bytes": 155919800,
+      "with_previously_omitted_hash_metadata_bytes": 168130856,
+      "proposed_partial_base_bytes": 146671914,
+      "with_known_extensions_and_filters_bytes": 148036666
+    },
+    "expanded": {
+      "prior_partial_bytes": 220691967,
+      "with_previously_omitted_hash_metadata_bytes": 232903023,
+      "proposed_partial_base_bytes": 211444081,
+      "with_known_extensions_and_filters_bytes": 212808833
+    }
+  },
+  "additional_unchanged_payloads": {
+    "extension_bytes": 840432,
+    "filter_bytes": 524320
+  },
+  "token_codec": {
+    "unique_sequences": 1066576,
+    "mean_raw_sequence_bytes": 29.636445035328002,
+    "break_even_models": [
+      {
+        "dictionary_data_and_offsets_budget_bytes": 1048576,
+        "code_bytes": 2,
+        "worker_scratch_bytes": 8000,
+        "max_average_codes_existing_index": 8.426614699749479,
+        "max_average_codes_succinct_index": 9.92661610611902,
+        "scope": "Algebraic break-even; codec headers, padding and actual select index must also fit."
+      },
+      {
+        "dictionary_data_and_offsets_budget_bytes": 1310720,
+        "code_bytes": 2,
+        "worker_scratch_bytes": 8000,
+        "max_average_codes_existing_index": 8.303724254061596,
+        "max_average_codes_succinct_index": 9.803725660431137,
+        "scope": "Algebraic break-even; codec headers, padding and actual select index must also fit."
+      }
+    ]
+  },
+  "ideal_md5_set_model": {
+    "records": 3213298,
+    "raw_key_bytes": 51412768,
+    "approximate_saved_bytes": 8102705.290948137,
+    "approximate_encoded_bytes": 43310062.70905186,
+    "assumptions": "One set of distinct uniform 128-bit keys; excludes bucket membership, duplicates, values, indexes and construction; not a universal corpus lower bound."
+  },
+  "mapped_names_model": {
+    "raw_name_bytes": 87171124,
+    "fixed_index_and_id_base_bytes": 11941429,
+    "removed_block_descriptor_bytes": 1773856,
+    "formula": "fixed base + actual charged name pages W + select support, page tables and other overhead",
+    "cold_caveat": "Creation and verification can charge all file pages; no zero-residency assumption."
+  },
+  "inputs_sha256": {
+    "frontier-results/encoding-census.jsonl": "54dfd6bdba3e9a12ebdf0625a65bcf332ebb0c8ffb1d5200cf55e8eccf2b1b8d",
+    "profile-prototype-results/profile-summary.json": "496e05b9004e7d236eff8deb47811b7309f0ce31bbbec1fde6b5fe13d54ea391",
+    "correlation-results/correlation-summary.json": "82bafa2e69f032c23233b4a5a8c2cdcf1bd75c7a11014e376f2900043056ee55",
+    "profile-prototype-results/token-preparation.json": "cf80bdceb2a207f888347569a58beb7333b959ea5b64f95aed2429f33a314d28"
+  }
+}

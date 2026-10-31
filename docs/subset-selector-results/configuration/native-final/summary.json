@@ -1,0 +1,99 @@
+{
+  "baseline_probe_sha256": "d3d1d6c10da9b91b1e0287d1bcf5a7c2c0b46921cf976de1b80ade570b615c93",
+  "probe_sha256": "a37333abfbcfc93f75a51223fd14eee2629d356a38ad0b39c8dfbf00d5c2d7c8",
+  "library_sha256": "343fae262ae45dfda51726b469c1a39014e456518b83430ec31179cbd9b3df19",
+  "generation_manifest_sha256": "f8263cbaf6d34d89c9710859dbe7d388b4147bef314af54e92b1703e375d4582",
+  "fixture_list_sha256": "62d8f712c8a183e3bb3d2153aaeacccb2c34187c9054bd11b9a41b093aa6f658",
+  "commands": {
+    "baseline": [
+      "/workspace/scratch/48dde463229d/work/scan_probe-v12",
+      "/workspace/scratch/48dde463229d/work/generation-v1.2-final/databases",
+      "/workspace/scratch/48dde463229d/project/source/certs",
+      "-",
+      "/workspace/scratch/48dde463229d/work/flag-validation/all-fixtures.txt",
+      "1",
+      "0",
+      "0",
+      "0"
+    ],
+    "default": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/project/source/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/work/generation-v1.2-final",
+      "--probe",
+      "/workspace/scratch/48dde463229d/work/scan_probe",
+      "--lib",
+      "/workspace/scratch/2605ffe80d9d/incorporation/retained-lib/libclamav.so.14.0.0",
+      "--certs",
+      "/workspace/scratch/48dde463229d/project/source/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/work/flag-validation/all-fixtures.txt"
+    ],
+    "full": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/project/source/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/work/generation-v1.2-final",
+      "--probe",
+      "/workspace/scratch/48dde463229d/work/scan_probe",
+      "--lib",
+      "/workspace/scratch/2605ffe80d9d/incorporation/retained-lib/libclamav.so.14.0.0",
+      "--certs",
+      "/workspace/scratch/48dde463229d/project/source/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/work/flag-validation/all-fixtures.txt",
+      "--database-profile=full"
+    ],
+    "full-all": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/project/source/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/work/generation-v1.2-final",
+      "--probe",
+      "/workspace/scratch/48dde463229d/work/scan_probe",
+      "--lib",
+      "/workspace/scratch/2605ffe80d9d/incorporation/retained-lib/libclamav.so.14.0.0",
+      "--certs",
+      "/workspace/scratch/48dde463229d/project/source/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/work/flag-validation/all-fixtures.txt",
+      "--database-profile=full",
+      "--allmatch"
+    ],
+    "restricted": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/scratch/48dde463229d/project/source/tools/subset-selector/scan.py",
+      "--generation",
+      "/workspace/scratch/48dde463229d/work/generation-v1.2-final",
+      "--probe",
+      "/workspace/scratch/48dde463229d/work/scan_probe",
+      "--lib",
+      "/workspace/scratch/2605ffe80d9d/incorporation/retained-lib/libclamav.so.14.0.0",
+      "--certs",
+      "/workspace/scratch/48dde463229d/project/source/certs",
+      "--files",
+      "/workspace/scratch/48dde463229d/work/flag-validation/all-fixtures.txt",
+      "--database-profile=legal-redress"
+    ]
+  },
+  "full_comparisons": [
+    {
+      "mode": "default",
+      "exact_full_baseline_matches": 138
+    },
+    {
+      "mode": "full",
+      "exact_full_baseline_matches": 138
+    },
+    {
+      "mode": "full-all",
+      "exact_full_baseline_matches": 138
+    }
+  ],
+  "restricted_allmatch_only": true,
+  "eligible_detection_equivalence_matches": 30,
+  "held_cases": 108,
+  "reduced_automatic_release": false,
+  "passed": true
+}

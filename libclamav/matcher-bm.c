@@ -381,22 +381,20 @@ cl_error_t cli_bm_scanbuff(const unsigned char *buffer, uint32_t length, const c
                         }
                     }
 
-                    viruses_found += 1;
-                    if (virname) {
+                    if (virname)
                         *virname = p->virname;
-                        if (ctx != NULL && SCAN_ALLMATCHES) {
-                            ret = cli_append_virus(ctx, *virname);
-                            if (ret == CL_CLEAN && viruses_found > 0) {
-                                viruses_found -= 1;
-                            }
-                        }
-                    }
-
                     if (patt)
                         *patt = p;
 
-                    if (ctx != NULL && !SCAN_ALLMATCHES)
-                        return CL_VIRUS;
+                    if (ctx) {
+                        /* Keep walking after a nonterminal indicator or an ignored
+                         * alert; the caller cannot resume this candidate chain. */
+                        ret = cli_append_virus(ctx, p->virname);
+                        if (ret != CL_SUCCESS)
+                            return ret;
+                    } else {
+                        viruses_found = 1;
+                    }
                 }
                 p = p->next;
             }

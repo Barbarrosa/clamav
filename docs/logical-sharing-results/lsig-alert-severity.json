@@ -1,0 +1,462 @@
+{
+  "kind": "mixed_severity_order_differential",
+  "rules": 10000,
+  "marker_sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e",
+  "libraries": {
+    "before": "43f7ea2aa9df9cf8d2303d7ce0f944fd83ce44a4f513883cf1808df4552dcd08",
+    "after": "d6879af8c6532be61b7e75e63e88cf839746bfba7e5b7acdf185454893d73617"
+  },
+  "cases": [
+    {
+      "strong_index": 0,
+      "other_category": "Weak",
+      "database_sha256": "21befc97b29f3cf8896e6cd827be7ee2ad6f1544402cd0101189d98f3d67e9ab",
+      "results": {
+        "before": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        },
+        "after": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 0,
+      "other_category": "PUA",
+      "database_sha256": "e600cb1bbd83b3c2a595fd16e0f4db874694308c5bb83f2fa275f42a5902b202",
+      "results": {
+        "before": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        },
+        "after": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 5000,
+      "other_category": "Weak",
+      "database_sha256": "7f5a82d8dcde470aaab04ab4c049c5128cb6582582206f4253a0eeb47f68eec5",
+      "results": {
+        "before": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        },
+        "after": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 5000,
+      "other_category": "PUA",
+      "database_sha256": "4153d0f76dbbe22d59c29166793f6430030da9b3e801eeac93ece9f38d7966db",
+      "results": {
+        "before": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        },
+        "after": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.05000.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 9999,
+      "other_category": "Weak",
+      "database_sha256": "8f4aacf9a22c757a8c269f6c0bc69f7e9543f5cf4d2598236028a66d4f45b910",
+      "results": {
+        "before": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        },
+        "after": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 9999,
+      "other_category": "PUA",
+      "database_sha256": "58fe8f72db6be8f717ba3c68e062e7f526ba3acb0eccdfaf6da6653407011449",
+      "results": {
+        "before": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        },
+        "after": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": "/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n/workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-lsig-final/libclamav.so.14: no version information available (required by /workspace/scratch/2605ffe80d9d/complexity-shift/build-flat/clamscan/clamscan)\n"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "missing_strong_observations": []
+}

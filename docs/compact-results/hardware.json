@@ -1,0 +1,10 @@
+{
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+  "cpu_allowed": [
+    "Cpus_allowed_list:\t0-8"
+  ],
+  "memory_max": "8589934592",
+  "cpu_max": "1600000 200000"
+}

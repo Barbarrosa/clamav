@@ -1,0 +1,1835 @@
+{
+  "method": "Conditional counting bounds are family bounds, H0 is a model benchmark, simple layouts are constructive upper bounds; none is an unconditional per-instance lower bound.",
+  "source_sha256": {
+    "patterns.bin": "246a48a7e75fd73a6a8b0878f0bbb3a94e72d81398ef55343132a20b9d6d42d8",
+    "templates.bin": "7bf0ffddf5bb39832f7fae47a8ecaffe8d1c3d3f0b77478b0f8d92f5b38dd1fe",
+    "programs.bin": "24576c46612acc170e24609c147e47205a0699bfa7427b7acb411ede6b00adea",
+    "logical.bin": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+    "links.bin": "aacc0c5e75b73e623187a4c4d2493d1e56860c0f28c3d0b6497019bce6426086",
+    "nodes.bin": "d4f1e7c0a9a83b18315257da7824182e98c00c6fe8dc48884bb25fefda797da5"
+  },
+  "patterns": [
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 1508210,
+      "default": 0,
+      "exceptions": 1508209,
+      "runs": 1508210,
+      "raw_bytes": 6032840,
+      "h0_bits": 30955114.206981856,
+      "fixed_histogram_counting_bits": 28779238.707313802,
+      "symbol_and_frequency_table_bytes": 12065680,
+      "simple_layout_bytes": 6032858,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999970163395193,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          1508209,
+          1
+        ],
+        [
+          1508208,
+          1
+        ],
+        [
+          1508207,
+          1
+        ],
+        [
+          1508206,
+          1
+        ],
+        [
+          1508205,
+          1
+        ]
+      ],
+      "name": "export_id",
+      "existing_block1024_bytes": 17676,
+      "is_exporter_generated": true,
+      "native_width": 0
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 21897,
+      "default": 4294967295,
+      "exceptions": 41428,
+      "runs": 21924,
+      "raw_bytes": 6032840,
+      "h0_bits": 850894.9235101058,
+      "fixed_histogram_counting_bits": 813493.210151309,
+      "symbol_and_frequency_table_bytes": 175176,
+      "simple_layout_bytes": 175410,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 34.39279402542614,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1466782
+        ],
+        [
+          144892,
+          178
+        ],
+        [
+          3032743,
+          148
+        ],
+        [
+          2891475,
+          133
+        ],
+        [
+          3028710,
+          122
+        ]
+      ],
+      "name": "name_id",
+      "existing_block1024_bytes": 146200,
+      "is_exporter_generated": false,
+      "native_width": 8
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 17510,
+      "default": 4294967295,
+      "exceptions": 17509,
+      "runs": 25692,
+      "raw_bytes": 6032840,
+      "h0_bits": 384474.7753673554,
+      "fixed_histogram_counting_bits": 359214.63631962985,
+      "symbol_and_frequency_table_bytes": 140080,
+      "simple_layout_bytes": 140090,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 43.064030266257404,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1490701
+        ],
+        [
+          17508,
+          1
+        ],
+        [
+          17507,
+          1
+        ],
+        [
+          17506,
+          1
+        ],
+        [
+          17505,
+          1
+        ]
+      ],
+      "name": "extension_id",
+      "existing_block1024_bytes": 125016,
+      "is_exporter_generated": false,
+      "native_width": 8
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 3971,
+      "default": 0,
+      "exceptions": 37351,
+      "runs": 16277,
+      "raw_bytes": 6032840,
+      "h0_bits": 686036.5811841291,
+      "fixed_histogram_counting_bits": 674861.3763430552,
+      "symbol_and_frequency_table_bytes": 31768,
+      "simple_layout_bytes": 130234,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 46.32307999447149,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1470859
+        ],
+        [
+          520,
+          189
+        ],
+        [
+          3385,
+          151
+        ],
+        [
+          3383,
+          141
+        ],
+        [
+          3386,
+          127
+        ]
+      ],
+      "name": "sigid",
+      "existing_block1024_bytes": 129116,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 2,
+      "default": 1,
+      "exceptions": 41428,
+      "runs": 44,
+      "raw_bytes": 6032840,
+      "h0_bits": 273788.7124975079,
+      "fixed_histogram_counting_bits": 273779.73767868575,
+      "symbol_and_frequency_table_bytes": 16,
+      "simple_layout_bytes": 370,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 16304.972972972973,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          1,
+          1466782
+        ],
+        [
+          0,
+          41428
+        ]
+      ],
+      "name": "lsigid0",
+      "existing_block1024_bytes": 20475,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 297075,
+      "default": 0,
+      "exceptions": 1466740,
+      "runs": 312213,
+      "raw_bytes": 6032840,
+      "h0_bits": 26617508.12639857,
+      "fixed_histogram_counting_bits": 25897214.42669362,
+      "symbol_and_frequency_table_bytes": 2376600,
+      "simple_layout_bytes": 2497722,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 2.415336854942223,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          41470
+        ],
+        [
+          331,
+          132
+        ],
+        [
+          65,
+          119
+        ],
+        [
+          71,
+          108
+        ],
+        [
+          82,
+          95
+        ]
+      ],
+      "name": "lsigid1",
+      "existing_block1024_bytes": 1503568,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 64,
+      "default": 0,
+      "exceptions": 1152954,
+      "runs": 1457749,
+      "raw_bytes": 6032840,
+      "h0_bits": 4315629.635521702,
+      "fixed_histogram_counting_bits": 4315331.1644751,
+      "symbol_and_frequency_table_bytes": 512,
+      "simple_layout_bytes": 6032858,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999970163395193,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          355256
+        ],
+        [
+          1,
+          311563
+        ],
+        [
+          2,
+          309170
+        ],
+        [
+          3,
+          199432
+        ],
+        [
+          4,
+          198102
+        ]
+      ],
+      "name": "lsigid2",
+      "existing_block1024_bytes": 638945,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 9,
+      "default": 4294967295,
+      "exceptions": 10696,
+      "runs": 5401,
+      "raw_bytes": 6032840,
+      "h0_bits": 105922.85593477538,
+      "fixed_histogram_counting_bits": 105883.01479524565,
+      "symbol_and_frequency_table_bytes": 72,
+      "simple_layout_bytes": 43226,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 139.565076574284,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1497514
+        ],
+        [
+          1,
+          5374
+        ],
+        [
+          3,
+          4759
+        ],
+        [
+          6,
+          389
+        ],
+        [
+          2,
+          50
+        ]
+      ],
+      "name": "offdata0",
+      "existing_block1024_bytes": 71024,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 394,
+      "default": 0,
+      "exceptions": 1208,
+      "runs": 1234,
+      "raw_bytes": 6032840,
+      "h0_bits": 23328.88517101621,
+      "fixed_histogram_counting_bits": 22601.64552830972,
+      "symbol_and_frequency_table_bytes": 3152,
+      "simple_layout_bytes": 9682,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 623.0985333608759,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1507002
+        ],
+        [
+          32769,
+          76
+        ],
+        [
+          4,
+          63
+        ],
+        [
+          10,
+          42
+        ],
+        [
+          33581,
+          34
+        ]
+      ],
+      "name": "offdata1",
+      "existing_block1024_bytes": 33228,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 72,
+      "default": 0,
+      "exceptions": 2546,
+      "runs": 359,
+      "raw_bytes": 6032840,
+      "h0_bits": 32602.62311645816,
+      "fixed_histogram_counting_bits": 32422.35416676231,
+      "symbol_and_frequency_table_bytes": 576,
+      "simple_layout_bytes": 2890,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 2087.4878892733564,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1505664
+        ],
+        [
+          15,
+          1867
+        ],
+        [
+          50,
+          131
+        ],
+        [
+          500,
+          47
+        ],
+        [
+          4000,
+          47
+        ]
+      ],
+      "name": "offdata2",
+      "existing_block1024_bytes": 27588,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 8,
+      "default": 0,
+      "exceptions": 145,
+      "runs": 137,
+      "raw_bytes": 6032840,
+      "h0_bits": 2403.2728734562943,
+      "fixed_histogram_counting_bits": 2383.1097317749372,
+      "symbol_and_frequency_table_bytes": 64,
+      "simple_layout_bytes": 1114,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 5415.4757630161575,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1508065
+        ],
+        [
+          1,
+          64
+        ],
+        [
+          2,
+          59
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "name": "offdata3",
+      "existing_block1024_bytes": 21432,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 5345,
+      "default": 4294967295,
+      "exceptions": 10696,
+      "runs": 9814,
+      "raw_bytes": 6032840,
+      "h0_bits": 175023.51010510215,
+      "fixed_histogram_counting_bits": 167172.06174367506,
+      "symbol_and_frequency_table_bytes": 42760,
+      "simple_layout_bytes": 78530,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 76.82210620145167,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1497514
+        ],
+        [
+          0,
+          4704
+        ],
+        [
+          32769,
+          76
+        ],
+        [
+          4,
+          55
+        ],
+        [
+          33581,
+          34
+        ]
+      ],
+      "name": "offset_min",
+      "existing_block1024_bytes": 77812,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 4,
+      "distinct": 5428,
+      "default": 4294967295,
+      "exceptions": 10696,
+      "runs": 9830,
+      "raw_bytes": 6032840,
+      "h0_bits": 176185.44296041023,
+      "fixed_histogram_counting_bits": 168220.07620980128,
+      "symbol_and_frequency_table_bytes": 43424,
+      "simple_layout_bytes": 78658,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 76.69709374761626,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1497514
+        ],
+        [
+          0,
+          4613
+        ],
+        [
+          32769,
+          76
+        ],
+        [
+          4,
+          53
+        ],
+        [
+          33581,
+          34
+        ]
+      ],
+      "name": "offset_max",
+      "existing_block1024_bytes": 77820,
+      "is_exporter_generated": false,
+      "native_width": 4
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 506,
+      "default": 16,
+      "exceptions": 1225141,
+      "runs": 1101249,
+      "raw_bytes": 3016420,
+      "h0_bits": 7174709.035294559,
+      "fixed_histogram_counting_bits": 7172795.737762734,
+      "symbol_and_frequency_table_bytes": 3036,
+      "simple_layout_bytes": 3016438,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999940326968431,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          16,
+          283069
+        ],
+        [
+          6,
+          270404
+        ],
+        [
+          12,
+          129217
+        ],
+        [
+          7,
+          124037
+        ],
+        [
+          70,
+          110479
+        ]
+      ],
+      "name": "length0",
+      "existing_block1024_bytes": 1371044,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 506,
+      "default": 16,
+      "exceptions": 1225141,
+      "runs": 1101246,
+      "raw_bytes": 3016420,
+      "h0_bits": 7174701.132481808,
+      "fixed_histogram_counting_bits": 7172787.835966447,
+      "symbol_and_frequency_table_bytes": 3036,
+      "simple_layout_bytes": 3016438,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999940326968431,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          16,
+          283069
+        ],
+        [
+          6,
+          270401
+        ],
+        [
+          12,
+          129219
+        ],
+        [
+          7,
+          124038
+        ],
+        [
+          70,
+          110479
+        ]
+      ],
+      "name": "length1",
+      "existing_block1024_bytes": 1371044,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 505,
+      "default": 16,
+      "exceptions": 1225139,
+      "runs": 1101247,
+      "raw_bytes": 3016420,
+      "h0_bits": 7174698.687276379,
+      "fixed_histogram_counting_bits": 7172786.39092907,
+      "symbol_and_frequency_table_bytes": 3030,
+      "simple_layout_bytes": 3016438,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999940326968431,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          16,
+          283071
+        ],
+        [
+          6,
+          270400
+        ],
+        [
+          12,
+          129219
+        ],
+        [
+          7,
+          124033
+        ],
+        [
+          70,
+          110480
+        ]
+      ],
+      "name": "length2",
+      "existing_block1024_bytes": 1371044,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 183,
+      "default": 0,
+      "exceptions": 9885,
+      "runs": 13217,
+      "raw_bytes": 3016420,
+      "h0_bits": 141378.00842503068,
+      "fixed_histogram_counting_bits": 140800.40422549535,
+      "symbol_and_frequency_table_bytes": 1098,
+      "simple_layout_bytes": 59328,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 50.843109492988134,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1498325
+        ],
+        [
+          3,
+          1784
+        ],
+        [
+          4,
+          610
+        ],
+        [
+          2,
+          556
+        ],
+        [
+          6,
+          444
+        ]
+      ],
+      "name": "prefix_length0",
+      "existing_block1024_bytes": 225540,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 183,
+      "default": 0,
+      "exceptions": 9885,
+      "runs": 13221,
+      "raw_bytes": 3016420,
+      "h0_bits": 141353.8160872299,
+      "fixed_histogram_counting_bits": 140776.28079386245,
+      "symbol_and_frequency_table_bytes": 1098,
+      "simple_layout_bytes": 59328,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 50.843109492988134,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1498325
+        ],
+        [
+          3,
+          1781
+        ],
+        [
+          4,
+          611
+        ],
+        [
+          2,
+          565
+        ],
+        [
+          6,
+          446
+        ]
+      ],
+      "name": "prefix_length1",
+      "existing_block1024_bytes": 225540,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 183,
+      "default": 0,
+      "exceptions": 9885,
+      "runs": 13221,
+      "raw_bytes": 3016420,
+      "h0_bits": 141360.9157586347,
+      "fixed_histogram_counting_bits": 140783.37392369102,
+      "symbol_and_frequency_table_bytes": 1098,
+      "simple_layout_bytes": 59328,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 50.843109492988134,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1498325
+        ],
+        [
+          3,
+          1778
+        ],
+        [
+          4,
+          614
+        ],
+        [
+          2,
+          562
+        ],
+        [
+          6,
+          448
+        ]
+      ],
+      "name": "prefix_length2",
+      "existing_block1024_bytes": 225540,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 42,
+      "default": 0,
+      "exceptions": 37351,
+      "runs": 10706,
+      "raw_bytes": 3016420,
+      "h0_bits": 363336.8826710211,
+      "fixed_histogram_counting_bits": 363133.76898831344,
+      "symbol_and_frequency_table_bytes": 252,
+      "simple_layout_bytes": 64254,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 46.945248544837675,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1470859
+        ],
+        [
+          2,
+          15224
+        ],
+        [
+          3,
+          5502
+        ],
+        [
+          4,
+          4524
+        ],
+        [
+          5,
+          3460
+        ]
+      ],
+      "name": "parts",
+      "existing_block1024_bytes": 80965,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 179,
+      "default": 0,
+      "exceptions": 37351,
+      "runs": 41400,
+      "raw_bytes": 3016420,
+      "h0_bits": 356255.0214622623,
+      "fixed_histogram_counting_bits": 355747.67906749994,
+      "symbol_and_frequency_table_bytes": 1074,
+      "simple_layout_bytes": 224124,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 13.45871035676679,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1470859
+        ],
+        [
+          2,
+          12228
+        ],
+        [
+          1,
+          12228
+        ],
+        [
+          3,
+          4616
+        ],
+        [
+          4,
+          2782
+        ]
+      ],
+      "name": "partno",
+      "existing_block1024_bytes": 81105,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 1,
+      "default": 0,
+      "exceptions": 0,
+      "runs": 1,
+      "raw_bytes": 3016420,
+      "h0_bits": 0.0,
+      "fixed_histogram_counting_bits": 0.0,
+      "symbol_and_frequency_table_bytes": 6,
+      "simple_layout_bytes": 18,
+      "simple_layout_mode": "constant",
+      "raw_to_simple_ratio": 167578.88888888888,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1508210
+        ]
+      ],
+      "name": "rtype",
+      "existing_block1024_bytes": 17676,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 2,
+      "distinct": 29,
+      "default": 0,
+      "exceptions": 89,
+      "runs": 35,
+      "raw_bytes": 3016420,
+      "h0_bits": 1721.1780439595714,
+      "fixed_histogram_counting_bits": 1668.6419866357542,
+      "symbol_and_frequency_table_bytes": 174,
+      "simple_layout_bytes": 228,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 13229.912280701754,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1508121
+        ],
+        [
+          562,
+          28
+        ],
+        [
+          563,
+          12
+        ],
+        [
+          579,
+          6
+        ],
+        [
+          580,
+          4
+        ]
+      ],
+      "name": "type",
+      "existing_block1024_bytes": 18192,
+      "is_exporter_generated": false,
+      "native_width": 2
+    },
+    {
+      "n": 1508210,
+      "width": 1,
+      "distinct": 2,
+      "default": 3,
+      "exceptions": 5518,
+      "runs": 5199,
+      "raw_bytes": 1508210,
+      "h0_bits": 52611.52998845823,
+      "fixed_histogram_counting_bits": 52603.99189772105,
+      "symbol_and_frequency_table_bytes": 10,
+      "simple_layout_bytes": 26013,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 57.97908737938723,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          3,
+          1502692
+        ],
+        [
+          2,
+          5518
+        ]
+      ],
+      "name": "depth",
+      "existing_block1024_bytes": 37243,
+      "is_exporter_generated": false,
+      "native_width": 1
+    },
+    {
+      "n": 1508210,
+      "width": 1,
+      "distinct": 15,
+      "default": 0,
+      "exceptions": 239322,
+      "runs": 319036,
+      "raw_bytes": 1508210,
+      "h0_bits": 1224750.9851619012,
+      "fixed_histogram_counting_bits": 1224675.8793253598,
+      "symbol_and_frequency_table_bytes": 75,
+      "simple_layout_bytes": 1196628,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 1.2603833438629215,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          1268888
+        ],
+        [
+          132,
+          126134
+        ],
+        [
+          129,
+          109372
+        ],
+        [
+          137,
+          1151
+        ],
+        [
+          141,
+          1031
+        ]
+      ],
+      "name": "sigopts",
+      "existing_block1024_bytes": 1045964,
+      "is_exporter_generated": false,
+      "native_width": 1
+    }
+  ],
+  "near_equal_pattern_fields": [
+    {
+      "a": "offdata0",
+      "b": "offset_min",
+      "equal": 1497519,
+      "different": 10691
+    },
+    {
+      "a": "offdata0",
+      "b": "offset_max",
+      "equal": 1497523,
+      "different": 10687
+    },
+    {
+      "a": "offdata1",
+      "b": "offdata2",
+      "equal": 1504732,
+      "different": 3478
+    },
+    {
+      "a": "offdata1",
+      "b": "offdata3",
+      "equal": 1506955,
+      "different": 1255
+    },
+    {
+      "a": "offdata1",
+      "b": "prefix_length0",
+      "equal": 1497195,
+      "different": 11015
+    },
+    {
+      "a": "offdata1",
+      "b": "prefix_length1",
+      "equal": 1497195,
+      "different": 11015
+    },
+    {
+      "a": "offdata1",
+      "b": "prefix_length2",
+      "equal": 1497195,
+      "different": 11015
+    },
+    {
+      "a": "offdata1",
+      "b": "rtype",
+      "equal": 1507002,
+      "different": 1208
+    },
+    {
+      "a": "offdata1",
+      "b": "type",
+      "equal": 1506918,
+      "different": 1292
+    },
+    {
+      "a": "offdata2",
+      "b": "offdata3",
+      "equal": 1505529,
+      "different": 2681
+    },
+    {
+      "a": "offdata2",
+      "b": "prefix_length0",
+      "equal": 1495884,
+      "different": 12326
+    },
+    {
+      "a": "offdata2",
+      "b": "prefix_length1",
+      "equal": 1495884,
+      "different": 12326
+    },
+    {
+      "a": "offdata2",
+      "b": "prefix_length2",
+      "equal": 1495884,
+      "different": 12326
+    },
+    {
+      "a": "offdata2",
+      "b": "rtype",
+      "equal": 1505664,
+      "different": 2546
+    },
+    {
+      "a": "offdata2",
+      "b": "type",
+      "equal": 1505590,
+      "different": 2620
+    },
+    {
+      "a": "offdata3",
+      "b": "prefix_length0",
+      "equal": 1498195,
+      "different": 10015
+    },
+    {
+      "a": "offdata3",
+      "b": "prefix_length1",
+      "equal": 1498195,
+      "different": 10015
+    },
+    {
+      "a": "offdata3",
+      "b": "prefix_length2",
+      "equal": 1498195,
+      "different": 10015
+    },
+    {
+      "a": "offdata3",
+      "b": "rtype",
+      "equal": 1508065,
+      "different": 145
+    },
+    {
+      "a": "offdata3",
+      "b": "type",
+      "equal": 1507976,
+      "different": 234
+    },
+    {
+      "a": "offset_min",
+      "b": "offset_max",
+      "equal": 1502645,
+      "different": 5565
+    },
+    {
+      "a": "length0",
+      "b": "length1",
+      "equal": 1508100,
+      "different": 110
+    },
+    {
+      "a": "length0",
+      "b": "length2",
+      "equal": 1508089,
+      "different": 121
+    },
+    {
+      "a": "length1",
+      "b": "length2",
+      "equal": 1508145,
+      "different": 65
+    },
+    {
+      "a": "prefix_length0",
+      "b": "prefix_length1",
+      "equal": 1508178,
+      "different": 32
+    },
+    {
+      "a": "prefix_length0",
+      "b": "prefix_length2",
+      "equal": 1508175,
+      "different": 35
+    },
+    {
+      "a": "prefix_length0",
+      "b": "rtype",
+      "equal": 1498325,
+      "different": 9885
+    },
+    {
+      "a": "prefix_length0",
+      "b": "type",
+      "equal": 1498261,
+      "different": 9949
+    },
+    {
+      "a": "prefix_length1",
+      "b": "prefix_length2",
+      "equal": 1508198,
+      "different": 12
+    },
+    {
+      "a": "prefix_length1",
+      "b": "rtype",
+      "equal": 1498325,
+      "different": 9885
+    },
+    {
+      "a": "prefix_length1",
+      "b": "type",
+      "equal": 1498261,
+      "different": 9949
+    },
+    {
+      "a": "prefix_length2",
+      "b": "rtype",
+      "equal": 1498325,
+      "different": 9885
+    },
+    {
+      "a": "prefix_length2",
+      "b": "type",
+      "equal": 1498261,
+      "different": 9949
+    },
+    {
+      "a": "rtype",
+      "b": "type",
+      "equal": 1508121,
+      "different": 89
+    }
+  ],
+  "conditional_copy_fields": [
+    {
+      "base": "length0",
+      "dependent": "length1",
+      "exceptions": 110,
+      "native_field_bytes": 3016420,
+      "exception_layout_bytes": 682,
+      "existing_block1024_bytes": 1371044,
+      "exceptions_without_extension": 0,
+      "all_values_verified": true
+    },
+    {
+      "base": "length0",
+      "dependent": "length2",
+      "exceptions": 121,
+      "native_field_bytes": 3016420,
+      "exception_layout_bytes": 748,
+      "existing_block1024_bytes": 1371044,
+      "exceptions_without_extension": 0,
+      "all_values_verified": true
+    },
+    {
+      "base": "prefix_length0",
+      "dependent": "prefix_length1",
+      "exceptions": 32,
+      "native_field_bytes": 3016420,
+      "exception_layout_bytes": 214,
+      "existing_block1024_bytes": 225540,
+      "exceptions_without_extension": 0,
+      "all_values_verified": true
+    },
+    {
+      "base": "prefix_length0",
+      "dependent": "prefix_length2",
+      "exceptions": 35,
+      "native_field_bytes": 3016420,
+      "exception_layout_bytes": 232,
+      "existing_block1024_bytes": 225540,
+      "exceptions_without_extension": 0,
+      "all_values_verified": true
+    },
+    {
+      "base": "offset_min",
+      "dependent": "offset_max",
+      "exceptions": 5565,
+      "native_field_bytes": 6032840,
+      "exception_layout_bytes": 44542,
+      "existing_block1024_bytes": 77820,
+      "exceptions_without_extension": 2967,
+      "all_values_verified": true
+    }
+  ],
+  "templates": {
+    "original_exported_payload_bytes": 17502296,
+    "distinct_including_escape_marker": 1206,
+    "escape_records": 82,
+    "dictionary_payload_bytes": 71268,
+    "dictionary_offset_bytes": 4828,
+    "frequency_bytes": 4824,
+    "ids": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 1206,
+      "default": 317,
+      "exceptions": 181971,
+      "runs": 85751,
+      "raw_bytes": 1249240,
+      "h0_bits": 811308.4808204524,
+      "fixed_histogram_counting_bits": 808880.3930345327,
+      "symbol_and_frequency_table_bytes": 9648,
+      "simple_layout_bytes": 686026,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 1.8209805459268307,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          317,
+          130339
+        ],
+        [
+          377,
+          64761
+        ],
+        [
+          316,
+          46719
+        ],
+        [
+          318,
+          42720
+        ],
+        [
+          361,
+          6179
+        ]
+      ]
+    },
+    "dictionary_plus_h0_and_frequencies_bytes": 182333.56010255654,
+    "dictionary_plus_simple_ids_bytes": 762122,
+    "all_entries_verified": true,
+    "indexed_huffman_ids": {
+      "group": 64,
+      "payload_bytes": 105439,
+      "index_bytes": 19524,
+      "decoder_tree_bytes": 28932,
+      "header_bytes": 24,
+      "total_bytes": 153919,
+      "maximum_code_bits": 18,
+      "every_block_independently_decoded_and_all_ids_verified": true,
+      "format_sha256": "4f1dca38aa27961a0d090d28be068b47bf3e259af1855b6170a83c6e9c92c8c9"
+    }
+  },
+  "expressions": {
+    "original_exported_payload_bytes": 3041019,
+    "distinct_including_escape_marker": 1093,
+    "escape_records": 0,
+    "dictionary_payload_bytes": 25623,
+    "dictionary_offset_bytes": 4376,
+    "frequency_bytes": 4372,
+    "ids": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 1093,
+      "default": 14,
+      "exceptions": 137956,
+      "runs": 51513,
+      "raw_bytes": 1249240,
+      "h0_bits": 543608.6592236509,
+      "fixed_histogram_counting_bits": 541754.908146834,
+      "symbol_and_frequency_table_bytes": 8744,
+      "simple_layout_bytes": 412122,
+      "simple_layout_mode": "runs",
+      "raw_to_simple_ratio": 3.0312383226326185,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          14,
+          174354
+        ],
+        [
+          2,
+          108921
+        ],
+        [
+          179,
+          6182
+        ],
+        [
+          12,
+          4056
+        ],
+        [
+          219,
+          2685
+        ]
+      ]
+    },
+    "dictionary_plus_h0_and_frequencies_bytes": 102322.08240295637,
+    "dictionary_plus_simple_ids_bytes": 442121,
+    "all_entries_verified": true,
+    "indexed_huffman_ids": {
+      "group": 64,
+      "payload_bytes": 74910,
+      "index_bytes": 19524,
+      "decoder_tree_bytes": 26220,
+      "header_bytes": 24,
+      "total_bytes": 120678,
+      "maximum_code_bits": 17,
+      "every_block_independently_decoded_and_all_ids_verified": true,
+      "format_sha256": "35ee6ef3cf9923cfe93409cff66eef149a2e54dd3c0f08bac5d14ff2c2774097"
+    }
+  },
+  "logical_columns": {
+    "id": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 297075,
+      "default": 0,
+      "exceptions": 312298,
+      "runs": 312310,
+      "raw_bytes": 1249240,
+      "h0_bits": 5657532.848939328,
+      "fixed_histogram_counting_bits": 5224563.954740704,
+      "symbol_and_frequency_table_bytes": 2376600,
+      "simple_layout_bytes": 1249258,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.999985591447083,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          28,
+          12
+        ],
+        [
+          27,
+          12
+        ],
+        [
+          26,
+          12
+        ],
+        [
+          25,
+          12
+        ],
+        [
+          23,
+          12
+        ]
+      ]
+    },
+    "bc_idx": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 81,
+      "default": 0,
+      "exceptions": 80,
+      "runs": 89,
+      "raw_bytes": 1249240,
+      "h0_bits": 1575.610358932938,
+      "fixed_histogram_counting_bits": 1460.194940462233,
+      "symbol_and_frequency_table_bytes": 648,
+      "simple_layout_bytes": 658,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 1898.5410334346504,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          312230
+        ],
+        [
+          81,
+          1
+        ],
+        [
+          80,
+          1
+        ],
+        [
+          79,
+          1
+        ],
+        [
+          78,
+          1
+        ]
+      ]
+    },
+    "type": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 1,
+      "default": 0,
+      "exceptions": 0,
+      "runs": 1,
+      "raw_bytes": 1249240,
+      "h0_bits": 0.0,
+      "fixed_histogram_counting_bits": 0.0,
+      "symbol_and_frequency_table_bytes": 8,
+      "simple_layout_bytes": 18,
+      "simple_layout_mode": "constant",
+      "raw_to_simple_ratio": 69402.22222222222,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          312310
+        ]
+      ]
+    },
+    "flag": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 1,
+      "default": 0,
+      "exceptions": 0,
+      "runs": 1,
+      "raw_bytes": 1249240,
+      "h0_bits": 0.0,
+      "fixed_histogram_counting_bits": 0.0,
+      "symbol_and_frequency_table_bytes": 8,
+      "simple_layout_bytes": 18,
+      "simple_layout_mode": "constant",
+      "raw_to_simple_ratio": 69402.22222222222,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          0,
+          312310
+        ]
+      ]
+    },
+    "name_id": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 312299,
+      "default": 506,
+      "exceptions": 312308,
+      "runs": 312310,
+      "raw_bytes": 1249240,
+      "h0_bits": 5700453.514489096,
+      "fixed_histogram_counting_bits": 5249906.878327132,
+      "symbol_and_frequency_table_bytes": 2498392,
+      "simple_layout_bytes": 1249258,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.999985591447083,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          233301,
+          2
+        ],
+        [
+          694155,
+          2
+        ],
+        [
+          233326,
+          2
+        ],
+        [
+          506,
+          2
+        ],
+        [
+          823190,
+          2
+        ]
+      ]
+    },
+    "export_program_id": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 312310,
+      "default": 0,
+      "exceptions": 312309,
+      "runs": 312310,
+      "raw_bytes": 1249240,
+      "h0_bits": 5700475.514489096,
+      "fixed_histogram_counting_bits": 5249917.878327132,
+      "symbol_and_frequency_table_bytes": 2498480,
+      "simple_layout_bytes": 1249258,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.999985591447083,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          312309,
+          1
+        ],
+        [
+          312308,
+          1
+        ],
+        [
+          312307,
+          1
+        ],
+        [
+          312306,
+          1
+        ],
+        [
+          312305,
+          1
+        ]
+      ]
+    },
+    "export_template_id": {
+      "n": 312310,
+      "width": 4,
+      "distinct": 312310,
+      "default": 0,
+      "exceptions": 312309,
+      "runs": 312310,
+      "raw_bytes": 1249240,
+      "h0_bits": 5700475.514489096,
+      "fixed_histogram_counting_bits": 5249917.878327132,
+      "symbol_and_frequency_table_bytes": 2498480,
+      "simple_layout_bytes": 1249258,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.999985591447083,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          2147483729,
+          1
+        ],
+        [
+          2147483728,
+          1
+        ],
+        [
+          2147483727,
+          1
+        ],
+        [
+          2147483726,
+          1
+        ],
+        [
+          2147483725,
+          1
+        ]
+      ]
+    }
+  },
+  "conditional": {
+    "template_given_expression_h0_bits": 331603.9133234455,
+    "expression_given_template_h0_bits": 63904.091726643965
+  },
+  "links": {
+    "pattern_id": {
+      "n": 2279919,
+      "width": 4,
+      "distinct": 1508210,
+      "default": 145,
+      "exceptions": 2279911,
+      "runs": 2276205,
+      "raw_bytes": 9119676,
+      "h0_bits": 45511697.83265195,
+      "fixed_histogram_counting_bits": 43181059.38270923,
+      "symbol_and_frequency_table_bytes": 12065680,
+      "simple_layout_bytes": 9119694,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999980262495649,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          1407873,
+          8
+        ],
+        [
+          1023827,
+          8
+        ],
+        [
+          1312954,
+          8
+        ],
+        [
+          1407876,
+          8
+        ],
+        [
+          646148,
+          8
+        ]
+      ]
+    },
+    "next": {
+      "n": 2279919,
+      "width": 4,
+      "distinct": 604188,
+      "default": 4294967295,
+      "exceptions": 610244,
+      "runs": 737159,
+      "raw_bytes": 9119676,
+      "h0_bits": 13606172.619301595,
+      "fixed_histogram_counting_bits": 12733966.783500232,
+      "symbol_and_frequency_table_bytes": 4833504,
+      "simple_layout_bytes": 4881970,
+      "simple_layout_mode": "sparse",
+      "raw_to_simple_ratio": 1.8680319625069388,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1669675
+        ],
+        [
+          918266,
+          138
+        ],
+        [
+          2171709,
+          96
+        ],
+        [
+          381684,
+          89
+        ],
+        [
+          639032,
+          89
+        ]
+      ]
+    },
+    "next_same": {
+      "n": 2279919,
+      "width": 4,
+      "distinct": 1196673,
+      "default": 4294967295,
+      "exceptions": 1196672,
+      "runs": 1276643,
+      "raw_bytes": 9119676,
+      "h0_bits": 26437368.17300754,
+      "fixed_histogram_counting_bits": 24710935.949846964,
+      "symbol_and_frequency_table_bytes": 9573384,
+      "simple_layout_bytes": 9119694,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999980262495649,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          1083247
+        ],
+        [
+          2279908,
+          1
+        ],
+        [
+          2279907,
+          1
+        ],
+        [
+          2279904,
+          1
+        ],
+        [
+          2279903,
+          1
+        ]
+      ]
+    }
+  },
+  "nodes": {
+    "list": {
+      "n": 555950,
+      "width": 4,
+      "distinct": 479671,
+      "default": 4294967295,
+      "exceptions": 479670,
+      "runs": 554484,
+      "raw_bytes": 2223800,
+      "h0_bits": 9372894.297144338,
+      "fixed_histogram_counting_bits": 8680878.199668964,
+      "symbol_and_frequency_table_bytes": 3837368,
+      "simple_layout_bytes": 2223818,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999919058124361,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          4294967295,
+          76280
+        ],
+        [
+          2279918,
+          1
+        ],
+        [
+          2279917,
+          1
+        ],
+        [
+          2279916,
+          1
+        ],
+        [
+          2279915,
+          1
+        ]
+      ]
+    },
+    "fail": {
+      "n": 555950,
+      "width": 4,
+      "distinct": 59594,
+      "default": 500593,
+      "exceptions": 555551,
+      "runs": 553316,
+      "raw_bytes": 2223800,
+      "h0_bits": 7863001.199106136,
+      "fixed_histogram_counting_bits": 7731222.141505715,
+      "symbol_and_frequency_table_bytes": 476752,
+      "simple_layout_bytes": 2223818,
+      "simple_layout_mode": "raw",
+      "raw_to_simple_ratio": 0.9999919058124361,
+      "all_values_verified": true,
+      "top_values": [
+        [
+          500593,
+          399
+        ],
+        [
+          12425,
+          372
+        ],
+        [
+          12202,
+          363
+        ],
+        [
+          12616,
+          359
+        ],
+        [
+          12111,
+          355
+        ]
+      ]
+    }
+  }
+}

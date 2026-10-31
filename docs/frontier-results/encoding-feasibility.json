@@ -1,0 +1,45 @@
+{
+  "kind": "encoding_feasibility_not_scanner",
+  "names": 3547706,
+  "name_raw_with_nul": 87171124,
+  "front_coding": [
+    {
+      "restart_every": 1,
+      "payload_bytes": 101361948,
+      "block_offsets_bytes": 14190828,
+      "maximum_strings_decoded_per_lookup": 1
+    },
+    {
+      "restart_every": 8,
+      "payload_bytes": 34326592,
+      "block_offsets_bytes": 1773860,
+      "maximum_strings_decoded_per_lookup": 8
+    },
+    {
+      "restart_every": 16,
+      "payload_bytes": 29537652,
+      "block_offsets_bytes": 886932,
+      "maximum_strings_decoded_per_lookup": 16
+    },
+    {
+      "restart_every": 32,
+      "payload_bytes": 27143474,
+      "block_offsets_bytes": 443468,
+      "maximum_strings_decoded_per_lookup": 32
+    }
+  ],
+  "tokens": {
+    "records": 1508210,
+    "raw_bytes": 90363298,
+    "distinct": 1066576,
+    "distinct_raw_bytes": 59505378,
+    "distinct_byte_specialized_payload": 31609521,
+    "per_pattern_u32_ref_bytes": 6032840,
+    "per_distinct_u32_offset_bytes": 4266308
+  },
+  "inputs": {
+    "names.bin": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+    "tokens.bin": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e"
+  },
+  "limitations": "Metadata, flags, alignment, special tables, decoder workspaces, stable decoded name storage, compilation and scan costs excluded."
+}

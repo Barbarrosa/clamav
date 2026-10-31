@@ -1,0 +1,86 @@
+{
+  "schema": 2,
+  "attachment_id": "a50a4ba972e14714bd6c7e75c01919e6",
+  "original_filename": "clean.png",
+  "source_bytes": 4090,
+  "source_mtime_ns": 1793258710580161144,
+  "source_ctime_ns": 1793258710580161144,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "outcome": "held",
+  "reason": "parser-completeness-unproven",
+  "release_qualified": false,
+  "created_at_unix": 1793269521.4829733,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+  "bytes": 4090,
+  "database_profile": "legal-redress",
+  "assessment_id": "ef966cece31d4584b0835066c42bca6c",
+  "assessment_started_unix": 1793269521.4870925,
+  "scan_evidence": [
+    {
+      "kind": "scan",
+      "path": "/workspace/scratch/48dde463229d/analysis-run/backport-run/intake-lts/quarantine/a50a4ba972e14714bd6c7e75c01919e6/original",
+      "round": 0,
+      "allmatch": 1,
+      "return_code": 0,
+      "verdict": null,
+      "verdict_source": "legacy-return-code; severity not exposed",
+      "scanned_bytes_precision": 4096,
+      "final_name": null,
+      "root_type": "CL_TYPE_PNG",
+      "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+      "after_sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+      "hold_bits": 0,
+      "candidate_outcome": "clean",
+      "outcome": "held",
+      "release_blocker": "parser-completeness-unproven",
+      "scanned_bytes": 0,
+      "seconds": 0.021728791994974017,
+      "events": [
+        {
+          "event": "legacy_file_inspection",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "attributes": 0,
+          "object_id": null,
+          "name": null
+        }
+      ]
+    }
+  ],
+  "runtime": {
+    "kind": "runtime",
+    "engine_path": "/workspace/scratch/48dde463229d/analysis-run/build-lts/libclamav/libclamav.so.12.0.3",
+    "engine_sha256": "1d2078ad3afe9289dd3fa5166fac897efbaec09e9bfd628babcf89e059275f99",
+    "engine_version": "1.4.6",
+    "scan_api": "legacy-1.4",
+    "unrar_modules_verified": 1
+  },
+  "engine": {
+    "kind": "engine",
+    "signatures": 601004,
+    "skipped": 3027189,
+    "sigload_calls": 3628623,
+    "selector_mapping_and_index_bytes": 14925375,
+    "load_seconds": 4.347158987002331,
+    "compile_seconds": 0.15303927299828501,
+    "compiled_rss_kib": 137240,
+    "construction_hwm_kib": 149460,
+    "max_file_bytes": 104857600,
+    "max_scan_bytes": 419430400,
+    "max_recursion": 17,
+    "max_files": 10000
+  },
+  "detection_result": "clean",
+  "generation_manifest_sha256": "14acec5b3a536932aec2432ba86f4b5fa0f543f72e2d37742097dee8073f4f62",
+  "database_age_seconds": 360069.4888846874,
+  "assessment_finished_unix": 1793269526.321986,
+  "linux_process_high_water_kib": {
+    "parent": 15800,
+    "terminated_children_max": 854996,
+    "note": "separate high-water values, not simultaneous or cgroup charge"
+  }
+}

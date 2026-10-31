@@ -1,0 +1,257 @@
+{
+  "kind": "mixed_severity_order_differential",
+  "rules": 10000,
+  "marker_sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e",
+  "libraries": {
+    "indexed": "d84b13d9a8b71a22b29625f0f72d2b0f148680deda014e05adcebe7be9d61694"
+  },
+  "cases": [
+    {
+      "strong_index": 0,
+      "other_category": "Weak",
+      "database_sha256": "21befc97b29f3cf8896e6cd827be7ee2ad6f1544402cd0101189d98f3d67e9ab",
+      "results": {
+        "indexed": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 0,
+      "other_category": "PUA",
+      "database_sha256": "e600cb1bbd83b3c2a595fd16e0f4db874694308c5bb83f2fa275f42a5902b202",
+      "results": {
+        "indexed": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.00000.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 4999,
+      "other_category": "Weak",
+      "database_sha256": "1860d61ddf10f462f5f4087b49671845f65b790d255e0f5c2817343aa05fc953",
+      "results": {
+        "indexed": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 4999,
+      "other_category": "PUA",
+      "database_sha256": "bbf83a1c738ae919c9f30ed13e53fd2030b07cf364cbc81f10e76ccefdd0fe85",
+      "results": {
+        "indexed": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.04999.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 9999,
+      "other_category": "Weak",
+      "database_sha256": "8f4aacf9a22c757a8c269f6c0bc69f7e9543f5cf4d2598236028a66d4f45b910",
+      "results": {
+        "indexed": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 2,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "strong_index": 9999,
+      "other_category": "PUA",
+      "database_sha256": "58fe8f72db6be8f717ba3c68e062e7f526ba3acb0eccdfaf6da6653407011449",
+      "results": {
+        "indexed": {
+          "first": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            },
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 1,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ],
+          "all": [
+            {
+              "exit": 1,
+              "first_output": "Foundations.Order.09999.UNOFFICIAL FOUND",
+              "alert_count": 10001,
+              "strong_found": true,
+              "stderr": ""
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "missing_strong_observations": []
+}

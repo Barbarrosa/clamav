@@ -1,0 +1,124 @@
+{
+  "kind": "monotone_name_expansion_model",
+  "source_sha256": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+  "results": [
+    {
+      "names_per_block": 16,
+      "blocks": 221732,
+      "raw_names_bytes": 87171124,
+      "cold_layout_bytes": 40180782,
+      "directory_bytes": 14190836,
+      "fully_expanded_layout_bytes": 101361960,
+      "max_extra_compressed_block_during_expansion": 592,
+      "every_name_roundtrip_verified": true,
+      "retained_pointer_checks": 10000,
+      "uniform_queries_are_a_model_not_a_workload": [
+        {
+          "uniform_name_queries": 1,
+          "expanded_blocks": 1,
+          "layout_bytes": 40181063,
+          "transient_peak_layout_bytes": 40181166
+        },
+        {
+          "uniform_name_queries": 100,
+          "expanded_blocks": 100,
+          "layout_bytes": 40208517,
+          "transient_peak_layout_bytes": 40208664
+        },
+        {
+          "uniform_name_queries": 1000,
+          "expanded_blocks": 1000,
+          "layout_bytes": 40459849,
+          "transient_peak_layout_bytes": 40459951
+        },
+        {
+          "uniform_name_queries": 10000,
+          "expanded_blocks": 9776,
+          "layout_bytes": 42880248,
+          "transient_peak_layout_bytes": 42880347
+        }
+      ]
+    },
+    {
+      "names_per_block": 64,
+      "blocks": 55433,
+      "raw_names_bytes": 87171124,
+      "cold_layout_bytes": 31268225,
+      "directory_bytes": 8869268,
+      "fully_expanded_layout_bytes": 96040392,
+      "max_extra_compressed_block_during_expansion": 1812,
+      "every_name_roundtrip_verified": true,
+      "retained_pointer_checks": 10000,
+      "uniform_queries_are_a_model_not_a_workload": [
+        {
+          "uniform_name_queries": 1,
+          "expanded_blocks": 1,
+          "layout_bytes": 31269413,
+          "transient_peak_layout_bytes": 31269761
+        },
+        {
+          "uniform_name_queries": 100,
+          "expanded_blocks": 100,
+          "layout_bytes": 31385447,
+          "transient_peak_layout_bytes": 31386003
+        },
+        {
+          "uniform_name_queries": 1000,
+          "expanded_blocks": 990,
+          "layout_bytes": 32435755,
+          "transient_peak_layout_bytes": 32436135
+        },
+        {
+          "uniform_name_queries": 10000,
+          "expanded_blocks": 9111,
+          "layout_bytes": 41917328,
+          "transient_peak_layout_bytes": 41917677
+        }
+      ]
+    },
+    {
+      "names_per_block": 256,
+      "blocks": 13859,
+      "raw_names_bytes": 87171124,
+      "cold_layout_bytes": 29040019,
+      "directory_bytes": 7538900,
+      "fully_expanded_layout_bytes": 94710024,
+      "max_extra_compressed_block_during_expansion": 5372,
+      "every_name_roundtrip_verified": true,
+      "retained_pointer_checks": 10000,
+      "uniform_queries_are_a_model_not_a_workload": [
+        {
+          "uniform_name_queries": 1,
+          "expanded_blocks": 1,
+          "layout_bytes": 29044833,
+          "transient_peak_layout_bytes": 29046163
+        },
+        {
+          "uniform_name_queries": 100,
+          "expanded_blocks": 100,
+          "layout_bytes": 29516349,
+          "transient_peak_layout_bytes": 29518495
+        },
+        {
+          "uniform_name_queries": 1000,
+          "expanded_blocks": 975,
+          "layout_bytes": 33706104,
+          "transient_peak_layout_bytes": 33707534
+        },
+        {
+          "uniform_name_queries": 10000,
+          "expanded_blocks": 7150,
+          "layout_bytes": 62965666,
+          "transient_peak_layout_bytes": 62967053
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Not integrated into ClamAV; no end-to-end timing or allocator RSS measurement.",
+    "Source exports, Python objects and reference strings are retained as an oracle.",
+    "Production needs bounded direct decode, safe concurrent publication, OOM handling and wide fallbacks.",
+    "The fixed directory is included; allocator rounding, locks and compiler scratch are not.",
+    "A first query expands a whole block; exposure of all blocks reaches the raw-size bound."
+  ]
+}

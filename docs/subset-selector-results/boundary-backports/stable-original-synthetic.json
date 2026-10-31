@@ -1,0 +1,65 @@
+{
+  "accepting_allmatch_passed": true,
+  "comparisons": [
+    {
+      "family": "strong",
+      "allmatch": 0,
+      "exact": false,
+      "detection_equivalent": null
+    },
+    {
+      "family": "strong",
+      "allmatch": 1,
+      "exact": false,
+      "detection_equivalent": true
+    },
+    {
+      "family": "weak",
+      "allmatch": 0,
+      "exact": false,
+      "detection_equivalent": null
+    },
+    {
+      "family": "weak",
+      "allmatch": 1,
+      "exact": false,
+      "detection_equivalent": true
+    },
+    {
+      "family": "pua",
+      "allmatch": 0,
+      "exact": false,
+      "detection_equivalent": null
+    },
+    {
+      "family": "pua",
+      "allmatch": 1,
+      "exact": false,
+      "detection_equivalent": true
+    },
+    {
+      "family": "weak-only",
+      "allmatch": 0,
+      "exact": false,
+      "detection_equivalent": null
+    },
+    {
+      "family": "weak-only",
+      "allmatch": 1,
+      "exact": false,
+      "detection_equivalent": true
+    },
+    {
+      "family": "pua-only",
+      "allmatch": 0,
+      "exact": false,
+      "detection_equivalent": null
+    },
+    {
+      "family": "pua-only",
+      "allmatch": 1,
+      "exact": false,
+      "detection_equivalent": true
+    }
+  ]
+}

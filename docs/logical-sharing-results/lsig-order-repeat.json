@@ -1,0 +1,83 @@
+{
+  "kind": "duplicate_alert_order_differential",
+  "rule_pairs": 10000,
+  "hash_distractors": 10000,
+  "database_sha256": "8e1a7cc56c60ad70128fa70d7d376b226307b5bcb0b1eb8ff575cab72f3e940b",
+  "libraries": {
+    "before1": "43f7ea2aa9df9cf8d2303d7ce0f944fd83ce44a4f513883cf1808df4552dcd08",
+    "before2": "43f7ea2aa9df9cf8d2303d7ce0f944fd83ce44a4f513883cf1808df4552dcd08",
+    "after1": "d6879af8c6532be61b7e75e63e88cf839746bfba7e5b7acdf185454893d73617",
+    "after2": "d6879af8c6532be61b7e75e63e88cf839746bfba7e5b7acdf185454893d73617"
+  },
+  "results": {
+    "first": {
+      "before1": {
+        "count": 1,
+        "ordered_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "multiset_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "distinct_names": 1,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.09884.UNOFFICIAL"
+      },
+      "before2": {
+        "count": 1,
+        "ordered_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "multiset_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "distinct_names": 1,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.09884.UNOFFICIAL"
+      },
+      "after1": {
+        "count": 1,
+        "ordered_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "multiset_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "distinct_names": 1,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.09884.UNOFFICIAL"
+      },
+      "after2": {
+        "count": 1,
+        "ordered_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "multiset_sha256": "b6247d350e4378b2d48784ba7b08abc9b5561791d2309e049c35424c68f59174",
+        "distinct_names": 1,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.09884.UNOFFICIAL"
+      }
+    },
+    "all": {
+      "before1": {
+        "count": 20000,
+        "ordered_sha256": "05801c7b3c05455d51a77fc535ed4d69092718695e5c00a07bed67d0e2ef6a56",
+        "multiset_sha256": "c0f8bcf4b5db47965bcc7d91e1341fec6be8cc97c0716181b75b3bea6b23cbe3",
+        "distinct_names": 10000,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.00001.UNOFFICIAL"
+      },
+      "before2": {
+        "count": 20000,
+        "ordered_sha256": "05801c7b3c05455d51a77fc535ed4d69092718695e5c00a07bed67d0e2ef6a56",
+        "multiset_sha256": "c0f8bcf4b5db47965bcc7d91e1341fec6be8cc97c0716181b75b3bea6b23cbe3",
+        "distinct_names": 10000,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.00001.UNOFFICIAL"
+      },
+      "after1": {
+        "count": 20000,
+        "ordered_sha256": "245d9a4dbe88125adb7d7bdd06902c37a173d901a33debe672b791e542070b7a",
+        "multiset_sha256": "c0f8bcf4b5db47965bcc7d91e1341fec6be8cc97c0716181b75b3bea6b23cbe3",
+        "distinct_names": 10000,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.00002.UNOFFICIAL"
+      },
+      "after2": {
+        "count": 20000,
+        "ordered_sha256": "245d9a4dbe88125adb7d7bdd06902c37a173d901a33debe672b791e542070b7a",
+        "multiset_sha256": "c0f8bcf4b5db47965bcc7d91e1341fec6be8cc97c0716181b75b3bea6b23cbe3",
+        "distinct_names": 10000,
+        "first": "Foundations.Order.09884.UNOFFICIAL",
+        "last": "Foundations.Order.00002.UNOFFICIAL"
+      }
+    }
+  },
+  "required_comparison_failures": []
+}

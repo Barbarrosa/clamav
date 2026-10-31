@@ -1,0 +1,7 @@
+bin/scan-probe-indexed: /workspace/scratch/2605ffe80d9d/complexity-shift/bin/diag-flat/libclamav.so.14: no version information available (required by bin/scan-probe-indexed)
+LibClamAV info: Suspicious link found!
+LibClamAV info:   Real URL:    http://fake.example.com
+LibClamAV info:   Display URL: ebay.de
+LibClamAV info: Suspicious link found!
+LibClamAV info:   Real URL:    http://fake.example.com
+LibClamAV info:   Display URL: ebay.de

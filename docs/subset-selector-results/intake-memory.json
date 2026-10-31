@@ -1,0 +1,11 @@
+{
+  "sum_process_rss_peak_bytes": null,
+  "method": "10ms sampled sum RSS; shared pages counted multiple times; page cache not included",
+  "outcome": "held",
+  "reason": "reduced-profile-unqualified",
+  "samples": [
+    {
+      "measurement_error": "[Errno 2] No such file or directory: '/proc/7/task/7/children'"
+    }
+  ]
+}

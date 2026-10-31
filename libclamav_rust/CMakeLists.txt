@@ -15,6 +15,9 @@ if(NOT MSVC)
 endif()
 list(APPEND ENVIRONMENT "OPENSSL_LIB_DIR=${OPENSSL_LIB_DIR}")
 
+# Headers can change the ABI without modifying any Rust sources.
+file(GLOB CLAMAV_RUST_ABI_HEADERS "${CMAKE_SOURCE_DIR}/libclamav/*.h")
+
 # libclamav rust static library
 add_rust_library(TARGET clamav_rust
     SOURCE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -24,6 +27,7 @@ add_rust_library(TARGET clamav_rust
     # Tests cannot be pre-compiled here, because there are circular dependencies
     # between libclamav_rust and libclamav to include calls like `cli_getdsig()`
     # as well as the logging functions.
+    DEPENDS ${CLAMAV_RUST_ABI_HEADERS} "${CMAKE_BINARY_DIR}/clamav-config.h"
     PRECOMPILE_TESTS FALSE
 )
 if (WIN32)

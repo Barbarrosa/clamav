@@ -1,0 +1,344 @@
+{
+  "kind": "fresh_process_memory_smoke_test",
+  "time_utc": "2026-10-27T06:19:22.538467+00:00",
+  "limitations": "Sample maxima are not worst-case bounds; short trials do not qualify performance.",
+  "host": [
+    "Linux",
+    "28755942b525",
+    "6.18.55",
+    "#1 SMP Wed Oct 14 19:45:18 UTC 2026",
+    "x86_64"
+  ],
+  "seed": 261027,
+  "rounds": 3,
+  "iterations": 3,
+  "input": {
+    "path": "/workspace/scratch/2605ffe80d9d/research/benchmark-flat/small-clean.bin",
+    "bytes": 4096,
+    "sha256": "07a6078d9ca9424a52b88bbdf4d6249f12fbd2cc1dea54158d2d9663f7fec186"
+  },
+  "database": [
+    {
+      "name": "bytecode.cvd",
+      "bytes": 281702,
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+    },
+    {
+      "name": "daily.cvd",
+      "bytes": 23443876,
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+    },
+    {
+      "name": "main.cvd",
+      "bytes": 89072577,
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+    }
+  ],
+  "benchmark_source_sha256": "081c9b2aadfcf0b96d5972e3897caaa80dc102a0b34366934a5a71de8615bf61",
+  "builds": {
+    "upstream": {
+      "build": "/workspace/scratch/2605ffe80d9d/build-baseline",
+      "library_sha256": "82ba8f4441b0a4ede3e63f0fd13c0711369e8d57d7cadc20a9c5d9a60ac0a8dc",
+      "cmake_cache_sha256": "3adb6eca0f6703d68ddc7eef492bf3156f9ee7d1128b7f3ea39ed3564ca68351",
+      "binary_sha256": "d9bfb208fc9a8b6cde1880f91b259c495490e3526063bf973d86bbf39392ecc7",
+      "compiler_comment": "\nString dump of section '.comment':\n  [     0]  GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\n  [    2b]  rustc version 1.90.0 (1159e78c4 2025-09-14)\n\n"
+    },
+    "compact": {
+      "build": "/workspace/scratch/2605ffe80d9d/research/resident-reference",
+      "library_sha256": "e3a971288c8684fcca59d68962ed210c742d1977f91d7888d8f638330632eeb6",
+      "cmake_cache_sha256": "99b457919f38d20c6ff705b2e99d117b5cd6dfd2a6e95f8483be363fd19993b1",
+      "binary_sha256": "b7986c93a1821d6d20a868e425a612524741c183b04dc32f7a7f3065979add93",
+      "compiler_comment": "\nString dump of section '.comment':\n  [     0]  GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\n  [    2b]  rustc version 1.90.0 (1159e78c4 2025-09-14)\n\n"
+    },
+    "experimental": {
+      "build": "/workspace/scratch/2605ffe80d9d/research/experimental-reference",
+      "library_sha256": "6288104471f058be5b8490b76f3486007626841558857deb3ec6b5fef3a5afa2",
+      "cmake_cache_sha256": "3551f761158c436a227dabb62331f6f5d49b0f4a214ad369e4b3e389134ff266",
+      "binary_sha256": "77305f04b1f2c0a510341efabb36591b7cdfb011a0695a38382499bb4d20dd33",
+      "compiler_comment": "\nString dump of section '.comment':\n  [     0]  GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\n  [    2b]  rustc version 1.90.0 (1159e78c4 2025-09-14)\n\n"
+    },
+    "default": {
+      "build": "/workspace/scratch/2605ffe80d9d/build-compact",
+      "library_sha256": "fa9adeea9257a13b5faddd3e83b9d1499acbd2d15423d06be2faa11ac7d5fe00",
+      "cmake_cache_sha256": "6e4ea24d19f3baf202af4596a85cf83f51fdaf744a1fdbbd6f734c21d535cbcb",
+      "binary_sha256": "73d25a8766841889c730323dd1ae5eb725ed4ea8673ad91c448f81f9415b7c16",
+      "compiler_comment": "\nString dump of section '.comment':\n  [     0]  GCC: (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0\n  [    2b]  rustc version 1.90.0 (1159e78c4 2025-09-14)\n\n"
+    }
+  },
+  "summary": {
+    "upstream": {
+      "compiled_rss_kib": {
+        "mean": 981578.6666666666,
+        "median": 981604,
+        "minimum": 981516,
+        "maximum": 981616
+      },
+      "peak_rss_kib": {
+        "mean": 981302.6666666666,
+        "median": 981336,
+        "minimum": 981196,
+        "maximum": 981376
+      },
+      "load_seconds": {
+        "mean": 19.876004531,
+        "median": 19.33641641,
+        "minimum": 18.004395939,
+        "maximum": 22.287201244
+      },
+      "compile_seconds": {
+        "mean": 5.108911828,
+        "median": 4.88723349,
+        "minimum": 4.846423101,
+        "maximum": 5.593078893
+      },
+      "scan_seconds": {
+        "mean": 0.108031059,
+        "median": 0.07261448,
+        "minimum": 0.067456042,
+        "maximum": 0.184022655
+      }
+    },
+    "compact": {
+      "compiled_rss_kib": {
+        "mean": 844065.3333333334,
+        "median": 844004,
+        "minimum": 843984,
+        "maximum": 844208
+      },
+      "peak_rss_kib": {
+        "mean": 844513.3333333334,
+        "median": 844616,
+        "minimum": 844296,
+        "maximum": 844628
+      },
+      "load_seconds": {
+        "mean": 33.93336970833333,
+        "median": 26.367268897,
+        "minimum": 21.497561003,
+        "maximum": 53.935279225
+      },
+      "compile_seconds": {
+        "mean": 4.827623156666666,
+        "median": 4.902166187,
+        "minimum": 4.089703163,
+        "maximum": 5.49100012
+      },
+      "scan_seconds": {
+        "mean": 0.056810774,
+        "median": 0.055169804,
+        "minimum": 0.052097129,
+        "maximum": 0.063165389
+      }
+    },
+    "experimental": {
+      "compiled_rss_kib": {
+        "mean": 827564,
+        "median": 827600,
+        "minimum": 827468,
+        "maximum": 827624
+      },
+      "peak_rss_kib": {
+        "mean": 844272,
+        "median": 844244,
+        "minimum": 844096,
+        "maximum": 844476
+      },
+      "load_seconds": {
+        "mean": 18.661613782666667,
+        "median": 18.749302961,
+        "minimum": 17.111295784,
+        "maximum": 20.124242603
+      },
+      "compile_seconds": {
+        "mean": 4.680161852666667,
+        "median": 4.902911343,
+        "minimum": 3.593709149,
+        "maximum": 5.543865066
+      },
+      "scan_seconds": {
+        "mean": 0.051531740666666666,
+        "median": 0.05305965,
+        "minimum": 0.042097365,
+        "maximum": 0.059438207
+      }
+    },
+    "default": {
+      "compiled_rss_kib": {
+        "mean": 844428,
+        "median": 844700,
+        "minimum": 843880,
+        "maximum": 844704
+      },
+      "peak_rss_kib": {
+        "mean": 844922.6666666666,
+        "median": 845212,
+        "minimum": 844320,
+        "maximum": 845236
+      },
+      "load_seconds": {
+        "mean": 17.738128522333334,
+        "median": 18.104456806,
+        "minimum": 16.104416404,
+        "maximum": 19.005512357
+      },
+      "compile_seconds": {
+        "mean": 4.384147707333334,
+        "median": 4.563581426,
+        "minimum": 3.742521952,
+        "maximum": 4.846339744
+      },
+      "scan_seconds": {
+        "mean": 0.056575111,
+        "median": 0.055952106,
+        "minimum": 0.046634236,
+        "maximum": 0.067138991
+      }
+    }
+  },
+  "observations": [
+    {
+      "trial": 0,
+      "build": "compact",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 53.935279225,
+      "compile_seconds": 4.902166187,
+      "scan_seconds": 0.055169804,
+      "compiled_rss_kib": 844208,
+      "peak_rss_kib": 844628
+    },
+    {
+      "trial": 0,
+      "build": "upstream",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 18.004395939,
+      "compile_seconds": 4.846423101,
+      "scan_seconds": 0.07261448,
+      "compiled_rss_kib": 981616,
+      "peak_rss_kib": 981196
+    },
+    {
+      "trial": 0,
+      "build": "default",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 18.104456806,
+      "compile_seconds": 4.846339744,
+      "scan_seconds": 0.067138991,
+      "compiled_rss_kib": 844704,
+      "peak_rss_kib": 845236
+    },
+    {
+      "trial": 0,
+      "build": "experimental",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 18.749302961,
+      "compile_seconds": 5.543865066,
+      "scan_seconds": 0.059438207,
+      "compiled_rss_kib": 827600,
+      "peak_rss_kib": 844244
+    },
+    {
+      "trial": 1,
+      "build": "upstream",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 19.33641641,
+      "compile_seconds": 5.593078893,
+      "scan_seconds": 0.067456042,
+      "compiled_rss_kib": 981516,
+      "peak_rss_kib": 981376
+    },
+    {
+      "trial": 1,
+      "build": "experimental",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 20.124242603,
+      "compile_seconds": 4.902911343,
+      "scan_seconds": 0.05305965,
+      "compiled_rss_kib": 827468,
+      "peak_rss_kib": 844096
+    },
+    {
+      "trial": 1,
+      "build": "compact",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 21.497561003,
+      "compile_seconds": 4.089703163,
+      "scan_seconds": 0.063165389,
+      "compiled_rss_kib": 844004,
+      "peak_rss_kib": 844616
+    },
+    {
+      "trial": 1,
+      "build": "default",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 19.005512357,
+      "compile_seconds": 4.563581426,
+      "scan_seconds": 0.055952106,
+      "compiled_rss_kib": 844700,
+      "peak_rss_kib": 845212
+    },
+    {
+      "trial": 2,
+      "build": "compact",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 26.367268897,
+      "compile_seconds": 5.49100012,
+      "scan_seconds": 0.052097129,
+      "compiled_rss_kib": 843984,
+      "peak_rss_kib": 844296
+    },
+    {
+      "trial": 2,
+      "build": "experimental",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 17.111295784,
+      "compile_seconds": 3.593709149,
+      "scan_seconds": 0.042097365,
+      "compiled_rss_kib": 827624,
+      "peak_rss_kib": 844476
+    },
+    {
+      "trial": 2,
+      "build": "upstream",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 22.287201244,
+      "compile_seconds": 4.88723349,
+      "scan_seconds": 0.184022655,
+      "compiled_rss_kib": 981604,
+      "peak_rss_kib": 981336
+    },
+    {
+      "trial": 2,
+      "build": "default",
+      "signatures": 3628192,
+      "iterations": 3,
+      "verdict": 0,
+      "load_seconds": 16.104416404,
+      "compile_seconds": 3.742521952,
+      "scan_seconds": 0.046634236,
+      "compiled_rss_kib": 843880,
+      "peak_rss_kib": 844320
+    }
+  ]
+}

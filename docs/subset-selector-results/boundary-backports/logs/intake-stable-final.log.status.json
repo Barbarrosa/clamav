@@ -1,0 +1,22 @@
+{
+  "command": [
+    "python3",
+    "stable/tools/subset-selector/test_native_intake.py",
+    "--generation",
+    "backport-run/generation-stable",
+    "--probe",
+    "backport-run/probe-stable",
+    "--lib",
+    "build-stable/libclamav/libclamav.so",
+    "--certs",
+    "stable/certs",
+    "--clean",
+    "fixtures/clean.png",
+    "--positive",
+    "build-upstream/unit_tests/input/clamav_hdb_scanfiles/clam-v3.rar",
+    "--output",
+    "backport-run/intake-stable-final"
+  ],
+  "returncode": 0,
+  "seconds": 73.71733832359314
+}

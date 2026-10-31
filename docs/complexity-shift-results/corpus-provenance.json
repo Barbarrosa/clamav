@@ -1,0 +1,6 @@
+{
+  "url": "https://wordpress.org/wordpress-6.8.3.zip",
+  "sha256": "a163fe8d0d3d89ce00139ca0e0618e109bb7441fae2f733cff6c72fc4d170fb9",
+  "bytes": 28556107,
+  "use": "Read-only scan corpus; no PHP executed or deployed"
+}

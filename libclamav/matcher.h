@@ -172,8 +172,12 @@ struct cli_matcher {
     /* Bytecode Tracker */
     uint32_t linked_bcs;
 
+    /* Owned node table: [0] = NULL, [1] = ac_root. ac_nodetable
+     * aliases ac_nodeidx + 2; it must never be freed separately. */
+    struct cli_ac_node **ac_nodeidx;
+
     /*Store pointers to malloced trans values so that they can be more easily freed*/
-    struct cli_ac_node ***trans_array;
+    cli_ac_transition_t **trans_array;
     size_t trans_cnt;
     size_t trans_capacity;
 
@@ -182,6 +186,13 @@ struct cli_matcher {
 #else
     void *_padding_mempool;
 #endif
+    /* Shared prefix offsets for compact scan rows; NULL uses 64-slot stride. */
+    uint32_t *ac_lsig_offsets;
+    size_t ac_lsig_slots;
+    /* Optional compiled node arena; owned separately from the memory pool. */
+    struct cli_ac_node *ac_flatnodes;
+    /* Flat-node construction has a separate lifetime from resident data. */
+    void *ac_buildpool;
 };
 
 struct cli_cdb {

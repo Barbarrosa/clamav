@@ -480,22 +480,32 @@ cl_error_t readdb_parse_ldb_subsignature(struct cli_matcher *root, const char *v
 
         /* this is not a pattern that will be matched by AC itself, rather it is a
          * pattern checked by the lsig code */
-        patt->ch_mindist[0] = smin;
-        patt->ch_maxdist[0] = smax;
-        patt->sigid         = tid;
-        patt->length[0]     = root->ac_mindepth;
+        /* Needs an extension: the distances are read back through
+         * macropt->ch_mindist in cli_ac_chkmacro(). */
+        if (NULL == cli_ac_patt_ext_new(root, patt)) {
+            cli_errmsg("Failed to allocate memory for macro AC pattern extension\n");
+            MPOOL_FREE(root->mempool, patt);
+            status = CL_EMEM;
+            goto done;
+        }
+        patt->ext->ch_mindist[0] = smin;
+        patt->ext->ch_maxdist[0] = smax;
+        patt->sigid              = tid;
+        patt->length[0]          = root->ac_mindepth;
 
         /* dummy */
         patt->pattern = MPOOL_CALLOC(root->mempool, patt->length[0], sizeof(*patt->pattern));
         if (!patt->pattern) {
-            free(patt);
+            MPOOL_FREE(root->mempool, patt->ext);
+            MPOOL_FREE(root->mempool, patt);
             status = CL_EMEM;
             goto done;
         }
 
         if (CL_SUCCESS != (ret = cli_ac_addpatt(root, patt))) {
             MPOOL_FREE(root->mempool, patt->pattern);
-            free(patt);
+            MPOOL_FREE(root->mempool, patt->ext);
+            MPOOL_FREE(root->mempool, patt);
             status = ret;
             goto done;
         }
@@ -2825,7 +2835,7 @@ static int cli_loadhash(FILE *fs, struct cl_engine *engine, unsigned int *signo,
 {
     const char *tokens[HASH_DB_TOKENS + 1];
     char buffer[FILEBUFF], *buffer_cpy = NULL;
-    const char *pt, *virname;
+    const char *pt;
     int ret                 = CL_SUCCESS;
     unsigned int size_field = 1, hash_field = 0, line = 0, sigs = 0, tokens_count;
     unsigned int req_fl = 0;
@@ -2915,15 +2925,8 @@ static int cli_loadhash(FILE *fs, struct cl_engine *engine, unsigned int *signo,
             }
         }
 
-        virname = CLI_MPOOL_VIRNAME(engine->mempool, pt, options & CL_DB_OFFICIAL);
-        if (!virname) {
-            ret = CL_EMALFDB;
-            break;
-        }
-
-        if (CL_SUCCESS != (ret = hm_addhash_str(engine, purpose, tokens[hash_field], size, virname))) {
+        if (CL_SUCCESS != (ret = hm_addhash_str(engine, purpose, tokens[hash_field], size, pt, options & CL_DB_OFFICIAL))) {
             cli_errmsg("cli_loadhash: Malformed hash string at line %u\n", line);
-            MPOOL_FREE(engine->mempool, (void *)virname);
             break;
         }
 
@@ -6015,20 +6018,20 @@ cl_error_t cl_engine_compile(struct cl_engine *engine)
         }
     }
 
-    if (engine->hm_hdb)
-        hm_flush(engine->hm_hdb);
+    if ((ret = hm_flush(engine->hm_hdb)))
+        return ret;
     TASK_COMPLETE();
 
-    if (engine->hm_mdb)
-        hm_flush(engine->hm_mdb);
+    if ((ret = hm_flush(engine->hm_mdb)))
+        return ret;
     TASK_COMPLETE();
 
-    if (engine->hm_imp)
-        hm_flush(engine->hm_imp);
+    if ((ret = hm_flush(engine->hm_imp)))
+        return ret;
     TASK_COMPLETE();
 
-    if (engine->hm_fp)
-        hm_flush(engine->hm_fp);
+    if ((ret = hm_flush(engine->hm_fp)))
+        return ret;
     TASK_COMPLETE();
 
     if ((ret = cli_build_regex_list(engine->phish_allow_list_matcher))) {

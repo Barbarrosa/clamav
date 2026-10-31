@@ -279,7 +279,7 @@ endfunction()
 function(add_rust_library)
     set(options)
     set(oneValueArgs TARGET SOURCE_DIRECTORY BINARY_DIRECTORY PRECOMPILE_TESTS INCLUDE_DIRECTORIES)
-    set(multiValueArgs ENVIRONMENT)
+    set(multiValueArgs ENVIRONMENT DEPENDS)
     cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     if(WIN32)
@@ -308,14 +308,14 @@ function(add_rust_library)
             COMMAND ${CMAKE_COMMAND} -E make_directory "${ARGS_BINARY_DIRECTORY}/${RUST_COMPILER_TARGET}/${CARGO_BUILD_TYPE}"
             COMMAND lipo -create ${ARGS_BINARY_DIRECTORY}/x86_64-apple-darwin/${CARGO_BUILD_TYPE}/lib${ARGS_TARGET}.a ${ARGS_BINARY_DIRECTORY}/aarch64-apple-darwin/${CARGO_BUILD_TYPE}/lib${ARGS_TARGET}.a -output "${OUTPUT}"
             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
-            DEPENDS ${LIB_SOURCES}
+            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
     elseif("${CMAKE_OSX_ARCHITECTURES}" MATCHES "^(arm64)$")
         add_custom_command(
             OUTPUT "${OUTPUT}"
             COMMAND ${CMAKE_COMMAND} -E env ${ARGS_ENVIRONMENT} ${cargo_EXECUTABLE} ${MY_CARGO_ARGS} --target=aarch64-apple-darwin
             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
-            DEPENDS ${LIB_SOURCES}
+            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
             elseif("${CMAKE_OSX_ARCHITECTURES}" MATCHES "^(x86_64)$")
         add_custom_command(
@@ -323,14 +323,14 @@ function(add_rust_library)
             COMMAND ${CMAKE_COMMAND} -E env ${ARGS_ENVIRONMENT} ${cargo_EXECUTABLE} ${MY_CARGO_ARGS} --target=x86_64-apple-darwin
             COMMAND ${CMAKE_COMMAND} -E make_directory "${ARGS_BINARY_DIRECTORY}/${RUST_COMPILER_TARGET}/${CARGO_BUILD_TYPE}"
             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
-            DEPENDS ${LIB_SOURCES}
+            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
     else()
         add_custom_command(
             OUTPUT "${OUTPUT}"
             COMMAND ${CMAKE_COMMAND} -E env ${ARGS_ENVIRONMENT} ${cargo_EXECUTABLE} ${MY_CARGO_ARGS}
             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
-            DEPENDS ${LIB_SOURCES}
+            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
     endif()
 

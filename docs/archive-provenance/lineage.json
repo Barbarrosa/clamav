@@ -1,0 +1,108 @@
+{
+  "archive_name": "ClamAV-engine-foundations.zip",
+  "archive_version": 16,
+  "archive_sha256": "071ec7782b6e0eb251c6dec79ac03275274c0f92ff2f112a5b7eae744fcd69c8",
+  "fork": "https://github.com/Barbarrosa/clamav",
+  "fork_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+  "branch": "compact-memory-legal-redress",
+  "archived_source_commit": "b20af8340e37048864ad400735e25c3d083c8342",
+  "archived_source_tree": "c2092d7375743604be0636b9eac62439ec617a69",
+  "method": "Attach recovered root to matching upstream base; rewrite descendant parent references only. Preserve every source tree, author, committer, date and commit message. Additional archive appendices are committed separately.",
+  "commit_mapping": [
+    {
+      "archived_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+      "fork_commit": "1dcbe22e08243393dd2d407dc303b4704a33b83a",
+      "tree": "172907c11fb12efb6509b410962f032f49ae0ebe"
+    },
+    {
+      "archived_commit": "806fcfa0a269186c9e1fed02e161bcc85f8a2cd4",
+      "fork_commit": "e88a1c61d2272ec57714bd002d993af81fc97ba6",
+      "tree": "5bed4fb9e96ef392745935eff11382f9cd95a259"
+    },
+    {
+      "archived_commit": "051de65a04fd71a9a54f467d7fb1f95f9588be8a",
+      "fork_commit": "a79a886ab1a555c90a97ab20b96bf978575e67e2",
+      "tree": "88c0d9528e619fda15173f7f60fee918d89c1afd"
+    },
+    {
+      "archived_commit": "3d3034eb7192b465902922110a85363f90dfe554",
+      "fork_commit": "3cf5107e992e6239d051e58c9728908770218023",
+      "tree": "24420f93c32bdcf203f90974f869c13d4db1a86a"
+    },
+    {
+      "archived_commit": "4eae1adaee7d89da5959f41ec251c263836cd2c4",
+      "fork_commit": "c41e3d43ac9bb7962baa650435eb79950a6b0d2e",
+      "tree": "a4ed98e170e3c7a95523ef820dd3ed5502cad90a"
+    },
+    {
+      "archived_commit": "fe52606b9348d537f608518df31d5ea9105bd967",
+      "fork_commit": "44e9554ca1425f5ed1c11b724377dfcf719799bd",
+      "tree": "840d3c49fb4970590ae662c5da898a2f1277c82d"
+    },
+    {
+      "archived_commit": "282052bd1577d918a2a5de135f47567d8d78830f",
+      "fork_commit": "7dd3ac417700c048eee99abd670adc63451982be",
+      "tree": "fc92c819d325a1d4e401bbb949999a4b33c12974"
+    },
+    {
+      "archived_commit": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+      "fork_commit": "55f0e3c56ae500b1a743758b5d603bf2acb933ee",
+      "tree": "691c8bba7e79d83aaa874934e20d1e6cbc48a30f"
+    },
+    {
+      "archived_commit": "23d84707b1f5e988e4dcb98ddd5f2c0d543a2809",
+      "fork_commit": "f6c0048f768ab015f8f5f61d4c0de4ff35f29a3c",
+      "tree": "dc7b03df35e5d93896ba40d40ca8b8c753ce7a34"
+    },
+    {
+      "archived_commit": "9dfde0139708a1eb1a728f86baecb1d8ec1b66df",
+      "fork_commit": "ad6cea1f361d3e80202408e28aade2214da93ded",
+      "tree": "bd8194a20d16172fb89f8dde6b8737c693d1f551"
+    },
+    {
+      "archived_commit": "754416569d175a6fb50212fdd25475cab2add1c1",
+      "fork_commit": "d3a18818831b9d09d088c2e7e4764350a90f44b3",
+      "tree": "acb1c76dd940268b02571bbcd89624c259139974"
+    },
+    {
+      "archived_commit": "777cba95f55563f0b93d814d5eb86697d8c2ac87",
+      "fork_commit": "6c895a3e3b1999b8184eefec7b78f3a854d0dc0f",
+      "tree": "69886190de5a1e9f43c3726c0be6c49b77b49ce4"
+    },
+    {
+      "archived_commit": "b20af8340e37048864ad400735e25c3d083c8342",
+      "fork_commit": "72e21c8e93f23a7a3bd4807058f9658a1c42e09f",
+      "tree": "c2092d7375743604be0636b9eac62439ec617a69"
+    }
+  ],
+  "copied_archive_files": [
+    "docs/archive-provenance/archive-README.md",
+    "docs/archive-provenance/archive-preservation.json",
+    "backports/1.4.6/README.md",
+    "backports/1.4.6/archive.json",
+    "backports/1.4.6/backport.patch",
+    "backports/1.4.6/revision.json",
+    "backports/1.5.4/README.md",
+    "backports/1.5.4/archive.json",
+    "backports/1.5.4/backport.patch",
+    "backports/1.5.4/revision.json",
+    "docs/archive-provenance/patches/changes.patch",
+    "research/rejected-approaches/free-pages-native.json",
+    "research/rejected-approaches/free-pages-sanitized.json",
+    "research/rejected-approaches/probe_free_pages.py",
+    "research/rejected-approaches/reassessment.md",
+    "research/remaining-memory/remaining-memory-calculations.json",
+    "research/remaining-memory/remaining-memory-research.md",
+    "research/remaining-memory/remaining_memory_calculations.py",
+    "docs/archive-provenance/revision.json",
+    "docs/archive-provenance/source-manifest.json"
+  ],
+  "omitted_redundant_patch_files": [
+    "performance-analysis.patch",
+    "subset-configuration.patch",
+    "qualified-strategies.patch",
+    "boundary-backports.patch",
+    "production-hardening.patch",
+    "subset-selector.patch"
+  ]
+}

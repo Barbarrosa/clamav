@@ -1,0 +1,5 @@
+{
+  "source": "bytecode.cvd",
+  "transform": "same header and members; gzip tar expanded to plain tar; no signature records modified",
+  "cld_verification": "passed"
+}

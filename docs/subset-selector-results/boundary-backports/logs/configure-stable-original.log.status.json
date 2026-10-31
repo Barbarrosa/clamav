@@ -1,0 +1,9 @@
+{
+  "command": [
+    "bash",
+    "configure.sh",
+    "stable-original"
+  ],
+  "returncode": 0,
+  "seconds": 6.990084409713745
+}

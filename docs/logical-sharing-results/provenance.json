@@ -1,0 +1,54 @@
+{
+  "date_utc": "2026-10-28",
+  "previous_library_version": 6,
+  "previous_archive_sha256": "34cbfbe9b9747b2eebabd19e645121ad018251cf7b86b9ab7fc956bbedf36dba",
+  "previous_runtime_revision": "051de65a04fd71a9a54f467d7fb1f95f9588be8a",
+  "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+  "patch_base_revision": "3d3034eb7192b465902922110a85363f90dfe554",
+  "active_runtime_diff_from_previous_bytes": 0,
+  "patch_sha256": "59d19ac2bad8a7285981b7385ae7858143eb2ae7d863c3b409464176b12af831",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "build": {
+    "Rust": "1.90.0",
+    "GCC": "13.3.0",
+    "CMake": "3.31.10",
+    "type": "Release",
+    "mpool": true,
+    "ac_node_ids": true,
+    "ac_flat_nodes": true,
+    "compact_lsig_state": true,
+    "ac_disposable_build": false,
+    "flat_hash_store": true,
+    "scan_cache": false
+  },
+  "measurement": {
+    "affinity": 2,
+    "process_order": [
+      "before1",
+      "after1",
+      "after2",
+      "before2"
+    ],
+    "runs_per_variant": 2,
+    "production_qualification": false,
+    "acceptance": "rejected: strict duplicate order mismatch"
+  },
+  "binary_sha256": {
+    "bin/diag-flat/libclamav.so.14.0.0": "43f7ea2aa9df9cf8d2303d7ce0f944fd83ce44a4f513883cf1808df4552dcd08",
+    "bin/diag-lsig/libclamav.so.14.0.0": "d6879af8c6532be61b7e75e63e88cf839746bfba7e5b7acdf185454893d73617",
+    "bin/diag-lsig-final/libclamav.so.14.0.0": "d6879af8c6532be61b7e75e63e88cf839746bfba7e5b7acdf185454893d73617",
+    "bin/scan-probe-indexed": "d86bc11b6efbe3bafc28c181b3715c56b75031f80ac00aa14de82e6240fd9a4e",
+    "bin/engine_census-lsig-before": "cf5359f0e1f44ce9d2a8f63b5cb106369b62d90e227c486f60a12d729530a8a9",
+    "bin/engine_census-lsig-after": "2d7fc5904082f80a6786b271ebd23e09c0ef5d5fccd2526cbe9eb4f2b19459bb",
+    "bin/export_exact_layouts-lsig-before": "d6bf9a196602e0a70498e4dd8c2ed16b9878c33e2d8f271cbc0eac9284bea341",
+    "bin/export_exact_layouts-lsig-after": "4f3c12c18b1e44c214d5c6a7b1a7e18bc85dcf0252c63da59f8a32720d1c52fe"
+  },
+  "database_sha256": {
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "daily.cvd": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+  },
+  "cmake_cache_sha256": "c3c68205985956361f543bd451b2d3889e2372ee26f3942e44bbcebbeb893b7d",
+  "sanitizer_scope": "production store/hashtable source with individually tracked malloc substitutions; engine library not fully instrumented; LeakSanitizer unavailable; detect_leaks=0; zero tracked live allocations",
+  "diagnostic_reference": "old engine_census/exporter rebuilt against before-lsig headers with corrected range count and complete array accounting; no old-export byte equality assumed"
+}

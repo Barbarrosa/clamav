@@ -1,0 +1,6 @@
+{
+  "docs/entropy-gap-results/audit.json": "4310c34b54872b9a9fde02b44b1cf7cbccde5ec49c5ab67ce44b364a04b4af05",
+  "docs/entropy-gap-results/scalar-verification.jsonl": "363c4a6437d957a98915d2f8709732d71da85679c13b0ec7ef0eda387e57a3d5",
+  "docs/entropy-gap-results/calculations.json": "49d50012aaebd360ba22dbff5cb9b0f282796afa5f7f49598ace9ed5410e6adb",
+  "tools/compact-memory/audit_entropy_gaps.py": "94c1076095f84121a64272231354a1a14c0526721597fca5b10f620e47c83c6e"
+}

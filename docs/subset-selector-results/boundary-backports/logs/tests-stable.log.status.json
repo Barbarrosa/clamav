@@ -1,0 +1,12 @@
+{
+  "command": [
+    "ctest",
+    "--test-dir",
+    "build-stable",
+    "-R",
+    "^(libclamav|libclamav_rust|clamscan)$",
+    "--output-on-failure"
+  ],
+  "returncode": 8,
+  "seconds": 64.71335911750793
+}

@@ -106,6 +106,10 @@ fn main() -> Result<(), &'static str> {
         .filter(|(k, _)| ENV_PATTERNS.iter().any(|prefix| k.starts_with(prefix)))
         .for_each(|(k, v)| eprintln!("  {}={:?}", k, v));
 
+    // Once rerun-if-changed is used for headers, Cargo needs the Rust source
+    // directory too: the same build script generates C declarations with cbindgen.
+    println!("cargo:rerun-if-changed=src");
+    println!("cargo:rerun-if-changed=build.rs");
     detect_clamav_build()?;
 
     // We only want to generate bindings for `cargo build`, not `cargo test`.
@@ -143,14 +147,24 @@ fn execute_bindgen() -> Result<(), &'static str> {
     let mut builder = builder()
         // Silence code-style warnings for generated bindings.
         .raw_line("#![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]")
+        // C owns transition storage and chooses its element type at build time.
+        // Rust only carries pointers to it; committed bindings must not assume
+        // that a native-pointer build stores u32 elements.
+        .blocklist_type("cli_ac_transition_t")
+        .raw_line("pub type cli_ac_transition_t = ::std::os::raw::c_void;")
         // Make the bindings pretty.
         .formatter(bindgen::Formatter::Rustfmt)
         // Disable the layout tests.
         // We're committing to source control. Pointer width, integer size, etc
         // are probably not the same when generated as when compiled.
         .layout_tests(false)
+        // Track transitive headers as well as the top-level inputs.
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         // Enable bindgen to find generated headers in the build directory, too.
-        .clang_arg(build_include_path);
+        .clang_arg(build_include_path)
+        // Match the C compiler's configuration, including the selected AC
+        // transition representation and memory-pool layout.
+        .clang_arg("-DHAVE_CONFIG_H");
 
     // If include directories were specified, add them to the builder.
     if let Some(include_directories) = has_include_directories {

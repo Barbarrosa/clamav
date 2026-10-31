@@ -1,0 +1,16 @@
+{
+  "command": [
+    "python3",
+    "lts/tools/subset-selector/test_legacy_integration.py",
+    "--probe",
+    "backport-run/probe-lts",
+    "--baseline-probe",
+    "backport-run/probe-lts-original",
+    "--certs",
+    "lts/certs",
+    "--output",
+    "backport-run/synthetic-lts"
+  ],
+  "returncode": 0,
+  "seconds": 2.871076822280884
+}

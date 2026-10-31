@@ -299,25 +299,20 @@ int openioc_parse(const char *fname, int fd, struct cl_engine *engine, unsigned 
             }
         }
 
-        vp        = virusname;
-        virusname = CLI_MPOOL_VIRNAME(engine->mempool, virusname, options & CL_DB_OFFICIAL);
-        if (!(virusname)) {
-            cli_dbgmsg("openioc_parse: MPOOL_MALLOC for virname memory failed.\n");
+        rc = hm_addhash_str(engine, HASH_PURPOSE_WHOLE_FILE_DETECT, hash, 0, virusname, options & CL_DB_OFFICIAL);
+        if (rc == CL_EMALFDB) {
             xmlTextReaderClose(reader);
             xmlFreeTextReader(reader);
-            free(vp);
+            free(virusname);
             return CL_EMEM;
         }
-
-        free(vp);
-
-        rc = hm_addhash_str(engine, HASH_PURPOSE_WHOLE_FILE_DETECT, hash, 0, virusname);
         if (rc != CL_SUCCESS)
             cli_dbgmsg("openioc_parse: hm_addhash_str failed with %i hash len %i for %s.\n",
                        rc, hashlen, virusname);
         else
             hash_count++;
 
+        free(virusname);
         xmlFree(elem->hash);
         free(elem);
     }

@@ -1,0 +1,85 @@
+{
+  "input_archive_sha256": "59de6967e13f0f538a98516c022a3346e62648c90fde947a5cf9521b07b83dc3",
+  "input_library_version": 5,
+  "original_source_revision": "2c464040eddf2c04951a21e6277f16823f5e5bf8",
+  "recovery_snapshot": "725de384a48a7e0233609c116379b64a826dad5e",
+  "recovery_note": "See archive revision.json for final commit. Recovery commit/tree are local provenance, not a claim of identical original ancestry or ZIP modes.",
+  "source_date_local": "2026-10-27",
+  "timezone": "America/Phoenix",
+  "host": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "toolchains": {
+    "engine_rust": "1.90.0",
+    "codec_rust": "1.91.0",
+    "gcc": "13.3.0",
+    "cmake": "3.31.10",
+    "onpair": "0.2.1",
+    "zstd": "1.5.5"
+  },
+  "build": {
+    "type": "Release",
+    "C": "-O3 -DNDEBUG",
+    "cargo_release_codegen_units": 1,
+    "mpool": true,
+    "ac_node_ids": true,
+    "ac_flat_nodes": true,
+    "compact_lsig_state": true,
+    "ac_disposable_build": false,
+    "flat_hash_store": "ON for retained prototype; OFF in default source"
+  },
+  "measurement": {
+    "engine_affinity": "unrestricted; shared host",
+    "codec_affinity": 2,
+    "scan_cache": "disabled equally",
+    "database_verification": "normal cl_load path with CL_ENGINE_CVDCERTSDIR set; no signature verification bypass",
+    "engine_peak_source": "getrusage RUSAGE_SELF; RSS sampled from /proc/self/status",
+    "limitations": [
+      "One full-corpus pass per mode/variant; timing variation not qualified",
+      "Targeted sanitizers do not instrument full shared library/pool; leak checking disabled",
+      "Daemon sockets blocked by environment",
+      "Legacy matcher branch tested separately; full OFF engine rebuild not run",
+      "Standalone codec layout bytes are not engine RSS"
+    ]
+  },
+  "database_sha256": {
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "daily.cvd": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+  },
+  "export_sha256": {
+    "tokens.bin": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e",
+    "names.bin": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+    "token-data.bin": "bc37abb227548dc2bafeaa642efff4cedba83a426e49e34943cf60bd83aabdc4",
+    "token-index.bin": "fa2b63b284b379944476a5b38b2df20bab26bdb43629d5b8d405a48e4b2b35b0"
+  },
+  "binary_sha256": {
+    "build-baseline/libclamav/libclamav.so.14.0.0": "671d476e3a4ae391d0cd60288815ade73b67c51d348e82f277c8557ddafbe6bb",
+    "build-flat/libclamav/libclamav.so.14.0.0": "d84b13d9a8b71a22b29625f0f72d2b0f148680deda014e05adcebe7be9d61694",
+    "bin/probe_hash_equivalence-indexed": "52b114ecb184b18c3c8d9175b5413ea8bd5129dac685910e93d77012081ded28",
+    "bin/scan-probe-baseline": "6fe6ee59afaafa347f7b8ea05a1ef42b1da0e86643e9cb611acab636bc7f7eaf",
+    "bin/scan-probe-indexed": "d86bc11b6efbe3bafc28c181b3715c56b75031f80ac00aa14de82e6240fd9a4e",
+    "bin/test-flat-hash": "ec63d74827201e2932e6b8ea60dffc287b2d438cb49da86bfe03381ecb60ca6b",
+    "bin/test-legacy-hash": "6c7b9a99e8255c8bdec2760dd937dab955ae2b75bf50e565fba79a35ae4b7f31",
+    "build-onpair/release/clamav-onpair-probe": "59e9522c13ee3bfda699ccf449319f9f71fe7368382cd44ec00e9b2671babdd8",
+    "bin/token-blocks": "2ec0711ad46944d486d8d74c29694dda1c23ef25554c8c4cc2042ebb4a557710"
+  },
+  "codec_crate_sha256": "34272d1ea63266148a9a5b2b96db80a45245d034862302735f2f93413a6f9172",
+  "configuration_sha256": {
+    "build-baseline/CMakeCache.txt": "35b6589dc9e6ee7aab68d4bb5d339d55dbae25215d9e8b5ad664087a9957d408",
+    "build-flat/CMakeCache.txt": "d04d6a267f12168636bef82a78f3f53d65726a51663c3735a30b45525ce32879",
+    ".cargo/config.toml": "8f0e31c7693a6bdcb435756ef7ff13b7459ec6e95f0847c8da86955526cef381"
+  }
+}

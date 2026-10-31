@@ -1,0 +1,18 @@
+{
+  "same": {
+    "expected_failure": false,
+    "observed_failure": false
+  },
+  "renumbered_extension": {
+    "expected_failure": false,
+    "observed_failure": false
+  },
+  "changed_minimum": {
+    "expected_failure": true,
+    "observed_failure": true
+  },
+  "missing_extension": {
+    "expected_failure": true,
+    "observed_failure": true
+  }
+}

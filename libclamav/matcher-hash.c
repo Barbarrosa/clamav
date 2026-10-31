@@ -121,56 +121,9 @@ cl_error_t cli_hash_type_from_name(const char *name, cli_hash_type_t *type_out)
     return CL_SUCCESS;
 }
 
-cl_error_t hm_addhash_str(struct cl_engine *engine, hash_purpose_t purpose, const char *strhash, uint32_t size, const char *virusname)
+static cl_error_t hm_root(struct cl_engine *engine, hash_purpose_t purpose, struct cli_matcher **result)
 {
-    cli_hash_type_t type;
-    char binhash[SHA256_HASH_SIZE];
-    size_t hlen;
-
-    if (!engine || !strhash) {
-        cli_errmsg("hm_addhash_str: NULL engine or hash\n");
-        return CL_ENULLARG;
-    }
-
-    /* size 0 here is now a wildcard size match */
-    if (size == (uint32_t)-1) {
-        cli_errmsg("hm_addhash_str: null or invalid size (%u)\n", size);
-        return CL_EARG;
-    }
-
-    hlen = strlen(strhash);
-    switch (hlen) {
-        case (MD5_HASH_SIZE * 2):
-            type = CLI_HASH_MD5;
-            break;
-        case (SHA1_HASH_SIZE * 2):
-            type = CLI_HASH_SHA1;
-            break;
-        case (SHA256_HASH_SIZE * 2):
-            type = CLI_HASH_SHA2_256;
-            break;
-        default:
-            cli_errmsg("hm_addhash_str: invalid hash %s -- FIXME!\n", strhash);
-            return CL_EARG;
-    }
-
-    if (cli_hex2str_to(strhash, (char *)binhash, hlen)) {
-        cli_errmsg("hm_addhash_str: invalid hash %s\n", strhash);
-        return CL_EARG;
-    }
-
-    return hm_addhash_bin(engine, purpose, binhash, type, size, virusname);
-}
-
-cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, const void *binhash, cli_hash_type_t type, uint32_t size, const char *virusname)
-{
-    size_t hlen = cli_hash_len(type);
-    const struct cli_htu32_element *item;
-    struct cli_sz_hash *szh;
-    struct cli_htu32 *ht;
-    cl_error_t ret;
     struct cli_matcher *root = NULL;
-
     if (purpose == HASH_PURPOSE_PE_SECTION_DETECT) {
         root = engine->hm_mdb;
     } else if (purpose == HASH_PURPOSE_WHOLE_FILE_DETECT) {
@@ -178,11 +131,9 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
     } else if (purpose == HASH_PURPOSE_PE_IMPORT_DETECT) {
         root = engine->hm_imp;
     } else if (purpose == HASH_PURPOSE_WHOLE_FILE_FP_CHECK) {
-        if ((type == CLI_HASH_MD5 || type == CLI_HASH_SHA1) &&
-            (engine->engine_options & ENGINE_OPTIONS_FIPS_LIMITS)) {
-            return CL_SUCCESS; // No error, just skip adding MD5/SHA1 FP hashes in FIPS mode
-        }
         root = engine->hm_fp;
+    } else {
+        return CL_EARG;
     }
 
     if (NULL == root) {
@@ -202,6 +153,108 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
             engine->hm_fp = root;
         }
     }
+
+    /* Public database loading already rejects compiled engines. Keep the
+     * internal ownership transfer explicit for direct callers as well. */
+    if (root->hm.compiled)
+        return CL_EARG;
+
+#if defined(ENABLE_FLAT_HASH_STORE) && defined(USE_MPOOL)
+    /* Fragment frees do not release engine-pool mappings. Give hash builder
+     * allocations one disposable lifetime, as for the AC builder. */
+    if (!root->hm.buildpool) {
+        root->hm.buildpool = mpool_create();
+        if (!root->hm.buildpool)
+            return CL_EMEM;
+        root->mempool = root->hm.buildpool;
+    }
+#endif
+
+    *result = root;
+    return CL_SUCCESS;
+}
+
+cl_error_t hm_addhash_str(struct cl_engine *engine, hash_purpose_t purpose, const char *strhash, uint32_t size, const char *virusname, unsigned int official)
+{
+    cli_hash_type_t type;
+    struct cli_matcher *root;
+    cl_error_t ret;
+    char *owned_name;
+    char binhash[SHA256_HASH_SIZE];
+    size_t hlen;
+
+    if (!engine || !strhash) {
+        cli_errmsg("hm_addhash_str: NULL engine or hash\n");
+        return CL_ENULLARG;
+    }
+
+    /* Keep name normalization before digest validation, as in the loaders.
+     * This also retains malformed-name rejection for skipped FIPS hashes. */
+    ret = hm_root(engine, purpose, &root);
+    if (ret != CL_SUCCESS)
+        return ret;
+    owned_name = CLI_MPOOL_VIRNAME(root->mempool, virusname, official);
+    if (!owned_name)
+        return CL_EMALFDB;
+
+    /* size 0 here is now a wildcard size match */
+    if (size == (uint32_t)-1) {
+        cli_errmsg("hm_addhash_str: null or invalid size (%u)\n", size);
+        goto badarg;
+    }
+
+    hlen = strlen(strhash);
+    switch (hlen) {
+        case (MD5_HASH_SIZE * 2):
+            type = CLI_HASH_MD5;
+            break;
+        case (SHA1_HASH_SIZE * 2):
+            type = CLI_HASH_SHA1;
+            break;
+        case (SHA256_HASH_SIZE * 2):
+            type = CLI_HASH_SHA2_256;
+            break;
+        default:
+            cli_errmsg("hm_addhash_str: invalid hash %s -- FIXME!\n", strhash);
+            goto badarg;
+    }
+
+    if (cli_hex2str_to(strhash, (char *)binhash, hlen)) {
+        cli_errmsg("hm_addhash_str: invalid hash %s\n", strhash);
+        goto badarg;
+    }
+
+    if (purpose == HASH_PURPOSE_WHOLE_FILE_FP_CHECK &&
+        (type == CLI_HASH_MD5 || type == CLI_HASH_SHA1) &&
+        (engine->engine_options & ENGINE_OPTIONS_FIPS_LIMITS)) {
+        MPOOL_FREE(root->mempool, owned_name);
+        return CL_SUCCESS;
+    }
+    ret = hm_addhash_bin(engine, purpose, binhash, type, size, owned_name);
+    if (ret != CL_SUCCESS)
+        MPOOL_FREE(root->mempool, owned_name);
+    return ret;
+badarg:
+    MPOOL_FREE(root->mempool, owned_name);
+    return CL_EARG;
+}
+
+cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, const void *binhash, cli_hash_type_t type, uint32_t size, const char *virusname)
+{
+    size_t hlen = cli_hash_len(type);
+    const struct cli_htu32_element *item;
+    struct cli_sz_hash *szh;
+    struct cli_htu32 *ht;
+    cl_error_t ret;
+    struct cli_matcher *root = NULL;
+
+    if (purpose == HASH_PURPOSE_WHOLE_FILE_FP_CHECK &&
+        (type == CLI_HASH_MD5 || type == CLI_HASH_SHA1) &&
+        (engine->engine_options & ENGINE_OPTIONS_FIPS_LIMITS))
+        return CL_SUCCESS;
+    ret = hm_root(engine, purpose, &root);
+    if (ret != CL_SUCCESS)
+        return ret;
 
     if (size) {
         /* size non-zero, find sz_hash element in size-driven hashtable  */
@@ -267,7 +320,9 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
 static inline int hm_cmp(const uint8_t *itm, const uint8_t *ref, unsigned int keylen)
 {
 #if WORDS_BIGENDIAN == 0
-    uint32_t i = *(uint32_t *)itm, r = *(uint32_t *)ref;
+    uint32_t i, r;
+    memcpy(&i, itm, sizeof(i));
+    memcpy(&r, ref, sizeof(r));
     if (i != r)
         return (i < r) * 2 - 1;
     return memcmp(&itm[4], &ref[4], keylen - 4);
@@ -318,7 +373,7 @@ static void hm_sort(struct cli_sz_hash *szh, size_t l, size_t r, unsigned int ke
 }
 
 /* flush both size-specific and agnostic hash sets */
-void hm_flush(struct cli_matcher *root)
+static void hm_sort_all(struct cli_matcher *root)
 {
     cli_hash_type_t type;
     unsigned int keylen;
@@ -353,36 +408,217 @@ void hm_flush(struct cli_matcher *root)
     }
 }
 
+static void hm_compiled_free(struct cli_hash_compiled *groups)
+{
+    unsigned int t;
+    if (!groups)
+        return;
+    for (t = 0; t < CLI_HASH_AVAIL_TYPES; t++) {
+        free(groups[t].directory.htable);
+        free(groups[t].starts);
+        free(groups[t].hashes);
+        free(groups[t].name_offsets);
+        free(groups[t].names);
+    }
+    free(groups);
+}
+
+const char *cli_hm_compiled_name(const struct cli_hash_compiled *group, size_t index)
+{
+    const uint8_t *p = group->name_offsets + index * group->name_width;
+    size_t offset = 0;
+    if (group->name_width == 3) {
+        offset = (size_t)p[0] | (size_t)p[1] << 8 | (size_t)p[2] << 16;
+    } else if (group->name_width == 4) {
+        uint32_t value;
+        memcpy(&value, p, sizeof(value));
+        offset = value;
+    } else {
+        memcpy(&offset, p, sizeof(offset));
+    }
+    return offset ? group->names + offset : NULL;
+}
+
+#ifdef ENABLE_FLAT_HASH_STORE
+static void *hm_array_alloc(size_t count, size_t width)
+{
+    if (!count || count > SIZE_MAX / width)
+        return NULL;
+    return malloc(count * width);
+}
+
+static bool hm_count_bucket(struct cli_hash_compiled *out, const struct cli_sz_hash *bucket)
+{
+    size_t i;
+    if (out->items > SIZE_MAX - bucket->items)
+        return false;
+    out->items += bucket->items;
+    for (i = 0; i < bucket->items; i++) {
+        if (bucket->virusnames[i]) {
+            size_t bytes = strlen(bucket->virusnames[i]) + 1;
+            if (out->name_bytes > SIZE_MAX - bytes)
+                return false;
+            out->name_bytes += bytes;
+        }
+    }
+    return true;
+}
+
+static void hm_copy_bucket(struct cli_hash_compiled *out, const struct cli_sz_hash *bucket,
+                           size_t keylen, size_t *record, size_t *name)
+{
+    size_t i;
+    if (bucket->items)
+        memcpy(out->hashes + *record * keylen, bucket->hash_array, bucket->items * keylen);
+    for (i = 0; i < bucket->items; i++, (*record)++) {
+        size_t offset = 0;
+        uint8_t *p = out->name_offsets + *record * out->name_width;
+        if (bucket->virusnames[i]) {
+            size_t bytes = strlen(bucket->virusnames[i]) + 1;
+            offset = *name;
+            memcpy(out->names + offset, bucket->virusnames[i], bytes);
+            *name += bytes;
+        }
+        if (out->name_width == 3) {
+            p[0] = (uint8_t)offset;
+            p[1] = (uint8_t)(offset >> 8);
+            p[2] = (uint8_t)(offset >> 16);
+        } else if (out->name_width == 4) {
+            uint32_t value = (uint32_t)offset;
+            memcpy(p, &value, sizeof(value));
+        } else {
+            memcpy(p, &offset, sizeof(offset));
+        }
+    }
+}
+#endif
+
+cl_error_t hm_flush(struct cli_matcher *root)
+{
+    if (!root || root->hm.compiled)
+        return CL_SUCCESS;
+#ifdef ENABLE_FLAT_HASH_STORE
+    unsigned int t;
+    struct cli_hash_compiled *groups = calloc(CLI_HASH_AVAIL_TYPES, sizeof(*groups));
+    if (!groups)
+        return CL_EMEM;
+
+    /* Allocate every destination before sorting or transferring ownership.
+     * Failure leaves the builder unchanged, including duplicate ordering. */
+    for (t = 0; t < CLI_HASH_AVAIL_TYPES; t++) {
+        struct cli_hash_compiled *out = &groups[t];
+        const struct cli_htu32 *ht = &root->hm.sizehashes[t];
+        const struct cli_htu32_element *item = NULL;
+        out->name_bytes = 1; /* offset zero is the NULL-name sentinel */
+        while ((item = cli_htu32_next(ht, item))) {
+            out->buckets++;
+            if (!hm_count_bucket(out, item->data.as_ptr))
+                goto nomem;
+        }
+        if (!hm_count_bucket(out, &root->hwild.hashes[t]))
+            goto nomem;
+        out->name_width = out->name_bytes <= 0x1000000 ? 3 :
+                          out->name_bytes <= UINT32_MAX ? 4 : sizeof(size_t);
+        if (ht->capacity) {
+            out->directory = *ht;
+            out->directory.htable = hm_array_alloc(ht->capacity, sizeof(*ht->htable));
+            if (!out->directory.htable)
+                goto nomem;
+            memcpy(out->directory.htable, ht->htable, ht->capacity * sizeof(*ht->htable));
+        }
+        if (out->buckets == SIZE_MAX)
+            goto nomem;
+        out->starts = hm_array_alloc(out->buckets + 1, sizeof(*out->starts));
+        if (!out->starts)
+            goto nomem;
+        if (out->items) {
+            out->hashes = hm_array_alloc(out->items, cli_hash_len(t));
+            out->name_offsets = hm_array_alloc(out->items, out->name_width);
+            out->names = malloc(out->name_bytes);
+            if (!out->hashes || !out->name_offsets || !out->names)
+                goto nomem;
+            out->names[0] = '\0';
+        }
+    }
+    hm_sort_all(root);
+    for (t = 0; t < CLI_HASH_AVAIL_TYPES; t++) {
+        struct cli_hash_compiled *out = &groups[t];
+        size_t record = 0, name = 1, i;
+        const struct cli_htu32_element *item = NULL;
+        i = 0;
+        while ((item = cli_htu32_next(&root->hm.sizehashes[t], item))) {
+            size_t slot = item - root->hm.sizehashes[t].htable;
+            out->directory.htable[slot].data.as_size_t = i;
+            out->starts[i++] = record;
+            hm_copy_bucket(out, item->data.as_ptr, cli_hash_len(t), &record, &name);
+        }
+        out->starts[out->buckets] = record;
+        hm_copy_bucket(out, &root->hwild.hashes[t], cli_hash_len(t), &record, &name);
+    }
+    hm_free(root);
+    memset(root->hm.sizehashes, 0, sizeof(root->hm.sizehashes));
+    memset(&root->hwild, 0, sizeof(root->hwild));
+    root->hm.compiled = groups;
+    return CL_SUCCESS;
+nomem:
+    hm_compiled_free(groups);
+    return CL_EMEM;
+#else
+    hm_sort_all(root);
+    return CL_SUCCESS;
+#endif
+}
+
+/* Keep the existing exact size-hash algorithm and probe bound. Its values
+ * now index contiguous buckets instead of pointing at allocated objects. */
+static size_t hm_compiled_bucket(const struct cli_hash_compiled *group, uint32_t size)
+{
+    const struct cli_htu32_element *item;
+    if (!group->directory.capacity)
+        return SIZE_MAX;
+    item = cli_htu32_find(&group->directory, size);
+    return item ? item->data.as_size_t : SIZE_MAX;
+}
+
 bool cli_hm_have_size(const struct cli_matcher *root, cli_hash_type_t type, uint32_t size)
 {
+    if (root && root->hm.compiled)
+        return size && size != UINT32_MAX && hm_compiled_bucket(&root->hm.compiled[type], size) != SIZE_MAX;
     return (size && size != 0xffffffff && root && root->hm.sizehashes[type].capacity && cli_htu32_find(&root->hm.sizehashes[type], size));
 }
 
 bool cli_hm_have_wild(const struct cli_matcher *root, cli_hash_type_t type)
 {
+    if (root && root->hm.compiled) {
+        const struct cli_hash_compiled *group = &root->hm.compiled[type];
+        return group->items > group->starts[group->buckets];
+    }
     return (root && root->hwild.hashes[type].items);
 }
 
 bool cli_hm_have_any(const struct cli_matcher *root, cli_hash_type_t type)
 {
+    if (root && root->hm.compiled)
+        return root->hm.compiled[type].items || root->hm.compiled[type].buckets;
     return (root && (root->hwild.hashes[type].items || root->hm.sizehashes[type].capacity));
 }
 
-static cl_error_t hm_scan(const uint8_t *digest, const char **virname, const struct cli_sz_hash *szh, cli_hash_type_t type)
+static bool hm_find(const uint8_t *digest, const uint8_t *hashes, size_t items,
+                    cli_hash_type_t type, size_t *found)
 {
     unsigned int keylen;
     size_t l, r;
 
-    if (!digest || !szh || !szh->items)
-        return CL_CLEAN;
+    if (!digest || !items)
+        return false;
 
     keylen = cli_hash_len(type);
 
     l = 0;
-    r = szh->items - 1;
+    r = items - 1;
     while (l <= r) {
         size_t c = (l + r) / 2;
-        int res  = hm_cmp(digest, &szh->hash_array[keylen * c], keylen);
+        int res  = hm_cmp(digest, &hashes[keylen * c], keylen);
 
         if (res < 0) {
             if (!c)
@@ -391,12 +627,33 @@ static cl_error_t hm_scan(const uint8_t *digest, const char **virname, const str
         } else if (res > 0)
             l = c + 1;
         else {
-            if (virname)
-                *virname = szh->virusnames[c];
-            return CL_VIRUS;
+            *found = c;
+            return true;
         }
     }
-    return CL_CLEAN;
+    return false;
+}
+
+static cl_error_t hm_scan(const uint8_t *digest, const char **virname, const struct cli_sz_hash *szh, cli_hash_type_t type)
+{
+    size_t found;
+    if (!szh || !hm_find(digest, szh->hash_array, szh->items, type, &found))
+        return CL_CLEAN;
+    if (virname)
+        *virname = szh->virusnames[found];
+    return CL_VIRUS;
+}
+
+static cl_error_t hm_compiled_scan(const uint8_t *digest, const char **virname,
+                                   const struct cli_hash_compiled *group,
+                                   cli_hash_type_t type, size_t start, size_t end)
+{
+    size_t found;
+    if (start == end || !hm_find(digest, group->hashes + start * cli_hash_len(type), end - start, type, &found))
+        return CL_CLEAN;
+    if (virname)
+        *virname = cli_hm_compiled_name(group, start + found);
+    return CL_VIRUS;
 }
 
 /* cli_hm_scan will scan only size-specific hashes, if any */
@@ -405,7 +662,17 @@ cl_error_t cli_hm_scan(const uint8_t *digest, uint32_t size, const char **virnam
     const struct cli_htu32_element *item;
     struct cli_sz_hash *szh;
 
-    if (!digest || !size || size == 0xffffffff || !root || !root->hm.sizehashes[type].capacity)
+    if (!digest || !size || size == 0xffffffff || !root)
+        return CL_CLEAN;
+
+    if (root->hm.compiled) {
+        const struct cli_hash_compiled *group = &root->hm.compiled[type];
+        size_t bucket = hm_compiled_bucket(group, size);
+        if (bucket == SIZE_MAX)
+            return CL_CLEAN;
+        return hm_compiled_scan(digest, virname, group, type, group->starts[bucket], group->starts[bucket + 1]);
+    }
+    if (!root->hm.sizehashes[type].capacity)
         return CL_CLEAN;
 
     item = cli_htu32_find(&root->hm.sizehashes[type], size);
@@ -420,7 +687,14 @@ cl_error_t cli_hm_scan(const uint8_t *digest, uint32_t size, const char **virnam
 /* cli_hm_scan_wild will scan only size-agnostic hashes, if any */
 cl_error_t cli_hm_scan_wild(const uint8_t *digest, const char **virname, const struct cli_matcher *root, cli_hash_type_t type)
 {
-    if (!digest || !root || !root->hwild.hashes[type].items)
+    if (!digest || !root)
+        return CL_CLEAN;
+
+    if (root->hm.compiled) {
+        const struct cli_hash_compiled *group = &root->hm.compiled[type];
+        return hm_compiled_scan(digest, virname, group, type, group->starts[group->buckets], group->items);
+    }
+    if (!root->hwild.hashes[type].items)
         return CL_CLEAN;
 
     return hm_scan(digest, virname, &root->hwild.hashes[type], type);
@@ -433,6 +707,20 @@ void hm_free(struct cli_matcher *root)
 
     if (!root)
         return;
+
+    hm_compiled_free(root->hm.compiled);
+    root->hm.compiled = NULL;
+
+#ifdef USE_MPOOL
+    if (root->hm.buildpool) {
+        mpool_destroy(root->hm.buildpool);
+        root->hm.buildpool = NULL;
+        root->mempool = NULL;
+        memset(root->hm.sizehashes, 0, sizeof(root->hm.sizehashes));
+        memset(&root->hwild, 0, sizeof(root->hwild));
+        return;
+    }
+#endif
 
     for (type = CLI_HASH_MD5; type < CLI_HASH_AVAIL_TYPES; type++) {
         struct cli_htu32 *ht                 = &root->hm.sizehashes[type];

@@ -1,0 +1,66 @@
+{
+  "files": {
+    "links.bin": {
+      "before_bytes": 27359028,
+      "after_bytes": 27359028,
+      "before_sha256": "ebdd7feedb2577280b733d86653dd9386e04c0117cdf0d7d6d018a6ca9a9a728",
+      "after_sha256": "83d12e6231f78705ab1c8c95d19db8b6920455c908b7d4dad4e7ea53a6db092b",
+      "equal": false
+    },
+    "logical.bin": {
+      "before_bytes": 8744680,
+      "after_bytes": 8744680,
+      "before_sha256": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+      "after_sha256": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+      "equal": true
+    },
+    "names.bin": {
+      "before_bytes": 97814242,
+      "after_bytes": 97814242,
+      "before_sha256": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+      "after_sha256": "9282901c4a8012a1770823b96fafe81ef028104d6fd871f1670bb11841f165ba",
+      "equal": true
+    },
+    "nodes.bin": {
+      "before_bytes": 4447600,
+      "after_bytes": 4447600,
+      "before_sha256": "2eead2143446a73f35b40b9d7580317395a2e2ba718808f10c9fcd2f6e2e215c",
+      "after_sha256": "4badd1671151a089e2fcbda7143b054549dae5c6045fb0b3ab5b5a1dccd85117",
+      "equal": false
+    },
+    "patterns.bin": {
+      "before_bytes": 111607540,
+      "after_bytes": 111607540,
+      "before_sha256": "246a48a7e75fd73a6a8b0878f0bbb3a94e72d81398ef55343132a20b9d6d42d8",
+      "after_sha256": "d0ef54776cb5622f2b6c22186557d5aa76ad9321d6983d295fcb30ad2c2b1c36",
+      "equal": false,
+      "patterns": 1508210,
+      "unequal_records_excluding_allocator_numbered_extension_id": 0,
+      "unequal_bound_records": 0,
+      "unequal_extension_presence": 0,
+      "different_extension_ids": 16195
+    },
+    "programs.bin": {
+      "before_bytes": 4290259,
+      "after_bytes": 4290259,
+      "before_sha256": "24576c46612acc170e24609c147e47205a0699bfa7427b7acb411ede6b00adea",
+      "after_sha256": "24576c46612acc170e24609c147e47205a0699bfa7427b7acb411ede6b00adea",
+      "equal": true
+    },
+    "templates.bin": {
+      "before_bytes": 18751536,
+      "after_bytes": 18751536,
+      "before_sha256": "7bf0ffddf5bb39832f7fae47a8ecaffe8d1c3d3f0b77478b0f8d92f5b38dd1fe",
+      "after_sha256": "7bf0ffddf5bb39832f7fae47a8ecaffe8d1c3d3f0b77478b0f8d92f5b38dd1fe",
+      "equal": true
+    },
+    "tokens.bin": {
+      "before_bytes": 96396138,
+      "after_bytes": 96396138,
+      "before_sha256": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e",
+      "after_sha256": "a3ec09260c2add58c07e627bccebee96db05beb912b37a03a5d6b52716d7be6e",
+      "equal": true
+    }
+  },
+  "required_comparison_failures": []
+}

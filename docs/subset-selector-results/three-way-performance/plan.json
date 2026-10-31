@@ -1,0 +1,731 @@
+[
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "empty",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "empty",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "empty",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "empty",
+    "round": 1,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "empty",
+    "round": 1,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "empty",
+    "round": 1,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "empty",
+    "round": 2,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "empty",
+    "round": 2,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "empty",
+    "round": 2,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "empty",
+    "round": 3,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "empty",
+    "round": 3,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "empty",
+    "round": 3,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 3,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 3,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 3,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 4,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "empty",
+    "round": 4,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 4,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "upstream",
+    "cache": "empty",
+    "round": 4,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 4,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "primary",
+    "variant": "full",
+    "cache": "empty",
+    "round": 4,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 3,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 3,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 3,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 4,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 4,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "result-cache",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 4,
+    "case": "result-cache",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/accepted.txt",
+    "repeats": 3
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 1,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "bytecode.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "daily.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "lifecycle",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 2,
+    "case": "update",
+    "database": "main.cvd",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/results/empty.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "positive",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/positive.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "positive",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/positive.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "positive",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/positive.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "adverse",
+    "variant": "upstream",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/adverse.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "adverse",
+    "variant": "full",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/adverse.txt",
+    "repeats": 1
+  },
+  {
+    "stage": "adverse",
+    "variant": "legal-redress",
+    "cache": "hydrated",
+    "round": 0,
+    "case": "scan",
+    "files": "/workspace/scratch/48dde463229d/analysis-run/adverse.txt",
+    "repeats": 1
+  }
+]

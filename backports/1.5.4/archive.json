@@ -1,0 +1,15 @@
+{
+  "filename": "ClamAV-1.5.4-Legal-Redress-backport.zip",
+  "sha256": "288789a528592d4b93920c4940fa419c6776eff94b6f445fdba078de106e06c0",
+  "bytes": 18488471,
+  "upstream_tag": "clamav-1.5.4",
+  "upstream_commit": "fa59fca15872bb8a914ba4c68188bcc8a502cbdf",
+  "backport_commit": "ef83184a457e762f95cc7807ed678020497cea33",
+  "source_tree": "51e985888344c2e7964538ad458289b590a2984c",
+  "source_files": 1785,
+  "backport_patch_sha256": "5ebacfd4ff35b05a5268fc0b08d9aaa3b6769a52dfe008a6cedd73854ff2db2d",
+  "patch_reproduces_source_tree": true,
+  "production_ready": false,
+  "automatic_reduced_release": false,
+  "report": "source/docs/legal-redress-backport.md"
+}

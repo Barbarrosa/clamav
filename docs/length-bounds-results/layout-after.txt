@@ -1,0 +1,66 @@
+In file included from /workspace/scratch/2605ffe80d9d/length-bounds/source/libclamav/matcher.h:29,
+                 from /workspace/scratch/2605ffe80d9d/length-bounds/source/libclamav/matcher-ac.h:211,
+                 from /tmp/clamav-layout-d86vt50i/layout.c:3:
+/workspace/scratch/2605ffe80d9d/length-bounds/source/libclamav/others.h:847:13: warning: inline function ‘cli_dbgmsg’ declared but never defined
+  847 | inline void cli_dbgmsg(const char *str, ...) __attribute__((format(printf, 1, 2)));
+      |             ^~~~~~~~~~
+cli_hash_patt.sizeof=112
+cli_hash_patt.sizehashes=0
+cli_hash_patt.compiled=96
+cli_hash_patt.buildpool=104
+cli_hash_compiled.sizeof=96
+cli_hash_compiled.directory=0
+cli_hash_compiled.starts=32
+cli_hash_compiled.hashes=40
+cli_hash_compiled.name_offsets=48
+cli_hash_compiled.names=56
+cli_hash_compiled.buckets=64
+cli_hash_compiled.items=72
+cli_hash_compiled.name_bytes=80
+cli_hash_compiled.name_width=88
+cli_matcher.sizeof=472
+cli_matcher.ac_nodes=252
+cli_matcher.ac_lsigtable=272
+cli_matcher.ac_root=280
+cli_matcher.ac_nodetable=288
+cli_matcher.fuzzy_hashmap=384
+cli_matcher.ac_nodeidx=400
+cli_matcher.trans_array=408
+cli_matcher.ac_lsig_offsets=440
+cli_matcher.ac_lsig_slots=448
+cli_matcher.ac_flatnodes=456
+cli_matcher.ac_buildpool=464
+cli_ac_lsig.sizeof=168
+cli_ac_lsig.id=0
+cli_ac_lsig.bc_idx=4
+cli_ac_lsig.type=8
+cli_ac_lsig.flag=12
+cli_ac_lsig.u=16
+cli_ac_lsig.virname=24
+cli_ac_lsig.tdb=32
+cli_ac_data.sizeof=224
+cli_ac_data.lsigcnt=24
+cli_ac_data.lsigsuboff_first=40
+cli_ac_data.lsigsuboff_last=32
+cli_ac_data.lsig_row_offsets=48
+cli_ac_patt.sizeof=88
+cli_ac_patt.pattern=0
+cli_ac_patt.ext=16
+cli_ac_patt.virname=24
+cli_ac_patt.lsigid=36
+cli_ac_patt.length=72
+cli_ac_patt.prefix_length=74
+cli_ac_patt.parts=76
+cli_ac_patt.sigopts=85
+cli_ac_patt_ext.sizeof=56
+cli_ac_patt_ext.customdata=0
+cli_ac_patt_ext.special_table=8
+cli_ac_patt_ext.mindist=16
+cli_ac_patt_ext.ch=32
+cli_ac_patt_ext.length=44
+cli_ac_patt_ext.prefix_length=48
+cli_ac_node.sizeof=24
+cli_ac_node.list=0
+cli_ac_node.trans=8
+cli_ac_node.fail=16
+All affected record sizes and field offsets agree.

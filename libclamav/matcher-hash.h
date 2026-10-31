@@ -43,17 +43,37 @@ struct cli_sz_hash {
     uint32_t items;
 };
 
+/* Immutable scan layout. Builder buckets remain private to database loading.
+ * starts[buckets] is the first size-agnostic record; items is the final end.
+ * Name offset zero denotes NULL, not an empty string. */
+struct cli_hash_compiled {
+    struct cli_htu32 directory;
+    size_t *starts;
+    uint8_t *hashes;
+    uint8_t *name_offsets;
+    char *names;
+    size_t buckets;
+    size_t items;
+    size_t name_bytes;
+    unsigned int name_width;
+};
+
 struct cli_hash_patt {
     struct cli_htu32 sizehashes[CLI_HASH_AVAIL_TYPES];
+    struct cli_hash_compiled *compiled;
+    struct MP *buildpool;
 };
 
 struct cli_hash_wild {
     struct cli_sz_hash hashes[CLI_HASH_AVAIL_TYPES];
 };
 
-cl_error_t hm_addhash_str(struct cl_engine *engine, hash_purpose_t purpose, const char *strhash, uint32_t size, const char *virusname);
+cl_error_t hm_addhash_str(struct cl_engine *engine, hash_purpose_t purpose, const char *strhash, uint32_t size, const char *virusname, unsigned int official);
+/* Binary insertion consumes a name allocated from this root's builder pool.
+ * Current production binary callers use NULL (trusted certificate hashes). */
 cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, const void *binhash, cli_hash_type_t type, uint32_t size, const char *virusname);
-void hm_flush(struct cli_matcher *root);
+cl_error_t hm_flush(struct cli_matcher *root);
+const char *cli_hm_compiled_name(const struct cli_hash_compiled *group, size_t index);
 cl_error_t cli_hm_scan(const uint8_t *digest, uint32_t size, const char **virname, const struct cli_matcher *root, cli_hash_type_t type);
 cl_error_t cli_hm_scan_wild(const uint8_t *digest, const char **virname, const struct cli_matcher *root, cli_hash_type_t type);
 bool cli_hm_have_size(const struct cli_matcher *root, cli_hash_type_t type, uint32_t size);

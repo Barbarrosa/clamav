@@ -1,0 +1,63 @@
+{
+  "scope": "retained Linux default configuration; performance and exact results on recorded workloads",
+  "implemented": [
+    "R02: free pool page reclamation without relocation",
+    "R18 variant: borrowed evidence key lookup with complete history"
+  ],
+  "paired_clean_corpus_means": {
+    "before": {
+      "compiled_rss_kib": 843590,
+      "compile_peak_rss_kib": 843494,
+      "load_seconds": 6.132889785,
+      "compile_seconds": 1.594553324,
+      "first_hit_seconds": 45.6567595215,
+      "all_match_seconds": 45.942117075
+    },
+    "after": {
+      "compiled_rss_kib": 808890,
+      "compile_peak_rss_kib": 843178,
+      "load_seconds": 5.861896847,
+      "compile_seconds": 1.614220987,
+      "first_hit_seconds": 45.213678662,
+      "all_match_seconds": 45.480691836999995
+    }
+  },
+  "compiled_rss_reduction_mib": 33.88671875,
+  "compiled_rss_reduction_percent": 4.113372609917143,
+  "first_hit_time_change_percent": -0.9704605936637911,
+  "all_match_time_change_percent": -1.0043621569435612,
+  "clean_corpus": {
+    "files": 3570,
+    "bytes": 89192023,
+    "runs": 4,
+    "all_transcripts_equal": true,
+    "virus_files": 0
+  },
+  "positive_corpus": {
+    "files": 89,
+    "bytes": 10086758,
+    "runs": 2,
+    "all_transcripts_equal": true,
+    "virus_files": 87,
+    "first_hit_callbacks": 87,
+    "all_match_callbacks": 89,
+    "errors": 0
+  },
+  "tests": {
+    "c_checks": 1816,
+    "rust_tests": 67,
+    "scanner_passed": 145,
+    "scanner_skipped": 1,
+    "scanner_subtests_passed": 5,
+    "duplicate_order_passed": true,
+    "mixed_severity_passed": true,
+    "isolated_production_allocator_sanitizers": "ASan+UBSan passed; leak detection disabled",
+    "no_advice_and_injected_failure": "passed"
+  },
+  "limits": [
+    "No whole-engine 200 MB or quarter-memory target achieved",
+    "No construction/reload peak saving attributed",
+    "No new Windows, 32-bit, daemon reload or cgroup qualification",
+    "Paired timing observations are not a universal performance guarantee"
+  ]
+}

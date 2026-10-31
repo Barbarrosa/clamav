@@ -1,0 +1,22 @@
+{
+  "command": [
+    "python3",
+    "lts/tools/subset-selector/test_native_intake.py",
+    "--generation",
+    "backport-run/generation-lts",
+    "--probe",
+    "backport-run/probe-lts",
+    "--lib",
+    "build-lts/libclamav/libclamav.so",
+    "--certs",
+    "lts/certs",
+    "--clean",
+    "fixtures/clean.png",
+    "--positive",
+    "build-upstream/unit_tests/input/clamav_hdb_scanfiles/clam-v3.rar",
+    "--output",
+    "backport-run/intake-lts"
+  ],
+  "returncode": 0,
+  "seconds": 93.52638697624207
+}

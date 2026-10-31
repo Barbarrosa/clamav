@@ -1,0 +1,3 @@
+{"kind":"logical_export","records":312310,"original_record_and_directory_bytes":54966560,"target_template_escapes":82,"conservative_escape_record_bytes":14432,"code_pointer_escapes":0,"code_pointer_directory_bytes":0,"all_template_coordinates_verified":true}
+{"kind":"logical_auxiliary","original_known_auxiliary_bytes":9313879,"retained_escape_value_bytes":2228}
+{"signatures":3628192,"patterns":1508210,"links":2279919,"nodes":555950,"names":3547706,"extensions":17509,"raw_name_bytes":87171124,"token_bytes":90363298,"pattern_record_bytes":74,"original_pattern_and_directory_bytes":156853840,"original_link_and_directory_bytes":72957408,"extension_pointer_directory_bytes":140072,"all_references_checked":true}

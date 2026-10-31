@@ -1,0 +1,309 @@
+{
+  "rules_per_severity_fixture": 10000,
+  "comparisons": [
+    {
+      "kind": "strong",
+      "action": 0,
+      "allmatch": 0,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "strong",
+      "action": 0,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": true,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 10000,
+      "reduced_count": 10000,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "strong",
+      "action": 1,
+      "allmatch": 0,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 10000,
+      "reduced_count": 10000,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "strong",
+      "action": 1,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": true,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 10000,
+      "reduced_count": 10000,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "strong",
+      "action": 2,
+      "allmatch": 0,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 128,
+      "reduced_holds": 128
+    },
+    {
+      "kind": "strong",
+      "action": 2,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 128,
+      "reduced_holds": 128
+    },
+    {
+      "kind": "strong",
+      "action": 3,
+      "allmatch": 0,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 256,
+      "reduced_holds": 256
+    },
+    {
+      "kind": "strong",
+      "action": 3,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Order.09897.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Order.09989.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 256,
+      "reduced_holds": 256
+    },
+    {
+      "kind": "weak",
+      "action": 0,
+      "allmatch": 0,
+      "exact_equal": true,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "weak",
+      "action": 0,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": true,
+      "full_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "pua",
+      "action": 0,
+      "allmatch": 0,
+      "exact_equal": true,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": false,
+      "full_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "pua",
+      "action": 0,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": true,
+      "full_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Synthetic.Strong.Order.05000.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "weak-only",
+      "action": 0,
+      "allmatch": 0,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "Heuristics.Order.00028.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "Heuristics.Order.00294.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "weak-only",
+      "action": 0,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": true,
+      "full_first": [],
+      "reduced_first": [],
+      "full_count": 0,
+      "reduced_count": 0,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "pua-only",
+      "action": 0,
+      "allmatch": 0,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": false,
+      "detection_equivalent": false,
+      "full_first": [
+        "PUA.Order.00026.UNOFFICIAL"
+      ],
+      "reduced_first": [
+        "PUA.Order.00306.UNOFFICIAL"
+      ],
+      "full_count": 1,
+      "reduced_count": 1,
+      "full_holds": 0,
+      "reduced_holds": 0
+    },
+    {
+      "kind": "pua-only",
+      "action": 0,
+      "allmatch": 1,
+      "exact_equal": false,
+      "same_verdict": true,
+      "same_alert_multiset": true,
+      "detection_equivalent": true,
+      "full_first": [],
+      "reduced_first": [],
+      "full_count": 0,
+      "reduced_count": 0,
+      "full_holds": 0,
+      "reduced_holds": 0
+    }
+  ],
+  "invalid_PE_rule_requires_full_load_check": true,
+  "handler_reclassification_held": true,
+  "trust_equal": true,
+  "limits_held": true,
+  "missing_failed": true,
+  "qualification_passed": false,
+  "accepting_allmatch_detection_equivalence_passed": true,
+  "automatic_release_qualified": false
+}

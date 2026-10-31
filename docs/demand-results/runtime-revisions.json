@@ -1,0 +1,18 @@
+{
+  "upstream": {
+    "revision": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+    "library_sha256": "82ba8f4441b0a4ede3e63f0fd13c0711369e8d57d7cadc20a9c5d9a60ac0a8dc"
+  },
+  "compact": {
+    "revision": "d352706f40d1cb5a3213b8f8fc69c6030582bdd7",
+    "library_sha256": "e3a971288c8684fcca59d68962ed210c742d1977f91d7888d8f638330632eeb6"
+  },
+  "experimental": {
+    "revision": "5ea56449142cc0e1482226a60651ca53632e655c",
+    "library_sha256": "6288104471f058be5b8490b76f3486007626841558857deb3ec6b5fef3a5afa2"
+  },
+  "default": {
+    "revision": "af776ff5579b85a10173a424c447b97522d6cff5",
+    "library_sha256": "fa9adeea9257a13b5faddd3e83b9d1499acbd2d15423d06be2faa11ac7d5fe00"
+  }
+}

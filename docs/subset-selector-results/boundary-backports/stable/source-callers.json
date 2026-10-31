@@ -1,0 +1,324 @@
+{
+  "scope": "source call-site inventory; includes declarations, comments and inactive branches",
+  "automatic_proof": false,
+  "files": {
+    "libclamav/blob.c": {
+      "sha256": "d7bede6a4c6f68457e1e36ff6eba3740981ec25107e7919ea904f1d1b2285275",
+      "matches": [
+        {
+          "line": 600,
+          "text": "if ((len > 5) && cli_updatelimits(ctx, len) == CL_CLEAN && (cli_scan_buff(data, (unsigned int)len, 0, ctx->virname, ctx->engine, CL_TYPE_BINARY_DATA, NULL) == CL_VIRUS)) {"
+        }
+      ]
+    },
+    "libclamav/bytecode.c": {
+      "sha256": "6f4ac4d0e23c55649ad3d1e0902b66ba34bedb7f15a907f26eebb5c5529aa02c",
+      "matches": [
+        {
+          "line": 144,
+          "text": "ret = cli_scan_desc(fd, cctx, CL_TYPE_HTML, false, NULL, AC_SCAN_VIR,"
+        },
+        {
+          "line": 150,
+          "text": "ret = cli_scan_desc(fd, cctx, CL_TYPE_TEXT_ASCII, false, NULL, AC_SCAN_VIR,"
+        }
+      ]
+    },
+    "libclamav/default.h": {
+      "sha256": "596d466aa0118dffe721ab28650f35dbf4658dd1d2474fb9839f8958b910705e",
+      "matches": [
+        {
+          "line": 44,
+          "text": "#define CLI_DEFAULT_MAXEMBEDDEDPE      (1024 * 1024 * 40)   // 40 MB"
+        }
+      ]
+    },
+    "libclamav/matcher.c": {
+      "sha256": "a87f17da45f4ef27a2b1aa56dc20f35ecc33f2292ea0a8b0ead16d4be9487e5e",
+      "matches": [
+        {
+          "line": 247,
+          "text": "cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t offset, cli_ctx *ctx, cli_file_t ftype, struct cli_ac_data **acdata)"
+        },
+        {
+          "line": 795,
+          "text": "cl_error_t cli_scan_desc(int desc, cli_ctx *ctx, cli_file_t ftype, bool filetype_only, struct cli_matched_type **ftoffset, unsigned int acmode, struct cli_ac_result **acres, const char *name, const char *path, uint32_t attributes)"
+        },
+        {
+          "line": 816,
+          "text": "status = cli_scan_fmap(ctx, ftype, filetype_only, ftoffset, acmode, acres);"
+        },
+        {
+          "line": 936,
+          "text": "status = cli_magic_scan(ctx, ac_lsig->tdb.handlertype[0]);"
+        },
+        {
+          "line": 1049,
+          "text": "cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, struct cli_matched_type **ftoffset, unsigned int acmode, struct cli_ac_result **acres)"
+        }
+      ]
+    },
+    "libclamav/matcher.h": {
+      "sha256": "f4bcbfaa56ba561359e8e59a245649daa7c6da591b770755d84216eb306db822",
+      "matches": [
+        {
+          "line": 285,
+          "text": "* Unlike the similar functions `cli_scan_desc()` and `cli_scan_fmap()` (below),"
+        },
+        {
+          "line": 309,
+          "text": "cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t offset, cli_ctx *ctx, cli_file_t ftype, struct cli_ac_data **acdata);"
+        },
+        {
+          "line": 322,
+          "text": "* This function is just a wrapper for `cli_scan_fmap()` that converts the file"
+        },
+        {
+          "line": 336,
+          "text": "cl_error_t cli_scan_desc(int desc, cli_ctx *ctx, cli_file_t ftype, bool filetype_only, struct cli_matched_type **ftoffset, unsigned int acmode, struct cli_ac_result **acres, const char *name, const char *path, uint32_t attributes);"
+        },
+        {
+          "line": 359,
+          "text": "cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, struct cli_matched_type **ftoffset, unsigned int acmode, struct cli_ac_result **acres);"
+        },
+        {
+          "line": 363,
+          "text": "* from cli_scan_buff() / matcher_run()."
+        }
+      ]
+    },
+    "libclamav/nsis/nulsft.c": {
+      "sha256": "b383960c02da0efab939408da7517df11433dee728f8c8bae767fa9bfc93cbb6",
+      "matches": [
+        {
+          "line": 558,
+          "text": "ret = cli_scan_desc(nsist.ofd, ctx, CL_TYPE_ANY, false, NULL, AC_SCAN_VIR, NULL, name, nsist.ofn, LAYER_ATTRIBUTES_NONE); /// TODO: Extract file names"
+        }
+      ]
+    },
+    "libclamav/others.c": {
+      "sha256": "43c53de332daa3aafb8a440af99319c8008e726436da970abdade5beb672431a",
+      "matches": [
+        {
+          "line": 494,
+          "text": "new->maxembeddedpe      = CLI_DEFAULT_MAXEMBEDDEDPE;"
+        },
+        {
+          "line": 704,
+          "text": "cli_warnmsg(\"MaxEmbeddedPE: negative values are not allowed, using default: %u\\n\", CLI_DEFAULT_MAXEMBEDDEDPE);"
+        },
+        {
+          "line": 705,
+          "text": "engine->maxembeddedpe = CLI_DEFAULT_MAXEMBEDDEDPE;"
+        },
+        {
+          "line": 707,
+          "text": "engine->maxembeddedpe = num;"
+        },
+        {
+          "line": 902,
+          "text": "return engine->maxembeddedpe;"
+        },
+        {
+          "line": 1054,
+          "text": "settings->maxembeddedpe       = engine->maxembeddedpe;"
+        },
+        {
+          "line": 1116,
+          "text": "engine->maxembeddedpe       = settings->maxembeddedpe;"
+        },
+        {
+          "line": 1262,
+          "text": "// We want `cli_magic_scan()` to finish scanning the current file, but not any future files."
+        },
+        {
+          "line": 1318,
+          "text": "// abort_scan flag is set so that in cli_magic_scan() we *will* stop scanning, even if we lose the status code."
+        },
+        {
+          "line": 1699,
+          "text": "// abort_scan flag is set so that in cli_magic_scan() we *will* stop scanning, even if we lose the status code."
+        },
+        {
+          "line": 2254,
+          "text": "* 1. Immediately after determining the file type at the top of cli_magic_scan()."
+        }
+      ]
+    },
+    "libclamav/others.h": {
+      "sha256": "415b2e973ba632e2ba052051af988d06fa292371c72a8ac2daa0500443171323",
+      "matches": [
+        {
+          "line": 420,
+          "text": "uint64_t maxembeddedpe;      /* max size to scan MSEXE for PE */"
+        },
+        {
+          "line": 498,
+          "text": "uint64_t maxembeddedpe;      /* max size to scan MSEXE for PE */"
+        }
+      ]
+    },
+    "libclamav/pe.c": {
+      "sha256": "b5f2d8ba2fcc0eb08b887d89e6a7cdbbe84dcb973e3022217c85d77566399c26",
+      "matches": [
+        {
+          "line": 536,
+          "text": "static cl_error_t scan_pe_mdb(cli_ctx *ctx, struct cli_exe_section *exe_section)"
+        },
+        {
+          "line": 2537,
+          "text": "static cl_error_t scan_pe_imp(cli_ctx *ctx, struct cli_exe_info *peinfo)"
+        },
+        {
+          "line": 2731,
+          "text": "int cli_scanpe(cli_ctx *ctx)"
+        },
+        {
+          "line": 2836,
+          "text": "ret = scan_pe_mdb(ctx, &(peinfo->sections[i]));"
+        },
+        {
+          "line": 2866,
+          "text": "/*  ret = cli_scan_desc(ndesc, ctx, CL_TYPE_PE_DISASM, true, NULL, NULL, AC_SCAN_VIR); */"
+        },
+        {
+          "line": 2929,
+          "text": "ret = scan_pe_imp(ctx, peinfo);"
+        }
+      ]
+    },
+    "libclamav/pe.h": {
+      "sha256": "ac2572c04b89a0a3fa803026b85c68862b7ee9dbdbe1464f80568b10707518d1",
+      "matches": [
+        {
+          "line": 73,
+          "text": "int cli_scanpe(cli_ctx *ctx);"
+        }
+      ]
+    },
+    "libclamav/scanners.c": {
+      "sha256": "37909ea9ba02200c949d725fb51201369108614bd4eb532d1d455cd395be8345",
+      "matches": [
+        {
+          "line": 1484,
+          "text": "ret = cli_scan_buff(data, len, 0, ctx, CL_TYPE_MSOLE2, mdata);"
+        },
+        {
+          "line": 1494,
+          "text": "cli_dbgmsg(\"Failed to create fmap for evaluating logical/yara rules after call to cli_scan_buff()\\n\");"
+        },
+        {
+          "line": 1664,
+          "text": "ret = cli_scan_desc(tempfd, ctx, CL_TYPE_SCRIPT, false, NULL, AC_SCAN_VIR, NULL, \"extracted-vba-project\", tempfile, LAYER_ATTRIBUTES_NONE);"
+        },
+        {
+          "line": 2568,
+          "text": "status = cli_scan_desc(fd, ctx, CL_TYPE_HTML, false, NULL, AC_SCAN_VIR, NULL, \"no-comment\", fullname, LAYER_ATTRIBUTES_NORMALIZED);"
+        },
+        {
+          "line": 2590,
+          "text": "status = cli_scan_desc(fd, ctx, CL_TYPE_HTML, false, NULL, AC_SCAN_VIR, NULL, \"no-tags\", fullname, LAYER_ATTRIBUTES_NORMALIZED);"
+        },
+        {
+          "line": 2605,
+          "text": "status = cli_scan_desc(fd, ctx, CL_TYPE_HTML, false, NULL, AC_SCAN_VIR, NULL, \"javascript-as-html\", fullname, LAYER_ATTRIBUTES_NORMALIZED);"
+        },
+        {
+          "line": 2610,
+          "text": "status = cli_scan_desc(fd, ctx, CL_TYPE_TEXT_ASCII, false, NULL, AC_SCAN_VIR, NULL, \"javascript-as-text-ascii\", fullname, LAYER_ATTRIBUTES_NORMALIZED);"
+        },
+        {
+          "line": 2749,
+          "text": "ret = cli_scan_fmap(ctx, CL_TYPE_TEXT_ASCII, false, NULL, AC_SCAN_VIR, NULL);"
+        },
+        {
+          "line": 2781,
+          "text": "ret = cli_scan_buff(state.out, state.out_pos, offset, ctx, CL_TYPE_TEXT_ASCII, mdata);"
+        },
+        {
+          "line": 3663,
+          "text": "ret = cli_scan_fmap(ctx, type == CL_TYPE_TEXT_ASCII ? CL_TYPE_ANY : type, false, &ftoffset, acmode, NULL);"
+        },
+        {
+          "line": 4081,
+          "text": "if ((uint64_t)(ctx->fmap->len - fpt->offset) > ctx->engine->maxembeddedpe) {"
+        },
+        {
+          "line": 4082,
+          "text": "cli_dbgmsg(\"scanraw: MaxEmbeddedPE exceeded\\n\");"
+        },
+        {
+          "line": 4231,
+          "text": "static cl_error_t dispatch_file_inspection_callback(clcb_file_inspection cb, cli_ctx *ctx, const char *filetype)"
+        },
+        {
+          "line": 4721,
+          "text": "cl_error_t cli_magic_scan(cli_ctx *ctx, cli_file_t type)"
+        },
+        {
+          "line": 4820,
+          "text": "ret = dispatch_file_inspection_callback(ctx->engine->cb_file_inspection, ctx, filetype);"
+        },
+        {
+          "line": 4927,
+          "text": "status = cli_scan_fmap(ctx, CL_TYPE_ANY, false, NULL, AC_SCAN_VIR, NULL);"
+        },
+        {
+          "line": 5439,
+          "text": "ret = cli_scan_fmap(ctx, CL_TYPE_MAIL, false, NULL, AC_SCAN_VIR, NULL);"
+        },
+        {
+          "line": 5453,
+          "text": "ret                          = cli_scanpe(ctx);"
+        },
+        {
+          "line": 5475,
+          "text": "ret = cli_scan_fmap(ctx, CL_TYPE_OTHER, false, NULL, AC_SCAN_VIR, NULL);"
+        },
+        {
+          "line": 5681,
+          "text": "status = cli_magic_scan(ctx, type);"
+        },
+        {
+          "line": 5751,
+          "text": "status = cli_magic_scan(ctx, type);"
+        },
+        {
+          "line": 6171,
+          "text": "status = cli_magic_scan(&ctx, file_type);"
+        }
+      ]
+    },
+    "libclamav/scanners.h": {
+      "sha256": "e17d0992bab623be10e4a6eae9960ebe2b8b017adceb8312dc749ca59a2dd94e",
+      "matches": [
+        {
+          "line": 61,
+          "text": "* Calls to cli_magic_scan() should be wrapped with a cli_recursion_stack_push/pop, except in scan_common()"
+        },
+        {
+          "line": 67,
+          "text": "cl_error_t cli_magic_scan(cli_ctx *ctx, cli_file_t type);"
+        }
+      ]
+    },
+    "libclamav/unzip.c": {
+      "sha256": "087fcc9267a4c910571cb5ab97343da1e5b7e295184e2f28ba3004e303d31fb3",
+      "matches": [
+        {
+          "line": 1937,
+          "text": "//   files inside cli_magic_scan()"
+        }
+      ]
+    },
+    "libclamav/xlm_extract.c": {
+      "sha256": "a44da86eeb335e4011a387468e8b3568017b9c313056bcdb3f6f839165f48a6c",
+      "matches": [
+        {
+          "line": 4954,
+          "text": "if (CL_VIRUS == cli_scan_desc(out_fd, ctx, CL_TYPE_SCRIPT, false, NULL, AC_SCAN_VIR,"
+        }
+      ]
+    }
+  }
+}

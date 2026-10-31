@@ -1,0 +1,78 @@
+{
+  "attachment_id": "46afbf2f28d04bd288c4bea8b3b02aef",
+  "original_filename": "clean.png",
+  "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+  "bytes": 4090,
+  "source_mtime_ns": 1793248598317892652,
+  "source_ctime_ns": 1793248598317892652,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "outcome": "held",
+  "reason": "parser-completeness-unproven",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "scan_evidence": [
+    {
+      "kind": "scan",
+      "path": "/workspace/scratch/48dde463229d/work/flag-validation/intake/46afbf2f28d04bd288c4bea8b3b02aef/original",
+      "round": 0,
+      "allmatch": 1,
+      "return_code": 0,
+      "verdict": 0,
+      "final_name": null,
+      "root_type": "CL_TYPE_PNG",
+      "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+      "after_sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737",
+      "hold_bits": 0,
+      "candidate_outcome": "clean",
+      "outcome": "held",
+      "release_blocker": "parser-completeness-unproven",
+      "scanned_bytes": 4090,
+      "seconds": 0.012955364996741991,
+      "events": [
+        {
+          "event": "file_type",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_hash",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "pre_scan",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        },
+        {
+          "event": "post_scan",
+          "type": "CL_TYPE_PNG",
+          "depth": 0,
+          "object_id": 0,
+          "attributes": 0,
+          "name": null
+        }
+      ]
+    }
+  ],
+  "database_profile": "legal-redress",
+  "detection_result": "clean",
+  "generation_manifest_sha256": "f8263cbaf6d34d89c9710859dbe7d388b4147bef314af54e92b1703e375d4582",
+  "release_qualified": false,
+  "linux_process_high_water_kib": {
+    "parent": 14956,
+    "terminated_children_max": 164240,
+    "note": "separate high-water values, not simultaneous or cgroup charge"
+  }
+}

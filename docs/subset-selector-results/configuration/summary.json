@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "configuration_flag": "--database-profile=legal-redress",
+  "default_flag": "--database-profile=full",
+  "scan_mode": "restricted forces accepting all-match; full defaults to original first-hit",
+  "fresh_measurements": {
+    "full": {
+      "compiled_rss_mib_mean": 790.0846354166666,
+      "construction_peak_mib_max": 823.5703125,
+      "scan_peak_mib_max": 823.5703125,
+      "reload_overlap_peak_mib": 1611.69140625,
+      "load_seconds_mean": 6.27045597800073,
+      "compile_seconds_mean": 1.7185198053339263,
+      "allmatch_batch_seconds_mean": 1.664445266110609,
+      "per_file_milliseconds_median": 10.698858499381458,
+      "per_file_milliseconds_p95": 345.06764899924747,
+      "equivalent_scan_count": 252
+    },
+    "reduced": {
+      "compiled_rss_mib_mean": 129.65364583333334,
+      "construction_peak_mib_max": 160.6171875,
+      "scan_peak_mib_max": 160.6171875,
+      "reload_overlap_peak_mib": 303.15625,
+      "load_seconds_mean": 3.4082877069995448,
+      "compile_seconds_mean": 0.10506650533352513,
+      "allmatch_batch_seconds_mean": 1.7124487253329588,
+      "per_file_milliseconds_median": 10.748456001238083,
+      "per_file_milliseconds_p95": 366.31654699885985,
+      "equivalent_scan_count": 252
+    }
+  },
+  "compiled_rss_reduction_percent": 83.58990416704434,
+  "allmatch_batch_slowdown_percent": 2.884051533549181,
+  "full_exact_baseline_comparisons": 414,
+  "native_restricted_eligible_detection_equivalence_matches": 30,
+  "native_restricted_held_cases": 108,
+  "synthetic_allmatch_detection_equivalence_passed": true,
+  "synthetic_cases": [
+    "strong",
+    "mixed-weak-strong",
+    "mixed-PUA-strong",
+    "weak-only",
+    "PUA-only"
+  ],
+  "synthetic_rules_per_case": 10000,
+  "asan_ubsan_probe_passed": true,
+  "asan_scope": "adapter instrumented; retained shared engine unchanged; leak detection disabled",
+  "historical_exact_order_gate_passed": false,
+  "automatic_reduced_release_enabled": false,
+  "release_blocker": "parser-completeness-unproven",
+  "selector_version": "1.2.0-experimental",
+  "skip_sha256": "0896db5c9930ae4d8d0dfe2e328daa0bc6c0e9f1d0ea68bc38f023f05b50f20f",
+  "generation_manifest_sha256": "f8263cbaf6d34d89c9710859dbe7d388b4147bef314af54e92b1703e375d4582",
+  "baseline_probe_sha256": "d3d1d6c10da9b91b1e0287d1bcf5a7c2c0b46921cf976de1b80ade570b615c93",
+  "probe_sha256": "a37333abfbcfc93f75a51223fd14eee2629d356a38ad0b39c8dfbf00d5c2d7c8",
+  "engine_library_sha256": "343fae262ae45dfda51726b469c1a39014e456518b83430ec31179cbd9b3df19",
+  "update_placement": "separate worker; full preparation and FreshClam validation do not fit 303 MiB alongside scanner",
+  "scope": "pinned database and generated fixtures; no universal detection or parser-completeness proof; process RSS not isolated cgroup budget"
+}

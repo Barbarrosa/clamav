@@ -1,0 +1,2 @@
+{"codec":"FSST","names":3547706,"raw_with_nul":87171124,"compressed_payload":37032837,"serialized_table":535,"resident_decoder":2304,"u32_offsets":14190828,"encoded_plus_index_plus_decoder":51225969,"train_seconds":0.0267689,"encode_seconds":0.777847,"roundtrip_verified":true}
+{"codec":"OptFSST","names":3547706,"raw_with_nul":87171124,"compressed_payload":32746843,"serialized_table":920,"resident_decoder":2304,"u32_offsets":14190828,"encoded_plus_index_plus_decoder":46939975,"train_seconds":0.0322961,"encode_seconds":3.40923,"roundtrip_verified":true}

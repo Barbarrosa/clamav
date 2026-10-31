@@ -1,0 +1,5 @@
+{"kind":"engine","signatures":601004,"skipped":3027189,"sigload_calls":3628623,"selector_mapping_and_index_bytes":14925375,"load_seconds":3.4304738309983804,"compile_seconds":0.10598705099982908,"compiled_rss_kib":132764,"construction_hwm_kib":164332,"max_file_bytes":104857600,"max_scan_bytes":419430400,"max_recursion":17,"max_files":10000}
+{"kind":"reload_overlap","signatures":601004,"skipped":3027189,"sigload_calls":3628623,"selector_mapping_and_index_bytes":14925375,"load_seconds":3.4394355590011401,"compile_seconds":0.10827747700022883,"compiled_rss_kib":277896,"construction_hwm_kib":310364,"max_file_bytes":104857600,"max_scan_bytes":419430400,"max_recursion":17,"max_files":10000}
+{"kind":"freshclam_load_test_overlap","tested_path":"\/workspace\/scratch\/48dde463229d\/work\/generation-final\/databases\/main.cvd","return_code":0,"seconds":2.9624284380006429,"hwm_kib":611600,"rss_after_helper_free_kib":280936}
+{"kind":"batch","round":0,"allmatch":0,"seconds":4.1860002966132015e-06,"rss_kib":159304,"scan_hwm_kib":611600}
+{"kind":"batch","round":0,"allmatch":1,"seconds":4.7799767344258726e-07,"rss_kib":159304,"scan_hwm_kib":611600}

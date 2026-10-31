@@ -1,0 +1,10 @@
+{
+  "command": [
+    "cmake",
+    "--build",
+    "build-stable-original",
+    "-j3"
+  ],
+  "returncode": 0,
+  "seconds": 212.74250102043152
+}

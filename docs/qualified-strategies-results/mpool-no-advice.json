@@ -1,0 +1,47 @@
+{
+  "scope": "production mpool_flush isolated regression",
+  "mpool_source_sha256": "248d610f06d2df298bb8e66e11decfe546916a8a9408167516e78a87ed3b07ed",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "sanitized": false,
+  "advice_enabled": false,
+  "asan_options": null,
+  "runs": [
+    {
+      "page_bytes": 4096,
+      "fragments": 102,
+      "advice_calls": 0,
+      "advised_bytes": 0,
+      "advice_failures": 0,
+      "rss_before_kib": 33632,
+      "rss_after_kib": 33632,
+      "rss_reduction_kib": 0,
+      "small_only_advice_calls": 0,
+      "checks": "passed"
+    },
+    {
+      "page_bytes": 4096,
+      "fragments": 102,
+      "advice_calls": 0,
+      "advised_bytes": 0,
+      "advice_failures": 0,
+      "rss_before_kib": 33636,
+      "rss_after_kib": 33636,
+      "rss_reduction_kib": 0,
+      "small_only_advice_calls": 0,
+      "checks": "passed"
+    },
+    {
+      "page_bytes": 4096,
+      "fragments": 102,
+      "advice_calls": 0,
+      "advised_bytes": 0,
+      "advice_failures": 0,
+      "rss_before_kib": 33640,
+      "rss_after_kib": 33640,
+      "rss_reduction_kib": 0,
+      "small_only_advice_calls": 0,
+      "checks": "passed"
+    }
+  ]
+}

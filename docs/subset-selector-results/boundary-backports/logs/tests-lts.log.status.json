@@ -1,0 +1,10 @@
+{
+  "command": [
+    "ctest",
+    "--test-dir",
+    "build-lts",
+    "--output-on-failure"
+  ],
+  "returncode": 8,
+  "seconds": 126.39504766464233
+}

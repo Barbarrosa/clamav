@@ -1,0 +1,653 @@
+{
+  "source_revision": "b20af8340e37048864ad400735e25c3d083c8342",
+  "source_tree": "c2092d7375743604be0636b9eac62439ec617a69",
+  "branch": "restricted-upload-selector",
+  "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+  "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+  "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+  "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+  "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+  "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+  "patch_sha256": "192e970afa5971b5697be3cb3ce98d4d726e0d2907b0daed0bb7229b9fd23dcd",
+  "preserved_prior_patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+  "new_patch_sha256": "afb7e322164304eea3c5fd71f6ccb3dc294a623813e926d33c480dd3ba4085ca",
+  "tracked_source_blobs": 2886,
+  "status": "PE boundary regression passed; stable and LTS backports delivered with explicit compatibility and release limits.",
+  "test_scope": "source/docs/boundary-backports.md; source/docs/subset-selector-results/boundary-backports/",
+  "research_appendices": [
+    {
+      "date": "2026-10-27",
+      "path": "research/remaining-memory/remaining-memory-research.md",
+      "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+      "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+      "files_sha256": {
+        "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+        "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+        "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+      }
+    },
+    {
+      "date": "2026-10-28",
+      "path": "research/rejected-approaches/reassessment.md",
+      "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+      "input_library_version": 9,
+      "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+      "files_sha256": {
+        "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+        "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+        "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+        "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+      }
+    }
+  ],
+  "previous_revision_metadata": {
+    "source_revision": "777cba95f55563f0b93d814d5eb86697d8c2ac87",
+    "source_tree": "69886190de5a1e9f43c3726c0be6c49b77b49ce4",
+    "branch": "restricted-upload-selector",
+    "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+    "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+    "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+    "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+    "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+    "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+    "patch_sha256": "192e970afa5971b5697be3cb3ce98d4d726e0d2907b0daed0bb7229b9fd23dcd",
+    "preserved_prior_patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+    "new_patch_sha256": "afb7e322164304eea3c5fd71f6ccb3dc294a623813e926d33c480dd3ba4085ca",
+    "tracked_source_blobs": 2216,
+    "status": "Hardened local intake; production release blocked with explicit unresolved gates.",
+    "test_scope": "source/docs/production-readiness.md; source/docs/subset-selector-results/production-readiness/",
+    "research_appendices": [
+      {
+        "date": "2026-10-27",
+        "path": "research/remaining-memory/remaining-memory-research.md",
+        "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+        "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+        "files_sha256": {
+          "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+          "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+          "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+        }
+      },
+      {
+        "date": "2026-10-28",
+        "path": "research/rejected-approaches/reassessment.md",
+        "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+        "input_library_version": 9,
+        "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+        "files_sha256": {
+          "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+          "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+          "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+          "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+        }
+      }
+    ],
+    "previous_revision_metadata": {
+      "source_revision": "754416569d175a6fb50212fdd25475cab2add1c1",
+      "source_tree": "acb1c76dd940268b02571bbcd89624c259139974",
+      "branch": "restricted-upload-selector",
+      "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+      "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+      "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+      "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+      "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+      "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+      "patch_sha256": "192e970afa5971b5697be3cb3ce98d4d726e0d2907b0daed0bb7229b9fd23dcd",
+      "preserved_prior_patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+      "new_patch_sha256": "afb7e322164304eea3c5fd71f6ccb3dc294a623813e926d33c480dd3ba4085ca",
+      "tracked_source_blobs": 2183,
+      "status": "Fresh 78-process controlled three-way CPU/RAM/cache/performance experiment; all final runtime modules verified; engine and release policies unchanged.",
+      "test_scope": "source/docs/three-way-performance.md; source/docs/subset-selector-results/three-way-performance/",
+      "research_appendices": [
+        {
+          "date": "2026-10-27",
+          "path": "research/remaining-memory/remaining-memory-research.md",
+          "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+          "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+          "files_sha256": {
+            "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+            "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+            "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+          }
+        },
+        {
+          "date": "2026-10-28",
+          "path": "research/rejected-approaches/reassessment.md",
+          "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+          "input_library_version": 9,
+          "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+          "files_sha256": {
+            "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+            "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+            "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+            "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+          }
+        }
+      ],
+      "previous_revision_metadata": {
+        "source_revision": "9dfde0139708a1eb1a728f86baecb1d8ec1b66df",
+        "source_tree": "bd8194a20d16172fb89f8dde6b8737c693d1f551",
+        "branch": "restricted-upload-selector",
+        "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+        "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+        "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+        "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+        "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+        "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+        "patch_sha256": "192e970afa5971b5697be3cb3ce98d4d726e0d2907b0daed0bb7229b9fd23dcd",
+        "preserved_prior_patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+        "new_patch_sha256": "afb7e322164304eea3c5fd71f6ccb3dc294a623813e926d33c480dd3ba4085ca",
+        "tracked_source_blobs": 2125,
+        "status": "Explicit --database-profile=legal-redress enables accepting all-match reduced scanning; full is the default and matches 414 original scan records exactly. Reduced reload overlap 303.156 MiB, compiled RSS 129.654 MiB. Automatic reduced release held for parser completeness. Retained engine unchanged.",
+        "test_scope": "source/docs/subset-selector-configuration.md; source/docs/subset-selector-results/configuration/",
+        "research_appendices": [
+          {
+            "date": "2026-10-27",
+            "path": "research/remaining-memory/remaining-memory-research.md",
+            "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+            "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+            "files_sha256": {
+              "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+              "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+              "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+            }
+          },
+          {
+            "date": "2026-10-28",
+            "path": "research/rejected-approaches/reassessment.md",
+            "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+            "input_library_version": 9,
+            "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+            "files_sha256": {
+              "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+              "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+              "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+              "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+            }
+          }
+        ],
+        "previous_revision_metadata": {
+          "source_revision": "23d84707b1f5e988e4dcb98ddd5f2c0d543a2809",
+          "source_tree": "dc7b03df35e5d93896ba40d40ca8b8c753ce7a34",
+          "branch": "restricted-upload-selector",
+          "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+          "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+          "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+          "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+          "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+          "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+          "patch_sha256": "192e970afa5971b5697be3cb3ce98d4d726e0d2907b0daed0bb7229b9fd23dcd",
+          "preserved_prior_patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+          "new_patch_sha256": "afb7e322164304eea3c5fd71f6ccb3dc294a623813e926d33c480dd3ba4085ca",
+          "tracked_source_blobs": 1979,
+          "status": "Experimental signed-input subset selector implemented and measured. Compiled RSS 790.113 to 129.724 MiB; strict generic selected-name/order and parser-completeness qualification failed; reduced automatic clean release disabled. Full runtime unchanged.",
+          "test_scope": "source/docs/subset-selector-implementation.md; source/docs/subset-selector-results/",
+          "research_appendices": [
+            {
+              "date": "2026-10-27",
+              "path": "research/remaining-memory/remaining-memory-research.md",
+              "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+              "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+              "files_sha256": {
+                "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+              }
+            },
+            {
+              "date": "2026-10-28",
+              "path": "research/rejected-approaches/reassessment.md",
+              "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+              "input_library_version": 9,
+              "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+              "files_sha256": {
+                "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+                "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+                "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+                "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+              }
+            }
+          ],
+          "previous_revision_metadata": {
+            "source_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+            "source_tree": "691c8bba7e79d83aaa874934e20d1e6cbc48a30f",
+            "branch": "incorporate-qualified",
+            "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+            "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+            "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+            "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+            "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+            "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+            "patch_sha256": "192e970afa5971b5697be3cb3ce98d4d726e0d2907b0daed0bb7229b9fd23dcd",
+            "preserved_prior_patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+            "new_patch_sha256": "afb7e322164304eea3c5fd71f6ccb3dc294a623813e926d33c480dd3ba4085ca",
+            "tracked_source_blobs": 1789,
+            "status": "Incorporated address-preserving free pool page advice and borrowed evidence-key lookup. Paired compiled RSS 823.818 to 789.932 MiB; exact order/severity and official-database detection transcripts pass. Whole-engine target and reload peak remain unmet.",
+            "test_scope": "source/docs/qualified-strategies-implementation.md; source/docs/qualified-strategies-results/",
+            "research_appendices": [
+              {
+                "date": "2026-10-27",
+                "path": "research/remaining-memory/remaining-memory-research.md",
+                "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+                "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+                "files_sha256": {
+                  "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                  "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                  "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+                }
+              },
+              {
+                "date": "2026-10-28",
+                "path": "research/rejected-approaches/reassessment.md",
+                "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+                "input_library_version": 9,
+                "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+                "files_sha256": {
+                  "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+                  "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+                  "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+                  "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+                }
+              }
+            ],
+            "previous_revision_metadata": {
+              "source_revision": "282052bd1577d918a2a5de135f47567d8d78830f",
+              "source_tree": "fc92c819d325a1d4e401bbb949999a4b33c12974",
+              "branch": "memory-research",
+              "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+              "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+              "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+              "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+              "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+              "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+              "patch_sha256": "2df259a47b1d922299bc8b27f6c3a1549f00b526f2b0443acbe4e1253986606c",
+              "preserved_prior_patch_sha256": "7f7eb81b854bf4c8a3f1d5a58565f5a47a224996ad5db6b05b68fa649bbbfd12",
+              "new_patch_sha256": "aaf8eea091031506cdf48c66dd9aacf5e2131bcc538df20c8fbbff824bf94012",
+              "tracked_source_blobs": 1751,
+              "status": "Length-bound relocation implemented and tested: 11.373 MiB native payload and 5.754 MiB measured RSS reduction. Failed first-name and duplicate-alert ordering gates; experiment preserved, retained runtime unchanged. Performance and quarter-memory target unqualified.",
+              "test_scope": "source/docs/length-bounds-implementation.md; source/docs/length-bounds-results/",
+              "research_appendices": [
+                {
+                  "date": "2026-10-27",
+                  "path": "research/remaining-memory/remaining-memory-research.md",
+                  "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+                  "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+                  "files_sha256": {
+                    "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                    "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                    "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+                  }
+                },
+                {
+                  "date": "2026-10-28",
+                  "path": "research/rejected-approaches/reassessment.md",
+                  "scope": "22 rejected/deferred approach families reassessed; new isolated address-preserving mpool free-page purge probe. No scanner source, existing patch or Git history changes. No new scanner/database memory or timing measurement.",
+                  "input_library_version": 9,
+                  "input_archive_sha256": "6f0dab0be8aed044dcc16d5068fa1e47999f256de7cc7ac5ceb2f13aeb496ee0",
+                  "files_sha256": {
+                    "research/rejected-approaches/free-pages-native.json": "84930b646f0220a80ceb870305bab8e9261a8d5536e07f1eeb11a8e80f25f82f",
+                    "research/rejected-approaches/free-pages-sanitized.json": "3b9a650dc760ae15265cd05988402a3ddc4fc361f5908373be3ed64088d17b2d",
+                    "research/rejected-approaches/probe_free_pages.py": "b2a43ef4873a0a24edff8ff929a5a72640170c8337c4e9df80a01d5b800bb481",
+                    "research/rejected-approaches/reassessment.md": "4e970c07174c64409c091cc841aca144a8164492e27f4d391beade2c2897b178"
+                  }
+                }
+              ],
+              "previous_revision_metadata": {
+                "source_revision": "fe52606b9348d537f608518df31d5ea9105bd967",
+                "source_tree": "840d3c49fb4970590ae662c5da898a2f1277c82d",
+                "branch": "memory-research",
+                "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+                "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+                "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+                "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+                "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+                "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+                "patch_sha256": "7f7eb81b854bf4c8a3f1d5a58565f5a47a224996ad5db6b05b68fa649bbbfd12",
+                "preserved_prior_patch_sha256": "d40bf4e82edfcf4c8656e974319ec0e6f89130a5ba95840f95428dbcecb65acb",
+                "new_patch_sha256": "50308f26af147b3aeda6f4d242a12d49665bd61c6f14ba642fad5c0af8a01fe0",
+                "tracked_source_blobs": 1709,
+                "status": "Hundredfold compression-gap audit, exact diagnostic layouts and targeted primary literature review. Scanner runtime unchanged; quarter-memory target remains unproven.",
+                "test_scope": "source/docs/entropy-gap-audit.md; source/docs/entropy-gap-results/",
+                "research_appendices": [
+                  {
+                    "date": "2026-10-27",
+                    "path": "research/remaining-memory/remaining-memory-research.md",
+                    "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+                    "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+                    "files_sha256": {
+                      "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                      "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                      "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+                    }
+                  }
+                ],
+                "previous_revision_metadata": {
+                  "source_revision": "4eae1adaee7d89da5959f41ec251c263836cd2c4",
+                  "source_tree": "a4ed98e170e3c7a95523ef820dd3ed5502cad90a",
+                  "branch": "demand-loaded-engine",
+                  "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+                  "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+                  "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+                  "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+                  "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+                  "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+                  "patch_sha256": "1561a5dc4d22d737337f5849617806fedc53e128b94eafe2c2ff8e6cb7a7c97a",
+                  "preserved_prior_patch_sha256": "d40bf4e82edfcf4c8656e974319ec0e6f89130a5ba95840f95428dbcecb65acb",
+                  "new_patch_sha256": "57c52937784cfb5e142d1097667995778005d5aeee05fc597fef1153a694d207",
+                  "tracked_source_blobs": 1703,
+                  "status": "Logical sharing implemented and measured, rejected for strict duplicate-alert ordering; retained runtime unchanged. Range diagnostics corrected; full inventory and 22-entry new literature review included. Quarter-memory/performance/production qualification remain unmet.",
+                  "test_scope": "source/docs/logical-sharing-implementation.md; source/docs/logical-sharing-results/",
+                  "research_appendices": [
+                    {
+                      "date": "2026-10-27",
+                      "path": "research/remaining-memory/remaining-memory-research.md",
+                      "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+                      "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+                      "files_sha256": {
+                        "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                        "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                        "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+                      }
+                    }
+                  ],
+                  "previous_revision_metadata": {
+                    "source_revision": "051de65a04fd71a9a54f467d7fb1f95f9588be8a",
+                    "source_tree": "88c0d9528e619fda15173f7f60fee918d89c1afd",
+                    "branch": "demand-loaded-engine",
+                    "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+                    "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+                    "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+                    "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+                    "recovery_snapshot_commit": "725de384a48a7e0233609c116379b64a826dad5e",
+                    "recovery_note": "Source bytes restored from saved version 5; original Git objects unavailable. Recovery Git normalized CRLF/modes and initially omitted ignored logs, which are restored in final history. New local ancestry is not certified identical to the earlier original tree. Archive manifest records actual source bytes.",
+                    "patch_sha256": "e2146a945a552b2598d6b7bad5b1240db48138de08b23ba8c3be6ca8970f7423",
+                    "preserved_prior_patch_sha256": "d40bf4e82edfcf4c8656e974319ec0e6f89130a5ba95840f95428dbcecb65acb",
+                    "new_patch_sha256": "6bb64a2cd7173d13df546ab78a7b2c2c39409eeeeb362769a577cbdeaf65ea7c",
+                    "tracked_source_blobs": 1663,
+                    "status": "Opt-in exact flat hash store implemented and measured; independent token decoding and flagged-index follow-up measured separately; quarter-memory target and production performance/reload qualification remain unmet.",
+                    "test_scope": "source/docs/complexity-shift-implementation.md; source/docs/complexity-shift-results/",
+                    "research_appendices": [
+                      {
+                        "date": "2026-10-27",
+                        "path": "research/remaining-memory/remaining-memory-research.md",
+                        "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+                        "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+                        "files_sha256": {
+                          "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                          "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                          "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+                        }
+                      }
+                    ],
+                    "previous_revision_metadata": {
+                      "source_revision": "2c464040eddf2c04951a21e6277f16823f5e5bf8",
+                      "source_tree": "fa72c337b911df8c69b134d5a774894b8a5de5e4",
+                      "branch": "demand-loaded-engine",
+                      "upstream_base": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+                      "runtime_repair": "9c705c580d72be58c6785528a4697ab04cbb3863",
+                      "recovered_source_revision": "479a69bb8e5d7afdeedc7c5a863cc82aa9b03af5",
+                      "recovered_source_tree": "ce53cf1ef590f13f07204507e41f2f3262f6bb84",
+                      "recovery_snapshot_commit": "6f8af2a055acfe755ac54174627dc70727a66589",
+                      "recovery_note": "The prior exact source tree was restored from the saved artifact. New history follows a recovery snapshot, not the unavailable original commit ancestry. changes.patch preserves the previous upstream-based series followed by the new change.",
+                      "patch_sha256": "d40bf4e82edfcf4c8656e974319ec0e6f89130a5ba95840f95428dbcecb65acb",
+                      "preserved_prior_patch_sha256": "67f8d641b525a13e5b61b34859d649aa852fc9e5dc4e53b334b637af4e75dea0",
+                      "new_patch_sha256": "19bd79eb0870fddc09038eceae24249a7f393b8fec0dddfe64826be0a1291fc5",
+                      "tracked_source_blobs": 1605,
+                      "status": "Exact tunable-profile prototypes measured; repaired engine unchanged; no new scanner integration; whole-engine quarter-memory and performance-profile qualification remain outstanding",
+                      "test_scope": "source/docs/tunable-profile-prototypes.md and source/docs/profile-prototype-results/; historical suites are separately documented",
+                      "research_appendices": [
+                        {
+                          "date": "2026-10-27",
+                          "path": "research/remaining-memory/remaining-memory-research.md",
+                          "scope": "Primary-literature review and reproducible payload calculations; no source or patch changes; no new scanner or codec measurements",
+                          "input_archive_sha256": "bb2ca08063e04b3e1ac05cd9b1c9f1697e599b8bcc62cf7e68c08eaf81a69872",
+                          "files_sha256": {
+                            "research/remaining-memory/remaining-memory-research.md": "fb540527ab0d2ba75e1b3fed4fc5ffdb900d5e1c3f3622e2adc6a7188eb6ccd0",
+                            "research/remaining-memory/remaining_memory_calculations.py": "0d86448ac35b91ce989014c366bbabc842a7edf7d3408fe504746aaffa27b8e9",
+                            "research/remaining-memory/remaining-memory-calculations.json": "c9c8db7ab5cbd4b78cf183b8592c132208a57694ca26beee9657de79c132c24f"
+                          }
+                        }
+                      ]
+                    },
+                    "input_archive_sha256": "59de6967e13f0f538a98516c022a3346e62648c90fde947a5cf9521b07b83dc3"
+                  },
+                  "input_archive_sha256": "34cbfbe9b9747b2eebabd19e645121ad018251cf7b86b9ab7fc956bbedf36dba",
+                  "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+                  "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+                  "retained_runtime_revision": "051de65a04fd71a9a54f467d7fb1f95f9588be8a",
+                  "input_library_version": 6
+                },
+                "input_archive_sha256": "44a2413f4920d6762ee57494cf8e02e6be3a74fe203c0f0e3258ac9a9f31dd1d",
+                "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+                "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+                "retained_runtime_revision": "051de65a04fd71a9a54f467d7fb1f95f9588be8a",
+                "input_library_version": 7
+              },
+              "input_archive_sha256": "7f34441f77a81be962b38fdce32eab023f3bfe16fe28153413b85d9336dcf7ee",
+              "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+              "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+              "retained_runtime_revision": "051de65a04fd71a9a54f467d7fb1f95f9588be8a",
+              "input_library_version": 8,
+              "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+              "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+              "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+              "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+              "source_history_bundle_sha256": "836d88db2fc4dbba10a0afeaaaa9afc6cfc5312f4d08b8b64f088686202e3d34",
+              "latest_research_appendix": "research/rejected-approaches/reassessment.md"
+            },
+            "input_archive_sha256": "53dd7a830c66da77730024b60f269cbc3d701d115f7bd814ea60177417969ac1",
+            "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+            "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+            "retained_runtime_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+            "input_library_version": 10,
+            "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+            "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+            "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+            "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+            "source_history_bundle_sha256": "e7f2ecd38b777ce80a4e66f75b43269e2e5761655d7ae8cd28ec8f4bf776ea1c",
+            "latest_research_appendix": "research/rejected-approaches/reassessment.md",
+            "implemented_reconsiderations": [
+              "R02",
+              "R18 borrowed-key variant"
+            ]
+          },
+          "input_archive_sha256": "53dd7a830c66da77730024b60f269cbc3d701d115f7bd814ea60177417969ac1",
+          "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+          "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+          "retained_runtime_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+          "input_library_version": 10,
+          "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+          "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+          "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+          "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+          "source_history_bundle_sha256": "e7f2ecd38b777ce80a4e66f75b43269e2e5761655d7ae8cd28ec8f4bf776ea1c",
+          "latest_research_appendix": "research/rejected-approaches/reassessment.md",
+          "implemented_reconsiderations": [
+            "R02",
+            "R18 borrowed-key variant"
+          ],
+          "subset_selector": {
+            "version": "1.1.0-experimental",
+            "incremental_patch": "subset-selector.patch",
+            "incremental_patch_sha256": "e26fd6dd9e210dc3bd4207b46a6980eed17244bb48c9b0870077553f311c2064",
+            "input_archive_sha256": "a1624e50762b3c8e368025991d330746b9e853e44c3315c7b48fbfbe7b81bed7",
+            "input_bundle_sha256": "e7f2ecd38b777ce80a4e66f75b43269e2e5761655d7ae8cd28ec8f4bf776ea1c",
+            "new_bundle_sha256": "f82ac0bbbb85d62fca7d470a96f2919f857909235012ea6953b1d2e25bc41b68",
+            "runtime_changed": false,
+            "activation_enabled": false,
+            "compiled_reduction_percent": 83.58160008042096
+          }
+        },
+        "input_archive_sha256": "c4bd73f14b62d7ec134e228b7f58003149715b4a04f28150a3d5d8b2d33b8680",
+        "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+        "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+        "retained_runtime_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+        "input_library_version": 12,
+        "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+        "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+        "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+        "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+        "source_history_bundle_sha256": "af7feafcefc9343dfdbc8386496348d56c783cf1804e17d82c050bc72228f7f4",
+        "latest_research_appendix": "research/rejected-approaches/reassessment.md",
+        "implemented_reconsiderations": [
+          "R02",
+          "R18 borrowed-key variant"
+        ],
+        "subset_selector": {
+          "version": "1.2.0-experimental",
+          "configuration_flag": "--database-profile=legal-redress",
+          "default_profile": "full",
+          "incremental_patch": "subset-configuration.patch",
+          "incremental_patch_base": "23d84707b1f5e988e4dcb98ddd5f2c0d543a2809",
+          "incremental_patch_sha256": "bd17eaf88b019102a62764e9939846e3367a1fe633ee9d80732c62b5b98de42e",
+          "previous_selector_patch_preserved": "subset-selector.patch",
+          "runtime_changed": false,
+          "restricted_scanning_enabled": true,
+          "automatic_release_enabled": false,
+          "full_exact_baseline_comparisons": 414,
+          "compiled_rss_reduction_percent": 83.58990416704434,
+          "reload_overlap_peak_mib": 303.15625
+        }
+      },
+      "input_archive_sha256": "69563b9c158b43521307073b7db6361971b87abb02e3c17535d821b26d30b5a0",
+      "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+      "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+      "retained_runtime_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+      "input_library_version": 13,
+      "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+      "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+      "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+      "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+      "source_history_bundle_sha256": "f53ed5bd8f644f039f58db78906f1004cff434e5dde4fc2be4ff3c7bf29beed1",
+      "latest_research_appendix": "research/rejected-approaches/reassessment.md",
+      "implemented_reconsiderations": [
+        "R02",
+        "R18 borrowed-key variant"
+      ],
+      "subset_selector": {
+        "version": "1.2.0-experimental",
+        "configuration_flag": "--database-profile=legal-redress",
+        "default_profile": "full",
+        "incremental_patch": "subset-configuration.patch",
+        "incremental_patch_base": "23d84707b1f5e988e4dcb98ddd5f2c0d543a2809",
+        "incremental_patch_sha256": "bd17eaf88b019102a62764e9939846e3367a1fe633ee9d80732c62b5b98de42e",
+        "previous_selector_patch_preserved": "subset-selector.patch",
+        "runtime_changed": false,
+        "restricted_scanning_enabled": true,
+        "automatic_release_enabled": false,
+        "full_exact_baseline_comparisons": 414,
+        "compiled_rss_reduction_percent": 83.58990416704434,
+        "reload_overlap_peak_mib": 303.15625
+      },
+      "performance_patch_base": "9dfde0139708a1eb1a728f86baecb1d8ec1b66df",
+      "performance_patch_sha256": "b0c433e0a933234629412786d81717084a9caf5f8131991cf649bd09b42497bd",
+      "performance_summary_sha256": "e057534910e0b21c71b25709057ff696edf73ffd7ac994bdec6b10428778d7ed"
+    },
+    "input_archive_sha256": "6fc85382dbd5e0bd5281f1e4b078a8dc93ed17f3a07640a9f2d336a63ec52ddb",
+    "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+    "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+    "retained_runtime_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+    "input_library_version": 14,
+    "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+    "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+    "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+    "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+    "source_history_bundle_sha256": "5f955b24d87e7b4c9cd4d7d0658a7e581a6c61749ff6163946febb330a617a70",
+    "latest_research_appendix": "research/rejected-approaches/reassessment.md",
+    "implemented_reconsiderations": [
+      "R02",
+      "R18 borrowed-key variant"
+    ],
+    "subset_selector": {
+      "version": "1.2.0-experimental",
+      "configuration_flag": "--database-profile=legal-redress",
+      "default_profile": "full",
+      "incremental_patch": "subset-configuration.patch",
+      "incremental_patch_base": "23d84707b1f5e988e4dcb98ddd5f2c0d543a2809",
+      "incremental_patch_sha256": "bd17eaf88b019102a62764e9939846e3367a1fe633ee9d80732c62b5b98de42e",
+      "previous_selector_patch_preserved": "subset-selector.patch",
+      "runtime_changed": false,
+      "restricted_scanning_enabled": true,
+      "automatic_release_enabled": false,
+      "full_exact_baseline_comparisons": 414,
+      "compiled_rss_reduction_percent": 83.58990416704434,
+      "reload_overlap_peak_mib": 303.15625
+    },
+    "performance_patch_base": "9dfde0139708a1eb1a728f86baecb1d8ec1b66df",
+    "performance_patch_sha256": "b0c433e0a933234629412786d81717084a9caf5f8131991cf649bd09b42497bd",
+    "performance_summary_sha256": "e057534910e0b21c71b25709057ff696edf73ffd7ac994bdec6b10428778d7ed",
+    "hardening_patch_base": "754416569d175a6fb50212fdd25475cab2add1c1",
+    "hardening_patch_sha256": "e2b58a196a2cadf23a6315c1dcd839cebd6e9c1e7477b33b68f2f12877bd83a5",
+    "production_ready": false
+  },
+  "input_archive_sha256": "c10e104c1764c4e4ddec55850d113849565208750029fcc6427b2156cb319d19",
+  "experimental_revision": "9af6748a240b6beb872f53c96d7212ac43fdf800",
+  "experimental_patch_base": "3d3034eb7192b465902922110a85363f90dfe554",
+  "retained_runtime_revision": "005bb6c6ca880b13184775956d0f87faf541ea0b",
+  "input_library_version": 15,
+  "length_bounds_experimental_revision": "abd243106f16b83f12ac12cbe8877b5506bb3bea",
+  "length_bounds_experimental_base": "fe52606b9348d537f608518df31d5ea9105bd967",
+  "length_bounds_experimental_branch": "experiment/ac-length-bounds",
+  "length_bounds_patch_sha256": "f86340a8b24fa81a75d4b1acc645dd0304aeb9dd46a71267a58f70091462b6a3",
+  "source_history_bundle_sha256": "e3e9bcd0ef28ef18e8fea5de3f0f08be8874f8314be87a77e010bf5da5267cb2",
+  "latest_research_appendix": "research/rejected-approaches/reassessment.md",
+  "implemented_reconsiderations": [
+    "R02",
+    "R18 borrowed-key variant"
+  ],
+  "subset_selector": {
+    "version": "1.2.0-experimental",
+    "configuration_flag": "--database-profile=legal-redress",
+    "default_profile": "full",
+    "incremental_patch": "subset-configuration.patch",
+    "incremental_patch_base": "23d84707b1f5e988e4dcb98ddd5f2c0d543a2809",
+    "incremental_patch_sha256": "bd17eaf88b019102a62764e9939846e3367a1fe633ee9d80732c62b5b98de42e",
+    "previous_selector_patch_preserved": "subset-selector.patch",
+    "runtime_changed": false,
+    "restricted_scanning_enabled": true,
+    "automatic_release_enabled": false,
+    "full_exact_baseline_comparisons": 414,
+    "compiled_rss_reduction_percent": 83.58990416704434,
+    "reload_overlap_peak_mib": 303.15625
+  },
+  "performance_patch_base": "9dfde0139708a1eb1a728f86baecb1d8ec1b66df",
+  "performance_patch_sha256": "b0c433e0a933234629412786d81717084a9caf5f8131991cf649bd09b42497bd",
+  "performance_summary_sha256": "e057534910e0b21c71b25709057ff696edf73ffd7ac994bdec6b10428778d7ed",
+  "hardening_patch_base": "754416569d175a6fb50212fdd25475cab2add1c1",
+  "hardening_patch_sha256": "e2b58a196a2cadf23a6315c1dcd839cebd6e9c1e7477b33b68f2f12877bd83a5",
+  "production_ready": false,
+  "boundary_patch_base": "777cba95f55563f0b93d814d5eb86697d8c2ac87",
+  "boundary_patch_sha256": "205b680548a3cbda3c379e091808032544e5b1e4abc64c2f86154378efc70cc4",
+  "backport_archives": {
+    "stable": {
+      "filename": "ClamAV-1.5.4-Legal-Redress-backport.zip",
+      "sha256": "288789a528592d4b93920c4940fa419c6776eff94b6f445fdba078de106e06c0",
+      "bytes": 18488471,
+      "upstream_tag": "clamav-1.5.4",
+      "upstream_commit": "fa59fca15872bb8a914ba4c68188bcc8a502cbdf",
+      "backport_commit": "ef83184a457e762f95cc7807ed678020497cea33",
+      "source_tree": "51e985888344c2e7964538ad458289b590a2984c",
+      "source_files": 1785,
+      "backport_patch_sha256": "5ebacfd4ff35b05a5268fc0b08d9aaa3b6769a52dfe008a6cedd73854ff2db2d",
+      "patch_reproduces_source_tree": true,
+      "production_ready": false,
+      "automatic_reduced_release": false,
+      "report": "source/docs/legal-redress-backport.md"
+    },
+    "lts": {
+      "filename": "ClamAV-1.4.6-Legal-Redress-backport.zip",
+      "sha256": "65e4803e1672e3b03ed30316027bbedc3cc2cb8464ef85bf035e3c64f3e74cc3",
+      "bytes": 18217060,
+      "upstream_tag": "clamav-1.4.6",
+      "upstream_commit": "5853e1396777bae4d909cd3dd44f58352e7cf9b3",
+      "backport_commit": "a5aa6b77ed582cd056b95aba246ed922dc78c94e",
+      "source_tree": "a5ee208455c4ffd19eba322605e386a5d63916a8",
+      "source_files": 1673,
+      "backport_patch_sha256": "a195f4333163084c670c5cac43549f3d560a77f7d4ff43cd104558801645f7e5",
+      "patch_reproduces_source_tree": true,
+      "production_ready": false,
+      "automatic_reduced_release": false,
+      "report": "source/docs/legal-redress-backport.md"
+    }
+  }
+}

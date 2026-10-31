@@ -1,0 +1,27 @@
+{
+  "scalar": {
+    "selftest": "passed",
+    "boundary_block_sizes": 8,
+    "records_per_case": 1103,
+    "invalid_access_rejected": true
+  },
+  "token_boundary_lengths": [
+    0,
+    1,
+    2,
+    63,
+    64,
+    4095,
+    4096,
+    4097,
+    65535,
+    131070,
+    262140
+  ],
+  "tokens_roundtrip_verified": true,
+  "checksum_truncation_decoded_length_and_range_failures_rejected": true,
+  "malformed_indexes_rejected": 6,
+  "synthetic_data_sha256": "8c90f1606bf242dd4adc3a753ea4d849f14b42ea9cc23cf2c06c8b5f62820850",
+  "synthetic_index_sha256": "f3fa841fa2e5c51e5fdba90b37b07e289fd474f1789e89f05d0901240820acb5",
+  "scope": "Standalone codecs; not a scanner differential test or general malformed-file fuzzer."
+}

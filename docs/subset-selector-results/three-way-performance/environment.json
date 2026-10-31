@@ -1,0 +1,71 @@
+{
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "cpu": 0,
+  "affinity": [
+    0
+  ],
+  "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "rounds": 5,
+  "warm_repetitions": 3,
+  "seed": 20261029,
+  "concurrent_scans": 1,
+  "allmatch": true,
+  "raw_output": "JSONL; original byte hashes and full callback histories retained",
+  "database": [
+    {
+      "name": "bytecode.cvd",
+      "bytes": 281702,
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+    },
+    {
+      "name": "daily.cvd",
+      "bytes": 23443876,
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+    },
+    {
+      "name": "main.cvd",
+      "bytes": 89072577,
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+    }
+  ],
+  "generation_sha256": "0e375456b2377236ebc60a5c19884b02e53181420b8665a05583b3407e97cdf3",
+  "fixture_list_sha256": "11e208243a39b8c8cacd468256209cabef8550eda3f551126bee9b42b54923cd",
+  "fixture_bytes": 14845995,
+  "fixture_count": 28,
+  "hashes": {
+    "upstream_probe": "11649f0aea6332b65c52d3ee9494c5d8c4115a29268032eaf22455c153f549d0",
+    "fork_probe": "87c523bc089548fc2c5cee611c819223a66c87bdfdbc4503758d3d00040a9c80",
+    "upstream_lib": "3d351ef017ff9529ae11d9196db8db1ecfeed927f69639d533027cecf03f6cca",
+    "fork_lib": "874e26079246a3b3276e526128c9b0260ec8d482e157df549969e4c90913017d",
+    "upstream_freshclam": "08d61c78983eb43ee506188e58ceb6ab12fc62eecd9008e7f8f6fac3e12d0415",
+    "fork_freshclam": "507bb7688d3ceee9b536fea0fdb1cf457ee4f32c613b264ab0bd71712cf0d7b0"
+  },
+  "main_scan_options": "all parsers, all-match, metadata, heuristics; clean-result cache disabled equally",
+  "cache_diagnostic_options": "same except metadata off and clean-result cache enabled equally; not a shipping evidence policy",
+  "page_cache_control": "fsync + POSIX_FADV_DONTNEED or complete read, verified with mincore at 0% or 100%; no global drop_caches",
+  "memory": "RSS high water and sampled RSS/PSS/USS; working-set page residency recorded separately; no additive total with shared cgroup",
+  "timing": "native process; engine startup and integrity-preserving scan pipeline timed; memory snapshots outside timed scan intervals",
+  "runtime_modules": {
+    "upstream": [
+      {
+        "path": "/workspace/scratch/48dde463229d/analysis-run/build-upstream/libclamunrar_iface/libclamunrar_iface.so.14.0.0",
+        "sha256": "d44c4b0b3f71d0db35d82391ee5653a6d27652f204b9bba9ee33c07a39704bcc"
+      },
+      {
+        "path": "/workspace/scratch/48dde463229d/analysis-run/build-upstream/libclamunrar/libclamunrar.so.14.0.0",
+        "sha256": "61c3e632d0ca22469424ab8801ce87101068743347a8c2ffd7ce790bb29a046c"
+      }
+    ],
+    "fork": [
+      {
+        "path": "/workspace/scratch/48dde463229d/analysis-run/build-fork/libclamunrar_iface/libclamunrar_iface.so.14.0.0",
+        "sha256": "1acec0c5fd24d89925758ebfd8547bea8cdec5a279e3750c8be96d2423205f40"
+      },
+      {
+        "path": "/workspace/scratch/48dde463229d/analysis-run/build-fork/libclamunrar/libclamunrar.so.14.0.0",
+        "sha256": "e79db6f55fdefaa50d5c5cdae3200718faa3c15ea35d73027e16aa78d85754a3"
+      }
+    ]
+  }
+}

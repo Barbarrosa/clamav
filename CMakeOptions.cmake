@@ -32,6 +32,22 @@ set(DISABLE_MPOOL
     0 CACHE STRING
     "Disable mpool support entirely.")
 
+option(ENABLE_FLAT_HASH_STORE
+    "Compile hash buckets and names into immutable contiguous arrays (experimental)" OFF)
+
+option(ENABLE_COMPACT_LSIG_STATE
+    "Size logical match-state rows to validated signature requirements."
+    ON)
+option(ENABLE_AC_NODE_IDS
+    "Use 32-bit AC transition IDs on 64-bit targets (OFF uses native pointers)."
+    ON)
+option(ENABLE_AC_FLAT_NODES
+    "Pack compiled AC nodes contiguously when compact transition IDs are enabled."
+    ON)
+option(ENABLE_AC_DISPOSABLE_BUILD
+    "Experimental AC construction pool (can change duplicate alert ordering)."
+    OFF)
+
 set(BYTECODE_RUNTIME
     "interpreter" CACHE STRING
     "Bytecode Runtime, may be: 'llvm', 'interpreter', 'none'.")

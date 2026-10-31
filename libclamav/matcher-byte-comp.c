@@ -480,15 +480,15 @@ cl_error_t cli_bcomp_scanbuf(const unsigned char *buffer, size_t buffer_length, 
             snprintf(subsigid, 3, "%hu", bcomp->ref_subsigid);
 
             /* verify the ref_subsigid */
-            val = cli_ac_chklsig(subsigid, subsigid + strlen(subsigid), mdata->lsigcnt[bcomp->lsigid[1]], &evalcnt, &evalids, 0);
+            val = cli_ac_chklsig(subsigid, subsigid + strlen(subsigid), cli_ac_lsig_counts(mdata, bcomp->lsigid[1]), &evalcnt, &evalids, 0);
             if (val != 1) {
                 bcm_dbgmsg("cli_bcomp_scanbuf: could not verify a match for lsig reference subsigid (%s)\n", subsigid);
                 continue;
             }
 
             /* grab the needed offset using from the last matched subsig offset matrix, i.e. the match performed above */
-            if (mdata->lsigsuboff_last[lsigid]) {
-                offset = mdata->lsigsuboff_last[lsigid][ref_subsigid];
+            if (cli_ac_lsig_last(mdata, lsigid)) {
+                offset = cli_ac_lsig_last(mdata, lsigid)[ref_subsigid];
             } else {
                 ret = CL_SUCCESS;
                 continue;
@@ -523,7 +523,7 @@ cl_error_t cli_bcomp_scanbuf(const unsigned char *buffer, size_t buffer_length, 
         if (CL_VIRUS == bcomp_check) {
             /* check to see if we are being run in sigtool or not */
             if (bcomp->lsigid[0]) {
-                mdata->lsigcnt[bcomp->lsigid[1]][bcomp->lsigid[2]]++;
+                cli_ac_lsig_counts(mdata, bcomp->lsigid[1])[bcomp->lsigid[2]]++;
             } else {
                 /* Run by sigtool's --test-sigs feature without context of whole lsig or previous subsigs */
                 ret = cli_append_virus(ctx, "test");

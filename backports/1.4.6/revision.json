@@ -1,0 +1,12 @@
+{
+  "upstream_tag": "clamav-1.4.6",
+  "upstream_commit": "5853e1396777bae4d909cd3dd44f58352e7cf9b3",
+  "backport_commit": "a5aa6b77ed582cd056b95aba246ed922dc78c94e",
+  "source_tree": "a5ee208455c4ffd19eba322605e386a5d63916a8",
+  "source_files": 1673,
+  "backport_patch_sha256": "a195f4333163084c670c5cac43549f3d560a77f7d4ff43cd104558801645f7e5",
+  "patch_reproduces_source_tree": true,
+  "production_ready": false,
+  "automatic_reduced_release": false,
+  "report": "source/docs/legal-redress-backport.md"
+}

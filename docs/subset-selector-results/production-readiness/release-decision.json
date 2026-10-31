@@ -1,0 +1,25 @@
+{
+  "production_ready": false,
+  "restricted_automatic_release": false,
+  "default_database_profile": "full",
+  "restricted_flag": "--database-profile=legal-redress",
+  "blockers": [
+    {
+      "id": "parser-completeness",
+      "reason": "Reduced clean candidates remain held; silent parser skips are not fully observable."
+    },
+    {
+      "id": "engine-release-qualification",
+      "reason": "The retained engine is a custom 1.6 development build, not a supported stable/LTS release; security patch parity and the custom changes need release qualification."
+    },
+    {
+      "id": "deployment-isolation-and-recovery",
+      "reason": "No target deployment supplied: read-only evidence isolation from the native scanner, queue recovery, storage quotas, access controls and service resource limits are unvalidated."
+    },
+    {
+      "id": "generation-update-operations",
+      "reason": "Signed update preparation is validated locally; deployed freshness monitoring, promotion, rollback and recovery are unqualified."
+    }
+  ],
+  "report": "docs/production-readiness.md"
+}

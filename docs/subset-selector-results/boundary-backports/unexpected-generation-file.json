@@ -1,0 +1,6 @@
+{
+  "path": "backport-run/generation-stable/databases/.main.cvd.bfOIpj",
+  "sha256": "5df63563ebff68bb8cce4dbb31e9e1c727016a87c2ae12f9838a96b5550773ff",
+  "bytes": 88604672,
+  "note": "Unexpected extra file caused strict generation validation to reject intake. Origin unestablished; isolated unchanged outside the generation. Signed generation members were rechecked; no validation exception added."
+}

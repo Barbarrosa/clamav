@@ -1,0 +1,1775 @@
+{
+  "schema": 1,
+  "selector_version": "1.2.0-experimental",
+  "selector_sha256": "044ba2f43ffbc3cf8fb8318a85e12c9af10e05bcdf366611be8104a72dfe0b27",
+  "engine_library_sha256": "343fae262ae45dfda51726b469c1a39014e456518b83430ec31179cbd9b3df19",
+  "profile": {
+    "id": "legal-redress-pe-hold-v1",
+    "status": "opt-in-restricted-scan; automatic release held",
+    "configuration_flag": "--database-profile=legal-redress",
+    "default_database_profile": "full",
+    "required_scan_mode": "all-match; accepting alert callbacks",
+    "equivalence_contract": "Same detection multisets (including legacy weak/PUA evidence), verdict, layer traversal and policy holds. Selected final name and alert order may differ. Full mode preserves original ordered results.",
+    "initial_root_types": [
+      "CL_TYPE_PDF",
+      "CL_TYPE_JPEG",
+      "CL_TYPE_PNG"
+    ],
+    "initial_profile_is_approved_form_allowlist": false,
+    "broader_shadow_root_types": [
+      "CL_TYPE_MSOLE2",
+      "CL_TYPE_MSOXML",
+      "CL_TYPE_OOXML_WORD",
+      "CL_TYPE_OOXML_PPT",
+      "CL_TYPE_OOXML_XL",
+      "CL_TYPE_OOXML_HWP",
+      "CL_TYPE_MAIL",
+      "CL_TYPE_ZIP",
+      "CL_TYPE_RAR",
+      "CL_TYPE_7Z",
+      "CL_TYPE_RTF"
+    ],
+    "forbidden_matcher_target": 1,
+    "forbidden_observed_types": [
+      "CL_TYPE_MSEXE"
+    ],
+    "retained_targets": "all except proven plain PE-only NDB/LDB callback-name groups",
+    "retained_effects": [
+      "generic rules",
+      "whole-file hashes",
+      "bytecode",
+      "handlers",
+      "type recognition",
+      "macro dependencies",
+      "allowlists",
+      "trust",
+      "unknown rules"
+    ],
+    "outcomes": [
+      "clean",
+      "detected",
+      "held",
+      "failed"
+    ],
+    "reduced_automatic_release": false,
+    "evidence_policy": "Preserve original bytes and metadata in a private immutable intake object; derivatives have independent verdicts. Narrative submission must proceed independently. Holds have an authorized full-scan/manual exception path, including executable evidence.",
+    "known_limits": "Callback coverage and corpus agreement are not proof of complete parsing. Silent parser/embedded-size skips prevent automatic-release qualification. Alert order differences are accepted only with equal detection multisets and severity; first-hit and early-stop/trust callbacks are outside the restricted configuration."
+  },
+  "signed_databases": [
+    {
+      "name": "bytecode.cvd",
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+      "bytes": 281702,
+      "header": "ClamAV-VDB:11 Sep 2025 08-29 -0400:339:80:90:8bdb03f60b90cfc4c8d500543233de96:ow+EI2l1J6dXNMseMugc4ZK0cdbnUyDZY7x/Or+pIuzjIaYmWBt6MflLRusmT+y2dQamP0RjLrSAHjeU8DwyuWmTIkoTo1wrY1B3ZEUDC/Ta5vpv0cxYy4MPgMkeNovlXmEKCWX4m3orZS+3VJ/9J9grZ2rxcJubE9RAU5CXmEg:nrandolp:1757593759",
+      "verified": true
+    },
+    {
+      "name": "daily.cvd",
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+      "bytes": 23443876,
+      "header": "ClamAV-VDB:25 Oct 2026 06-24 +0000:28164:355788:90:c80bc7dd272862181af0181b0f0f4423:AvT9Ii8ZHAeWXyfQKxr01AB567vsNRkjdOCMOox9e2NAj79xv5R+LgIiZSznm7yDUJtbOf7cr0dQTSCpDkH22Xko7Y4tF4yCL9vWEjXW+V1a2A7YCfsCsx3WzXspV7WXCKEry2dwHI7L/PImovHAsM3QGwxxsdZz+zVGhiAEpoc:svc.clamav-publisher:1792909452",
+      "verified": true
+    },
+    {
+      "name": "main.cvd",
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365",
+      "bytes": 89072577,
+      "header": "ClamAV-VDB:16 Dec 2025 23-18 +0000:63:3287027:90:9c353a6b32555186a45a61c6441f38c0:gI9w3cezaElJbedEoiykyQeX1f6j9Xbs3a+cf9U/kH5QScGMe2mRz1K2JlYOrqfBuOUMbiKmvkVvAquOsMeDp/ejLVDx5WulC6klZVhLOfBHda29OjaLZwEGR9GPIHDr0mXriv7pivuMH60/loxpASIJHLOszyj95pxVK+EaTCh:tomjudge:1765927102",
+      "verified": true
+    }
+  ],
+  "full_load_validation": {
+    "status": "passed",
+    "engine": {
+      "kind": "engine",
+      "signatures": 3628192,
+      "skipped": 0,
+      "sigload_calls": 0,
+      "selector_mapping_and_index_bytes": 0,
+      "load_seconds": 6.751391730998876,
+      "compile_seconds": 1.7066162549999717,
+      "compiled_rss_kib": 809012,
+      "construction_hwm_kib": 843332,
+      "max_file_bytes": 104857600,
+      "max_scan_bytes": 419430400,
+      "max_recursion": 17,
+      "max_files": 10000
+    },
+    "probe_sha256": "a37333abfbcfc93f75a51223fd14eee2629d356a38ad0b39c8dfbf00d5c2d7c8",
+    "probe_source_sha256": "0159707949c72f69261261770cad888aba0943fff2b0fd1dda91f673dda8230f",
+    "stdout_sha256": "b753584371c79717e385e13676a6af97d5ce54eaff2fe426f9cad5ef358e372f"
+  },
+  "skip_sha256": "0896db5c9930ae4d8d0dfe2e328daa0bc6c0e9f1d0ea68bc38f023f05b50f20f",
+  "decision_sqlite_sha256": "487dce93a60de43c272096b36f08778542a758b3ec3530eccb9f0e7a3e618d17",
+  "excluded_callback_names": 369984,
+  "family_exclusions": [
+    "imp",
+    "mdb",
+    "msb"
+  ],
+  "protected_bytecode_names": 85,
+  "decision_counts": {
+    "effect-generic-other-or-uncertain": 16035,
+    "explicit-PE-logical": 306357,
+    "explicit-PE-pattern": 63627,
+    "generic-other-or-uncertain": 42441
+  },
+  "inventory": [
+    {
+      "database": "bytecode.cvd",
+      "member": "COPYING",
+      "serialized_bytes": 17992,
+      "format": "",
+      "records": 0,
+      "targets": {},
+      "reasons": {
+        "metadata-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "bytecode.info",
+      "serialized_bytes": 7407,
+      "format": "info",
+      "records": 0,
+      "targets": {},
+      "reasons": {
+        "metadata-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986187.cbc",
+      "serialized_bytes": 8000,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986188.cbc",
+      "serialized_bytes": 4144,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986206.cbc",
+      "serialized_bytes": 4475,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986212.cbc",
+      "serialized_bytes": 10779,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986214.cbc",
+      "serialized_bytes": 4013,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986215.cbc",
+      "serialized_bytes": 3822,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986216.cbc",
+      "serialized_bytes": 3417,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986217.cbc",
+      "serialized_bytes": 3822,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986218.cbc",
+      "serialized_bytes": 4288,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986219.cbc",
+      "serialized_bytes": 3722,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986220.cbc",
+      "serialized_bytes": 3584,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986221.cbc",
+      "serialized_bytes": 3241,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986222.cbc",
+      "serialized_bytes": 3078,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986223.cbc",
+      "serialized_bytes": 3821,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986224.cbc",
+      "serialized_bytes": 3429,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986229.cbc",
+      "serialized_bytes": 3897,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986230.cbc",
+      "serialized_bytes": 3935,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986231.cbc",
+      "serialized_bytes": 3972,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986232.cbc",
+      "serialized_bytes": 4088,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986233.cbc",
+      "serialized_bytes": 3833,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986234.cbc",
+      "serialized_bytes": 3808,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986235.cbc",
+      "serialized_bytes": 3822,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986236.cbc",
+      "serialized_bytes": 3811,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986242.cbc",
+      "serialized_bytes": 3307,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986244.cbc",
+      "serialized_bytes": 7577,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986249.cbc",
+      "serialized_bytes": 30888,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986259.cbc",
+      "serialized_bytes": 6945,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986282.cbc",
+      "serialized_bytes": 9093,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986289.cbc",
+      "serialized_bytes": 5996,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986292.cbc",
+      "serialized_bytes": 4252,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986301.cbc",
+      "serialized_bytes": 5684,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986303.cbc",
+      "serialized_bytes": 25791,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986305.cbc",
+      "serialized_bytes": 9595,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986306.cbc",
+      "serialized_bytes": 18006,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986310.cbc",
+      "serialized_bytes": 12091,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986321.cbc",
+      "serialized_bytes": 15214,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986322.cbc",
+      "serialized_bytes": 6240,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986327.cbc",
+      "serialized_bytes": 6011,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986328.cbc",
+      "serialized_bytes": 7387,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986334.cbc",
+      "serialized_bytes": 4658,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "3986337.cbc",
+      "serialized_bytes": 4447,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4306126.cbc",
+      "serialized_bytes": 3885,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4306157.cbc",
+      "serialized_bytes": 10107,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4307467.cbc",
+      "serialized_bytes": 9252,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4510302.cbc",
+      "serialized_bytes": 16316,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4526683.cbc",
+      "serialized_bytes": 10133,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4553522.cbc",
+      "serialized_bytes": 13846,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "4970075.cbc",
+      "serialized_bytes": 6984,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "5044126.cbc",
+      "serialized_bytes": 6888,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "5588995.cbc",
+      "serialized_bytes": 68119,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "5999914.cbc",
+      "serialized_bytes": 13736,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "5999936.cbc",
+      "serialized_bytes": 16195,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6300337.cbc",
+      "serialized_bytes": 73685,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6316126.cbc",
+      "serialized_bytes": 6657,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6324281.cbc",
+      "serialized_bytes": 9012,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6327695.cbc",
+      "serialized_bytes": 3945,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6329916.cbc",
+      "serialized_bytes": 1614,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6329917.cbc",
+      "serialized_bytes": 11594,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6335400.cbc",
+      "serialized_bytes": 7435,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6335427.cbc",
+      "serialized_bytes": 3322,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6335560.cbc",
+      "serialized_bytes": 5146,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336023.cbc",
+      "serialized_bytes": 5135,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336035.cbc",
+      "serialized_bytes": 6216,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336074.cbc",
+      "serialized_bytes": 4879,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336259.cbc",
+      "serialized_bytes": 4236,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336260.cbc",
+      "serialized_bytes": 4769,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336630.cbc",
+      "serialized_bytes": 6255,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336737.cbc",
+      "serialized_bytes": 3858,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6336739.cbc",
+      "serialized_bytes": 4677,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6380163.cbc",
+      "serialized_bytes": 7468,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6395243.cbc",
+      "serialized_bytes": 4105,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6428210.cbc",
+      "serialized_bytes": 2906,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6428556.cbc",
+      "serialized_bytes": 10173,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6441308.cbc",
+      "serialized_bytes": 5351,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6442366.cbc",
+      "serialized_bytes": 2854,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6447941.cbc",
+      "serialized_bytes": 1706,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6539706.cbc",
+      "serialized_bytes": 93310,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6566834.cbc",
+      "serialized_bytes": 5505,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6614848.cbc",
+      "serialized_bytes": 814,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6645239.cbc",
+      "serialized_bytes": 2303,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6646491.cbc",
+      "serialized_bytes": 3204,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6754169.cbc",
+      "serialized_bytes": 38454,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "6754171.cbc",
+      "serialized_bytes": 24090,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "7001009.cbc",
+      "serialized_bytes": 34220,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "bytecode.cvd",
+      "member": "7086472.cbc",
+      "serialized_bytes": 418507,
+      "format": "cbc",
+      "records": 1,
+      "targets": {},
+      "reasons": {
+        "signed-bytecode-and-associated-logical-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "COPYING",
+      "serialized_bytes": 17992,
+      "format": "",
+      "records": 0,
+      "targets": {},
+      "reasons": {
+        "metadata-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.info",
+      "serialized_bytes": 2285,
+      "format": "info",
+      "records": 0,
+      "targets": {},
+      "reasons": {
+        "metadata-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.cfg",
+      "serialized_bytes": 424,
+      "format": "cfg",
+      "records": 21,
+      "targets": {
+        "unclassified": 21
+      },
+      "reasons": {
+        "format-retained": 21
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ign",
+      "serialized_bytes": 29,
+      "format": "ign",
+      "records": 1,
+      "targets": {
+        "unclassified": 1
+      },
+      "reasons": {
+        "format-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ign2",
+      "serialized_bytes": 571,
+      "format": "ign2",
+      "records": 23,
+      "targets": {
+        "unclassified": 23
+      },
+      "reasons": {
+        "format-retained": 23
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ftm",
+      "serialized_bytes": 20097,
+      "format": "ftm",
+      "records": 268,
+      "targets": {
+        "unclassified": 268
+      },
+      "reasons": {
+        "format-retained": 268
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.hdb",
+      "serialized_bytes": 1640,
+      "format": "hdb",
+      "records": 23,
+      "targets": {
+        "unclassified": 23
+      },
+      "reasons": {
+        "format-retained": 23
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.hdu",
+      "serialized_bytes": 2525,
+      "format": "hdu",
+      "records": 39,
+      "targets": {
+        "unclassified": 39
+      },
+      "reasons": {
+        "format-retained": 39
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.hsb",
+      "serialized_bytes": 3885273,
+      "format": "hsb",
+      "records": 54695,
+      "targets": {
+        "unclassified": 54695
+      },
+      "reasons": {
+        "format-retained": 54695
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.hsu",
+      "serialized_bytes": 89,
+      "format": "hsu",
+      "records": 1,
+      "targets": {
+        "unclassified": 1
+      },
+      "reasons": {
+        "format-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.mdb",
+      "serialized_bytes": 744257,
+      "format": "mdb",
+      "records": 11575,
+      "targets": {
+        "unclassified": 11575
+      },
+      "reasons": {
+        "explicit-PE-hash-family-candidate": 11575
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.mdu",
+      "serialized_bytes": 19999,
+      "format": "mdu",
+      "records": 315,
+      "targets": {
+        "unclassified": 315
+      },
+      "reasons": {
+        "format-retained": 315
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.msb",
+      "serialized_bytes": 161,
+      "format": "msb",
+      "records": 2,
+      "targets": {
+        "unclassified": 2
+      },
+      "reasons": {
+        "explicit-PE-hash-family-candidate": 2
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.msu",
+      "serialized_bytes": 92,
+      "format": "msu",
+      "records": 1,
+      "targets": {
+        "unclassified": 1
+      },
+      "reasons": {
+        "format-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ndb",
+      "serialized_bytes": 198731,
+      "format": "ndb",
+      "records": 322,
+      "targets": {
+        "12": 3,
+        "1": 149,
+        "10": 3,
+        "3": 17,
+        "7": 52,
+        "6": 31,
+        "2": 42,
+        "0": 21,
+        "9": 3,
+        "5": 1
+      },
+      "reasons": {
+        "generic-other-or-uncertain": 173,
+        "explicit-PE-pattern": 149
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ndu",
+      "serialized_bytes": 823292,
+      "format": "ndu",
+      "records": 4159,
+      "targets": {
+        "6": 2,
+        "1": 4021,
+        "0": 42,
+        "3": 68,
+        "7": 18,
+        "2": 5,
+        "11": 1,
+        "12": 2
+      },
+      "reasons": {
+        "generic-other-or-uncertain": 138,
+        "explicit-PE-pattern": 4021
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ldb",
+      "serialized_bytes": 76843040,
+      "format": "ldb",
+      "records": 273516,
+      "targets": {
+        "11": 3,
+        "7": 455,
+        "3": 86,
+        "0": 2061,
+        "1": 262881,
+        "2": 2782,
+        "6": 3924,
+        "4": 169,
+        "10": 34,
+        "9": 1043,
+        "12": 22,
+        "5": 56
+      },
+      "reasons": {
+        "effect-generic-other-or-uncertain": 10636,
+        "explicit-PE-logical": 262880
+      },
+      "container_constraints": {
+        "HandlerType:CL_TYPE_PDF": 1,
+        "Container:CL_TYPE_ZIP": 802,
+        "Container:CL_TYPE_DMG": 4,
+        "Container:CL_TYPE_PDF": 146,
+        "Container:CL_TYPE_OOXML_WORD": 169,
+        "Container:CL_TYPE_OOXML_XL": 111,
+        "Container:CL_TYPE_MSOLE2": 436,
+        "Container:CL_TYPE_MSCAB": 2,
+        "Container:CL_TYPE_HTML": 5,
+        "Container:CL_TYPE_XML_XL": 3,
+        "Container:CL_TYPE_XML_WORD": 10,
+        "Container:CL_TYPE_NULSFT": 3,
+        "Container:CL_TYPE_MSEXE": 1,
+        "Container:CL_TYPE_7Z": 1,
+        "Intermediates:CL_TYPE_MSEXE>CL_TYPE_AUTOIT": 1,
+        "HandlerType:CL_TYPE_SCRIPT": 2,
+        "Container:CL_TYPE_ANY": 4
+      }
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.ldu",
+      "serialized_bytes": 3528282,
+      "format": "ldu",
+      "records": 10166,
+      "targets": {
+        "4": 1,
+        "0": 46,
+        "3": 10,
+        "1": 9320,
+        "7": 18,
+        "10": 1,
+        "2": 4,
+        "6": 30,
+        "9": 736
+      },
+      "reasons": {
+        "effect-generic-other-or-uncertain": 846,
+        "explicit-PE-logical": 9320
+      },
+      "container_constraints": {
+        "Container:CL_TYPE_ZIP": 4,
+        "HandlerType:CL_TYPE_PDF": 1
+      }
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.idb",
+      "serialized_bytes": 36469,
+      "format": "idb",
+      "records": 222,
+      "targets": {
+        "unclassified": 222
+      },
+      "reasons": {
+        "format-retained": 222
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.fp",
+      "serialized_bytes": 26373,
+      "format": "fp",
+      "records": 483,
+      "targets": {
+        "unclassified": 483
+      },
+      "reasons": {
+        "format-retained": 483
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.sfp",
+      "serialized_bytes": 87,
+      "format": "sfp",
+      "records": 1,
+      "targets": {
+        "unclassified": 1
+      },
+      "reasons": {
+        "format-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.pdb",
+      "serialized_bytes": 4094,
+      "format": "pdb",
+      "records": 263,
+      "targets": {
+        "unclassified": 263
+      },
+      "reasons": {
+        "format-retained": 263
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.wdb",
+      "serialized_bytes": 10745,
+      "format": "wdb",
+      "records": 185,
+      "targets": {
+        "unclassified": 185
+      },
+      "reasons": {
+        "format-retained": 185
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.crb",
+      "serialized_bytes": 21363,
+      "format": "crb",
+      "records": 30,
+      "targets": {
+        "unclassified": 30
+      },
+      "reasons": {
+        "format-retained": 30
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "daily.cvd",
+      "member": "daily.cdb",
+      "serialized_bytes": 491,
+      "format": "cdb",
+      "records": 5,
+      "targets": {
+        "unclassified": 5
+      },
+      "reasons": {
+        "format-retained": 5
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "COPYING",
+      "serialized_bytes": 17992,
+      "format": "",
+      "records": 0,
+      "targets": {},
+      "reasons": {
+        "metadata-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.info",
+      "serialized_bytes": 1225,
+      "format": "info",
+      "records": 0,
+      "targets": {},
+      "reasons": {
+        "metadata-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.hdb",
+      "serialized_bytes": 1301813,
+      "format": "hdb",
+      "records": 20425,
+      "targets": {
+        "unclassified": 20425
+      },
+      "reasons": {
+        "format-retained": 20425
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.hsb",
+      "serialized_bytes": 32993092,
+      "format": "hsb",
+      "records": 466838,
+      "targets": {
+        "unclassified": 466838
+      },
+      "reasons": {
+        "format-retained": 466838
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.mdb",
+      "serialized_bytes": 166681400,
+      "format": "mdb",
+      "records": 2658972,
+      "targets": {
+        "unclassified": 2658972
+      },
+      "reasons": {
+        "explicit-PE-hash-family-candidate": 2658972
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.msb",
+      "serialized_bytes": 92,
+      "format": "msb",
+      "records": 1,
+      "targets": {
+        "unclassified": 1
+      },
+      "reasons": {
+        "explicit-PE-hash-family-candidate": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.ndb",
+      "serialized_bytes": 23714801,
+      "format": "ndb",
+      "records": 101587,
+      "targets": {
+        "0": 33998,
+        "3": 4318,
+        "1": 59457,
+        "4": 1064,
+        "2": 771,
+        "6": 92,
+        "7": 1535,
+        "5": 15,
+        "9": 72,
+        "10": 98,
+        "11": 163,
+        "12": 4
+      },
+      "reasons": {
+        "generic-other-or-uncertain": 42130,
+        "explicit-PE-pattern": 59457
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.ldb",
+      "serialized_bytes": 11584977,
+      "format": "ldb",
+      "records": 38721,
+      "targets": {
+        "1": 34161,
+        "2": 2431,
+        "3": 302,
+        "9": 268,
+        "6": 109,
+        "11": 91,
+        "0": 955,
+        "4": 8,
+        "7": 291,
+        "10": 94,
+        "12": 7,
+        "5": 4
+      },
+      "reasons": {
+        "explicit-PE-logical": 34161,
+        "effect-generic-other-or-uncertain": 4560
+      },
+      "container_constraints": {
+        "Container:CL_TYPE_ZIP": 113,
+        "Container:CL_TYPE_RTF": 1,
+        "Container:CL_TYPE_ANY": 1,
+        "HandlerType:CL_TYPE_PDF": 6,
+        "HandlerType:CL_TYPE_GRAPHICS": 1,
+        "HandlerType:CL_TYPE_ZIP": 1,
+        "Container:CL_TYPE_PDF": 10,
+        "Container:CL_TYPE_MAIL": 401,
+        "Container:CL_TYPE_RAR": 1,
+        "Container:CL_TYPE_AUTOIT": 3,
+        "Container:CL_TYPE_OOXML_WORD": 2,
+        "Container:CL_TYPE_MSOLE2": 1,
+        "Container:CL_TYPE_OOXML_XL": 3,
+        "Container:CL_TYPE_OOXML_PPT": 1,
+        "Container:CL_TYPE_XML_WORD": 1,
+        "Container:CL_TYPE_MSEXE": 1
+      }
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.fp",
+      "serialized_bytes": 27584,
+      "format": "fp",
+      "records": 513,
+      "targets": {
+        "unclassified": 513
+      },
+      "reasons": {
+        "format-retained": 513
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.sfp",
+      "serialized_bytes": 87,
+      "format": "sfp",
+      "records": 1,
+      "targets": {
+        "unclassified": 1
+      },
+      "reasons": {
+        "format-retained": 1
+      },
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.crb",
+      "serialized_bytes": 44,
+      "format": "crb",
+      "records": 0,
+      "targets": {},
+      "reasons": {},
+      "container_constraints": {}
+    },
+    {
+      "database": "main.cvd",
+      "member": "main.cdb",
+      "serialized_bytes": 13862,
+      "format": "cdb",
+      "records": 130,
+      "targets": {
+        "unclassified": 130
+      },
+      "reasons": {
+        "format-retained": 130
+      },
+      "container_constraints": {}
+    }
+  ],
+  "activation_blockers": [],
+  "release_qualified": false,
+  "qualification_reason": "opt-in all-match scanning; automatic release held pending complete parser/limit gates",
+  "elapsed_seconds": 17.112462080000114,
+  "selector_peak_rss_kib": 110140
+}

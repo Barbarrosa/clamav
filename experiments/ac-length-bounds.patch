@@ -1,0 +1,575 @@
+diff --git a/libclamav/filtering.c b/libclamav/filtering.c
+index ebc535f..03ec88c 100644
+--- a/libclamav/filtering.c
++++ b/libclamav/filtering.c
+@@ -440,10 +440,10 @@ int filter_add_acpatt(struct filter *m, const struct cli_ac_patt *pat)
+ 
+     struct choice choices[MAX_CHOICES];
+     unsigned choices_cnt = 0;
+-    unsigned prefix_len  = pat->prefix_length[0];
++    unsigned prefix_len  = pat->prefix_length;
+     unsigned speci;
+ 
+-    j = MIN(prefix_len + pat->length[0], MAXPATLEN);
++    j = MIN(prefix_len + pat->length, MAXPATLEN);
+     for (i = 0; i < j; i++) {
+         const uint16_t p = i < prefix_len ? pat->prefix[i] : pat->pattern[i - prefix_len];
+         if ((p & CLI_MATCH_METADATA) != CLI_MATCH_CHAR)
+diff --git a/libclamav/libclamav.map b/libclamav/libclamav.map
+index 67d4e06..4cc2bd6 100644
+--- a/libclamav/libclamav.map
++++ b/libclamav/libclamav.map
+@@ -178,6 +178,9 @@ CLAMAV_PRIVATE {
+     uniq_get;
+     cli_hex2str;
+     cli_ac_init;
++    cli_ac_addsig;
++    cli_ac_caloff;
++    cli_ac_patt_ext_new;
+     cli_ac_initdata;
+     cli_ac_initdata_for_matcher;
+     cli_ac_buildtrie;
+diff --git a/libclamav/matcher-ac.c b/libclamav/matcher-ac.c
+index d41f557..6e13ab7 100644
+--- a/libclamav/matcher-ac.c
++++ b/libclamav/matcher-ac.c
+@@ -173,8 +173,8 @@ static int patt_cmp_fn(const struct cli_ac_patt *a, const struct cli_ac_patt *b)
+ {
+     unsigned int i;
+     int res;
+-    RETURN_RES_IF_NE(a->length[0], b->length[0]);
+-    RETURN_RES_IF_NE(a->prefix_length[0], b->prefix_length[0]);
++    RETURN_RES_IF_NE(a->length, b->length);
++    RETURN_RES_IF_NE(a->prefix_length, b->prefix_length);
+     RETURN_RES_IF_NE(AC_EXT_CH(a, 0), AC_EXT_CH(b, 0));
+     RETURN_RES_IF_NE(AC_EXT_CH(a, 1), AC_EXT_CH(b, 1));
+     RETURN_RES_IF_NE(AC_EXT_BOUNDARY(a), AC_EXT_BOUNDARY(b));
+@@ -184,14 +184,14 @@ static int patt_cmp_fn(const struct cli_ac_patt *a, const struct cli_ac_patt *b)
+      * UndefinedBehaviorSanitizer will complain.  It is legal if the length
+      * is zero, so don't call memcmp if the length is zero.
+      */
+-    if (a->length[0] > 0) {
+-        res = memcmp(a->pattern, b->pattern, a->length[0] * sizeof(uint16_t));
++    if (a->length > 0) {
++        res = memcmp(a->pattern, b->pattern, a->length * sizeof(uint16_t));
+         if (res) {
+             return res;
+         }
+     }
+-    if (a->prefix_length[0] > 0) {
+-        res = memcmp(a->prefix, b->prefix, a->prefix_length[0] * sizeof(uint16_t));
++    if (a->prefix_length > 0) {
++        res = memcmp(a->prefix, b->prefix, a->prefix_length * sizeof(uint16_t));
+         if (res) {
+             return res;
+         }
+@@ -396,26 +396,26 @@ static void ac_shift_pattern_prefix(struct cli_ac_patt *pattern, uint16_t ppos)
+     uint16_t i;
+     uint16_t j;
+ 
+-    pattern->prefix           = pattern->pattern;
+-    pattern->prefix_length[0] = ppos;
+-    for (i = 0, j = 0; i < pattern->prefix_length[0]; i++) {
++    pattern->prefix        = pattern->pattern;
++    pattern->prefix_length = ppos;
++    for (i = 0, j = 0; i < pattern->prefix_length; i++) {
+         if ((pattern->prefix[i] & CLI_MATCH_WILDCARD) == CLI_MATCH_SPECIAL)
+             pattern->ext->special_pattern++;
+ 
+         if ((pattern->prefix[i] & CLI_MATCH_METADATA) == CLI_MATCH_SPECIAL) {
+-            pattern->prefix_length[1] += pattern->ext->special_table[j]->len[0];
+-            pattern->prefix_length[2] += pattern->ext->special_table[j]->len[1];
++            pattern->ext->prefix_length[0] += pattern->ext->special_table[j]->len[0];
++            pattern->ext->prefix_length[1] += pattern->ext->special_table[j]->len[1];
+             j++;
+         } else {
+-            pattern->prefix_length[1]++;
+-            pattern->prefix_length[2]++;
++            pattern->ext->prefix_length[0]++;
++            pattern->ext->prefix_length[1]++;
+         }
+     }
+ 
+     pattern->pattern = &pattern->prefix[ppos];
+-    pattern->length[0] -= pattern->prefix_length[0];
+-    pattern->length[1] -= pattern->prefix_length[1];
+-    pattern->length[2] -= pattern->prefix_length[2];
++    pattern->length -= pattern->prefix_length;
++    pattern->ext->length[0] -= pattern->ext->prefix_length[0];
++    pattern->ext->length[1] -= pattern->ext->prefix_length[1];
+ }
+ 
+ static inline void link_node_lists(struct cli_ac_list **listtable, unsigned int nentries)
+@@ -728,7 +728,7 @@ static int cli_ac_addpatt_recursive(struct cli_matcher *root, struct cli_ac_patt
+ cl_error_t cli_ac_addpatt(struct cli_matcher *root, struct cli_ac_patt *pattern)
+ {
+     struct cli_ac_patt **newtable;
+-    uint16_t len = MIN(root->ac_maxdepth, pattern->length[0]);
++    uint16_t len = MIN(root->ac_maxdepth, pattern->length);
+     uint16_t i;
+ 
+     for (i = 0; i < len; i++) {
+@@ -1589,7 +1589,7 @@ static int ac_backward_match_branch(const unsigned char *buffer, uint32_t bp, ui
+     uint32_t filestart;
+ 
+     /* backwards (prefix) validation, determines start */
+-    if (pattern->prefix && pattern->prefix_length[0]) {
++    if (pattern->prefix && pattern->prefix_length) {
+         match = 1;
+ 
+         for (i = pp; 1; i--) {
+@@ -1682,7 +1682,7 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+     match = 1;
+ 
+     /* forward (pattern) validation; determines end */
+-    for (i = pp; i < pattern->length[0] && bp < length; i++) {
++    for (i = pp; i < pattern->length && bp < length; i++) {
+         AC_MATCH_CHAR(pattern->pattern[i], buffer[bp], 0);
+         if (!match)
+             return 0;
+@@ -1746,7 +1746,7 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+             return 0;
+     }
+ 
+-    return ac_backward_match_branch(buffer, offset - 1, offset, fileoffset, length, pattern, pattern->prefix_length[0] - 1, AC_EXT_SPECIAL_PATTERN(pattern) - 1, start, end);
++    return ac_backward_match_branch(buffer, offset - 1, offset, fileoffset, length, pattern, pattern->prefix_length - 1, AC_EXT_SPECIAL_PATTERN(pattern) - 1, start, end);
+ }
+ 
+ inline static int ac_findmatch(const unsigned char *buffer, uint32_t offset, uint32_t fileoffset, uint32_t length, const struct cli_ac_patt *pattern, uint32_t *start, uint32_t *end)
+@@ -1755,7 +1755,7 @@ inline static int ac_findmatch(const unsigned char *buffer, uint32_t offset, uin
+     uint16_t specialcnt = AC_EXT_SPECIAL_PATTERN(pattern);
+ 
+     /* minimal check as the maximum variable length may exceed the buffer */
+-    if ((offset + pattern->length[1] > length) || (pattern->prefix_length[1] > offset))
++    if ((offset + AC_PATT_MINLEN(pattern) > length) || (AC_PATT_PREFIX_MINLEN(pattern) > offset))
+         return 0;
+ 
+     match = ac_forward_match_branch(buffer, offset + pattern->depth, offset, fileoffset, length, pattern, pattern->depth, specialcnt, start, end);
+@@ -1867,7 +1867,7 @@ cl_error_t cli_ac_caloff(const struct cli_matcher *root, struct cli_ac_data *dat
+             cli_errmsg("cli_ac_caloff: Can't calculate relative offset in signature for %s\n",
+                        patt->virname ? patt->virname : "<logical subsignature>");
+             return ret;
+-        } else if ((data->offset[patt->offset_min] != CLI_OFF_NONE) && (data->offset[patt->offset_min] + patt->length[1] > info->fsize)) {
++        } else if ((data->offset[patt->offset_min] != CLI_OFF_NONE) && (data->offset[patt->offset_min] + AC_PATT_MINLEN(patt) > info->fsize)) {
+             data->offset[patt->offset_min] = CLI_OFF_NONE;
+         }
+     }
+@@ -2172,8 +2172,8 @@ cl_error_t cli_ac_scanbuff(
+                         pattN = pattN->next;
+                         continue;
+                     }
+-                    exptoff[0] = offset + bp - patt->prefix_length[2]; /* lower offset end */
+-                    exptoff[1] = offset + bp - patt->prefix_length[1]; /* higher offset end */
++                    exptoff[0] = offset + bp - AC_PATT_PREFIX_MAXLEN(patt); /* lower offset end */
++                    exptoff[1] = offset + bp - AC_PATT_PREFIX_MINLEN(patt); /* higher offset end */
+                     if (patt->offdata[0] == CLI_OFF_ABSOLUTE) {
+                         if (patt->offset_max < exptoff[0] || patt->offset_min > exptoff[1]) {
+                             pattN = pattN->next;
+@@ -3324,9 +3324,9 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         return CL_EMALFDB;
+     }
+ 
+-    new->length[0] = (uint16_t)strlen(hex ? hex : hexsig) / 2;
+-    if (new->length[0] < root->ac_mindepth) {
+-        cli_errmsg("cli_ac_addsig: Subpattern in signature is shorter than the minimum depth of the AC trie. (%u < %u)\n", new->length[0], root->ac_mindepth);
++    new->length = (uint16_t)strlen(hex ? hex : hexsig) / 2;
++    if (new->length < root->ac_mindepth) {
++        cli_errmsg("cli_ac_addsig: Subpattern in signature is shorter than the minimum depth of the AC trie. (%u < %u)\n", new->length, root->ac_mindepth);
+         if (new->ext->special)
+             mpool_ac_free_special(root->mempool, new);
+ 
+@@ -3336,14 +3336,14 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         return CL_EMALFDB;
+     }
+ 
+-    for (i = 0, j = 0; i < new->length[0]; i++) {
++    for (i = 0, j = 0; i < new->length; i++) {
+         if ((new->pattern[i] & CLI_MATCH_METADATA) == CLI_MATCH_SPECIAL) {
+-            new->length[1] += new->ext->special_table[j]->len[0];
+-            new->length[2] += new->ext->special_table[j]->len[1];
++            new->ext->length[0] += new->ext->special_table[j]->len[0];
++            new->ext->length[1] += new->ext->special_table[j]->len[1];
+             j++;
+         } else {
+-            new->length[1]++;
+-            new->length[2]++;
++            new->ext->length[0]++;
++            new->ext->length[1]++;
+         }
+     }
+ 
+@@ -3352,7 +3352,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+     new->sigopts = sigopts;
+     /* setting nocase match */
+     if (sigopts & ACPATT_OPTION_NOCASE) {
+-        for (i = 0; i < new->length[0]; i++)
++        for (i = 0; i < new->length; i++)
+             if ((new->pattern[i] & CLI_MATCH_METADATA) == CLI_MATCH_CHAR) {
+                 new->pattern[i] = CLI_NOCASE(new->pattern[i] & 0xff);
+                 new->pattern[i] += CLI_MATCH_NOCASE;
+@@ -3388,7 +3388,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+      * This happens in the call to ac_backward_match_branch() in
+      * ac_forward_match_branch().
+      */
+-    for (i = 0; i < root->ac_maxdepth && i < new->length[0]; i++) {
++    for (i = 0; i < root->ac_maxdepth && i < new->length; i++) {
+         if (new->pattern[i] & CLI_MATCH_WILDCARD) {
+             wprefix = 1;
+             break;
+@@ -3407,11 +3407,11 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+ 
+         // If needed, we can shift the start of the pattern that goes in the A-C Trie right up to the pattern length minus min-depth bytes
+         // The original starting bytes will become a "prefix" that gets backward-matched.
+-        pend = new->length[0] - root->ac_mindepth + 1;
++        pend = new->length - root->ac_mindepth + 1;
+ 
+         // Search for static bytes to start the pattern in the A-C trie that starts within original min-depth, and of a length up to max-depth.
+         for (i = 0; i < pend; i++) {
+-            for (j = i; j < i + root->ac_maxdepth && j < new->length[0]; j++) {
++            for (j = i; j < i + root->ac_maxdepth && j < new->length; j++) {
+                 if (new->pattern[j] & CLI_MATCH_WILDCARD) {
+                     // Found a wildcard. Shift the pattern start right a byte, relegating this byte to the "prefix"
+                     break;
+@@ -3426,7 +3426,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+ 
+                 // Check if the starting bytes at this offset are both non-zero.  If they are, then that's even better.
+                 if ((0 != new->pattern[ppos]) ||
+-                    ((new->length[0] > ppos + 1) && (0 != new->pattern[ppos + 1]))) {
++                    ((new->length > ppos + 1) && (0 != new->pattern[ppos + 1]))) {
+                     // At least one of the first two bytes is non-zero which would be better than starting with two zeroes.
+ 
+                     if (plen >= root->ac_maxdepth) {
+@@ -3450,7 +3450,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         }
+ 
+         if ((0 != nzplen) &&
+-            (new->length[0] > ppos + 1) &&
++            (new->length > ppos + 1) &&
+             (0 == new->pattern[ppos]) &&
+             (0 == new->pattern[ppos + 1])) {
+             // The latest shifted position starts with two zeroes.
+@@ -3469,13 +3469,13 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         }
+ 
+         ac_shift_pattern_prefix(new, ppos);
+-    } else if (ac_select_repeated_prefix_exact_window(new->pattern, new->length[0], root->ac_maxdepth, &ppos)) {
++    } else if (ac_select_repeated_prefix_exact_window(new->pattern, new->length, root->ac_maxdepth, &ppos)) {
+         ac_shift_pattern_prefix(new, ppos);
+     }
+ 
+-    if (new->length[2] + new->prefix_length[2] > root->maxpatlen) {
++    if (AC_PATT_MAXLEN(new) + AC_PATT_PREFIX_MAXLEN(new) > root->maxpatlen) {
+         // This is the longest pattern we've stored. Update our max-pattern-length record
+-        root->maxpatlen = new->length[2] + new->prefix_length[2];
++        root->maxpatlen = AC_PATT_MAXLEN(new) + AC_PATT_PREFIX_MAXLEN(new);
+     }
+ 
+     if (0 == new->lsigid[0]) {
+@@ -3507,7 +3507,9 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         return ret;
+     }
+ 
+-    /* Give the stack extension a real allocation only if it is used. */
++    /* Give the stack extension a real allocation only if it is used.
++     * With no special tokens, byte bounds equal the token counts and need
++     * no storage. ac_patt_ext_is_default deliberately ignores those bounds. */
+     if (ac_patt_ext_is_default(&extbuf)) {
+         new->ext = NULL;
+     } else {
+diff --git a/libclamav/matcher-ac.h b/libclamav/matcher-ac.h
+index 9902d9f..69dc39e 100644
+--- a/libclamav/matcher-ac.h
++++ b/libclamav/matcher-ac.h
+@@ -122,6 +122,9 @@ struct cli_ac_patt_ext {
+     uint16_t ch[2];
+     uint16_t ch_mindist[2];
+     uint16_t ch_maxdist[2];
++    /* Matched-byte bounds; the pattern retains only its token counts.
++     * Index 0 is the minimum, index 1 the maximum. */
++    uint16_t length[2], prefix_length[2];
+ };
+ 
+ /* Field order avoids interior padding, per 9381324ad (bb#748):
+@@ -133,7 +136,7 @@ struct cli_ac_patt {
+     uint32_t sigid;
+     uint32_t lsigid[3];
+     uint32_t offdata[4], offset_min, offset_max;
+-    uint16_t length[3], prefix_length[3];
++    uint16_t length, prefix_length;
+     uint16_t parts, partno;
+     uint16_t rtype, type;
+     uint8_t depth;
+@@ -153,6 +156,14 @@ struct cli_ac_patt {
+ #define AC_EXT_CH_MINDIST(p, i) ((p)->ext ? (p)->ext->ch_mindist[i] : (uint16_t)0)
+ #define AC_EXT_CH_MAXDIST(p, i) ((p)->ext ? (p)->ext->ch_maxdist[i] : (uint16_t)0)
+ 
++/* Without an extension every token matches exactly one byte. Keep the
++ * explicit bounds on ALL extensions, not just special-pattern extensions:
++ * macro and regex-suffix builders historically leave these bounds zero. */
++#define AC_PATT_MINLEN(p) ((p)->ext ? (p)->ext->length[0] : (p)->length)
++#define AC_PATT_MAXLEN(p) ((p)->ext ? (p)->ext->length[1] : (p)->length)
++#define AC_PATT_PREFIX_MINLEN(p) ((p)->ext ? (p)->ext->prefix_length[0] : (p)->prefix_length)
++#define AC_PATT_PREFIX_MAXLEN(p) ((p)->ext ? (p)->ext->prefix_length[1] : (p)->prefix_length)
++
+ struct cli_matcher;
+ /* Attach an extension to a pattern, for the few call sites outside
+  * cli_ac_addsig that set a cold field. Returns NULL only on OOM. */
+diff --git a/libclamav/readdb.c b/libclamav/readdb.c
+index 4e86b84..3cec449 100644
+--- a/libclamav/readdb.c
++++ b/libclamav/readdb.c
+@@ -491,10 +491,10 @@ cl_error_t readdb_parse_ldb_subsignature(struct cli_matcher *root, const char *v
+         patt->ext->ch_mindist[0] = smin;
+         patt->ext->ch_maxdist[0] = smax;
+         patt->sigid              = tid;
+-        patt->length[0]          = root->ac_mindepth;
++        patt->length          = root->ac_mindepth;
+ 
+         /* dummy */
+-        patt->pattern = MPOOL_CALLOC(root->mempool, patt->length[0], sizeof(*patt->pattern));
++        patt->pattern = MPOOL_CALLOC(root->mempool, patt->length, sizeof(*patt->pattern));
+         if (!patt->pattern) {
+             MPOOL_FREE(root->mempool, patt->ext);
+             MPOOL_FREE(root->mempool, patt);
+diff --git a/libclamav/regex_list.c b/libclamav/regex_list.c
+index d861b6c..498bc1d 100644
+--- a/libclamav/regex_list.c
++++ b/libclamav/regex_list.c
+@@ -712,12 +712,12 @@ static cl_error_t add_newsuffix(struct regex_matcher *matcher, struct regex_list
+     new->parts      = 0;
+     new->partno     = 0;
+     new->offset_min = CLI_OFF_ANY;
+-    new->length[0]  = (uint16_t)len;
++    new->length  = (uint16_t)len;
+ 
+     /* mindist/maxdist 0 and ch[] CLI_MATCH_IGNORE are what the accessors
+      * report without an extension, so those assignments are dropped. */
+-    if (new->length[0] > root->maxpatlen)
+-        root->maxpatlen = new->length[0];
++    if (new->length > root->maxpatlen)
++        root->maxpatlen = new->length;
+ 
+     new->pattern = MPOOL_MALLOC(matcher->mempool, sizeof(new->pattern[0]) * len);
+     if (!new->pattern) {
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index bc7b5bb..4c107c7 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -928,6 +928,8 @@ pub struct cli_ac_patt_ext {
+     pub ch: [u16; 2usize],
+     pub ch_mindist: [u16; 2usize],
+     pub ch_maxdist: [u16; 2usize],
++    pub length: [u16; 2usize],
++    pub prefix_length: [u16; 2usize],
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+@@ -941,8 +943,8 @@ pub struct cli_ac_patt {
+     pub offdata: [u32; 4usize],
+     pub offset_min: u32,
+     pub offset_max: u32,
+-    pub length: [u16; 3usize],
+-    pub prefix_length: [u16; 3usize],
++    pub length: u16,
++    pub prefix_length: u16,
+     pub parts: u16,
+     pub partno: u16,
+     pub rtype: u16,
+diff --git a/tools/compact-memory/check_layout.py b/tools/compact-memory/check_layout.py
+index edbf544..708f6ee 100644
+--- a/tools/compact-memory/check_layout.py
++++ b/tools/compact-memory/check_layout.py
+@@ -22,8 +22,8 @@ def main():
+                         'ac_flatnodes', 'ac_buildpool'],
+         'cli_ac_lsig': ['id', 'bc_idx', 'type', 'flag', 'u', 'virname', 'tdb'],
+         'cli_ac_data': ['lsigcnt', 'lsigsuboff_first', 'lsigsuboff_last', 'lsig_row_offsets'],
+-        'cli_ac_patt': ['pattern', 'ext', 'virname', 'lsigid', 'sigopts'],
+-        'cli_ac_patt_ext': ['customdata', 'special_table', 'mindist', 'ch'],
++        'cli_ac_patt': ['pattern', 'ext', 'virname', 'lsigid', 'length', 'prefix_length', 'parts', 'sigopts'],
++        'cli_ac_patt_ext': ['customdata', 'special_table', 'mindist', 'ch', 'length', 'prefix_length'],
+         'cli_ac_node': ['list', 'trans', 'fail'],
+     }
+     c = ['#include <stdio.h>', '#include <stddef.h>', '#include "matcher-ac.h"', 'int main(void) {']
+diff --git a/tools/compact-memory/engine_census.c b/tools/compact-memory/engine_census.c
+index 82aae77..eeb9ded 100644
+--- a/tools/compact-memory/engine_census.c
++++ b/tools/compact-memory/engine_census.c
+@@ -97,12 +97,12 @@ static void census(struct cl_engine *e)
+         uint64_t simple_offsets = 0, logical_patterns = 0, multipart = 0;
+         for (uint32_t j = 0; j < r->ac_patterns; j++) {
+             const struct cli_ac_patt *p = r->ac_pattable[j];
+-            uint32_t count = (uint32_t)p->length[0] + p->prefix_length[0];
++            uint32_t count = (uint32_t)p->length + p->prefix_length;
+             bool bytes_only = true;
+             unsigned previous = UINT32_MAX;
+             if (token_export) write_u32(token_export, count);
+             for (uint32_t k = 0; k < count; k++) {
+-                unsigned value = k < p->prefix_length[0] ? p->prefix[k] : p->pattern[k - p->prefix_length[0]];
++                unsigned value = k < p->prefix_length ? p->prefix[k] : p->pattern[k - p->prefix_length];
+                 if (value > 255) { bytes_only = false; tagged++; }
+                 if (value != previous) runs++;
+                 previous = value;
+@@ -116,7 +116,7 @@ static void census(struct cl_engine *e)
+             if (p->lsigid[0]) logical_patterns++;
+             if (p->parts) multipart++;
+             if (p->ext) ext += sizeof(*p->ext);
+-            tokens += ((uint64_t)p->length[0] + p->prefix_length[0]) * sizeof(uint16_t);
++            tokens += ((uint64_t)p->length + p->prefix_length) * sizeof(uint16_t);
+             if (p->virname) {
+                 names += strlen(p->virname) + 1;
+                 record_name(p->virname);
+diff --git a/tools/compact-memory/export_exact_layouts.c b/tools/compact-memory/export_exact_layouts.c
+index a4eb299..ef158b4 100644
+--- a/tools/compact-memory/export_exact_layouts.c
++++ b/tools/compact-memory/export_exact_layouts.c
+@@ -157,13 +157,13 @@ int main(int argc,char **argv) {
+             const struct cli_ac_patt *p=r->ac_pattable[j];
+             uint32_t v[13]={(uint32_t)pi,nameid(p->virname),reference(er,ne,p->ext),p->sigid,
+                 p->lsigid[0],p->lsigid[1],p->lsigid[2],p->offdata[0],p->offdata[1],p->offdata[2],p->offdata[3],p->offset_min,p->offset_max};
+-            uint16_t w[10]={p->length[0],p->length[1],p->length[2],p->prefix_length[0],p->prefix_length[1],p->prefix_length[2],p->parts,p->partno,p->rtype,p->type};
++            uint16_t w[10]={p->length,AC_PATT_MINLEN(p),AC_PATT_MAXLEN(p),p->prefix_length,AC_PATT_PREFIX_MINLEN(p),AC_PATT_PREFIX_MAXLEN(p),p->parts,p->partno,p->rtype,p->type};
+             if(reference(pr,np,p)!=pi) abort();
+             for(unsigned k=0;k<13;k++) put(pf,v[k],4);
+             for(unsigned k=0;k<10;k++) put(pf,w[k],2);
+             put(pf,p->depth,1);put(pf,p->sigopts,1);
+-            uint32_t count=(uint32_t)p->length[0]+p->prefix_length[0]; put(tf,count,4);
+-            for(uint32_t k=0;k<count;k++) put(tf,k<p->prefix_length[0]?p->prefix[k]:p->pattern[k-p->prefix_length[0]],2);
++            uint32_t count=(uint32_t)p->length+p->prefix_length; put(tf,count,4);
++            for(uint32_t k=0;k<count;k++) put(tf,k<p->prefix_length?p->prefix[k]:p->pattern[k-p->prefix_length],2);
+             tokenbytes+=(uint64_t)count*2;
+         }
+         for(uint32_t j=0;j<r->ac_lists;j++,li++) {
+diff --git a/unit_tests/check_matchers.c b/unit_tests/check_matchers.c
+index 4207c50..74f1804 100644
+--- a/unit_tests/check_matchers.c
++++ b/unit_tests/check_matchers.c
+@@ -537,7 +537,7 @@ START_TEST(test_ac_repeated_prefix_does_not_shift_to_repeated_window)
+ 
+     pattern = root->ac_pattable[0];
+     ck_assert_ptr_nonnull(pattern);
+-    ck_assert_uint_eq(pattern->prefix_length[0], 2);
++    ck_assert_uint_eq(pattern->prefix_length, 2);
+     ck_assert_uint_eq(pattern->depth, CLI_DEFAULT_AC_MAXDEPTH);
+     ck_assert_uint_eq(pattern->pattern[0] & 0xff, 0xff);
+     ck_assert_uint_eq(pattern->pattern[1] & 0xff, 0x00);
+@@ -556,6 +556,110 @@ START_TEST(test_ac_repeated_prefix_does_not_shift_to_repeated_window)
+ }
+ END_TEST
+ 
++/* Byte bounds differ from token counts for multi-byte alternatives and can
++ * sit on either side of the trie anchor. Also cover discarded extensions,
++ * retained non-special extensions, and exact-buffer/short-buffer matching. */
++static const struct {
++    const char *hex, *short_match, *long_match, *offset;
++    unsigned min, max, prefix_min, prefix_max;
++    bool extension;
++} ac_length_cases[] = {
++    {"616263646566", "abcdef", "abcdef", "0", 6, 6, 0, 0, false},
++    {"??61626364", "zabcd", "zabcd", "0", 5, 5, 1, 1, false},
++    {"616263(6465|66676869)", "abcde", "abcfghi", "0", 5, 7, 0, 0, true},
++    /* At offset zero the existing unsigned offset-range check rejects the
++     * short alternative. Use offset two to exercise both valid branches. */
++    {"(6162|63646566)676869", "zzabghi", "zzcdefghi", "2", 5, 7, 2, 4, true},
++    {"616263(6465|6667)", "abcde", "abcfg", "0", 5, 5, 0, 0, true},
++    {"(W)61626364", "abcd", "abcd", "0", 4, 4, 0, 0, true},
++    {"616263!(64|65)", "abcf", "abcg", "0", 4, 4, 0, 0, true},
++};
++
++START_TEST(test_ac_length_bounds)
++{
++    struct cli_matcher *root = ctx.engine->root[0];
++    struct cli_ac_data mdata;
++    struct cli_ac_patt *p;
++    unsigned i;
++    const char *samples[2] = {ac_length_cases[_i].short_match, ac_length_cases[_i].long_match};
++
++    root->ac_only = 1;
++    ck_assert_int_eq(cli_ac_init(root, CLI_DEFAULT_AC_MINDEPTH, CLI_DEFAULT_AC_MAXDEPTH, 1), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_addsig(root, "LengthBounds", ac_length_cases[_i].hex,
++                                  0, 0, 0, 0, 0, 0, 0, 0, ac_length_cases[_i].offset, NULL, 0), CL_SUCCESS);
++    ck_assert_uint_eq(root->ac_patterns, 1);
++    p = root->ac_pattable[0];
++    ck_assert_int_eq(p->ext != NULL, ac_length_cases[_i].extension);
++    ck_assert_uint_eq(AC_PATT_MINLEN(p) + AC_PATT_PREFIX_MINLEN(p), ac_length_cases[_i].min);
++    ck_assert_uint_eq(AC_PATT_MAXLEN(p) + AC_PATT_PREFIX_MAXLEN(p), ac_length_cases[_i].max);
++    ck_assert_uint_eq(AC_PATT_PREFIX_MINLEN(p), ac_length_cases[_i].prefix_min);
++    ck_assert_uint_eq(AC_PATT_PREFIX_MAXLEN(p), ac_length_cases[_i].prefix_max);
++    ck_assert_uint_eq(root->maxpatlen, ac_length_cases[_i].max);
++    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_initdata(&mdata, root->ac_partsigs, 0, 0, CLI_DEFAULT_AC_TRACKLEN), CL_SUCCESS);
++    for (i = 0; i < 2; i++) {
++        ck_assert_int_eq(cli_ac_scanbuff((const unsigned char *)samples[i], strlen(samples[i]),
++                                        &virname, NULL, NULL, root, &mdata, 0, 0, NULL, AC_SCAN_VIR, NULL), CL_VIRUS);
++        ck_assert_str_eq(virname, "LengthBounds.UNOFFICIAL");
++    }
++    ck_assert_int_eq(cli_ac_scanbuff((const unsigned char *)samples[0], strlen(samples[0]) - 1,
++                                    &virname, NULL, NULL, root, &mdata, 0, 0, NULL, AC_SCAN_VIR, NULL), CL_CLEAN);
++    cli_ac_freedata(&mdata);
++}
++END_TEST
++
++START_TEST(test_ac_length_bounds_constructor_defaults)
++{
++    struct cli_matcher *root = ctx.engine->root[0];
++    struct cli_ac_patt p = {0};
++    struct cli_ac_patt_ext *ext;
++
++    /* Literal patterns with no extension derive the exact byte counts. */
++    p.length = UINT16_MAX;
++    p.prefix_length = 7;
++    ck_assert_uint_eq(AC_PATT_MINLEN(&p), UINT16_MAX);
++    ck_assert_uint_eq(AC_PATT_MAXLEN(&p), UINT16_MAX);
++    ck_assert_uint_eq(AC_PATT_PREFIX_MINLEN(&p), 7);
++    ck_assert_uint_eq(AC_PATT_PREFIX_MAXLEN(&p), 7);
++
++    /* Macro and regex-suffix constructors create a zeroed extension. They
++     * must retain zero byte bounds, even though token counts are nonzero. */
++    ext = cli_ac_patt_ext_new(root, &p);
++    ck_assert_ptr_nonnull(ext);
++    ck_assert_uint_eq(AC_PATT_MINLEN(&p), 0);
++    ck_assert_uint_eq(AC_PATT_MAXLEN(&p), 0);
++    ck_assert_uint_eq(AC_PATT_PREFIX_MINLEN(&p), 0);
++    ck_assert_uint_eq(AC_PATT_PREFIX_MAXLEN(&p), 0);
++    ext->length[1] = UINT16_MAX;
++    ck_assert_ptr_eq(cli_ac_patt_ext_new(root, &p), ext);
++    ck_assert_uint_eq(AC_PATT_MAXLEN(&p), UINT16_MAX);
++    MPOOL_FREE(root->mempool, ext);
++}
++END_TEST
++
++START_TEST(test_ac_length_bounds_relative_offsets)
++{
++    struct cli_matcher *root = ctx.engine->root[0];
++    struct cli_ac_data mdata;
++    struct cli_target_info info = {0};
++    const char *hex = "616263(6465|66676869)";
++
++    root->ac_only = 1;
++    ck_assert_int_eq(cli_ac_init(root, CLI_DEFAULT_AC_MINDEPTH, CLI_DEFAULT_AC_MAXDEPTH, 1), CL_SUCCESS);
++    /* Four tokens need at least five bytes. EOF-4 must be rejected by the
++     * byte bound, while EOF-5 may match despite a seven-byte maximum. */
++    ck_assert_int_eq(cli_ac_addsig(root, "TooShort", hex, 0, 0, 0, 0, 0, 0, 0, 0, "EOF-4", NULL, 0), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_addsig(root, "Fits", hex, 0, 0, 0, 0, 0, 0, 0, 0, "EOF-5", NULL, 0), CL_SUCCESS);
++    ck_assert_uint_eq(root->ac_reloff_num, 2);
++    ck_assert_int_eq(cli_ac_initdata(&mdata, 0, 0, root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN), CL_SUCCESS);
++    info.fsize = 10;
++    ck_assert_int_eq(cli_ac_caloff(root, &mdata, &info), CL_SUCCESS);
++    ck_assert_uint_eq(mdata.offset[root->ac_reloff[0]->offset_min], CLI_OFF_NONE);
++    ck_assert_uint_eq(mdata.offset[root->ac_reloff[1]->offset_min], 5);
++    cli_ac_freedata(&mdata);
++}
++END_TEST
++
+ START_TEST(test_ac_scanbuff_allscan)
+ {
+     struct cli_ac_data mdata;
+@@ -1007,6 +1111,9 @@ Suite *test_matchers_suite(void)
+     tcase_add_test(tc_matchers, test_ac_compact_allocation_boundaries);
+     tcase_add_test(tc_matchers, test_ac_scanbuff);
+     tcase_add_test(tc_matchers, test_ac_repeated_prefix_does_not_shift_to_repeated_window);
++    tcase_add_loop_test(tc_matchers, test_ac_length_bounds, 0, sizeof(ac_length_cases) / sizeof(ac_length_cases[0]));
++    tcase_add_test(tc_matchers, test_ac_length_bounds_constructor_defaults);
++    tcase_add_test(tc_matchers, test_ac_length_bounds_relative_offsets);
+     tcase_add_test(tc_matchers, test_ac_scanbuff_ex);
+     tcase_add_test(tc_matchers, test_bm_scanbuff);
+     tcase_add_test(tc_matchers, test_pcre_scanbuff);

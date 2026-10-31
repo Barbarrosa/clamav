@@ -1,0 +1,14 @@
+{
+  "cpu": 0,
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "probe_sha256": "d3d1d6c10da9b91b1e0287d1bcf5a7c2c0b46921cf976de1b80ade570b615c93",
+  "lib_sha256": "343fae262ae45dfda51726b469c1a39014e456518b83430ec31179cbd9b3df19",
+  "database_manifest_sha256": "3d67eae87d4b981e478dac0f8534163e17dc35c3dec1e09dba383295a63ef0e3",
+  "concurrency": 1,
+  "scan_cache": "disabled",
+  "metadata": "enabled equally",
+  "memory_units": "KiB unless bytes explicit",
+  "cgroup_scope": "shared task group; samples cannot establish isolated service charge",
+  "input_list_sha256": "3d04a7c448cd600d5d7ad91831fb05f8d7bc1fe84b92c485a218f09abd3fd8ea"
+}

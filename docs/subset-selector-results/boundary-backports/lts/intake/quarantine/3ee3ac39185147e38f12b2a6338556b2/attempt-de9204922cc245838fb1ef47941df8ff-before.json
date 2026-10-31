@@ -1,0 +1,19 @@
+{
+  "schema": 2,
+  "attachment_id": "3ee3ac39185147e38f12b2a6338556b2",
+  "original_filename": "clam-v3.rar",
+  "source_bytes": 364,
+  "source_mtime_ns": 1793258449056395249,
+  "source_ctime_ns": 1793258449056395249,
+  "source_mode": 420,
+  "snapshot_stable": true,
+  "outcome": "held",
+  "reason": "pending-scan",
+  "release_qualified": false,
+  "created_at_unix": 1793269531.3441627,
+  "narrative_submission": "independent-do-not-wait-for-attachment",
+  "exception_route": "authorized-review-with-original-full-database; executables remain evidence",
+  "derivatives": "separate objects with independent scan verdicts",
+  "sha256": "9ce61f3a6a692618f4969af44fc70867eafca86b27a9cd10ea801262635d3e87",
+  "bytes": 364
+}

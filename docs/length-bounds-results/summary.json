@@ -1,0 +1,189 @@
+{
+  "runs": [
+    {
+      "run": 1,
+      "label": "before",
+      "engine": {
+        "kind": "engine",
+        "signatures": 3628192,
+        "load_seconds": 10.290574099,
+        "compile_seconds": 2.530511952,
+        "compiled_rss_kib": 793692,
+        "compile_peak_rss_kib": 950808
+      },
+      "scans": [
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 87,
+          "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e",
+          "seconds": 75.898159727,
+          "rss_kib": 819740
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 89,
+          "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3",
+          "seconds": 169.000439758,
+          "rss_kib": 819740
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "label": "after",
+      "engine": {
+        "kind": "engine",
+        "signatures": 3628192,
+        "load_seconds": 11.856537207,
+        "compile_seconds": 4.165821288,
+        "compiled_rss_kib": 787852,
+        "compile_peak_rss_kib": 944964
+      },
+      "scans": [
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 87,
+          "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e",
+          "seconds": 115.240660195,
+          "rss_kib": 815132
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 89,
+          "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3",
+          "seconds": 115.405597626,
+          "rss_kib": 815132
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "label": "after",
+      "engine": {
+        "kind": "engine",
+        "signatures": 3628192,
+        "load_seconds": 9.822269937,
+        "compile_seconds": 3.720185534,
+        "compiled_rss_kib": 787812,
+        "compile_peak_rss_kib": 945060
+      },
+      "scans": [
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 87,
+          "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e",
+          "seconds": 94.962950324,
+          "rss_kib": 815192
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 89,
+          "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3",
+          "seconds": 119.170636621,
+          "rss_kib": 815192
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "label": "before",
+      "engine": {
+        "kind": "engine",
+        "signatures": 3628192,
+        "load_seconds": 7.567392071,
+        "compile_seconds": 2.392812506,
+        "compiled_rss_kib": 793756,
+        "compile_peak_rss_kib": 950976
+      },
+      "scans": [
+        {
+          "kind": "scan_corpus",
+          "allmatch": 0,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 87,
+          "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e",
+          "seconds": 79.454311271,
+          "rss_kib": 819912
+        },
+        {
+          "kind": "scan_corpus",
+          "allmatch": 1,
+          "files": 3319,
+          "virus_files": 87,
+          "errors": 0,
+          "callbacks": 89,
+          "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3",
+          "seconds": 116.114898065,
+          "rss_kib": 819912
+        }
+      ]
+    }
+  ],
+  "means": {
+    "before": {
+      "compiled_rss_MiB": 775.12109375,
+      "compile_peak_rss_MiB": 928.60546875,
+      "load_seconds": 8.928983085,
+      "compile_seconds": 2.461662229,
+      "first_hit_scan_seconds": 77.676235499,
+      "all_match_scan_seconds": 142.5576689115
+    },
+    "after": {
+      "compiled_rss_MiB": 769.3671875,
+      "compile_peak_rss_MiB": 922.86328125,
+      "load_seconds": 10.839403572,
+      "compile_seconds": 3.9430034110000003,
+      "first_hit_scan_seconds": 105.1018052595,
+      "all_match_scan_seconds": 117.2881171235
+    }
+  },
+  "compiled_rss_saved_MiB": 5.75390625,
+  "compiled_rss_saved_percent": 0.7423235280777707,
+  "payload_saved_bytes": 11925608,
+  "corpus_comparisons": {
+    "0": {
+      "all_four_runs_equal": true,
+      "files": 3319,
+      "virus_files": 87,
+      "errors": 0,
+      "callbacks": 87,
+      "transcript_sha256": "2430710acf5664c71437c6bdffda74a10fe570767ec132bdec9b5f8aa41aa28e"
+    },
+    "1": {
+      "all_four_runs_equal": true,
+      "files": 3319,
+      "virus_files": 87,
+      "errors": 0,
+      "callbacks": 89,
+      "transcript_sha256": "59596950c317c7112e64d0a59df0eafcf63a11fd4a5c1d723899e9da247d45e3"
+    }
+  },
+  "performance_qualification": "Not qualified. Two runs per build, scan process pinned to CPU 0; some runs overlap compilation/tests allowed on the same CPU set. First-hit timings are slower for the experiment and variable; do not infer equivalent or improved throughput.",
+  "strict_gate": "Failed: first selected duplicate name and ordered all-match alerts change; identical duplicate all-match multiset. Repeats within each build agree."
+}

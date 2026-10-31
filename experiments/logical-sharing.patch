@@ -1,0 +1,891 @@
+diff --git a/libclamav/CMakeLists.txt b/libclamav/CMakeLists.txt
+index 7cbe631..13575cd 100644
+--- a/libclamav/CMakeLists.txt
++++ b/libclamav/CMakeLists.txt
+@@ -222,6 +222,7 @@ set(LIBCLAMAV_SOURCES
+     disasm-common.h     disasm.c    disasm.h    disasmpriv.h
+     # Matcher
+     filtering.c         filtering.h
++    lsig-store.c        lsig-store.h
+     matcher-ac.c        matcher-ac.h
+     matcher-bm.c        matcher-bm.h
+     matcher-byte-comp.c matcher-byte-comp.h
+diff --git a/libclamav/libclamav.map b/libclamav/libclamav.map
+index 67d4e06..a83ee29 100644
+--- a/libclamav/libclamav.map
++++ b/libclamav/libclamav.map
+@@ -181,6 +181,7 @@ CLAMAV_PRIVATE {
+     cli_ac_initdata;
+     cli_ac_initdata_for_matcher;
+     cli_ac_buildtrie;
++    cli_lsig_tdb_intern;
+     cli_ac_scanbuff;
+     cli_ac_freedata;
+     cli_ac_free;
+diff --git a/libclamav/lsig-store.c b/libclamav/lsig-store.c
+new file mode 100644
+index 0000000..a32207f
+--- /dev/null
++++ b/libclamav/lsig-store.c
+@@ -0,0 +1,145 @@
++/* SPDX-License-Identifier: GPL-2.0-only
++ * Immutable logical metadata. Rule order and expression evaluation are unchanged.
++ * The existing string hash tables own construction keys; no table lookup occurs
++ * while scanning. Complete keys, not fingerprints, establish equality.
++ */
++#include "clamav-config.h"
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++#include "lsig-store.h"
++#include "hashtab.h"
++
++const struct cli_lsig_tdb cli_lsig_empty_tdb = {0};
++
++void cli_lsig_tdb_free(struct cli_lsig_tdb *d)
++{
++    if (d->cnt[CLI_TDB_UINT]) MPOOL_FREE(d->mempool, d->val);
++    if (d->cnt[CLI_TDB_RANGE]) MPOOL_FREE(d->mempool, d->range);
++    if (d->cnt[CLI_TDB_STR]) MPOOL_FREE(d->mempool, d->str);
++    if (d->macro_ptids) MPOOL_FREE(d->mempool, d->macro_ptids);
++    memset(d, 0, sizeof(*d));
++}
++
++static struct cli_lsig_store *store(struct cli_matcher *root)
++{
++    struct cli_lsig_store *s = root->lsig_store;
++    if (s) return s;
++    s = calloc(1, sizeof(*s));
++    if (!s) return NULL;
++    if (cli_hashtab_init(&s->descriptors, 64) != CL_SUCCESS ||
++        cli_hashtab_init(&s->expressions, 64) != CL_SUCCESS) {
++        cli_hashtab_free(&s->descriptors);
++        cli_hashtab_free(&s->expressions);
++        free(s);
++        return NULL;
++    }
++    root->lsig_store = s;
++    return s;
++}
++
++/* Hex is only a construction key for the existing NUL-terminated-string table.
++ * This is neither a stored-data codec nor a scan-time representation. */
++static char *key_part(char *out, const void *data, size_t bytes)
++{
++    const unsigned char *p = data;
++    static const char hex[] = "0123456789abcdef";
++    size_t i;
++    for (i = 0; i < bytes; i++) {
++        *out++ = hex[p[i] >> 4];
++        *out++ = hex[p[i] & 15];
++    }
++    return out;
++}
++
++cl_error_t cli_lsig_tdb_intern(struct cli_matcher *root,
++                             struct cli_lsig_tdb *d,
++                             const struct cli_lsig_tdb **out)
++{
++    const void *ptrs[] = {d->target, d->engine, d->nos, d->ep, d->filesize,
++                         d->container, d->handlertype, d->intermediates,
++                         d->icongrp1, d->icongrp2};
++    const unsigned bases[] = {0, 1, 1, 1, 1, 0, 0, 0, 2, 2};
++    const void *data[] = {d->val, d->range, d->str, d->macro_ptids};
++    uint64_t bytes[] = {(uint64_t)d->cnt[0] * sizeof(uint32_t),
++                        (uint64_t)d->cnt[1] * sizeof(uint32_t),
++                        (uint64_t)d->cnt[2],
++                        d->macro_ptids ? (uint64_t)d->subsigs * sizeof(uint32_t) : 0};
++    uint64_t meta[15] = {d->cnt[0], d->cnt[1], d->cnt[2], d->subsigs};
++    uint64_t total = sizeof(meta);
++    struct cli_lsig_store *s;
++    const struct cli_element *entry;
++    struct cli_lsig_tdb *owned;
++    char *key, *p;
++    unsigned i;
++
++    for (i = 0; i < 4; i++) {
++        if (bytes[i] && !data[i]) return CL_EARG;
++        total += bytes[i];
++    }
++    meta[14] = d->macro_ptids != NULL;
++    for (i = 0; i < 10; i++) {
++        unsigned b = bases[i];
++        if (!ptrs[i]) continue;
++        uintptr_t base = (uintptr_t)data[b], ptr = (uintptr_t)ptrs[i];
++        if (!data[b] || ptr < base || (uint64_t)(ptr - base) >= bytes[b]) return CL_EARG;
++        meta[4 + i] = (uint64_t)(ptr - base) + 1; /* zero preserves NULL */
++    }
++    if (total > (SIZE_MAX - 1) / 2) return CL_EMEM;
++    key = cli_max_malloc((size_t)total * 2 + 1);
++    if (!key) return CL_EMEM;
++    p = key_part(key, meta, sizeof(meta));
++    for (i = 0; i < 4; i++) p = key_part(p, data[i], (size_t)bytes[i]);
++    *p = '\0';
++    s = store(root);
++    if (!s) { free(key); return CL_EMEM; }
++    entry = cli_hashtab_find(&s->descriptors, key, (size_t)(p - key));
++    if (entry) {
++        *out = (const struct cli_lsig_tdb *)(uintptr_t)entry->data;
++        cli_lsig_tdb_free(d);
++        free(key);
++        return CL_SUCCESS;
++    }
++    owned = MPOOL_MALLOC(root->mempool, sizeof(*owned));
++    if (!owned) { free(key); return CL_EMEM; }
++    *owned = *d;
++    entry = cli_hashtab_insert(&s->descriptors, key, (size_t)(p - key), (size_t)(uintptr_t)owned);
++    free(key);
++    if (!entry) {
++        MPOOL_FREE(root->mempool, owned);
++        return CL_EMEM; /* caller still owns every parsed allocation */
++    }
++    *out = owned;
++    memset(d, 0, sizeof(*d));
++    return CL_SUCCESS;
++}
++
++const char *cli_lsig_expression_intern(struct cli_matcher *root, const char *expression)
++{
++    struct cli_lsig_store *s = store(root);
++    const struct cli_element *entry;
++    size_t len = strlen(expression);
++    if (!s) return NULL;
++    entry = cli_hashtab_find(&s->expressions, expression, len);
++    if (!entry) entry = cli_hashtab_insert(&s->expressions, expression, len, 0);
++    return entry ? entry->key : NULL;
++}
++
++void cli_lsig_store_free(struct cli_matcher *root)
++{
++    struct cli_lsig_store *s = root->lsig_store;
++    size_t i;
++    if (!s) return;
++    for (i = 0; i < s->descriptors.capacity; i++) {
++        struct cli_element *e = &s->descriptors.htable[i];
++        if (e->key) {
++            struct cli_lsig_tdb *d = (struct cli_lsig_tdb *)(uintptr_t)e->data;
++            cli_lsig_tdb_free(d);
++            MPOOL_FREE(root->mempool, d);
++        }
++    }
++    cli_hashtab_free(&s->descriptors);
++    cli_hashtab_free(&s->expressions);
++    free(s);
++    root->lsig_store = NULL;
++}
+diff --git a/libclamav/lsig-store.h b/libclamav/lsig-store.h
+new file mode 100644
+index 0000000..d8307a7
+--- /dev/null
++++ b/libclamav/lsig-store.h
+@@ -0,0 +1,20 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef CLAMAV_LSIG_STORE_H
++#define CLAMAV_LSIG_STORE_H
++#include "matcher.h"
++#include "hashtab.h"
++
++struct cli_lsig_store {
++    struct cli_hashtable descriptors;
++    struct cli_hashtable expressions;
++};
++
++extern const struct cli_lsig_tdb cli_lsig_empty_tdb;
++/* Parser owns a mutable TDB until successful transfer to the matcher. */
++void cli_lsig_tdb_free(struct cli_lsig_tdb *tdb);
++cl_error_t cli_lsig_tdb_intern(struct cli_matcher *root,
++                             struct cli_lsig_tdb *tdb,
++                             const struct cli_lsig_tdb **out);
++const char *cli_lsig_expression_intern(struct cli_matcher *root, const char *expression);
++void cli_lsig_store_free(struct cli_matcher *root);
++#endif
+diff --git a/libclamav/matcher-ac.c b/libclamav/matcher-ac.c
+index d41f557..570f137 100644
+--- a/libclamav/matcher-ac.c
++++ b/libclamav/matcher-ac.c
+@@ -915,8 +915,8 @@ static cl_error_t ac_build_lsig_layout(struct cli_matcher *root)
+          * signatures also keep the legacy layout. Missing metadata is used
+          * by some private callers and must not produce a zero-length row. */
+         if (lsig && lsig->type == CLI_LSIG_NORMAL && !lsig->bc_idx &&
+-            !lsig->tdb.macro_ptids && lsig->tdb.subsigs && lsig->tdb.subsigs <= 64)
+-            width = lsig->tdb.subsigs;
++            !lsig->tdb->macro_ptids && lsig->tdb->subsigs && lsig->tdb->subsigs <= 64)
++            width = lsig->tdb->subsigs;
+ 
+         root->ac_lsig_offsets[i + 1] = width;
+     }
+@@ -1981,7 +1981,7 @@ void lsig_increment_subsig_match(struct cli_ac_data *mdata, uint32_t lsig_id, ui
+ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *mdata, uint32_t lsig_id, uint32_t subsig_id, uint32_t realoff, int partial)
+ {
+     const struct cli_ac_lsig *ac_lsig = root->ac_lsigtable[lsig_id];
+-    const struct cli_lsig_tdb *tdb    = &ac_lsig->tdb;
++    const struct cli_lsig_tdb *tdb    = ac_lsig->tdb;
+ 
+     if (realoff != CLI_OFF_NONE) {
+         if (cli_ac_lsig_first(mdata, lsig_id)[subsig_id] == CLI_OFF_NONE) {
+@@ -2020,12 +2020,12 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
+             ls_matches = mdata->lsig_matches[lsig_id];
+             if (ls_matches == NULL) { /* allocate cli_lsig_matches */
+                 ls_matches = mdata->lsig_matches[lsig_id] = (struct cli_lsig_matches *)calloc(1, sizeof(struct cli_lsig_matches) +
+-                                                                                                     (ac_lsig->tdb.subsigs - 1) * sizeof(struct cli_subsig_matches *));
++                                                                                                     (ac_lsig->tdb->subsigs - 1) * sizeof(struct cli_subsig_matches *));
+                 if (ls_matches == NULL) {
+                     cli_errmsg("lsig_sub_matched: calloc failed for cli_lsig_matches\n");
+                     return CL_EMEM;
+                 }
+-                ls_matches->subsigs = ac_lsig->tdb.subsigs;
++                ls_matches->subsigs = ac_lsig->tdb->subsigs;
+             }
+             ss_matches = ls_matches->matches[subsig_id];
+             if (ss_matches == NULL) { /*  allocate cli_subsig_matches */
+@@ -2103,7 +2103,7 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
+ 
+ cl_error_t cli_ac_chkmacro(struct cli_matcher *root, struct cli_ac_data *data, unsigned lsig_id)
+ {
+-    const struct cli_lsig_tdb *tdb = &root->ac_lsigtable[lsig_id]->tdb;
++    const struct cli_lsig_tdb *tdb = root->ac_lsigtable[lsig_id]->tdb;
+     unsigned i;
+     cl_error_t rc;
+ 
+diff --git a/libclamav/matcher.c b/libclamav/matcher.c
+index c7701e6..a36dfff 100644
+--- a/libclamav/matcher.c
++++ b/libclamav/matcher.c
+@@ -809,7 +809,7 @@ done:
+ 
+ static int intermediates_eval(cli_ctx *ctx, struct cli_ac_lsig *ac_lsig)
+ {
+-    uint32_t i, icnt = ac_lsig->tdb.intermediates[0];
++    uint32_t i, icnt = ac_lsig->tdb->intermediates[0];
+ 
+     // -1 is the deepest layer (the current layer), so we start at -2, which is the first ancestor
+     int32_t j = -2;
+@@ -818,9 +818,9 @@ static int intermediates_eval(cli_ctx *ctx, struct cli_ac_lsig *ac_lsig)
+         return 0;
+ 
+     for (i = icnt; i > 0; i--) {
+-        if (ac_lsig->tdb.intermediates[i] == CL_TYPE_ANY)
++        if (ac_lsig->tdb->intermediates[i] == CL_TYPE_ANY)
+             continue;
+-        if (ac_lsig->tdb.intermediates[i] != cli_recursion_stack_get_type(ctx, j--))
++        if (ac_lsig->tdb->intermediates[i] != cli_recursion_stack_get_type(ctx, j--))
+             return 0;
+     }
+     return 1;
+@@ -833,8 +833,8 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+     uint64_t evalids            = 0;
+     fmap_t *new_map             = NULL;
+     struct cli_ac_lsig *ac_lsig = root->ac_lsigtable[lsid];
+-    char *exp                   = ac_lsig->u.logic;
+-    char *exp_end               = exp + strlen(exp);
++    const char *exp             = ac_lsig->u.logic;
++    const char *exp_end         = exp + strlen(exp);
+ 
+     status = cli_ac_chkmacro(root, acdata, lsid);
+     if (status != CL_SUCCESS)
+@@ -849,8 +849,8 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+     // Need to check the other conditions, like target description block, icon group, bytecode, etc.
+ 
+     // If the lsig requires a specific container type, check if check that it matches
+-    if (ac_lsig->tdb.container &&
+-        ac_lsig->tdb.container[0] != cli_recursion_stack_get_type(ctx, -2)) {
++    if (ac_lsig->tdb->container &&
++        ac_lsig->tdb->container[0] != cli_recursion_stack_get_type(ctx, -2)) {
+         // So far the match is good, but the container type doesn't match.
+         // Because this may need to match in a different scenario where the
+         // container does match, we do not want to cache this result.
+@@ -860,7 +860,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+     }
+ 
+     // If the lsig has intermediates, check if they match the current recursion stack
+-    if (ac_lsig->tdb.intermediates &&
++    if (ac_lsig->tdb->intermediates &&
+         !intermediates_eval(ctx, ac_lsig)) {
+         // So far the match is good, but the intermediates type(s) do not match.
+         // Because this may need to match in a different scenario where the
+@@ -871,20 +871,20 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+     }
+ 
+     // If the lsig has filesize requirements, check if they match
+-    if (ac_lsig->tdb.filesize && (ac_lsig->tdb.filesize[0] > ctx->fmap->len || ac_lsig->tdb.filesize[1] < ctx->fmap->len)) {
++    if (ac_lsig->tdb->filesize && (ac_lsig->tdb->filesize[0] > ctx->fmap->len || ac_lsig->tdb->filesize[1] < ctx->fmap->len)) {
+         goto done;
+     }
+ 
+-    if (ac_lsig->tdb.ep || ac_lsig->tdb.nos) {
++    if (ac_lsig->tdb->ep || ac_lsig->tdb->nos) {
+         if (!target_info || target_info->status != 1)
+             goto done;
+-        if (ac_lsig->tdb.ep && (ac_lsig->tdb.ep[0] > target_info->exeinfo.ep || ac_lsig->tdb.ep[1] < target_info->exeinfo.ep))
++        if (ac_lsig->tdb->ep && (ac_lsig->tdb->ep[0] > target_info->exeinfo.ep || ac_lsig->tdb->ep[1] < target_info->exeinfo.ep))
+             goto done;
+-        if (ac_lsig->tdb.nos && (ac_lsig->tdb.nos[0] > target_info->exeinfo.nsections || ac_lsig->tdb.nos[1] < target_info->exeinfo.nsections))
++        if (ac_lsig->tdb->nos && (ac_lsig->tdb->nos[0] > target_info->exeinfo.nsections || ac_lsig->tdb->nos[1] < target_info->exeinfo.nsections))
+             goto done;
+     }
+ 
+-    if (ac_lsig->tdb.handlertype) {
++    if (ac_lsig->tdb->handlertype) {
+         // This logical signature has a handler type, which means it's effectively a complex file type signature.
+         // Instead of alerting, we'll make a duplicate fmap (add recursion depth, to prevent infinite loops) and
+         // scan the file with the handler type.
+@@ -916,13 +916,13 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+              */
+             new_map->dont_cache_flag = true;
+ 
+-            status = cli_recursion_stack_push(ctx, new_map, ac_lsig->tdb.handlertype[0], true, LAYER_ATTRIBUTES_RETYPED); /* Perform scan with child fmap */
++            status = cli_recursion_stack_push(ctx, new_map, ac_lsig->tdb->handlertype[0], true, LAYER_ATTRIBUTES_RETYPED); /* Perform scan with child fmap */
+             if (CL_SUCCESS != status) {
+                 cli_dbgmsg("Failed to re-scan fmap as a new type.\n");
+                 goto done;
+             }
+ 
+-            status = cli_magic_scan(ctx, ac_lsig->tdb.handlertype[0]);
++            status = cli_magic_scan(ctx, ac_lsig->tdb->handlertype[0]);
+ 
+             (void)cli_recursion_stack_pop(ctx); /* Restore the parent fmap */
+ 
+@@ -934,7 +934,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+         }
+     }
+ 
+-    if (ac_lsig->tdb.icongrp1 || ac_lsig->tdb.icongrp2) {
++    if (ac_lsig->tdb->icongrp1 || ac_lsig->tdb->icongrp2) {
+         // Logical sig depends on icon match. Check for the icon match.
+ 
+         if (!target_info || target_info->status != TARGET_PE) {
+@@ -943,7 +943,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+             goto done;
+         }
+ 
+-        if (CL_VIRUS != matchicon(ctx, &target_info->exeinfo, ac_lsig->tdb.icongrp1, ac_lsig->tdb.icongrp2)) {
++        if (CL_VIRUS != matchicon(ctx, &target_info->exeinfo, ac_lsig->tdb->icongrp1, ac_lsig->tdb->icongrp2)) {
+             // No icon match!
+             goto done;
+         }
+diff --git a/libclamav/matcher.h b/libclamav/matcher.h
+index ae5818d..52c67c8 100644
+--- a/libclamav/matcher.h
++++ b/libclamav/matcher.h
+@@ -121,11 +121,11 @@ struct cli_ac_lsig {
+     lsig_type_t type;
+     uint8_t flag;
+     union {
+-        char *logic;
++        const char *logic;
+         uint8_t *code_start;
+     } u;
+     char *virname;
+-    struct cli_lsig_tdb tdb;
++    const struct cli_lsig_tdb *tdb;
+ };
+ 
+ typedef void *fuzzyhashmap_t;
+@@ -193,6 +193,7 @@ struct cli_matcher {
+     struct cli_ac_node *ac_flatnodes;
+     /* Flat-node construction has a separate lifetime from resident data. */
+     void *ac_buildpool;
++    struct cli_lsig_store *lsig_store;
+ };
+ 
+ struct cli_cdb {
+diff --git a/libclamav/readdb.c b/libclamav/readdb.c
+index 4e86b84..d22c282 100644
+--- a/libclamav/readdb.c
++++ b/libclamav/readdb.c
+@@ -59,6 +59,7 @@
+ #include "matcher-byte-comp.h"
+ #include "matcher-hash.h"
+ #include "matcher.h"
++#include "lsig-store.h"
+ #include "others.h"
+ #include "str.h"
+ #include "dconf.h"
+@@ -2018,29 +2019,8 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
+     return 0;
+ }
+ 
+-#define FREE_TDB(x)                               \
+-    do {                                          \
+-        if (x.cnt[CLI_TDB_UINT])                  \
+-            MPOOL_FREE(x.mempool, x.val);         \
+-        if (x.cnt[CLI_TDB_RANGE])                 \
+-            MPOOL_FREE(x.mempool, x.range);       \
+-        if (x.cnt[CLI_TDB_STR])                   \
+-            MPOOL_FREE(x.mempool, x.str);         \
+-        if (x.macro_ptids)                        \
+-            MPOOL_FREE(x.mempool, x.macro_ptids); \
+-    } while (0);
+-
+-#define FREE_TDB_P(x)                               \
+-    do {                                            \
+-        if (x->cnt[CLI_TDB_UINT])                   \
+-            MPOOL_FREE(x->mempool, x->val);         \
+-        if (x->cnt[CLI_TDB_RANGE])                  \
+-            MPOOL_FREE(x->mempool, x->range);       \
+-        if (x->cnt[CLI_TDB_STR])                    \
+-            MPOOL_FREE(x->mempool, x->str);         \
+-        if (x->macro_ptids)                         \
+-            MPOOL_FREE(x->mempool, x->macro_ptids); \
+-    } while (0);
++#define FREE_TDB(x) cli_lsig_tdb_free(&(x))
++#define FREE_TDB_P(x) cli_lsig_tdb_free(x)
+ 
+ static inline int init_tdb(struct cli_lsig_tdb *tdb, struct cl_engine *engine, char *target, const char *virname)
+ {
+@@ -2202,7 +2182,7 @@ static cl_error_t load_oneldb(char *buffer, int chkpua, struct cl_engine *engine
+     }
+ 
+     lsig->type    = CLI_LSIG_NORMAL;
+-    lsig->u.logic = CLI_MPOOL_STRDUP(engine->mempool, logic);
++    lsig->u.logic = cli_lsig_expression_intern(root, logic);
+     if (!lsig->u.logic) {
+         cli_errmsg("cli_loadldb: Can't allocate memory for lsig->logic\n");
+         status = CL_EMEM;
+@@ -2245,7 +2225,8 @@ static cl_error_t load_oneldb(char *buffer, int chkpua, struct cl_engine *engine
+         }
+     }
+ 
+-    memcpy(&lsig->tdb, &tdb, sizeof(tdb));
++    status = cli_lsig_tdb_intern(root, &tdb, &lsig->tdb);
++    if (status != CL_SUCCESS) goto done;
+ 
+     /* Increment signature counts */
+     (*sigs) += 1;
+@@ -2265,10 +2246,6 @@ done:
+                 MPOOL_FREE(engine->mempool, lsig->virname);
+             }
+ 
+-            if (NULL != lsig->u.logic) {
+-                MPOOL_FREE(engine->mempool, lsig->u.logic);
+-            }
+-
+             MPOOL_FREE(engine->mempool, lsig);
+         }
+         if (tdb_initialized) {
+@@ -3984,6 +3961,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
+ 
+                 root = engine->test_root;
+ 
++                tsig->tdb = &cli_lsig_empty_tdb;
+                 tsig->type = CLI_YARA_NORMAL;
+                 lsigid[0] = tsig->id = root->ac_lsigs;
+ 
+@@ -4251,7 +4229,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
+         cli_yaramsg("normal lsig triggered yara: %s\n", logic);
+ 
+         lsig->type    = CLI_LSIG_NORMAL;
+-        lsig->u.logic = CLI_MPOOL_STRDUP(engine->mempool, logic);
++        lsig->u.logic = cli_lsig_expression_intern(root, logic);
+         free(logic);
+         if (!lsig->u.logic) {
+             cli_errmsg("load_oneyara: Can't allocate memory for lsig->logic\n");
+@@ -4329,7 +4307,16 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
+         }
+     }
+ 
+-    memcpy(&lsig->tdb, &tdb, sizeof(tdb));
++    ret = cli_lsig_tdb_intern(root, &tdb, &lsig->tdb);
++    if (ret != CL_SUCCESS) {
++        root->ac_lsigs--;
++        FREE_TDB(tdb);
++        ytable_delete(&ytable);
++        MPOOL_FREE(engine->mempool, lsig->virname);
++        MPOOL_FREE(engine->mempool, lsig);
++        free(newident);
++        return ret;
++    }
+     ytable_delete(&ytable);
+ 
+     rule->lsigid = root->ac_lsigs - 1;
+@@ -5712,11 +5699,7 @@ cl_error_t cl_engine_free(struct cl_engine *engine)
+ 
+                 if (root->ac_lsigtable) {
+                     for (j = 0; j < root->ac_lsigs; j++) {
+-                        if (root->ac_lsigtable[j]->type == CLI_LSIG_NORMAL) {
+-                            MPOOL_FREE(engine->mempool, root->ac_lsigtable[j]->u.logic);
+-                        }
+                         MPOOL_FREE(engine->mempool, root->ac_lsigtable[j]->virname);
+-                        FREE_TDB(root->ac_lsigtable[j]->tdb);
+                         MPOOL_FREE(engine->mempool, root->ac_lsigtable[j]);
+ 
+                         TASK_COMPLETE();
+@@ -5732,6 +5715,7 @@ cl_error_t cl_engine_free(struct cl_engine *engine)
+                 fuzzy_hash_free_hashmap(root->fuzzy_hashmap);
+                 TASK_COMPLETE();
+ 
++                cli_lsig_store_free(root);
+                 MPOOL_FREE(engine->mempool, root);
+                 TASK_COMPLETE();
+             }
+@@ -5889,11 +5873,7 @@ cl_error_t cl_engine_free(struct cl_engine *engine)
+ 
+         if (root->ac_lsigtable) {
+             for (i = 0; i < root->ac_lsigs; i++) {
+-                if (root->ac_lsigtable[i]->type == CLI_LSIG_NORMAL) {
+-                    MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->u.logic);
+-                }
+                 MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->virname);
+-                FREE_TDB(root->ac_lsigtable[i]->tdb);
+                 MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]);
+ 
+                 TASK_COMPLETE();
+@@ -5904,6 +5884,7 @@ cl_error_t cl_engine_free(struct cl_engine *engine)
+         cli_pcre_freetable(root);
+         TASK_COMPLETE();
+ 
++        cli_lsig_store_free(root);
+         MPOOL_FREE(engine->mempool, root);
+         TASK_COMPLETE();
+     }
+@@ -6058,11 +6039,7 @@ cl_error_t cl_engine_compile(struct cl_engine *engine)
+         cli_ac_free(root);
+         if (root->ac_lsigtable) {
+             for (i = 0; i < root->ac_lsigs; i++) {
+-                if (root->ac_lsigtable[i]->type == CLI_LSIG_NORMAL) {
+-                    MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->u.logic);
+-                }
+                 MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->virname);
+-                FREE_TDB(root->ac_lsigtable[i]->tdb);
+                 MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]);
+             }
+             MPOOL_FREE(engine->mempool, root->ac_lsigtable);
+@@ -6070,6 +6047,7 @@ cl_error_t cl_engine_compile(struct cl_engine *engine)
+ 
+         cli_pcre_freetable(root);
+ 
++        cli_lsig_store_free(root);
+         MPOOL_FREE(engine->mempool, root);
+         engine->test_root = NULL;
+         TASK_COMPLETE();
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index bc7b5bb..058e982 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -1126,12 +1126,12 @@ pub struct cli_ac_lsig {
+     pub flag: u8,
+     pub u: cli_ac_lsig__bindgen_ty_1,
+     pub virname: *mut ::std::os::raw::c_char,
+-    pub tdb: cli_lsig_tdb,
++    pub tdb: *const cli_lsig_tdb,
+ }
+ #[repr(C)]
+ #[derive(Copy, Clone)]
+ pub union cli_ac_lsig__bindgen_ty_1 {
+-    pub logic: *mut ::std::os::raw::c_char,
++    pub logic: *const ::std::os::raw::c_char,
+     pub code_start: *mut u8,
+ }
+ pub type fuzzyhashmap_t = *mut ::std::os::raw::c_void;
+@@ -1185,6 +1185,7 @@ pub struct cli_matcher {
+     pub ac_lsig_slots: usize,
+     pub ac_flatnodes: *mut cli_ac_node,
+     pub ac_buildpool: *mut ::std::os::raw::c_void,
++    pub lsig_store: *mut ::std::os::raw::c_void,
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+diff --git a/tools/compact-memory/check_layout.py b/tools/compact-memory/check_layout.py
+index edbf544..18a2da8 100644
+--- a/tools/compact-memory/check_layout.py
++++ b/tools/compact-memory/check_layout.py
+@@ -19,7 +19,7 @@ def main():
+                               'buckets', 'items', 'name_bytes', 'name_width'],
+         'cli_matcher': ['ac_nodes', 'ac_lsigtable', 'ac_root', 'ac_nodetable',
+                         'fuzzy_hashmap', 'ac_nodeidx', 'trans_array', 'ac_lsig_offsets', 'ac_lsig_slots',
+-                        'ac_flatnodes', 'ac_buildpool'],
++                        'ac_flatnodes', 'ac_buildpool', 'lsig_store'],
+         'cli_ac_lsig': ['id', 'bc_idx', 'type', 'flag', 'u', 'virname', 'tdb'],
+         'cli_ac_data': ['lsigcnt', 'lsigsuboff_first', 'lsigsuboff_last', 'lsig_row_offsets'],
+         'cli_ac_patt': ['pattern', 'ext', 'virname', 'lsigid', 'sigopts'],
+diff --git a/tools/compact-memory/engine_census.c b/tools/compact-memory/engine_census.c
+index 82aae77..d4bd28f 100644
+--- a/tools/compact-memory/engine_census.c
++++ b/tools/compact-memory/engine_census.c
+@@ -6,6 +6,7 @@
+ #include "clamav.h"
+ #include "others.h"
+ #include "matcher-ac.h"
++#include "lsig-store.h"
+ #include "filtering.h"
+ #include <stdio.h>
+ #include <inttypes.h>
+@@ -130,9 +131,33 @@ static void census(struct cl_engine *e)
+                 record_name(l->virname);
+             }
+             if (l->type == CLI_LSIG_NORMAL && l->u.logic) logical_aux_bytes += strlen(l->u.logic) + 1;
+-            logical_aux_bytes += ((uint64_t)l->tdb.cnt[CLI_TDB_UINT] + (uint64_t)l->tdb.cnt[CLI_TDB_RANGE]) * sizeof(uint32_t);
+-            logical_aux_bytes += l->tdb.cnt[CLI_TDB_STR];
+-            if (l->tdb.macro_ptids) logical_aux_bytes += (uint64_t)l->tdb.subsigs * sizeof(uint32_t);
++            logical_aux_bytes += ((uint64_t)l->tdb->cnt[CLI_TDB_UINT] + (uint64_t)l->tdb->cnt[CLI_TDB_RANGE]) * sizeof(uint32_t);
++            logical_aux_bytes += l->tdb->cnt[CLI_TDB_STR];
++            if (l->tdb->macro_ptids) logical_aux_bytes += (uint64_t)l->tdb->subsigs * sizeof(uint32_t);
++        }
++        if (r->lsig_store) {
++            const struct cli_lsig_store *store = r->lsig_store;
++            uint64_t aux = 0, keys = 0, expr = 0;
++            for (size_t k = 0; k < store->descriptors.capacity; k++) {
++                const struct cli_element *e = &store->descriptors.htable[k];
++                if (!e->key) continue;
++                const struct cli_lsig_tdb *d = (const void *)(uintptr_t)e->data;
++                keys += e->len + 1;
++                aux += ((uint64_t)d->cnt[0] + d->cnt[1]) * 4 + d->cnt[2];
++                if (d->macro_ptids) aux += (uint64_t)d->subsigs * 4;
++            }
++            for (size_t k = 0; k < store->expressions.capacity; k++) {
++                const struct cli_element *e = &store->expressions.htable[k];
++                if (e->key) expr += e->len + 1;
++            }
++            uint64_t tables = sizeof(*store) +
++                (store->descriptors.capacity + store->expressions.capacity) * sizeof(struct cli_element);
++            printf("{\"kind\":\"logical_shared\",\"target\":%u,\"rules\":%u,\"descriptors\":%zu,\"expressions\":%zu,\"rule_and_directory_bytes\":%zu,\"descriptor_bytes\":%zu,\"aux_bytes\":%llu,\"key_bytes\":%llu,\"expression_bytes\":%llu,\"table_bytes\":%llu}\n",
++                i, r->ac_lsigs, store->descriptors.used, store->expressions.used,
++                (size_t)r->ac_lsigs * (sizeof(struct cli_ac_lsig) + sizeof(void *)),
++                store->descriptors.used * sizeof(struct cli_lsig_tdb),
++                (unsigned long long)aux, (unsigned long long)keys,
++                (unsigned long long)expr, (unsigned long long)tables);
+         }
+         hot_bytes += transitions + nodes + filters;
+         candidate_bytes += candidates;
+@@ -185,6 +210,11 @@ int main(int argc, char **argv)
+         return 5;
+     }
+     printf("{\"kind\":\"database\",\"signatures\":%u,\"pointer_bytes\":%zu,\"transition_bytes\":%zu,\"logical_record_bytes\":%zu}\n", n, sizeof(void *), sizeof(cli_ac_transition_t), sizeof(struct cli_ac_lsig));
++    {
++        size_t used = 0, total = 0;
++        if (MPOOL_GETSTATS(e, &used, &total) == 0)
++            printf("{\"kind\":\"engine_pool_highwater\",\"used_bytes\":%zu,\"mapped_bytes\":%zu}\n", used, total);
++    }
+     census(e);
+     if (name_export && fclose(name_export)) return 7;
+     if (token_export && fclose(token_export)) return 7;
+diff --git a/tools/compact-memory/export_exact_layouts.c b/tools/compact-memory/export_exact_layouts.c
+index a4eb299..910c91d 100644
+--- a/tools/compact-memory/export_exact_layouts.c
++++ b/tools/compact-memory/export_exact_layouts.c
+@@ -143,13 +143,13 @@ int main(int argc,char **argv) {
+         struct cli_matcher *r=e->root[t];if(!r) continue;
+         for(uint32_t j=0;j<r->ac_lsigs;j++,logicid++) {
+             const struct cli_ac_lsig *l=r->ac_lsigtable[j];uint32_t program=logicid;
+-            size_t aux=((size_t)l->tdb.cnt[CLI_TDB_UINT]+(size_t)l->tdb.cnt[CLI_TDB_RANGE])*4;
++            size_t aux=((size_t)l->tdb->cnt[CLI_TDB_UINT]+(size_t)l->tdb->cnt[CLI_TDB_RANGE])*4;
+             logical_aux+=aux;
+             if(l->type==CLI_LSIG_NORMAL && l->u.logic) {
+                 size_t n=strlen(l->u.logic);logical_aux+=n+1;if(n>=NIL)abort();put(pg,n+1,4);if(fwrite(l->u.logic,1,n+1,pg)!=n+1)abort();
+             } else {program=UINT32_C(0x80000000)|code_escapes++;put(pg,0,4);}
+             uint32_t tdb=logicid;
+-            if(!template(&l->tdb,td)){tdb=UINT32_C(0x80000000)|td_escapes++;escape_aux+=aux;}
++            if(!template(l->tdb,td)){tdb=UINT32_C(0x80000000)|td_escapes++;escape_aux+=aux;}
+             uint32_t values[7]={l->id,l->bc_idx,l->type,l->flag,nameid(l->virname),program,tdb};
+             for(unsigned k=0;k<7;k++)put(lg,values[k],4);
+         }
+diff --git a/tools/compact-memory/test_lsig_store.c b/tools/compact-memory/test_lsig_store.c
+new file mode 100644
+index 0000000..83bb8e7
+--- /dev/null
++++ b/tools/compact-memory/test_lsig_store.c
+@@ -0,0 +1,128 @@
++/* SPDX-License-Identifier: GPL-2.0-only
++ * Production store + hash table, with individual malloc bounds and failures.
++ * Substitute individual allocation macros so ASan sees every object.
++ */
++#include "clamav-config.h"
++#include "lsig-store.h"
++#include "others.h"
++#include "str.h"
++#include <assert.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++static long fail_at = -1, calls;
++static void *live[20000];
++static size_t live_count;
++static void *track(void *p) {
++    if (p) { assert(live_count < 20000); live[live_count++] = p; }
++    return p;
++}
++static void test_free(void *p) {
++    if (!p) return;
++    size_t i;
++    for (i = 0; i < live_count && live[i] != p; i++);
++    assert(i < live_count);
++    live[i] = live[--live_count];
++    free(p);
++}
++static void *test_malloc(size_t n) {
++    if (fail_at >= 0 && calls++ == fail_at) return NULL;
++    return track(malloc(n));
++}
++static void *test_calloc(size_t n, size_t w) {
++    if (fail_at >= 0 && calls++ == fail_at) return NULL;
++    return track(calloc(n, w));
++}
++#define free test_free
++#define malloc test_malloc
++#define calloc test_calloc
++#define cli_max_malloc test_malloc
++#define cli_max_calloc test_calloc
++#undef MPOOL_MALLOC
++#undef MPOOL_FREE
++#define MPOOL_MALLOC(pool, size) test_malloc(size)
++#define MPOOL_FREE(pool, ptr) free(ptr)
++#include "../../libclamav/hashtab.c"
++#include "../../libclamav/lsig-store.c"
++#undef free
++#undef malloc
++#undef calloc
++#undef cli_max_malloc
++#undef cli_max_calloc
++static struct cli_lsig_tdb descriptor(unsigned n) {
++    struct cli_lsig_tdb d = {0};
++    d.cnt[0] = 4; d.cnt[1] = 4; d.cnt[2] = 6; d.subsigs = 2;
++    d.val = test_calloc(4, 4); d.range = test_calloc(4, 4); d.str = test_malloc(6);
++    d.macro_ptids = test_calloc(2, 4);
++    assert(d.val && d.range && d.str && d.macro_ptids);
++    d.val[0] = n; d.val[1] = 1; d.val[2] = 2; d.val[3] = 3;
++    d.range[0] = 51; d.range[1] = 255; d.range[2] = 9; d.range[3] = 19;
++    memcpy(d.str, "ab\0cd\0", 6); d.macro_ptids[1] = 10;
++    d.target = d.val; d.container = d.val + 1; d.handlertype = d.val + 2;
++    d.intermediates = d.val + 2;
++    d.engine = d.range; d.nos = d.range + 2; d.ep = d.range; d.filesize = d.range + 2;
++    d.icongrp1 = d.str; d.icongrp2 = d.str + 3;
++    return d;
++}
++int main(void) {
++    struct cli_matcher root = {0};
++    const struct cli_lsig_tdb *first = NULL, *p = NULL;
++    unsigned failures = 0;
++    /* Every allocation in a first insertion: failure must retain caller ownership. */
++    for (long at = 0; at < 12; at++) {
++        struct cli_matcher trial = {0}; struct cli_lsig_tdb d = descriptor(1);
++        uint32_t *v = d.val;
++        fail_at = at; calls = 0;
++        cl_error_t ret = cli_lsig_tdb_intern(&trial, &d, &p);
++        fail_at = -1;
++        if (ret != CL_SUCCESS) {
++            assert(ret == CL_EMEM && d.val == v && d.range[3] == 19);
++            assert(cli_lsig_tdb_intern(&trial, &d, &p) == CL_SUCCESS); failures++;
++        }
++        assert(d.val == NULL && p->range[3] == 19);
++        cli_lsig_store_free(&trial); cli_lsig_store_free(&trial);
++    }
++    for (unsigned i = 0; i < 1000; i++) {
++        struct cli_lsig_tdb d = descriptor(i);
++        assert(cli_lsig_tdb_intern(&root, &d, &p) == CL_SUCCESS);
++        if (!i) first = p;
++    }
++    assert(root.lsig_store->descriptors.used == 1000);
++    for (unsigned i = 0; i < 1000; i++) {
++        struct cli_lsig_tdb d = descriptor(i);
++        assert(cli_lsig_tdb_intern(&root, &d, &p) == CL_SUCCESS);
++        assert(p->val[0] == i && !d.val);
++        if (!i) assert(p == first);
++    }
++    /* Each scalar pointer coordinate, count and macro byte is part of equality. */
++    for (unsigned variant = 0; variant < 8; variant++) {
++        struct cli_lsig_tdb d = descriptor(0);
++        switch (variant) {
++            case 0: d.target = NULL; break;
++            case 1: d.target = d.val + 1; break;
++            case 2: d.range[3]++; break;
++            case 3: d.macro_ptids[0]++; break;
++            case 4: test_free(d.macro_ptids); d.macro_ptids = NULL; break;
++            case 5: d.icongrp1 = d.str + 3; break;
++            case 6: d.str[4]++; break;
++            case 7: d.subsigs = 1; break;
++        }
++        assert(cli_lsig_tdb_intern(&root, &d, &p) == CL_SUCCESS && p != first);
++    }
++    struct cli_lsig_tdb bad = descriptor(0);
++    bad.target = bad.val + 4;
++    assert(cli_lsig_tdb_intern(&root, &bad, &p) == CL_EARG && bad.val);
++    cli_lsig_tdb_free(&bad);
++    const char *expression = cli_lsig_expression_intern(&root, "0&1"); assert(expression);
++    for (unsigned i = 0; i < 1000; i++) {
++        char key[40]; snprintf(key, sizeof(key), "0|%u", i);
++        assert(cli_lsig_expression_intern(&root, key));
++    }
++    assert(cli_lsig_expression_intern(&root, "0&1") == expression);
++    assert(cli_lsig_expression_intern(&root, "1&0") != expression);
++    assert(!strcmp(expression, "0&1"));
++    cli_lsig_store_free(&root);
++    assert(live_count == 0);
++    printf("{\"unique_descriptors\":1008,\"duplicate_reuses\":1000,\"allocation_failures_retried\":%u,\"production_hash_and_store\":true,\"individual_allocations\":true,\"tracked_live_allocations_after_free\":0}\n", failures);
++    return 0;
++}
+diff --git a/unit_tests/check_matchers.c b/unit_tests/check_matchers.c
+index 4207c50..ac13ea7 100644
+--- a/unit_tests/check_matchers.c
++++ b/unit_tests/check_matchers.c
+@@ -30,6 +30,7 @@
+ #include "clamav.h"
+ #include "readdb.h"
+ #include "matcher.h"
++#include "lsig-store.h"
+ #include "matcher-ac.h"
+ #include "matcher-bm.h"
+ #include "matcher-byte-comp.h"
+@@ -203,6 +204,7 @@ START_TEST(test_ac_compact_lsig_state)
+ {
+     struct cli_matcher root    = {0};
+     struct cli_ac_lsig sigs[9] = {{0}};
++    struct cli_lsig_tdb descriptors[9] = {{0}};
+     struct cli_ac_lsig *table[10];
+     struct cli_bcomp_meta bytecomp     = {0};
+     struct cli_bcomp_meta *bytecomps[] = {&bytecomp};
+@@ -219,19 +221,20 @@ START_TEST(test_ac_compact_lsig_state)
+     for (i = 0; i < 9; i++) {
+         table[i]     = &sigs[i];
+         sigs[i].type = CLI_LSIG_NORMAL;
++        sigs[i].tdb = &descriptors[i];
+     }
+     table[9]                = NULL;
+-    sigs[0].tdb.subsigs     = 1;
+-    sigs[1].tdb.subsigs     = 3;
+-    sigs[2].tdb.subsigs     = 64;
+-    sigs[3].tdb.subsigs     = 6;
++    descriptors[0].subsigs     = 1;
++    descriptors[1].subsigs     = 3;
++    descriptors[2].subsigs     = 64;
++    descriptors[3].subsigs     = 6;
+     sigs[3].bc_idx          = 1;
+-    sigs[4].tdb.subsigs     = 4;
++    descriptors[4].subsigs     = 4;
+     sigs[4].type            = CLI_YARA_NORMAL;
+-    sigs[5].tdb.subsigs     = 2;
+-    sigs[5].tdb.macro_ptids = &macro;
+-    sigs[7].tdb.subsigs     = 65;
+-    sigs[8].tdb.subsigs     = 2;
++    descriptors[5].subsigs     = 2;
++    descriptors[5].macro_ptids = &macro;
++    descriptors[7].subsigs     = 65;
++    descriptors[8].subsigs     = 2;
+     bytecomp.lsigid[0]      = 1;
+     bytecomp.lsigid[1]      = 8;
+     bytecomp.ref_subsigid   = 63;
+@@ -325,7 +328,11 @@ START_TEST(test_ac_compact_scan_equivalence)
+         struct cli_ac_lsig *sig = MPOOL_CALLOC(root->mempool, 1, sizeof(*sig));
+         ck_assert_ptr_nonnull(sig);
+         sig->type                            = CLI_LSIG_NORMAL;
+-        sig->tdb.subsigs                     = widths[i];
++        {
++            struct cli_lsig_tdb descriptor = {0};
++            descriptor.subsigs = widths[i];
++            ck_assert_int_eq(cli_lsig_tdb_intern(root, &descriptor, &sig->tdb), CL_SUCCESS);
++        }
+         sig->id                              = i;
+         root->ac_lsigtable[root->ac_lsigs++] = sig;
+     }
+@@ -800,7 +807,11 @@ START_TEST(test_ac_weak_hit_preserves_lsig_accounting)
+     root->ac_lsigtable[0] = MPOOL_CALLOC(root->mempool, 1, sizeof(*root->ac_lsigtable[0]));
+     ck_assert_ptr_nonnull(root->ac_lsigtable[0]);
+     root->ac_lsigs = 1;
+-    root->ac_lsigtable[0]->tdb.subsigs = 1;
++    {
++        struct cli_lsig_tdb descriptor = {0};
++        descriptor.subsigs = 1;
++        ck_assert_int_eq(cli_lsig_tdb_intern(root, &descriptor, &root->ac_lsigtable[0]->tdb), CL_SUCCESS);
++    }
+     root->ac_lsigtable[0]->type = CLI_LSIG_NORMAL;
+     ck_assert_int_eq(cli_add_content_match_pattern(root, "Weak.First", "41424344??464748",
+                                                    0, 0, 0, "*", NULL, 0), CL_SUCCESS);
