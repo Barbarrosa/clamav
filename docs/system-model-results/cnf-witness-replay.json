@@ -1,0 +1,87 @@
+{
+  "every_selected_provider_verified": true,
+  "variable_byte_objective": 165322848,
+  "physical_provider_bytes_verified": 165322848,
+  "assignment_sha256": "accb24a3cbe9f1ce7fac21869dca8fc774ea4b9473501da6a118e0f4438abda6",
+  "families": [
+    {
+      "family": "patterns",
+      "provider": "synthesized",
+      "image_bytes": 23432400,
+      "identity_locator_bytes": 18098536,
+      "image_sha256": "488783268ef7015dedbc8580c7482dd1a8a92441a204482997e11b6acbf845cd",
+      "all_named_fields_equal": true,
+      "native_named_bytes_compared": 141771740,
+      "scalar_gets_checked": 806,
+      "rows": 1508210,
+      "source_pointer_words_preserved": true,
+      "native_padding_bytes_outside_get_contract": 3016420
+    },
+    {
+      "family": "candidates",
+      "provider": "synthesized",
+      "image_bytes": 25649248,
+      "identity_locator_bytes": 27359044,
+      "image_sha256": "a7777e27b80793fd3ecfda3e5a0eecb9c75df8b9873cd3edccb54bf92f4b3d6b",
+      "all_named_fields_equal": true,
+      "native_named_bytes_compared": 54718056,
+      "scalar_gets_checked": 93,
+      "rows": 2279919,
+      "source_pointer_words_preserved": true,
+      "native_padding_bytes_outside_get_contract": 0
+    },
+    {
+      "family": "nodes",
+      "provider": "synthesized",
+      "image_bytes": 5837624,
+      "identity_locator_bytes": 6671416,
+      "image_sha256": "fca502b74f15e4d8e308965a845bccd9acc99cf1c629bd88cf8b6080a162f121",
+      "all_named_fields_equal": true,
+      "native_named_bytes_compared": 13342800,
+      "scalar_gets_checked": 93,
+      "rows": 555950,
+      "source_pointer_words_preserved": true,
+      "native_padding_bytes_outside_get_contract": 0
+    },
+    {
+      "family": "logical",
+      "provider": "synthesized",
+      "image_bytes": 6489576,
+      "identity_locator_bytes": 3747736,
+      "image_sha256": "6c78fc930202e43b5bd7100bd7fa9af3bb939a89b719aa06580a2f86594520e9",
+      "all_named_fields_equal": true,
+      "native_named_bytes_compared": 51531150,
+      "scalar_gets_checked": 775,
+      "rows": 312310,
+      "source_pointer_words_preserved": true,
+      "native_padding_bytes_outside_get_contract": 936930
+    },
+    {
+      "family": "extensions",
+      "provider": "synthesized",
+      "image_bytes": 106912,
+      "identity_locator_bytes": 210124,
+      "image_sha256": "beca568248a27aa44128504077b1f352882189a57b3e2e89df8641ff6019833a",
+      "all_named_fields_equal": true,
+      "native_named_bytes_compared": 770396,
+      "scalar_gets_checked": 403,
+      "rows": 17509,
+      "source_pointer_words_preserved": true,
+      "native_padding_bytes_outside_get_contract": 70036
+    },
+    {
+      "family": "transition_values",
+      "provider": "synthesized",
+      "image_bytes": 46796600,
+      "identity_locator_bytes": 923632,
+      "image_sha256": "c55b08f465afa2c24976ae93570cf0e1e3e7809a5872e8bdd5cd96a0c52fa7da",
+      "all_named_fields_equal": true,
+      "native_named_bytes_compared": 78815232,
+      "scalar_gets_checked": 31,
+      "rows": 19703808,
+      "source_pointer_words_preserved": true,
+      "native_padding_bytes_outside_get_contract": 0
+    }
+  ],
+  "scope": "complete captured native field/identity replay; not a scanner deployment test"
+}

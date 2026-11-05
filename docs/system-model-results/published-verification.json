@@ -1,0 +1,11 @@
+{
+  "all_published_compressed_and_uncompressed_hashes_match": true,
+  "complete_original_variables": 7723,
+  "complete_extended_variables": 287964,
+  "hard_wcnf_clauses_checked": 23831,
+  "width_at_most_three_cnf_clauses_checked": 981684,
+  "all_clauses_satisfied": true,
+  "extended_assignment_preserves_all_original_values": true,
+  "verified_weighted_byte_cost": 165322848,
+  "scope": "clause evaluation of the exact published artifacts; no private capture or fresh solver search needed"
+}

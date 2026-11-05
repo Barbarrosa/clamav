@@ -1,0 +1,9 @@
+{"budget_bytes": 3, "status": "sat", "variables": 2, "clauses": 2, "encoding_seconds": 1.673499991738936e-05, "solve_seconds": 0.0032612099998914346}
+{"budget_bytes": 2, "status": "unsat", "variables": 2, "clauses": 3, "encoding_seconds": 2.084200013996451e-05, "solve_seconds": 8.27040000785928e-05}
+{"budget_bytes": 3, "status": "sat", "variables": 2, "clauses": 2, "encoding_seconds": 7.821000053809257e-06, "solve_seconds": 0.0017733019999468524}
+{"budget_bytes": 2, "status": "unsat", "variables": 2, "clauses": 3, "encoding_seconds": 6.891000111863832e-06, "solve_seconds": 0.003665219999902547}
+{"check": "known RC2 witness extension", "budget_bytes": 3, "status": "sat", "solve_seconds": 7.209800014607026e-05}
+----------------------------------------------------------------------
+Ran 29 tests in 0.110s
+
+OK

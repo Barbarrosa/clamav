@@ -1,0 +1,26 @@
+{
+  "system-work16.wcnf.gz": {
+    "bytes": 99395,
+    "sha256": "4e8781b3a55d69f07ca024b729d3bc94a3fc2bf52eb9a954aa3d737d70aa903d",
+    "uncompressed_bytes": 527278,
+    "uncompressed_sha256": "0f5af4a7cc1e2a2c0912c363e6a6419cb9a6acea8459e547ba7b4757e0cb8422"
+  },
+  "system-work16.model.json.gz": {
+    "bytes": 18236,
+    "sha256": "f840f2cfee00f70829644ee039b58fba7f0f5fba4faacf8aee2e044739b63f62",
+    "uncompressed_bytes": 51165,
+    "uncompressed_sha256": "e9e7ac4e5babef57f0a53b93f8f7e59284ef749c847215d429d43b0d2e3eacf1"
+  },
+  "budget-165322848.cnf.gz": {
+    "bytes": 3982260,
+    "sha256": "fbc810c6425f5ebd0a59fe22ee9378ba1604cb4852790c031ddaf902e9c7ae68",
+    "uncompressed_bytes": 20499671,
+    "uncompressed_sha256": "463489845ec9854b08bfaaca81b86987db54fee21f84e3f45024edf4c530129a"
+  },
+  "budget-165322848.model.json.gz": {
+    "bytes": 708463,
+    "sha256": "f78f2cc358f02c40afe5438a17ae5528a534518cf3fe71d0bb0ff9b0e2b5b01f",
+    "uncompressed_bytes": 2395514,
+    "uncompressed_sha256": "accb24a3cbe9f1ce7fac21869dca8fc774ea4b9473501da6a118e0f4438abda6"
+  }
+}

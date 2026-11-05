@@ -1,0 +1,21 @@
+{
+  "pattern_records": 1508210,
+  "logical_records": 312310,
+  "extension_records": 17509,
+  "exact_native_scalar_comparisons": 35871699,
+  "generated_row_id_checks": 1508210,
+  "all_native_scalar_fields_match_export": true,
+  "generated_row_ids_excluded_from_native_savings": true,
+  "checked_table_sha256": {
+    "graph-schema.json": "b22c24be600edc916899240ec11710d2a02189523c2521750f7e65ab4c84f384",
+    "native-layout.json": "e6abd3d9ca912e527afbc82982df148c3608d558b1d1277644b4560c64f32ecb",
+    "patterns.bin": "1961e914c4d7a0e8c79d1a431f32c374a092e5af2593612e63e59007d9c29df8",
+    "native_patterns.bin": "bf3fcd911adfd2d63ed0ca2ad3163a944f29dc7e99eaebd51895c488390c1847",
+    "logical.bin": "a64bef68298ac9de8b7a592f4852f5cccb68500257776d968dc9d21557db7d36",
+    "logical_objects.bin": "610e892634fe285c431230405db425d434410bf80c331d64513b669e7bf666cd",
+    "native_logical.bin": "78523ea5d339389730a1af17f93ab0597ad986c577aafb5352135176cc4aa4a7",
+    "extensions.bin": "0c534ac36b7743c6933b0e0a7e4b4c054197f9dd93c886b15bee23d564f2d3d7",
+    "native_extensions.bin": "1dc0fe54ae1acc439c56cfc0b0e11bb48d9c695f8b7d975c095eced639f4fe1a"
+  },
+  "scope": "exact source-native scalar getter values; graph references checked separately"
+}

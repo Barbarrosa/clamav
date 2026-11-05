@@ -1,0 +1,157 @@
+{
+  "run_date_utc": "2026-11-02",
+  "source_base_commit": "e75a9bcf3711dcd703105a677f4926269888d1d4",
+  "engine_source_changes_in_this_pass": false,
+  "database": {
+    "image": "clamav/clamav",
+    "manifest_digest": "sha256:4a97d36895b9aa116c8db42c3dd701e7a713f7c3c3aea15a11006644f55c1d3c",
+    "layer": {
+      "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+      "digest": "sha256:a22c0b706b1c0449911d0825f10b050427161e811b7655b55a4f6d187b080c36",
+      "size": 112848650
+    },
+    "databases": [
+      {
+        "name": "bytecode.cvd",
+        "bytes": 281702,
+        "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+      },
+      {
+        "name": "daily.cvd",
+        "bytes": 23443876,
+        "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+      },
+      {
+        "name": "main.cvd",
+        "bytes": 89072577,
+        "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+      }
+    ],
+    "clamav_verification": "normal signed-CVD cl_load completed successfully; no verification bypass; historical age warning observed"
+  },
+  "build": {
+    "compiler": "GCC 14.2.0 (Debian 14.2.0-19)",
+    "rust": "rustc 1.90.0 (1159e78c4 2025-09-14)",
+    "cmake": "4.4.4",
+    "ninja": "1.13.2",
+    "type": "Release",
+    "library_only": true,
+    "unrar_enabled": true,
+    "json_shared": false,
+    "default_flat_nodes": true,
+    "diagnostic_library": "same production objects relinked with private symbol exports"
+  },
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "python_sat": "1.9.dev17",
+  "solver_identities": [
+    "PySAT RC2",
+    "Minisat22"
+  ],
+  "linked_counting_construction_executed": false,
+  "capture_summary": [
+    {
+      "kind": "logical_export",
+      "records": 312310,
+      "original_record_and_directory_bytes": 54966560,
+      "target_template_escapes": 82,
+      "conservative_escape_record_bytes": 14432,
+      "code_pointer_escapes": 0,
+      "code_pointer_directory_bytes": 0,
+      "all_template_coordinates_verified": true
+    },
+    {
+      "kind": "logical_auxiliary",
+      "original_known_auxiliary_bytes": 6806567,
+      "retained_escape_value_bytes": 1284
+    },
+    {
+      "signatures": 3628192,
+      "patterns": 1508210,
+      "links": 2279919,
+      "nodes": 555950,
+      "names": 3547706,
+      "extensions": 17509,
+      "raw_name_bytes": 87171124,
+      "token_bytes": 90363298,
+      "pattern_record_bytes": 74,
+      "original_pattern_and_directory_bytes": 156853840,
+      "original_link_and_directory_bytes": 72957408,
+      "extension_pointer_directory_bytes": 140072,
+      "all_references_checked": true
+    },
+    {
+      "kind": "system_graph",
+      "patterns": 1508210,
+      "candidate_records": 2279919,
+      "nodes": 555950,
+      "transition_rows": 76968,
+      "logical_records": 312310,
+      "objects": 6044686,
+      "opaque_objects": 18970,
+      "same_engine_instance": true,
+      "sigload_calls": 0,
+      "skipped_events": 0
+    }
+  ],
+  "binaries": {
+    "exporter": {
+      "bytes": 52552,
+      "sha256": "0cfa3cac63ab34d55a581e12da8afcb4056d3103a68f32fa7ec204f47d0727f3"
+    },
+    "production_library": {
+      "bytes": 20230184,
+      "sha256": "871c95bca8f04e5bebb348e90327b0d4adb5355114e664baa4b68447eac6104a"
+    },
+    "diagnostic_library": {
+      "bytes": 21047152,
+      "sha256": "e1a91de31ce60b874f800cc8ab8b3e62f1a73f8ea8f38a3b0184f279270774c8"
+    },
+    "native_reader": {
+      "bytes": 21208,
+      "sha256": "33374b597ac84e410fe59518d61f6da726fb38531236a3167a9b6beea25f0c68"
+    },
+    "sanitizer_reader": {
+      "bytes": 178064,
+      "sha256": "331605d6ab84538e82746b4f3a4ba3a2f9957b782650fbd8bcea739b91b44693"
+    }
+  },
+  "final_source_sha256": {
+    "tools/compact-memory/system-model/capture.py": "05559be4b4c5b3c2471e71866f8dce1194f4de2f15012dd9026bbb2251aa28a5",
+    "tools/compact-memory/system-model/check_native_probe.py": "0d2fea73f26a660c2a87e25485cc1a45488ff73692668dc781ff4fbd1d729cae",
+    "tools/compact-memory/system-model/export_system_graph.c": "7b023c637538027a9befbdf16c4d11cc43fb2925644bbbb81e44734e17791590",
+    "tools/compact-memory/system-model/field_synthesis.py": "6e06b638cabae51a6b31caa36d207ca6d027b6b84514ace63419d432f020bb5a",
+    "tools/compact-memory/system-model/probe_field_store.c": "06b898dd3ebae633a36398bdc4b946c8823cf43ad2dfd04efb435893faf9fa79",
+    "tools/compact-memory/system-model/replay_witness.py": "3be4ed3858a78b28d1dd37ffec47b62e8b957d40e425903bb372a573a609c2e1",
+    "tools/compact-memory/system-model/run_budget_query.py": "694e824e1f38014a800b377c86e96dc6749ffe51a65be2acd1321f1142e0482b",
+    "tools/compact-memory/system-model/run_system_model.py": "9b2cbf09224a4f829f2d6e9c39806b4b3242b7d48265daf6670f2d23c9ab22f8",
+    "tools/compact-memory/system-model/test_budget_query.py": "a6683bc45aa1823b2076d782fa8d6380846471ef9f019f6b528a3842b34fa62d",
+    "tools/compact-memory/system-model/test_capture.py": "9c61606af1b530deeea3dc047cdd8d4df1eaecdc9319078bb41f6a4afd8d3960",
+    "tools/compact-memory/system-model/test_field_synthesis.py": "b4317f8de3f85f9c87af1eba56d5bf240be7a2386bac04923232aa747b5217ed",
+    "tools/compact-memory/system-model/test_system_model.py": "2c88f1fd7c82733d87ac8e5f67a84c554abb1d199ba87b49f730e7546ae55309",
+    "tools/compact-memory/system-model/verify_scalar_export.py": "ae35b5578ae4f12a66c9d9895306eaed8dd0b02a5c3feee44101850137f5b31d",
+    "tools/compact-memory/export_exact_layouts.c": "36303cec909c8fa8ccfcfa3cb8406b45ea927bdd2e29955ca5a656cdd78cfd48",
+    "tools/compact-memory/engine_census.c": "6acb33b4f2cca2bcedb4518f09b72cb04ab860544e9675291137766d622629c9",
+    "tools/compact-memory/relink_internal.py": "53b66df8302211272f58dacf7eab85cfe2c9919c0a557aac54a334fe5eeec31e",
+    "tools/compact-memory/joint_budget_cnf.py": "6faa2717ca34fc6f21bb260fedb217f1314ffaf9de634c4c02268aa8baaa51f0",
+    "Cargo.lock": "72ee81f165297b760d0cf9ddf45a748877340ccca30a3d133b3f39dcfe28597d",
+    "CMakeLists.txt": "25362292ce1669122f21d1147e7af303d7eb2566a4f4284dd5edf88eb7ca19f9"
+  },
+  "source_hash_note": "summary.json records sources at model-generation time; these hashes also include subsequent replay validation hardening and the native-reader checker",
+  "native_reader_build_flags": [
+    "-std=c11",
+    "-O3",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "sanitizer_reader_build_flags": [
+    "-std=c11",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer"
+  ],
+  "targeted_sanitizers": "13 valid, 77 rejected malformed cases; leak detection disabled",
+  "private_input_policy": "native addresses, signatures, capture files, candidate constants and generated field images are excluded"
+}

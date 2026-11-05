@@ -1,0 +1,94 @@
+{
+  "scope": "same complete captured system model; weighted byte budgets converted to <=3-CNF",
+  "solver_executed": "conventional Minisat22; no Lean counting program execution",
+  "wcnf_sha256": "0f5af4a7cc1e2a2c0912c363e6a6419cb9a6acea8459e547ba7b4757e0cb8422",
+  "wcnf_bytes": 527278,
+  "original_variables": 7723,
+  "original_hard_clauses": 23831,
+  "original_weighted_terms": 3324,
+  "wcnf_load_seconds": 0.009212348999994902,
+  "queries": [
+    {
+      "budget_bytes": 165322848,
+      "solver": "Minisat22",
+      "linked_counting_construction_executed": false,
+      "solve_timeout_seconds": 30.0,
+      "encoding_seconds": 1.8194796499999484,
+      "variables": 287964,
+      "clauses": 981684,
+      "literal_occurrences": 2642510,
+      "maximum_clause_width": 3,
+      "dimacs_bytes": 20499671,
+      "dimacs_sha256": "463489845ec9854b08bfaaca81b86987db54fee21f84e3f45024edf4c530129a",
+      "dimacs_write_seconds": 0.9497212459999673,
+      "dimacs_private_file": "budget-165322848.cnf",
+      "solver_load_seconds": 0.3493250020000005,
+      "solve_seconds": 30.008574518000046,
+      "solver_statistics": {
+        "restarts": 299,
+        "conflicts": 112790,
+        "decisions": 587812,
+        "propagations": 184674989
+      },
+      "status": "unknown_timeout"
+    },
+    {
+      "budget_bytes": 165322847,
+      "solver": "Minisat22",
+      "linked_counting_construction_executed": false,
+      "solve_timeout_seconds": 30.0,
+      "encoding_seconds": 1.6046409230000336,
+      "variables": 287945,
+      "clauses": 981663,
+      "literal_occurrences": 2642447,
+      "maximum_clause_width": 3,
+      "dimacs_bytes": 20499144,
+      "dimacs_sha256": "72dd013f7e82a7e165849aafe080819686388ffa841f0f341641a848cf8c6589",
+      "dimacs_write_seconds": 1.2168841399999337,
+      "dimacs_private_file": "budget-165322847.cnf",
+      "solver_load_seconds": 0.478397469000015,
+      "solve_seconds": 30.005867706999993,
+      "solver_statistics": {
+        "restarts": 407,
+        "conflicts": 152576,
+        "decisions": 1102587,
+        "propagations": 246947538
+      },
+      "status": "unknown_timeout"
+    }
+  ],
+  "limitations": [
+    "Unknown after timeout is not an infeasibility conclusion.",
+    "UNSAT is a conventional solver result without an exported proof certificate.",
+    "Positive counts would establish feasibility, but no counts are computed here.",
+    "Equisatisfiable auxiliary variables do not count distinct physical layouts.",
+    "Budget covers exactly the WCNF objective; retained opaque allocations are separate."
+  ],
+  "known_witness_extension": {
+    "scope": "known RC2 witness extension; not unassisted SAT search",
+    "budget_bytes": 165322848,
+    "solver": "Minisat22",
+    "linked_counting_construction_executed": false,
+    "known_original_weighted_byte_cost": 165322848,
+    "original_witness_sha256": "e9e7ac4e5babef57f0a53b93f8f7e59284ef749c847215d429d43b0d2e3eacf1",
+    "assumed_original_variables": 7723,
+    "solve_timeout_seconds": 30.0,
+    "dimacs_load_seconds": 0.19421241899999586,
+    "dimacs_sha256": "463489845ec9854b08bfaaca81b86987db54fee21f84e3f45024edf4c530129a",
+    "encoding_auxiliary_variables_left_free": 280241,
+    "solver_load_seconds": 0.23499599700005547,
+    "solve_seconds": 0.04052165899997817,
+    "status": "sat",
+    "solver_statistics": {
+      "restarts": 1,
+      "conflicts": 0,
+      "decisions": 110,
+      "propagations": 287965
+    },
+    "verified_weighted_byte_cost": 165322848,
+    "all_original_and_encoded_hard_clauses_verified": true,
+    "witness_verification_seconds": 0.4471132390000321,
+    "witness_private_file": "budget-165322848-witness-extension.json",
+    "witness_sha256": "accb24a3cbe9f1ce7fac21869dca8fc774ea4b9473501da6a118e0f4438abda6"
+  }
+}
