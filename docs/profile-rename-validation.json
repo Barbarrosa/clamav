@@ -1,0 +1,137 @@
+{
+  "scope": "native adapter smoke test of the renamed PDF/JPEG/PNG PE-exclusions profile; not a performance or release qualification",
+  "configuration_flag": "--database-profile=pdf-jpeg-png-pe-exclusions",
+  "selector_version": "1.4.1-profile-named-experimental",
+  "signed_database_verification": "normal CVD verification and full load/compile validation completed; historical-age warning expected",
+  "baseline": "same current native probe invoked directly, not an old pre-rename binary",
+  "probe_sha256": "4286d434c5bbe1730ed2535f714506ac8a89d9d25edeac314e8bde444f06aaa0",
+  "engine_library_sha256": "871c95bca8f04e5bebb348e90327b0d4adb5355114e664baa4b68447eac6104a",
+  "generation_manifest_sha256": "309a1ed8b2705047a1f41885148bb73b972e658c7ed2c5cf2be35934f9758edf",
+  "source_sha256": {
+    "tools/subset-selector/scan.py": "5a2a53ac17a3662c80e4acdd4a2ed2f05a8feba0271b531cc80524bc0ec36a30",
+    "tools/subset-selector/select_db.py": "0fc565410302c34357a781d2567660a4c14d09115444ccfea2283d5928ebfda6",
+    "tools/subset-selector/profiles.json": "5f8785a9f91e71146b9ef7ae44835724da5528efe7f0caada25f3eaf74791802",
+    "tools/subset-selector/test_flags.py": "f7e43d284d9d20c183ae7ef2f15c2d6954e7f27bf22950b116b5d9af5054896c",
+    "tools/subset-selector/scan_probe.c": "1cd9b6a11629008f6ffab9d6baa5ca3489bf8f750ae280b041a37d9b0f5dda8c"
+  },
+  "engines": {
+    "baseline": {
+      "signatures": 3628192,
+      "sigload_calls": 0,
+      "skipped": 0
+    },
+    "default": {
+      "signatures": 3628192,
+      "sigload_calls": 0,
+      "skipped": 0
+    },
+    "full": {
+      "signatures": 3628192,
+      "sigload_calls": 0,
+      "skipped": 0
+    },
+    "full-all": {
+      "signatures": 3628192,
+      "sigload_calls": 0,
+      "skipped": 0
+    },
+    "restricted": {
+      "signatures": 601004,
+      "sigload_calls": 3628623,
+      "skipped": 3027189
+    }
+  },
+  "scan_counts": {
+    "baseline": {
+      "scans": 8,
+      "allmatch_modes": [
+        0,
+        1
+      ]
+    },
+    "default": {
+      "scans": 4,
+      "allmatch_modes": [
+        0
+      ]
+    },
+    "full": {
+      "scans": 4,
+      "allmatch_modes": [
+        0
+      ]
+    },
+    "full-all": {
+      "scans": 4,
+      "allmatch_modes": [
+        1
+      ]
+    },
+    "restricted": {
+      "scans": 4,
+      "allmatch_modes": [
+        1
+      ]
+    }
+  },
+  "full_comparisons": [
+    {
+      "mode": "default",
+      "exact_full_baseline_matches": 4
+    },
+    {
+      "mode": "full",
+      "exact_full_baseline_matches": 4
+    },
+    {
+      "mode": "full-all",
+      "exact_full_baseline_matches": 4
+    }
+  ],
+  "restricted_allmatch_only": true,
+  "eligible_detection_equivalence_matches": 3,
+  "held_control_cases": 1,
+  "restricted_results": [
+    {
+      "file": "benign.pdf",
+      "root_type": "CL_TYPE_PDF",
+      "candidate_outcome": "clean",
+      "outcome": "held",
+      "hold_bits": 0
+    },
+    {
+      "file": "benign.png",
+      "root_type": "CL_TYPE_PNG",
+      "candidate_outcome": "clean",
+      "outcome": "held",
+      "hold_bits": 0
+    },
+    {
+      "file": "benign.jpg",
+      "root_type": "CL_TYPE_JPEG",
+      "candidate_outcome": "clean",
+      "outcome": "held",
+      "hold_bits": 0
+    },
+    {
+      "file": "unsupported.txt",
+      "root_type": "CL_TYPE_TEXT_ASCII",
+      "candidate_outcome": "held",
+      "outcome": "held",
+      "hold_bits": 2
+    }
+  ],
+  "reduced_automatic_release": false,
+  "passed": true,
+  "freshness_scope": "This native adapter check did not invoke intake or change its freshness policy. The historical snapshot is test input, not a currently deployable generation.",
+  "python_tests": {
+    "selector": 36,
+    "configuration_and_equivalence": 20,
+    "hardening": 35,
+    "performance_label_compatibility": 4,
+    "backport_1_5_4": 88,
+    "backport_1_4_6": 88,
+    "permission_fixture_environment": "umask 022 for the existing world-readable-quarantine rejection fixture"
+  },
+  "historical_performance_reanalysis": "All 78 historical process outputs and hashes rechecked. Recomputed summary exactly equals the original after label normalization; no new benchmark measurements."
+}

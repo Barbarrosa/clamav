@@ -4,18 +4,21 @@ import argparse
 import json
 from pathlib import Path
 from render_tables import build_tables, markdown, VARIANTS
+from profile_labels import normalize_summary
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--summary',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    a=p.parse_args();s=json.loads(a.summary.read_text());t=build_tables(s)
-    v=s['variants'];r=v['legal-redress'];f=v['full'];u=v['upstream']
+    a=p.parse_args();s=normalize_summary(json.loads(a.summary.read_text()));t=build_tables(s)
+    v=s['variants'];r=v['pdf-jpeg-png-pe-exclusions'];f=v['full'];u=v['upstream']
     text=f'''# Fresh three-way ClamAV performance analysis — 2026-10-29
 
-All figures below come from one new controlled experiment, with both engines rebuilt using the same toolchain. No historical benchmark cell is reused. Original means the pinned, unmodified ClamAV development baseline `dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d`, not the latest ClamAV release. New full and Legal Redress use retained engine source `9dfde0139708a1eb1a728f86baecb1d8ec1b66df`; their only difference is the conservative signature-load callback. The archive update adds measurement tools, evidence and documentation; it does not change engine algorithms or shipping defaults.
+All figures below come from one new controlled experiment, with both engines rebuilt using the same toolchain. No historical benchmark cell is reused. Original means the pinned, unmodified ClamAV development baseline `dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d`, not the latest ClamAV release. New full and PDF/JPEG/PNG with PE exclusions use retained engine source `9dfde0139708a1eb1a728f86baecb1d8ec1b66df`; their only difference is the conservative signature-load callback. The archive update adds measurement tools, evidence and documentation; it does not change engine algorithms or shipping defaults.
 
-Legal Redress loads **{r['percent_full_signature_count']:.2f}%** of the engine-counted signatures and reduces mean compiled RSS by **{r['compiled_rss_reduction_vs_upstream_percent']:.2f}%** versus original, or **{100*(1-r['compiled_rss_kib']['mean']/f['compiled_rss_kib']['mean']):.2f}%** versus new full. The removed count is **{r['omitted_signature_count']:,}**. The official compressed CVD files are still retained and verified in full: **{r['signed_source_bytes']:,} bytes**, or **100%** of source bytes. Signature percentage is a count ratio, not a byte ratio or a malware-detection coverage percentage. The engine count may include expanded logical/subsignature units; it is distinct from the selector's excluded callback-name count.
+The restricted profile is now named for its accepted root types and conservative PE-specific exclusions. Historical input labels are normalized for display only; raw records, measurements and provenance hashes remain unchanged.
+
+PDF/JPEG/PNG with PE exclusions loads **{r['percent_full_signature_count']:.2f}%** of the engine-counted signatures and reduces mean compiled RSS by **{r['compiled_rss_reduction_vs_upstream_percent']:.2f}%** versus original, or **{100*(1-r['compiled_rss_kib']['mean']/f['compiled_rss_kib']['mean']):.2f}%** versus new full. The removed count is **{r['omitted_signature_count']:,}**. The official compressed CVD files are still retained and verified in full: **{r['signed_source_bytes']:,} bytes**, or **100%** of source bytes. Signature percentage is a count ratio, not a byte ratio or a malware-detection coverage percentage. The engine count may include expanded logical/subsignature units; it is distinct from the selector's excluded callback-name count.
 
 ## Database, memory and lifecycle
 
@@ -52,9 +55,9 @@ The statistical unit is a fresh process. Repeated hydrated batches are averaged 
 | Hydrated scan comparison | Mean wall-time change | 95% mean-change CI | Median wall-time change | 95% median-change CI |
 |---|---:|---:|---:|---:|
 '''
-    for key,label in [('upstream-to-full','New full vs original'),('upstream-to-legal-redress','Legal Redress vs original'),('full-to-legal-redress','Legal Redress vs new full')]:
+    for key,label in [('upstream-to-full','New full vs original'),('upstream-to-pdf-jpeg-png-pe-exclusions','PDF/JPEG/PNG with PE exclusions vs original'),('full-to-pdf-jpeg-png-pe-exclusions','PDF/JPEG/PNG with PE exclusions vs new full')]:
         c=s['comparisons'][key]['warm_scan_wall_percent'];text+=f"| {label} | {c['percent_change']:+.2f}% | {c['95ci'][0]:+.2f}% to {c['95ci'][1]:+.2f}% | {c['median_percent_change']:+.2f}% | {c['median_95ci'][0]:+.2f}% to {c['median_95ci'][1]:+.2f}% |\n"
-    text+='\nNegative change means less elapsed time. No outlier was discarded. A confidence interval spanning zero does not establish a speed difference. Final-round processes 025 (Legal Redress) and 026 (full) contain unusually slow batches: the three hydrated Legal Redress batches were 5.661, 10.543 and 3.704 seconds, with 5.448, 10.017 and 3.520 CPU seconds. This is also a CPU-time increase, so it cannot be explained simply as the process waiting for its turn. Identical bytes, scan options, callback histories and scanned-byte counts were verified. The experiment does not identify the cause. These observations remain in the means, tails and intervals; medians show the typical process alongside that variability. No additional runs were selected to replace them.\n\n'
+    text+='\nNegative change means less elapsed time. No outlier was discarded. A confidence interval spanning zero does not establish a speed difference. Final-round processes 025 (PDF/JPEG/PNG with PE exclusions) and 026 (full) contain unusually slow batches: the three hydrated PDF/JPEG/PNG with PE exclusions batches were 5.661, 10.543 and 3.704 seconds, with 5.448, 10.017 and 3.520 CPU seconds. This is also a CPU-time increase, so it cannot be explained simply as the process waiting for its turn. Identical bytes, scan options, callback histories and scanned-byte counts were verified. The experiment does not identify the cause. These observations remain in the means, tails and intervals; medians show the typical process alongside that variability. No additional runs were selected to replace them.\n\n'
     text+='| Variant | Hydrated batch mean (s) | SD (s) | 95% mean CI (s) | Min–max process mean (s) |\n|---|---:|---:|---:|---:|\n'
     for key in VARIANTS:
         d=v[key]['scan']['file_cache_hydrated']['wall_seconds'];text+=f"| {key} | {d['mean']:.6f} | {d['sd']:.6f} | {d['mean_95ci'][0]:.6f}–{d['mean_95ci'][1]:.6f} | {d['min']:.6f}–{d['max']:.6f} |\n"
@@ -63,7 +66,7 @@ The statistical unit is a fresh process. Repeated hydrated batches are averaged 
         for db,d in v[key]['updates'].items():text+=f"| {key} / {db} | {d['wall_seconds']['mean']:.6f} | {d['cpu_seconds']['mean']:.6f} | {d['hwm_kib']['max']/1024:.3f} |\n"
     text+='\n## Correctness and evidence validation\n\n'
     text+=f"All {s['validation']['page_cache_checks']} page-residency checks passed. All runtime-module checks, result-cache hit checks and 27 updater validation tests passed. All 1,120 accepted scan records per variant had candidate-clean outcomes, zero policy holds and unchanged bytes. Full and reduced each matched original semantics in 1,390 comparisons: 1,120 accepted scans plus 178 positive-fixture scans and 92 adverse scans. These compare complete detection multisets (including weak/PUA legacy events), verdict, layer traversal, scanned bytes, original hashes and hold behavior. They do not prove complete parser coverage.\n\n"
-    text+='| Corpus, first pass | Metric | Original | New full | Legal Redress |\n|---|---|---:|---:|---:|\n'
+    text+='| Corpus, first pass | Metric | Original | New full | PDF/JPEG/PNG with PE exclusions |\n|---|---|---:|---:|---:|\n'
     for stage,label in [('positive','89 upstream positive fixtures'),('adverse','46 adverse/mixed fixtures')]:
         for field,desc in [('detected_verdicts','Detected verdicts'),('held','Policy holds'),('failures','Failed scans'),('integrity_changes','Changed input bytes'),('peak_rss_kib','Peak RSS over both passes (MiB)')]:
             vals=[f"{v[k][stage][field]/1024:.3f}" if field=='peak_rss_kib' else str(v[k][stage][field]) for k in VARIANTS]
@@ -79,7 +82,7 @@ A completed preflight matrix revealed that optional RAR runtime modules were not
 
 ## Configuration and preserved policy
 
-Use `--database-profile=legal-redress` on `tools/subset-selector/scan.py` or `intake.py`. Use `--database-profile=full`, or omit the flag, for the existing full-database default. Full mode retains first-hit behavior by default; add `--allmatch` for the all-match configuration measured here. These are adapter flags, not upstream clamscan or clamd flags.
+Use `--database-profile=pdf-jpeg-png-pe-exclusions` on `tools/subset-selector/scan.py` or `intake.py`. Use `--database-profile=full`, or omit the flag, for the existing full-database default. Full mode retains first-hit behavior by default; add `--allmatch` for the all-match configuration measured here. These are adapter flags, not upstream clamscan or clamd flags.
 
 Reduced mode forces accepting all-match scanning. The signature set retains generic, hash, bytecode, handler, trust, allowlist and uncertain rules and excludes only proven plain PE-only callback groups. Executable/unsupported/unknown/encrypted/limited/error inputs remain held or failed. Parser completeness remains unproven: a no-detection `candidate_outcome` is still `outcome=held` in the reduced evidence workflow. Automatic reduced release remains disabled. Original bytes and metadata must be preserved independently, derivative verdicts cannot clear originals, and narrative submission remains independent with an authorized full-scan/manual exception path.
 

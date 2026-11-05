@@ -1,7 +1,7 @@
 # Archived project provenance
 
 This branch imports version 16 of `ClamAV-engine-foundations.zip`. Its retained
-engine, Legal Redress adapter, tests and recorded performance results are unchanged.
+engine, PDF/JPEG/PNG with PE exclusions adapter, tests and recorded performance results are unchanged.
 The original Git bundle starts at a recovery snapshot rather than upstream history.
 The recovery snapshot is attached to the fork's matching upstream base, and its
 descendants' parent references are rewritten. Every imported commit retains its
@@ -21,7 +21,7 @@ The archive's source manifest records raw archive bytes. Seventeen historical
 Windows/resource files differ only in CRLF/LF normalization in the saved Git tree;
 that pre-existing difference is recorded in `archive-preservation.json`.
 
-The Legal Redress profile remains experimental: reduced no-detection results are
+The PDF/JPEG/PNG with PE exclusions profile remains experimental: reduced no-detection results are
 held, and the documented production gates remain in effect. See
 [configuration](../../tools/subset-selector/README.md),
 [release status](../production-readiness.md),
@@ -31,3 +31,9 @@ held, and the documented production gates remain in effect. See
 Before preparing this branch, the 35 selector, 18 configuration/equivalence and
 35 hardening tests were rerun. Existing native-engine, boundary and benchmark
 evidence is preserved; those historical measurements were not rerun for publication.
+
+The profile option has since been renamed to
+`--database-profile=pdf-jpeg-png-pe-exclusions`. Original archive READMEs, patches,
+revision records and measurement files keep their original labels and hashes.
+Current documentation and report readers use the descriptive name; this does not
+relabel the archived measurements or assert that changed sources match old hashes.

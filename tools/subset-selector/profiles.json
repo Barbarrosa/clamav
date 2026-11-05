@@ -1,7 +1,7 @@
 {
-  "id": "legal-redress-pe-hold-v1",
+  "id": "pdf-jpeg-png-pe-exclusions-hold-v1",
   "status": "opt-in-restricted-scan; automatic release held",
-  "configuration_flag": "--database-profile=legal-redress",
+  "configuration_flag": "--database-profile=pdf-jpeg-png-pe-exclusions",
   "default_database_profile": "full",
   "required_scan_mode": "all-match; accepting alert callbacks",
   "equivalence_contract": "Same detection multisets (including legacy weak/PUA evidence), verdict, layer traversal and policy holds. Selected final name and alert order may differ. Full mode preserves original ordered results.",

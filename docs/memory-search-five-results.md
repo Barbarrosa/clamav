@@ -7,7 +7,7 @@ or where a promising saving disappears after the data is used.
 I wrote [40 different ideas](memory-search-ideas.md), selected the five before
 this pass's measurements, and tested all five. These are small, exact storage
 experiments. They use public test fixtures and constructed examples, not the
-official compiled full or Legal Redress databases. No scanner code or rule
+official compiled full or restricted PDF/JPEG/PNG databases. No scanner code or rule
 selection changed.
 
 ## What happened

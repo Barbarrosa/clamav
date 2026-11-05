@@ -21,7 +21,7 @@ def run(a,label,skip,files,repeats=1,broad=0,overlap=0,extra=None):
         command=[sys.executable,str(Path(__file__).with_name('scan.py')),
                  '--probe',str(a.probe),'--generation',str(a.generation),'--lib',str(a.lib),
                  '--certs',str(a.certs),'--files',str(files),'--repetitions',str(repeats),
-                 '--database-profile='+('full' if skip=='-' else 'legal-redress'),'--allmatch']
+                 '--database-profile='+('full' if skip=='-' else 'pdf-jpeg-png-pe-exclusions'),'--allmatch']
         if broad:command.append('--broad')
         if overlap:command.append('--reload-overlap')
     samples=[];start=time.monotonic()

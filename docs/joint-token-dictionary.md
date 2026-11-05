@@ -182,8 +182,8 @@ tool; no engine dependency is added.
 
 ## Next falsifiable experiment
 
-Generate fresh compiled exports for both the full and Legal Redress profiles
-using their existing pinned validation paths. Optimize representative and adverse
+Generate fresh compiled exports for both the full profile and the PDF/JPEG/PNG
+profile with PE exclusions using their existing pinned validation paths. Optimize representative and adverse
 small shards, including already-deduplicated sequences, against raw, existing
 OnPair and small-block Zstd under matching index/scratch budgets. Retain pattern
 identity, prefix boundaries, width flags and every selected rule. Include random

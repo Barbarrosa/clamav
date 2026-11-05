@@ -5,12 +5,13 @@ import json
 import os
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
+from profile_labels import VARIANTS, normalize_summary
 
-VARIANTS = ('upstream', 'full', 'legal-redress')
-HEADERS = ('Metric', 'Original ClamAV', 'New · full DB', 'New · Legal Redress')
+HEADERS = ('Metric', 'Original ClamAV', 'New · full DB', 'PDF/JPEG/PNG')
 
 
 def build_tables(summary):
+    summary = normalize_summary(summary)
     variants = summary['variants']
     def values(fn): return [fn(variants[v]) for v in VARIANTS]
     def mean(d, key): return d[key]['mean']
@@ -136,7 +137,8 @@ def main():
         ['Means shown; peaks are observed maxima. RSS = resident process RAM. 1 MiB = 1,048,576 bytes.',
          'Reload retains old + replacement engines. Update peak adds one unreduced FreshClam DB-file validation.',
          'Update peak is the maximum across main, daily and bytecode validation (3 runs of each per variant).',
-         'Legal Redress loads 16.56% of engine-counted signatures; all signed source database bytes are retained.'])
+         'PDF/JPEG/PNG: eligible PE-specific rules excluded; 16.56% of engine-counted signatures loaded.',
+         'All signed source database bytes are retained; signature count is not detection coverage.'])
     render(a.output/'ClamAV-OS-cache-comparison.png','OS file-page cache · empty → hydrated',
         'Evidence-preserving scans: metadata on, clean-result cache off · values are empty → hydrated',
         [('Database startup and 28-file scan workload',tables['os_cache'])],

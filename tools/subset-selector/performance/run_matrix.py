@@ -13,6 +13,7 @@ import random
 import subprocess
 import time
 from pathlib import Path
+from profile_labels import RESTRICTED_VARIANT, VARIANTS
 
 
 def sha(path):
@@ -33,6 +34,24 @@ def cg():
         return {'current_bytes':int((root/'memory.current').read_text()),'file_bytes':stats.get('file'),
                 'anonymous_bytes':stats.get('anon'),'scope':'shared cgroup; not isolated service charge'}
     except (OSError,ValueError):return {'scope':'unavailable'}
+
+
+def make_plan(a, empty):
+    """Generate only current labels; archived plans remain read-only evidence."""
+    rng=random.Random(a.seed);variants=list(VARIANTS);plan=[]
+    for r in range(a.rounds):
+        cases=[(v,c) for v in variants for c in ('empty','hydrated')];rng.shuffle(cases)
+        for v,c in cases:plan.append(dict(stage='primary',variant=v,cache=c,round=r,case='scan',files=str(a.fixtures),repeats=a.repetitions))
+    for r in range(a.rounds):
+        order=variants.copy();rng.shuffle(order)
+        for v in order:plan.append(dict(stage='result-cache',variant=v,cache='hydrated',round=r,case='result-cache',files=str(a.fixtures),repeats=a.repetitions))
+    for r in range(a.lifecycle_rounds):
+        cases=[(v,d) for v in variants for d in ('main.cvd','daily.cvd','bytecode.cvd')];rng.shuffle(cases)
+        for v,d in cases:plan.append(dict(stage='lifecycle',variant=v,cache='hydrated',round=r,case='update',database=d,files=str(empty),repeats=1))
+    for stage,files in [('positive',a.positive),('adverse',a.adverse)]:
+        if files:
+            for v in variants:plan.append(dict(stage=stage,variant=v,cache='hydrated',round=0,case='scan',files=str(files),repeats=1))
+    return plan
 
 
 def main(a):
@@ -63,26 +82,14 @@ def main(a):
             build/'libclamunrar_iface/libclamunrar_iface.so.14.0.0',
             build/'libclamunrar/libclamunrar.so.14.0.0')]
     (a.output/'environment.json').write_text(json.dumps(env,indent=2)+'\n')
-    rng=random.Random(a.seed);variants=['upstream','full','legal-redress'];plan=[]
-    for r in range(a.rounds):
-        cases=[(v,c) for v in variants for c in ('empty','hydrated')];rng.shuffle(cases)
-        for v,c in cases:plan.append(dict(stage='primary',variant=v,cache=c,round=r,case='scan',files=str(a.fixtures),repeats=a.repetitions))
-    for r in range(a.rounds):
-        order=variants.copy();rng.shuffle(order)
-        for v in order:plan.append(dict(stage='result-cache',variant=v,cache='hydrated',round=r,case='result-cache',files=str(a.fixtures),repeats=a.repetitions))
-    for r in range(a.lifecycle_rounds):
-        cases=[(v,d) for v in variants for d in ('main.cvd','daily.cvd','bytecode.cvd')];rng.shuffle(cases)
-        for v,d in cases:plan.append(dict(stage='lifecycle',variant=v,cache='hydrated',round=r,case='update',database=d,files=str(empty),repeats=1))
-    for stage,files in [('positive',a.positive),('adverse',a.adverse)]:
-        if files:
-            for v in variants:plan.append(dict(stage=stage,variant=v,cache='hydrated',round=0,case='scan',files=str(files),repeats=1))
+    plan=make_plan(a,empty)
     (a.output/'plan.json').write_text(json.dumps(plan,indent=2)+'\n')
     for index,case in enumerate(plan):
         v=case['variant'];stem=f'{index:03}-{case["stage"]}-{v}-{case["cache"]}-{case["round"]}'
         if case.get('database'):stem+='-'+case['database']
         output=a.output/(stem+'.jsonl');stderr=a.output/(stem+'.stderr');record=a.output/(stem+'-process.json')
         probe=a.upstream_probe if v=='upstream' else a.fork_probe
-        cmd=[str(probe),str(db),str(a.certs),str(a.generation/'skip.tsv') if v=='legal-redress' else '-',
+        cmd=[str(probe),str(db),str(a.certs),str(a.generation/'skip.tsv') if v==RESTRICTED_VARIANT else '-',
              case['files'],case['case'],str(listdb),case['cache'],str(case['repeats']),'1']
         if a.resume and record.exists():
             old=json.loads(record.read_text())

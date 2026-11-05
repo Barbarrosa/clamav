@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Configuration and detection-contract rejection tests. GPL-2.0-only."""
 import copy
+from contextlib import redirect_stderr
+import io
 import json
 import tempfile
 import unittest
@@ -23,23 +25,40 @@ class ConfigurationTests(unittest.TestCase):
         self.assertEqual(scan.command(**self.kw,database=Path('/db')),
                          scan.command(**self.kw,database=Path('/db'),database_profile='full'))
     def test_restricted_requires_generation(self):
-        with self.assertRaisesRegex(ValueError,'verified'):scan.command(**self.kw,database='/db',database_profile='legal-redress')
+        with self.assertRaisesRegex(ValueError,'verified'):scan.command(**self.kw,database='/db',database_profile='pdf-jpeg-png-pe-exclusions')
     def test_unknown_profile_rejected(self):
-        with self.assertRaises(ValueError):scan.command(**self.kw,database='/db',database_profile='legal-redres')
+        with self.assertRaises(ValueError):scan.command(**self.kw,database='/db',database_profile='pdf-jpeg-png-pe-exclusion')
+    def test_profile_name_matches_cli_and_selected_options(self):
+        profile=json.loads((Path(scan.__file__).parent/'profiles.json').read_text())
+        name='pdf-jpeg-png-pe-exclusions'
+        self.assertEqual(profile['configuration_flag'],'--database-profile='+name)
+        self.assertEqual(profile['initial_root_types'],['CL_TYPE_PDF','CL_TYPE_JPEG','CL_TYPE_PNG'])
+        self.assertEqual(profile['forbidden_matcher_target'],1)
+        self.assertFalse(profile['reduced_automatic_release'])
+        parsed=scan.parser().parse_args(['--probe','/probe','--lib','/lib','--certs','/certs',
+            '--files','/files','--generation','/gen','--database-profile',name])
+        self.assertEqual(parsed.database_profile,name)
+    def test_former_profile_spelling_is_rejected(self):
+        with self.assertRaisesRegex(ValueError,'unknown database profile'):
+            scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
+        with redirect_stderr(io.StringIO()),self.assertRaises(SystemExit) as error:
+            scan.parser().parse_args(['--probe','/probe','--lib','/lib','--certs','/certs',
+                '--files','/files','--generation','/gen','--database-profile','legal-redress'])
+        self.assertEqual(error.exception.code,2)
     def test_no_ambiguous_database_sources(self):
         with self.assertRaises(ValueError):scan.command(**self.kw,database='/db',generation='/gen')
     def test_restricted_rejects_broad_profile(self):
-        with self.assertRaisesRegex(ValueError,'PDF/JPEG/PNG'):scan.command(**self.kw,generation='/gen',database_profile='legal-redress',broad=True)
+        with self.assertRaisesRegex(ValueError,'PDF/JPEG/PNG'):scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions',broad=True)
     def test_restricted_forces_allmatch_and_accept_callbacks(self):
         with patch.object(scan,'validate_generation',return_value={'full_load_validation':{'probe_sha256':'ok'}}),patch.object(scan,'sha',return_value='ok'):
-            cmd=scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
+            cmd=scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions')
         self.assertEqual(cmd[3],'/gen/skip.tsv');self.assertEqual(cmd[-1],'all');self.assertEqual(cmd[7],'0')
     def test_probe_change_rejected(self):
         with patch.object(scan,'validate_generation',return_value={'full_load_validation':{'probe_sha256':'old'}}),patch.object(scan,'sha',return_value='new'):
-            with self.assertRaisesRegex(ValueError,'probe changed'):scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
+            with self.assertRaisesRegex(ValueError,'probe changed'):scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions')
     def test_generation_failure_is_not_fallback_to_full(self):
         with patch.object(scan,'validate_generation',side_effect=ValueError('changed input')):
-            with self.assertRaisesRegex(ValueError,'changed input'):scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
+            with self.assertRaisesRegex(ValueError,'changed input'):scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions')
     def test_intake_unknown_profile_fails_and_keeps_original(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'evidence.pdf';p.write_bytes(b'original evidence')
@@ -48,9 +67,9 @@ class ConfigurationTests(unittest.TestCase):
             self.assertEqual(r['outcome'],'failed');self.assertEqual((folder/'original').read_bytes(),p.read_bytes())
     def test_intake_outcomes_and_retained_evidence(self):
         for profile, candidate, holds, expected in [
-            ('full','clean',0,'clean'), ('legal-redress','clean',0,'held'),
-            ('legal-redress','detected',0,'detected'), ('legal-redress','held',1,'held'),
-            ('legal-redress','failed',0,'failed')]:
+            ('full','clean',0,'clean'), ('pdf-jpeg-png-pe-exclusions','clean',0,'held'),
+            ('pdf-jpeg-png-pe-exclusions','detected',0,'detected'), ('pdf-jpeg-png-pe-exclusions','held',1,'held'),
+            ('pdf-jpeg-png-pe-exclusions','failed',0,'failed')]:
             with self.subTest(profile=profile,candidate=candidate), tempfile.TemporaryDirectory() as tmp:
                 p=Path(tmp)/'evidence.pdf';p.write_bytes(b'original evidence')
                 folder,_=intake.preserve(p,Path(tmp)/'quarantine')
@@ -68,7 +87,7 @@ class ConfigurationTests(unittest.TestCase):
                 p=Path(tmp)/'evidence.pdf';p.write_bytes(b'original')
                 folder,_=intake.preserve(p,Path(tmp)/'quarantine')
                 with patch.object(intake,'command',return_value=['probe']),patch.object(intake,'run_scanner',return_value=SimpleNamespace(returncode=0,stdout='\n'.join(map(json.dumps,rows)))):
-                    r=intake.assess(folder,'/gen','/probe','/lib','/certs',database_profile='legal-redress')
+                    r=intake.assess(folder,'/gen','/probe','/lib','/certs',database_profile='pdf-jpeg-png-pe-exclusions')
                 self.assertEqual(r['outcome'],'failed');self.assertFalse(r['release_qualified'])
 
 

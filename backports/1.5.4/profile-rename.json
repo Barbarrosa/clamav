@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "profile": "pdf-jpeg-png-pe-exclusions",
+  "profile_id": "pdf-jpeg-png-pe-exclusions-hold-v1",
+  "selector_version": "1.4.1-profile-named-experimental",
+  "patch": "backport.patch",
+  "patch_sha256": "5d1bd06ab0aff1cf26b74de4db33b23aebbf17e5100b371cf6490d4b789d1cda",
+  "original_patch_sha256": "5ebacfd4ff35b05a5268fc0b08d9aaa3b6769a52dfe008a6cedd73854ff2db2d",
+  "upstream_tag": "clamav-1.5.4",
+  "upstream_commit": "fa59fca15872bb8a914ba4c68188bcc8a502cbdf",
+  "original_archive_metadata": "archive.json",
+  "original_revision_metadata": "revision.json",
+  "original_source_tree_claim_is_historical": true,
+  "historical_results_preserved": "docs/backport-results/ inside backport.patch",
+  "renamed_active_paths": [
+    "docs/pdf-jpeg-png-pe-exclusions-backport.md",
+    "tools/subset-selector/README.md",
+    "tools/subset-selector/intake.py",
+    "tools/subset-selector/make_fixtures.py",
+    "tools/subset-selector/profiles.json",
+    "tools/subset-selector/readiness.py",
+    "tools/subset-selector/scan.py",
+    "tools/subset-selector/select_db.py",
+    "tools/subset-selector/test_configuration.py",
+    "tools/subset-selector/test_flags.py",
+    "tools/subset-selector/test_hardening.py",
+    "tools/subset-selector/test_native_intake.py",
+    "tools/subset-selector/test_support.py"
+  ],
+  "validation": {
+    "hunk_line_counts_unchanged": true,
+    "git_apply_numstat": "passed; complete patch parses with unchanged hunk line counts",
+    "upstream_apply_check": "not run; exact upstream commit is not present in this workspace",
+    "release_engine_matrix": "not rerun for the option rename",
+    "added_adapter_and_report_apply_check": "passed in an empty temporary tree for all added tools/subset-selector files and renamed report",
+    "adapter_python_unit_tests": "88 passed after applying the renamed added files; test_selector, test_configuration, test_hardening; umask 022",
+    "test_environment_note": "An initial run under umask 077 prevented the intended world-readable-quarantine fixture from becoming world-readable; the unmodified tests passed under umask 022."
+  }
+}

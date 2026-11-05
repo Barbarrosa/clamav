@@ -17,7 +17,7 @@ def main():
         p.add_argument('--'+arg,type=Path,required=True)
     a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
     measurements=[]
-    for profile in ('full','legal-redress'):
+    for profile in ('full','pdf-jpeg-png-pe-exclusions'):
         for kind,source in [('clean',a.clean),('positive',a.positive)]:
             for repetition in range(3):
                 before=source.read_bytes();folder,_=intake.preserve(source,a.output/'quarantine')
@@ -33,7 +33,7 @@ def main():
                     evidence=result['scan_evidence'][0]
                     assert (evidence['return_code']==1 if result['runtime'].get('scan_api')=='legacy-1.4'
                             else evidence['verdict'] in (2,3)),result
-                if profile=='legal-redress':assert not result['release_qualified']
+                if profile=='pdf-jpeg-png-pe-exclusions':assert not result['release_qualified']
                 measurements.append(dict(profile=profile,kind=kind,repetition=repetition,
                     wall_seconds=time.monotonic()-start,
                     child_cpu_seconds=used.ru_utime+used.ru_stime-cpu.ru_utime-cpu.ru_stime,
@@ -42,7 +42,7 @@ def main():
                     source_sha256=sha(source),record=str(folder/'record.json'),outcome=result['outcome'],
                     release_qualified=result['release_qualified']))
     folder,_=intake.preserve(a.clean,a.output/'quarantine')
-    stale=intake.assess(folder,a.generation,a.probe,a.lib,a.certs,database_profile='legal-redress')
+    stale=intake.assess(folder,a.generation,a.probe,a.lib,a.certs,database_profile='pdf-jpeg-png-pe-exclusions')
     assert stale['outcome']=='failed' and 'stale' in stale['reason'],stale
     report={'passed':True,'real_scans':len(measurements),'stale_default_rejected':True,
         'note':'Integration telemetry under concurrent regression-test load, not a controlled performance benchmark. Single-file intake includes verification, fresh engine startup and durable writes. These are NOT replacements for the prior controlled 78-process tables. Historical signed database allowed for tests with 168h limit; shipping default is 48h.',

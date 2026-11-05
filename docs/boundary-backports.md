@@ -4,7 +4,7 @@
 engine and custom backports onto **ClamAV 1.5.4 stable** and **1.4.6 LTS**.
 **Production approval is still blocked.** The test establishes the exercised
 exclusion boundary, not universal parsing completeness. Full database configuration
-is preserved; `--database-profile=legal-redress` remains an explicit adapter opt-in.
+is preserved; `--database-profile=pdf-jpeg-png-pe-exclusions` remains an explicit adapter opt-in.
 Reduced no-detection results remain held, and evidence retention is unchanged.
 
 ## Release baselines and compatibility
@@ -43,7 +43,8 @@ explicitly emits null for those fields, keeps return codes and named detection
 callbacks, and records the legacy 4096-byte scan-count precision. It rejects
 modern diagnostic callback overrides; it never invents unsupported severity values.
 Its verifier uses the release's built-in trust mechanism. Full remains the default;
-Legal Redress always uses accepting all-match. Both public API paths pass supervised
+the PDF/JPEG/PNG profile with PE exclusions always uses accepting all-match.
+Both public API paths pass supervised
 intake validation and fail closed on contradictory results.
 
 ## Validation
@@ -129,11 +130,11 @@ a cache matrix, a hard RSS cap or a replacement for the earlier 78-process repor
 | Build/profile | Loaded signatures | Loaded/full | Compiled RSS mean (MiB) | Child CPU mean (s) |
 |---|---:|---:|---:|---:|
 | Retained / full | 3,628,192 | 100.00% | 791.34 | 11.32 |
-| Retained / Legal Redress | 601,004 | 16.56% | 131.02 | 4.64 |
+| Retained / PDF/JPEG/PNG with PE exclusions | 601,004 | 16.56% | 131.02 | 4.64 |
 | Stable / full | 3,628,192 | 100.00% | 824.30 | 8.22 |
-| Stable / Legal Redress | 601,004 | 16.56% | 135.51 | 3.69 |
+| Stable / PDF/JPEG/PNG with PE exclusions | 601,004 | 16.56% | 135.51 | 3.69 |
 | LTS / full | 3,628,192 | 100.00% | 822.56 | 10.86 |
-| LTS / Legal Redress | 601,004 | 16.56% | 134.00 | 4.33 |
+| LTS / PDF/JPEG/PNG with PE exclusions | 601,004 | 16.56% | 134.00 | 4.33 |
 
 Signature counts are the engine loader's counts, not the count of lines in the
 archive or a percentage of RAM. The profile retains **100% of signed input bytes**
@@ -153,7 +154,7 @@ Stable uses `test_integration.py --require-detections`; LTS uses
 `test_legacy_integration.py` with its unmodified-release baseline probe. Synthetic
 first-hit/order diagnostics are reported separately from the all-match contract.
 
-Selector version is `1.4.0-boundary-tested-experimental`. Regenerate all prior
+Selector version is `1.4.1-profile-named-experimental`. Regenerate all prior
 profiles because the selector/probe hashes are bound to the signed generation.
 Raw logs, compressed JSON traces, source-call inventories, instrumentation/build
 commands, generation manifests, library/probe hashes and native intake records are

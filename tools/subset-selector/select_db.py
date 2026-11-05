@@ -19,7 +19,7 @@ import tempfile
 import time
 from storage import fsync_directory
 
-VERSION = '1.4.0-boundary-tested-experimental'
+VERSION = '1.4.1-profile-named-experimental'
 KNOWN = set('info cfg ign ign2 ftm hdb hdu hsb hsu mdb mdu msb msu imp ndb ndu ldb ldu idb fp sfp pdb wdb crb cdb cbc db sdb zmd rmd pwdb cat yara yar'.split())
 PE_HASH = {'mdb', 'msb', 'imp'}
 TDB_KEYS = {'Engine','Target','FileSize','EntryPoint','NumberOfSections','Container','Intermediates','IconGroup1','IconGroup2'}
@@ -213,7 +213,7 @@ def validate_generation(path, lib):
     for name in ('manifest.json','skip.tsv','decisions.sqlite','databases'):
         if (path/name).is_symlink():raise ValueError('generation symlink is not allowed: '+name)
     m=json.loads((path/'manifest.json').read_text())
-    if m['schema']!=1 or m['selector_version']!=VERSION: raise ValueError('selector version mismatch')
+    if m['schema']!=1 or m['selector_version']!=VERSION: raise ValueError('selector version mismatch; regenerate the generation')
     if m['selector_sha256']!=sha(__file__): raise ValueError('selector changed; regenerate')
     if m['engine_library_sha256']!=sha(lib): raise ValueError('engine changed; regenerate and requalify')
     if m['skip_sha256']!=sha(path/'skip.tsv'): raise ValueError('manifest exclusion mismatch')

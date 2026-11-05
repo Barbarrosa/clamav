@@ -9,11 +9,11 @@ import random
 import statistics
 import sys
 from pathlib import Path
+from profile_labels import RESTRICTED_VARIANT, VARIANTS, normalize_variant
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from equivalence import detection_equivalent
 
 
-VARIANTS=('upstream','full','legal-redress')
 METRICS=('wall_seconds','cpu_seconds','user_cpu_seconds','system_cpu_seconds','cpu_percent_one_core',
          'rss_kib','hwm_kib','pss_kib','uss_kib','anon_pss_kib','file_pss_kib','minor_faults','major_faults','block_read_bytes','block_write_bytes')
 
@@ -56,6 +56,8 @@ def main(a):
         r=json.loads(p.read_text());assert r['returncode']==0,p
         out=p.with_name(p.name.replace('-process.json','.jsonl'));data=out.read_bytes()
         assert hashlib.sha256(data).hexdigest()==r['stdout_sha256'],out
+        # Keep raw file names and verified bytes intact; only the report label changes.
+        r['variant']=normalize_variant(r['variant'])
         rows=[json.loads(l) for l in data.decode().splitlines() if l.startswith('{')];r['rows']=rows;r['file']=p.name;records.append(r)
         assert all(row['unrar_modules_verified']==1 for row in rows if row['kind']=='startup'),p
     assert len(records)==len(plan),(len(records),len(plan))
@@ -130,7 +132,7 @@ def main(a):
         out['percent_full_signature_count']=100*out['signatures_loaded']/original['signatures_loaded']
         out['omitted_signature_count']=original['signatures_loaded']-out['signatures_loaded']
         out['compiled_rss_reduction_vs_upstream_percent']=100*(1-out['compiled_rss_kib']['mean']/original['compiled_rss_kib']['mean'])
-    for a_name,b_name in [('upstream','full'),('upstream','legal-redress'),('full','legal-redress')]:
+    for a_name,b_name in [('upstream','full'),('upstream',RESTRICTED_VARIANT),('full',RESTRICTED_VARIANT)]:
         values={}
         for v in (a_name,b_name):
             values[v]={(r['round'],r['cache']):statistics.mean(b['wall_seconds'] for b in r['rows'] if b['kind']=='batch' and b['phase']=='file_cache_hydrated') for r in primary[v]}
@@ -154,7 +156,7 @@ def main(a):
                        for s in r['rows'] if s['kind']=='scan'} for v in VARIANTS}
         base=by_variant['upstream']
         result['validation']['extended_comparisons'][stage]={}
-        for v in ('full','legal-redress'):
+        for v in ('full',RESTRICTED_VARIANT):
             mismatches=[];eligible=0;eligible_mismatches=[]
             for key,left in base.items():
                 right=by_variant[v][key]

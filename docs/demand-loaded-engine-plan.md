@@ -16,7 +16,7 @@ Build one immutable compiled database with a resident matching core and demand-l
 
 Proceed through measurement gates before committing to a SiteGround deployment. The 200 MB objective is a measured whole-scanner target, including update-time processes and relevant filesystem-cache charges; it is not established by setting a 48 MB cache. SiteGround publishes 768 MB per process, which is a separate hosting gate rather than an account-wide memory allocation. [6]
 
-The target workflow is Legal Redress uploads through Forminator: up to five PDF/JPEG/PNG files of 5 MB each. Model one scanner processing one file at a time. Scanner placement, host permission for the executable or daemon, actual concurrency, WordPress RSS, and storage latency remain deployment inputs. Do not change the site while implementing this plan.
+The target workflow is document and image uploads through Forminator: up to five PDF/JPEG/PNG files of 5 MB each. Model one scanner processing one file at a time. Scanner placement, host permission for the executable or daemon, actual concurrency, WordPress RSS, and storage latency remain deployment inputs. Do not change the site while implementing this plan.
 
 ### Scope commitments
 
@@ -294,7 +294,7 @@ No memory win is accepted through reduced work
 
 ### Workload and timing matrix
 
-Include actual representative PDF/JPEG/PNG documents, benign embedded objects, near-limit inputs, mixed submissions, small files, archive/parser cases needed for full ClamAV equivalence, and adversarial dense-anchor/cache-churn inputs. Test 1, 2 and the existing configured maximum concurrency. No trace or benchmark may include real Legal Redress complaint contents without a separately authorized data-handling workflow.
+Include actual representative PDF/JPEG/PNG documents, benign embedded objects, near-limit inputs, mixed submissions, small files, archive/parser cases needed for full ClamAV equivalence, and adversarial dense-anchor/cache-churn inputs. Test 1, 2 and the existing configured maximum concurrency. No trace or benchmark may include real complaint contents without a separately authorized data-handling workflow.
 
 Use randomized same-host baseline/fork pairs and record CPU, throughput, end-to-end p50/p95/p99 latency, queue delay, load time, reload time, peak memory, bytes read and cold misses. Start with at least 30 fresh-process pairs per load/memory condition and at least 1,000 requests per tail-latency workload; extend if uncertainty remains. A fresh process alone does not establish a cold filesystem cache.
 

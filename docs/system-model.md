@@ -8,7 +8,7 @@ measured reduction in ClamAV's running RAM.
 I built this branch's real ClamAV library, loaded a signed official database
 snapshot containing **3,628,192 signatures**, and captured its compiled matcher
 and logical-rule structures. This replaces the earlier small examples with
-actual engine data. It covers the full profile; the Legal Redress profile was
+actual engine data. It covers the full profile; the PDF/JPEG/PNG with PE exclusions profile was
 not measured in this pass.
 
 The question given to the solver was: *How should each field be stored, or

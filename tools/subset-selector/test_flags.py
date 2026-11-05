@@ -23,7 +23,7 @@ def main(a):
     commands['default'] = common
     commands['full'] = common + ['--database-profile=full']
     commands['full-all'] = common + ['--database-profile=full', '--allmatch']
-    commands['restricted'] = common + ['--database-profile=legal-redress']
+    commands['restricted'] = common + ['--database-profile=pdf-jpeg-png-pe-exclusions']
     for label, cmd in commands.items():
         with (a.output/(label+'.jsonl')).open('w') as out, (a.output/(label+'.stderr')).open('w') as err:
             result = subprocess.run(cmd, stdout=out, stderr=err)

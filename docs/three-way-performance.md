@@ -1,12 +1,14 @@
 # Fresh three-way ClamAV performance analysis — 2026-10-29
 
-All figures below come from one new controlled experiment, with both engines rebuilt using the same toolchain. No historical benchmark cell is reused. Original means the pinned, unmodified ClamAV development baseline `dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d`, not the latest ClamAV release. New full and Legal Redress use retained engine source `9dfde0139708a1eb1a728f86baecb1d8ec1b66df`; their only difference is the conservative signature-load callback. The archive update adds measurement tools, evidence and documentation; it does not change engine algorithms or shipping defaults.
+All figures below come from one new controlled experiment, with both engines rebuilt using the same toolchain. No historical benchmark cell is reused. Original means the pinned, unmodified ClamAV development baseline `dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d`, not the latest ClamAV release. New full and PDF/JPEG/PNG with PE exclusions use retained engine source `9dfde0139708a1eb1a728f86baecb1d8ec1b66df`; their only difference is the conservative signature-load callback. The archive update adds measurement tools, evidence and documentation; it does not change engine algorithms or shipping defaults.
 
-Legal Redress loads **16.56%** of the engine-counted signatures and reduces mean compiled RSS by **86.33%** versus original, or **83.43%** versus new full. The removed count is **3,027,188**. The official compressed CVD files are still retained and verified in full: **112,798,155 bytes**, or **100%** of source bytes. Signature percentage is a count ratio, not a byte ratio or a malware-detection coverage percentage. The engine count may include expanded logical/subsignature units; it is distinct from the selector's excluded callback-name count.
+The restricted profile is now named for its accepted root types and conservative PE-specific exclusions. Historical input labels are normalized for display only; raw records, measurements and provenance hashes remain unchanged.
+
+PDF/JPEG/PNG with PE exclusions loads **16.56%** of the engine-counted signatures and reduces mean compiled RSS by **86.33%** versus original, or **83.43%** versus new full. The removed count is **3,027,188**. The official compressed CVD files are still retained and verified in full: **112,798,155 bytes**, or **100%** of source bytes. Signature percentage is a count ratio, not a byte ratio or a malware-detection coverage percentage. The engine count may include expanded logical/subsignature units; it is distinct from the selector's excluded callback-name count.
 
 ## Database, memory and lifecycle
 
-| Metric | Original ClamAV | New · full DB | New · Legal Redress |
+| Metric | Original ClamAV | New · full DB | PDF/JPEG/PNG |
 |---|---:|---:|---:|
 | Engine-counted signatures loaded | 3,628,192 | 3,628,192 | 601,004 |
 | Signatures loaded (% of full) | 100.00% | 100.00% | 16.56% |
@@ -27,7 +29,7 @@ The observed reduced reload peak is **304.6 MiB**. A 303 MiB hard process ceilin
 
 Metadata collection, all-match, all parsers and the same heuristic settings are enabled for every variant. The ClamAV clean-result cache is disabled equally. Database startup and input scans each have independent page-cache preparation. Empty means 0% of tested-file pages resident; hydrated means 100%, verified by `mincore` before every phase. It does not describe CPU hardware caches or the storage device's internal cache.
 
-| Metric | Original ClamAV | New · full DB | New · Legal Redress |
+| Metric | Original ClamAV | New · full DB | PDF/JPEG/PNG |
 |---|---:|---:|---:|
 | DB page-cache RAM before load (MiB) | 0.00 → 107.58 | 0.00 → 107.58 | 0.00 → 107.58 |
 | Input page-cache RAM before scan (MiB) | 0.00 → 14.18 | 0.00 → 14.18 | 0.00 → 14.18 |
@@ -58,7 +60,7 @@ Values are means unless labeled median, apart from pooled per-file latency perce
 
 This diagnostic turns metadata collection off and enables ClamAV's 65,536-entry result cache, equally in all variants. OS input pages are hydrated in both states to isolate result-cache effects. Empty/hydrated refers to cache state **at the start** of the scan batch; post-scan RAM is sampled after that batch. Initial empty-cache engine RSS provides the before-scan baseline.
 
-| Metric | Original ClamAV | New · full DB | New · Legal Redress |
+| Metric | Original ClamAV | New · full DB | PDF/JPEG/PNG |
 |---|---:|---:|---:|
 | Initial empty-cache engine RSS (MiB) | 965.6 | 797.4 | 137.0 |
 | 28-file scan wall time (s) | 1.758 → 0.050 | 1.618 → 0.051 | 1.601 → 0.051 |
@@ -85,16 +87,16 @@ The statistical unit is a fresh process. Repeated hydrated batches are averaged 
 | Hydrated scan comparison | Mean wall-time change | 95% mean-change CI | Median wall-time change | 95% median-change CI |
 |---|---:|---:|---:|---:|
 | New full vs original | -3.47% | -8.95% to +6.69% | -8.67% | -9.17% to -7.54% |
-| Legal Redress vs original | +19.58% | -9.30% to +76.83% | -8.69% | -9.36% to -7.90% |
-| Legal Redress vs new full | +23.88% | -14.36% to +92.97% | -0.02% | -1.48% to +0.53% |
+| PDF/JPEG/PNG with PE exclusions vs original | +19.58% | -9.30% to +76.83% | -8.69% | -9.36% to -7.90% |
+| PDF/JPEG/PNG with PE exclusions vs new full | +23.88% | -14.36% to +92.97% | -0.02% | -1.48% to +0.53% |
 
-Negative change means less elapsed time. No outlier was discarded. A confidence interval spanning zero does not establish a speed difference. Final-round processes 025 (Legal Redress) and 026 (full) contain unusually slow batches: the three hydrated Legal Redress batches were 5.661, 10.543 and 3.704 seconds, with 5.448, 10.017 and 3.520 CPU seconds. This is also a CPU-time increase, so it cannot be explained simply as the process waiting for its turn. Identical bytes, scan options, callback histories and scanned-byte counts were verified. The experiment does not identify the cause. These observations remain in the means, tails and intervals; medians show the typical process alongside that variability. No additional runs were selected to replace them.
+Negative change means less elapsed time. No outlier was discarded. A confidence interval spanning zero does not establish a speed difference. Final-round processes 025 (PDF/JPEG/PNG with PE exclusions) and 026 (full) contain unusually slow batches: the three hydrated PDF/JPEG/PNG with PE exclusions batches were 5.661, 10.543 and 3.704 seconds, with 5.448, 10.017 and 3.520 CPU seconds. This is also a CPU-time increase, so it cannot be explained simply as the process waiting for its turn. Identical bytes, scan options, callback histories and scanned-byte counts were verified. The experiment does not identify the cause. These observations remain in the means, tails and intervals; medians show the typical process alongside that variability. No additional runs were selected to replace them.
 
 | Variant | Hydrated batch mean (s) | SD (s) | 95% mean CI (s) | Min–max process mean (s) |
 |---|---:|---:|---:|---:|
 | upstream | 1.763743 | 0.014540 | 1.755885–1.772988 | 1.746934–1.795539 |
 | full | 1.702540 | 0.278234 | 1.609031–1.881153 | 1.604701–2.493572 |
-| legal-redress | 2.109117 | 1.590557 | 1.601885–3.116884 | 1.593262–6.635843 |
+| pdf-jpeg-png-pe-exclusions | 2.109117 | 1.590557 | 1.601885–3.116884 | 1.593262–6.635843 |
 
 ## Full update validation breakdown
 
@@ -106,15 +108,15 @@ Negative change means less elapsed time. No outlier was discarded. A confidence 
 | full / main.cvd | 2.869674 | 2.865768 | 1905.359 |
 | full / daily.cvd | 2.894640 | 2.892441 | 2120.113 |
 | full / bytecode.cvd | 0.058798 | 0.058720 | 1613.176 |
-| legal-redress / main.cvd | 3.037938 | 3.034186 | 598.824 |
-| legal-redress / daily.cvd | 2.910407 | 2.907750 | 800.125 |
-| legal-redress / bytecode.cvd | 0.046039 | 0.045998 | 304.539 |
+| pdf-jpeg-png-pe-exclusions / main.cvd | 3.037938 | 3.034186 | 598.824 |
+| pdf-jpeg-png-pe-exclusions / daily.cvd | 2.910407 | 2.907750 | 800.125 |
+| pdf-jpeg-png-pe-exclusions / bytecode.cvd | 0.046039 | 0.045998 | 304.539 |
 
 ## Correctness and evidence validation
 
 All 270 page-residency checks passed. All runtime-module checks, result-cache hit checks and 27 updater validation tests passed. All 1,120 accepted scan records per variant had candidate-clean outcomes, zero policy holds and unchanged bytes. Full and reduced each matched original semantics in 1,390 comparisons: 1,120 accepted scans plus 178 positive-fixture scans and 92 adverse scans. These compare complete detection multisets (including weak/PUA legacy events), verdict, layer traversal, scanned bytes, original hashes and hold behavior. They do not prove complete parser coverage.
 
-| Corpus, first pass | Metric | Original | New full | Legal Redress |
+| Corpus, first pass | Metric | Original | New full | PDF/JPEG/PNG with PE exclusions |
 |---|---|---:|---:|---:|
 | 89 upstream positive fixtures | Detected verdicts | 89 | 89 | 89 |
 | 89 upstream positive fixtures | Policy holds | 89 | 89 | 89 |
@@ -137,7 +139,7 @@ A completed preflight matrix revealed that optional RAR runtime modules were not
 
 ## Configuration and preserved policy
 
-Use `--database-profile=legal-redress` on `tools/subset-selector/scan.py` or `intake.py`. Use `--database-profile=full`, or omit the flag, for the existing full-database default. Full mode retains first-hit behavior by default; add `--allmatch` for the all-match configuration measured here. These are adapter flags, not upstream clamscan or clamd flags.
+Use `--database-profile=pdf-jpeg-png-pe-exclusions` on `tools/subset-selector/scan.py` or `intake.py`. Use `--database-profile=full`, or omit the flag, for the existing full-database default. Full mode retains first-hit behavior by default; add `--allmatch` for the all-match configuration measured here. These are adapter flags, not upstream clamscan or clamd flags.
 
 Reduced mode forces accepting all-match scanning. The signature set retains generic, hash, bytecode, handler, trust, allowlist and uncertain rules and excludes only proven plain PE-only callback groups. Executable/unsupported/unknown/encrypted/limited/error inputs remain held or failed. Parser completeness remains unproven: a no-detection `candidate_outcome` is still `outcome=held` in the reduced evidence workflow. Automatic reduced release remains disabled. Original bytes and metadata must be preserved independently, derivative verdicts cannot clear originals, and narrative submission remains independent with an authorized full-scan/manual exception path.
 

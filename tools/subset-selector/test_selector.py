@@ -86,6 +86,12 @@ class SelectorTests(unittest.TestCase):
     def test_generation_detects_engine_change(self):
         self.plan({'a.ndb':'X:1:*:41424344\n'});self.lib.write_bytes(b'new version')
         with self.assertRaisesRegex(ValueError,'engine changed'):s.validate_generation(self.root/'generation',self.lib)
+    def test_pre_rename_generation_requires_regeneration(self):
+        self.plan({'a.ndb':'X:1:*:41424344\n'});g=self.root/'generation'
+        p=g/'manifest.json';manifest=json.loads(p.read_text())
+        manifest['selector_version']='1.4.0-boundary-tested-experimental'
+        os.chmod(p,0o600);p.write_text(json.dumps(manifest))
+        with self.assertRaisesRegex(ValueError,'regenerate'):s.validate_generation(g,self.lib)
     def test_rollback_original_unmodified(self):
         src=self.root/'input.cvd';cvd(src,{'a.ndb':'X:1:*:41424344\n'});before=src.read_bytes()
         with patch.object(s,'verify'):s.make_plan([src],self.root/'g',self.lib,self.root)

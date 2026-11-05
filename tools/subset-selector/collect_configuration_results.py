@@ -47,7 +47,7 @@ def collect(a):
                   'per_file_milliseconds_p95':timings[int(.95*(len(timings)-1))],
                   'equivalent_scan_count':counts[v]}
     manifest=json.loads((a.generation/'manifest.json').read_text())
-    summary={'schema':1,'configuration_flag':'--database-profile=legal-redress','default_flag':'--database-profile=full',
+    summary={'schema':1,'configuration_flag':'--database-profile=pdf-jpeg-png-pe-exclusions','default_flag':'--database-profile=full',
              'scan_mode':'restricted forces accepting all-match; full defaults to original first-hit',
              'fresh_measurements':fresh,
              'compiled_rss_reduction_percent':100*(1-b['reduced']['compiled_rss_kib_mean']/b['full']['compiled_rss_kib_mean']),

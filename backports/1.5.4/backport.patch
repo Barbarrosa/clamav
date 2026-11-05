@@ -179736,11 +179736,11 @@ index 0000000..0d9880e
 +  "bytes": 88604672,
 +  "note": "Unexpected extra file caused strict generation validation to reject intake. Origin unestablished; isolated unchanged outside the generation. Signed generation members were rechecked; no validation exception added."
 +}
-diff --git a/docs/legal-redress-backport.md b/docs/legal-redress-backport.md
+diff --git a/docs/pdf-jpeg-png-pe-exclusions-backport.md b/docs/pdf-jpeg-png-pe-exclusions-backport.md
 new file mode 100644
-index 0000000..f1e3b86
+index 0000000..1564879
 --- /dev/null
-+++ b/docs/legal-redress-backport.md
++++ b/docs/pdf-jpeg-png-pe-exclusions-backport.md
 @@ -0,0 +1,162 @@
 +# PE boundary test and maintained-release backports
 +
@@ -179748,7 +179748,7 @@ index 0000000..f1e3b86
 +engine and custom backports onto **ClamAV 1.5.4 stable** and **1.4.6 LTS**.
 +**Production approval is still blocked.** The test establishes the exercised
 +exclusion boundary, not universal parsing completeness. Full database configuration
-+is preserved; `--database-profile=legal-redress` remains an explicit adapter opt-in.
++is preserved; `--database-profile=pdf-jpeg-png-pe-exclusions` remains an explicit adapter opt-in.
 +Reduced no-detection results remain held, and evidence retention is unchanged.
 +
 +## Release baselines and compatibility
@@ -179787,7 +179787,7 @@ index 0000000..f1e3b86
 +callbacks, and records the legacy 4096-byte scan-count precision. It rejects
 +modern diagnostic callback overrides; it never invents unsupported severity values.
 +Its verifier uses the release's built-in trust mechanism. Full remains the default;
-+Legal Redress always uses accepting all-match. Both public API paths pass supervised
++PDF/JPEG/PNG with PE exclusions always uses accepting all-match. Both public API paths pass supervised
 +intake validation and fail closed on contradictory results.
 +
 +## Validation
@@ -179873,11 +179873,11 @@ index 0000000..f1e3b86
 +| Build/profile | Loaded signatures | Loaded/full | Compiled RSS mean (MiB) | Child CPU mean (s) |
 +|---|---:|---:|---:|---:|
 +| Retained / full | 3,628,192 | 100.00% | 791.34 | 11.32 |
-+| Retained / Legal Redress | 601,004 | 16.56% | 131.02 | 4.64 |
++| Retained / PDF/JPEG/PNG with PE exclusions | 601,004 | 16.56% | 131.02 | 4.64 |
 +| Stable / full | 3,628,192 | 100.00% | 824.30 | 8.22 |
-+| Stable / Legal Redress | 601,004 | 16.56% | 135.51 | 3.69 |
++| Stable / PDF/JPEG/PNG with PE exclusions | 601,004 | 16.56% | 135.51 | 3.69 |
 +| LTS / full | 3,628,192 | 100.00% | 822.56 | 10.86 |
-+| LTS / Legal Redress | 601,004 | 16.56% | 134.00 | 4.33 |
++| LTS / PDF/JPEG/PNG with PE exclusions | 601,004 | 16.56% | 134.00 | 4.33 |
 +
 +Signature counts are the engine loader's counts, not the count of lines in the
 +archive or a percentage of RAM. The profile retains **100% of signed input bytes**
@@ -183306,23 +183306,23 @@ index e2701f8..daf3c28 100644
  }
 diff --git a/tools/subset-selector/README.md b/tools/subset-selector/README.md
 new file mode 100644
-index 0000000..6858174
+index 0000000..9749a81
 --- /dev/null
 +++ b/tools/subset-selector/README.md
 @@ -0,0 +1,80 @@
-+# ClamAV 1.5.4 Legal Redress backport
++# ClamAV 1.5.4 PDF/JPEG/PNG with PE exclusions backport
 +
 +This is a custom, locally validated backport onto official tag `clamav-1.5.4`.
 +It is **experimental, not a production release approval**. The official release
 +baseline includes that tag's security fixes; the modifications are not vendor-certified.
-+See [validation and limitations](../../docs/legal-redress-backport.md).
++See [validation and limitations](../../docs/pdf-jpeg-png-pe-exclusions-backport.md).
 +
 +**Compatibility limit:** synthetic first-hit selection can differ from unmodified
 +ClamAV, including weak/strong selection on stable. All-match detection contracts
 +pass; alert order and final selected names can differ. See the report for scope.
 +
 +Full database mode remains the default. Opt in with
-+**`--database-profile=legal-redress`** on this adapter's `scan.py` or `intake.py`.
++**`--database-profile=pdf-jpeg-png-pe-exclusions`** on this adapter's `scan.py` or `intake.py`.
 +This flag is not added to upstream `clamscan` or `clamd`. The reduced profile forces
 +accepting all-match scanning; no-detection candidates stay held. Originals, prior
 +findings, signed database inputs and the separate complaint narrative are preserved.
@@ -183345,7 +183345,7 @@ index 0000000..6858174
 +  --certs certs --output ../generation-001 \
 +  /private/signed/main.cvd /private/signed/daily.cvd /private/signed/bytecode.cvd
 +python3 tools/subset-selector/intake.py \
-+  --database-profile=legal-redress \
++  --database-profile=pdf-jpeg-png-pe-exclusions \
 +  --source /private/upload/original.pdf --quarantine /private/quarantine \
 +  --generation ../generation-001 --probe ../scan_probe \
 +  --lib ../build/libclamav/libclamav.so.12.1.0 --certs certs
@@ -183921,12 +183921,12 @@ index 0000000..0a05f41
 +    raise ValueError('release activation disabled: parser completeness remains unproven')
 diff --git a/tools/subset-selector/intake.py b/tools/subset-selector/intake.py
 new file mode 100644
-index 0000000..109db71
+index 0000000..a90f20e
 --- /dev/null
 +++ b/tools/subset-selector/intake.py
 @@ -0,0 +1,264 @@
 +#!/usr/bin/env python3
-+"""Private local evidence intake; full is default, Legal Redress stays held.
++"""Private local evidence intake; full is default, PDF/JPEG/PNG with PE exclusions stays held.
 +Linux only. No network/form integration or automatic restricted-release override.
 +SPDX-License-Identifier: GPL-2.0-only
 +"""
@@ -184037,7 +184037,7 @@ index 0000000..109db71
 +        raise ValueError('runtime engine or parser modules mismatch')
 +    if not _integer(engine.get('signatures')) or engine['signatures'] < 1:
 +        raise ValueError('invalid engine signature count')
-+    mode = int(profile == 'legal-redress')
++    mode = int(profile == 'pdf-jpeg-png-pe-exclusions')
 +    for obj in (row, batch):
 +        if type(obj.get('allmatch')) is not int or obj['allmatch'] != mode or type(obj.get('round')) is not int or obj['round'] != 0:
 +            raise ValueError('unexpected scan mode or round')
@@ -184131,7 +184131,7 @@ index 0000000..109db71
 +            record.update(outcome='held', reason='unsupported-encrypted-limited-or-incomplete')
 +        elif candidate == 'detected':
 +            record.update(outcome='detected', reason='scanner-detection')
-+        elif database_profile == 'legal-redress':
++        elif database_profile == 'pdf-jpeg-png-pe-exclusions':
 +            record.update(outcome='held', reason='parser-completeness-unproven')
 +        elif candidate == 'clean':
 +            record.update(outcome='clean', reason='full-database-no-detection')
@@ -184191,7 +184191,7 @@ index 0000000..109db71
 +    raise SystemExit(main())
 diff --git a/tools/subset-selector/make_fixtures.py b/tools/subset-selector/make_fixtures.py
 new file mode 100644
-index 0000000..5da3ab1
+index 0000000..91f6cf6
 --- /dev/null
 +++ b/tools/subset-selector/make_fixtures.py
 @@ -0,0 +1,64 @@
@@ -184212,7 +184212,7 @@ index 0000000..5da3ab1
 +    im.save(out/'clean.jpg',quality=90,exif=b'Exif\0\0SYNTHETIC_METADATA')
 +    def pdf(path,encrypt=None,pages=1):
 +        c=canvas.Canvas(str(path),invariant=1,encrypt=encrypt)
-+        c.setAuthor('Synthetic evidence metadata');c.setTitle('Synthetic Legal Redress attachment')
++        c.setAuthor('Synthetic evidence metadata');c.setTitle('Synthetic PDF/JPEG/PNG with PE exclusions attachment')
 +        for i in range(pages):
 +            c.drawString(50,750,'Synthetic attachment; no real complaint data. '+str(i));c.showPage()
 +        c.save()
@@ -184261,14 +184261,14 @@ index 0000000..5da3ab1
 +    p=argparse.ArgumentParser();p.add_argument('output',type=Path);p.add_argument('upstream_generated',type=Path);a=p.parse_args();fixtures(a.output,a.upstream_generated)
 diff --git a/tools/subset-selector/profiles.json b/tools/subset-selector/profiles.json
 new file mode 100644
-index 0000000..2b413b4
+index 0000000..852fa86
 --- /dev/null
 +++ b/tools/subset-selector/profiles.json
 @@ -0,0 +1,19 @@
 +{
-+  "id": "legal-redress-pe-hold-v1",
++  "id": "pdf-jpeg-png-pe-exclusions-hold-v1",
 +  "status": "opt-in-restricted-scan; automatic release held",
-+  "configuration_flag": "--database-profile=legal-redress",
++  "configuration_flag": "--database-profile=pdf-jpeg-png-pe-exclusions",
 +  "default_database_profile": "full",
 +  "required_scan_mode": "all-match; accepting alert callbacks",
 +  "equivalence_contract": "Same detection multisets (including legacy weak/PUA evidence), verdict, layer traversal and policy holds. Selected final name and alert order may differ. Full mode preserves original ordered results.",
@@ -184286,7 +184286,7 @@ index 0000000..2b413b4
 +}
 diff --git a/tools/subset-selector/readiness.py b/tools/subset-selector/readiness.py
 new file mode 100644
-index 0000000..f553cb8
+index 0000000..9c5dc2b
 --- /dev/null
 +++ b/tools/subset-selector/readiness.py
 @@ -0,0 +1,28 @@
@@ -184301,7 +184301,7 @@ index 0000000..f553cb8
 +    'production_ready': False,
 +    'restricted_automatic_release': False,
 +    'default_database_profile': 'full',
-+    'restricted_flag': '--database-profile=legal-redress',
++    'restricted_flag': '--database-profile=pdf-jpeg-png-pe-exclusions',
 +    'blockers': [
 +        {'id':'parser-completeness',
 +         'reason':'PE exclusion boundary regression passed; universal parsing completeness is not established. Reduced clean candidates remain held.'},
@@ -184312,7 +184312,7 @@ index 0000000..f553cb8
 +        {'id':'generation-update-operations',
 +         'reason':'Signed update preparation is validated locally; deployed freshness monitoring, promotion, rollback and recovery are unqualified.'},
 +    ],
-+    'report':'docs/legal-redress-backport.md',
++    'report':'docs/pdf-jpeg-png-pe-exclusions-backport.md',
 +}
 +
 +if __name__ == '__main__':
@@ -184427,12 +184427,12 @@ index 0000000..2cd2664
 +        child.stderr.close()
 diff --git a/tools/subset-selector/scan.py b/tools/subset-selector/scan.py
 new file mode 100644
-index 0000000..31b8f4c
+index 0000000..47db463
 --- /dev/null
 +++ b/tools/subset-selector/scan.py
 @@ -0,0 +1,75 @@
 +#!/usr/bin/env python3
-+"""Scan with all databases (default), or opt in with --database-profile=legal-redress.
++"""Scan with all databases (default), or opt in with --database-profile=pdf-jpeg-png-pe-exclusions.
 +
 +The restricted profile always uses all-match and preserves evidence holds.
 +Exit 0 means the scan process completed; read each JSON outcome for its verdict.
@@ -184444,7 +184444,7 @@ index 0000000..31b8f4c
 +from pathlib import Path
 +from select_db import sha, validate_generation
 +
-+PROFILES = ('full', 'legal-redress')
++PROFILES = ('full', 'pdf-jpeg-png-pe-exclusions')
 +
 +
 +def command(*, probe, lib, certs, files, generation=None, database=None,
@@ -184459,11 +184459,11 @@ index 0000000..31b8f4c
 +        raise ValueError('unknown database profile')
 +    if (generation is None) == (database is None):
 +        raise ValueError('supply exactly one of generation or database')
-+    restricted = database_profile == 'legal-redress'
++    restricted = database_profile == 'pdf-jpeg-png-pe-exclusions'
 +    if restricted and generation is None:
-+        raise ValueError('legal-redress requires a verified --generation')
++        raise ValueError('pdf-jpeg-png-pe-exclusions requires a verified --generation')
 +    if restricted and broad:
-+        raise ValueError('legal-redress only accepts the PDF/JPEG/PNG root profile')
++        raise ValueError('pdf-jpeg-png-pe-exclusions only accepts the PDF/JPEG/PNG root profile')
 +    if not 1 <= repetitions <= 10000:
 +        raise ValueError('repetitions must be between 1 and 10000')
 +    if generation is not None:
@@ -184487,8 +184487,8 @@ index 0000000..31b8f4c
 +    source.add_argument('--generation', type=Path, help='prepared signed-input generation')
 +    source.add_argument('--database', type=Path, help='original full database directory')
 +    p.add_argument('--database-profile', choices=PROFILES, default='full',
-+                   help='full (default) loads everything; legal-redress omits proven PE-only groups and forces all-match')
-+    p.add_argument('--allmatch', action='store_true', help='all matches in full mode (automatic in legal-redress mode)')
++                   help='full (default) loads everything; pdf-jpeg-png-pe-exclusions omits proven PE-only groups and forces all-match')
++    p.add_argument('--allmatch', action='store_true', help='all matches in full mode (automatic in pdf-jpeg-png-pe-exclusions mode)')
 +    p.add_argument('--broad', action='store_true', help='broader root policy, full mode only')
 +    p.add_argument('--repetitions', type=int, default=1)
 +    p.add_argument('--reload-overlap', action='store_true', help='measure replacement construction while the old engine remains loaded')
@@ -184851,7 +184851,7 @@ index 0000000..d2f151a
 +}
 diff --git a/tools/subset-selector/select_db.py b/tools/subset-selector/select_db.py
 new file mode 100644
-index 0000000..f762bee
+index 0000000..a2a7890
 --- /dev/null
 +++ b/tools/subset-selector/select_db.py
 @@ -0,0 +1,241 @@
@@ -184876,7 +184876,7 @@ index 0000000..f762bee
 +import time
 +from storage import fsync_directory
 +
-+VERSION = '1.4.0-boundary-tested-experimental'
++VERSION = '1.4.1-profile-named-experimental'
 +KNOWN = set('info cfg ign ign2 ftm hdb hdu hsb hsu mdb mdu msb msu imp ndb ndu ldb ldu idb fp sfp pdb wdb crb cdb cbc db sdb zmd rmd pwdb cat yara yar'.split())
 +PE_HASH = {'mdb', 'msb', 'imp'}
 +TDB_KEYS = {'Engine','Target','FileSize','EntryPoint','NumberOfSections','Container','Intermediates','IconGroup1','IconGroup2'}
@@ -185162,7 +185162,7 @@ index 0000000..2fb37d4
 +        os.close(fd)
 diff --git a/tools/subset-selector/test_configuration.py b/tools/subset-selector/test_configuration.py
 new file mode 100644
-index 0000000..0cf52c9
+index 0000000..ff9ec73
 --- /dev/null
 +++ b/tools/subset-selector/test_configuration.py
 @@ -0,0 +1,109 @@
@@ -185191,23 +185191,23 @@ index 0000000..0cf52c9
 +        self.assertEqual(scan.command(**self.kw,database=Path('/db')),
 +                         scan.command(**self.kw,database=Path('/db'),database_profile='full'))
 +    def test_restricted_requires_generation(self):
-+        with self.assertRaisesRegex(ValueError,'verified'):scan.command(**self.kw,database='/db',database_profile='legal-redress')
++        with self.assertRaisesRegex(ValueError,'verified'):scan.command(**self.kw,database='/db',database_profile='pdf-jpeg-png-pe-exclusions')
 +    def test_unknown_profile_rejected(self):
 +        with self.assertRaises(ValueError):scan.command(**self.kw,database='/db',database_profile='legal-redres')
 +    def test_no_ambiguous_database_sources(self):
 +        with self.assertRaises(ValueError):scan.command(**self.kw,database='/db',generation='/gen')
 +    def test_restricted_rejects_broad_profile(self):
-+        with self.assertRaisesRegex(ValueError,'PDF/JPEG/PNG'):scan.command(**self.kw,generation='/gen',database_profile='legal-redress',broad=True)
++        with self.assertRaisesRegex(ValueError,'PDF/JPEG/PNG'):scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions',broad=True)
 +    def test_restricted_forces_allmatch_and_accept_callbacks(self):
 +        with patch.object(scan,'validate_generation',return_value={'full_load_validation':{'probe_sha256':'ok'}}),patch.object(scan,'sha',return_value='ok'):
-+            cmd=scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
++            cmd=scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions')
 +        self.assertEqual(cmd[3],'/gen/skip.tsv');self.assertEqual(cmd[-1],'all');self.assertEqual(cmd[7],'0')
 +    def test_probe_change_rejected(self):
 +        with patch.object(scan,'validate_generation',return_value={'full_load_validation':{'probe_sha256':'old'}}),patch.object(scan,'sha',return_value='new'):
-+            with self.assertRaisesRegex(ValueError,'probe changed'):scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
++            with self.assertRaisesRegex(ValueError,'probe changed'):scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions')
 +    def test_generation_failure_is_not_fallback_to_full(self):
 +        with patch.object(scan,'validate_generation',side_effect=ValueError('changed input')):
-+            with self.assertRaisesRegex(ValueError,'changed input'):scan.command(**self.kw,generation='/gen',database_profile='legal-redress')
++            with self.assertRaisesRegex(ValueError,'changed input'):scan.command(**self.kw,generation='/gen',database_profile='pdf-jpeg-png-pe-exclusions')
 +    def test_intake_unknown_profile_fails_and_keeps_original(self):
 +        with tempfile.TemporaryDirectory() as tmp:
 +            p=Path(tmp)/'evidence.pdf';p.write_bytes(b'original evidence')
@@ -185216,9 +185216,9 @@ index 0000000..0cf52c9
 +            self.assertEqual(r['outcome'],'failed');self.assertEqual((folder/'original').read_bytes(),p.read_bytes())
 +    def test_intake_outcomes_and_retained_evidence(self):
 +        for profile, candidate, holds, expected in [
-+            ('full','clean',0,'clean'), ('legal-redress','clean',0,'held'),
-+            ('legal-redress','detected',0,'detected'), ('legal-redress','held',1,'held'),
-+            ('legal-redress','failed',0,'failed')]:
++            ('full','clean',0,'clean'), ('pdf-jpeg-png-pe-exclusions','clean',0,'held'),
++            ('pdf-jpeg-png-pe-exclusions','detected',0,'detected'), ('pdf-jpeg-png-pe-exclusions','held',1,'held'),
++            ('pdf-jpeg-png-pe-exclusions','failed',0,'failed')]:
 +            with self.subTest(profile=profile,candidate=candidate), tempfile.TemporaryDirectory() as tmp:
 +                p=Path(tmp)/'evidence.pdf';p.write_bytes(b'original evidence')
 +                folder,_=intake.preserve(p,Path(tmp)/'quarantine')
@@ -185236,7 +185236,7 @@ index 0000000..0cf52c9
 +                p=Path(tmp)/'evidence.pdf';p.write_bytes(b'original')
 +                folder,_=intake.preserve(p,Path(tmp)/'quarantine')
 +                with patch.object(intake,'command',return_value=['probe']),patch.object(intake,'run_scanner',return_value=SimpleNamespace(returncode=0,stdout='\n'.join(map(json.dumps,rows)))):
-+                    r=intake.assess(folder,'/gen','/probe','/lib','/certs',database_profile='legal-redress')
++                    r=intake.assess(folder,'/gen','/probe','/lib','/certs',database_profile='pdf-jpeg-png-pe-exclusions')
 +                self.assertEqual(r['outcome'],'failed');self.assertFalse(r['release_qualified'])
 +
 +
@@ -185277,7 +185277,7 @@ index 0000000..0cf52c9
 +if __name__=='__main__':unittest.main(verbosity=2)
 diff --git a/tools/subset-selector/test_flags.py b/tools/subset-selector/test_flags.py
 new file mode 100644
-index 0000000..a3ffc25
+index 0000000..2e80cd8
 --- /dev/null
 +++ b/tools/subset-selector/test_flags.py
 @@ -0,0 +1,80 @@
@@ -185306,7 +185306,7 @@ index 0000000..a3ffc25
 +    commands['default'] = common
 +    commands['full'] = common + ['--database-profile=full']
 +    commands['full-all'] = common + ['--database-profile=full', '--allmatch']
-+    commands['restricted'] = common + ['--database-profile=legal-redress']
++    commands['restricted'] = common + ['--database-profile=pdf-jpeg-png-pe-exclusions']
 +    for label, cmd in commands.items():
 +        with (a.output/(label+'.jsonl')).open('w') as out, (a.output/(label+'.stderr')).open('w') as err:
 +            result = subprocess.run(cmd, stdout=out, stderr=err)
@@ -185363,7 +185363,7 @@ index 0000000..a3ffc25
 +    main(a)
 diff --git a/tools/subset-selector/test_hardening.py b/tools/subset-selector/test_hardening.py
 new file mode 100644
-index 0000000..46e297d
+index 0000000..cc21522
 --- /dev/null
 +++ b/tools/subset-selector/test_hardening.py
 @@ -0,0 +1,197 @@
@@ -185444,15 +185444,15 @@ index 0000000..46e297d
 +            with self.assertRaisesRegex(ValueError,'runtime'):self.validate(rows)
 +    def test_legacy_results_preserve_return_code_and_holds(self):
 +        for profile,candidate,holds in [('full','clean',0),('full','detected',0),
-+                ('legal-redress','clean',0),('legal-redress','detected',0),
-+                ('legal-redress','held',1),('full','failed',0)]:
++                ('pdf-jpeg-png-pe-exclusions','clean',0),('pdf-jpeg-png-pe-exclusions','detected',0),
++                ('pdf-jpeg-png-pe-exclusions','held',1),('full','failed',0)]:
 +            with self.subTest(profile=profile,candidate=candidate,holds=holds):
 +                _,output=test_support.result(self.folder,self.lib,profile,candidate,holds)
 +                rows=[json.loads(x) for x in output.splitlines()]
 +                rows[0]['scan_api']='legacy-1.4';rows[2]['verdict']=None
 +                row,_,_=self.validate(rows,profile)
 +                self.assertEqual(row['candidate_outcome'],candidate)
-+                if profile=='legal-redress':self.assertNotEqual(row['outcome'],'clean')
++                if profile=='pdf-jpeg-png-pe-exclusions':self.assertNotEqual(row['outcome'],'clean')
 +    def test_legacy_contradictory_results_rejected(self):
 +        for update in [dict(verdict=0),dict(verdict=2),dict(return_code=1),dict(return_code=2),
 +                dict(final_name='Detection'),dict(events=[{'event':'legacy_virus','name':'Detection'}])]:
@@ -185463,9 +185463,9 @@ index 0000000..46e297d
 +    def test_unknown_api_rejected(self):
 +        rows=[json.loads(x) for x in self.stdout.splitlines()];rows[0]['scan_api']='future-api'
 +        with self.assertRaisesRegex(ValueError,'unsupported scanner API'):self.validate(rows)
-+    def test_legal_never_releases(self):
-+        _,output=test_support.result(self.folder,self.lib,'legal-redress')
-+        result=self.assess(output,database_profile='legal-redress')
++    def test_restricted_profile_never_releases(self):
++        _,output=test_support.result(self.folder,self.lib,'pdf-jpeg-png-pe-exclusions')
++        result=self.assess(output,database_profile='pdf-jpeg-png-pe-exclusions')
 +        self.assertEqual(result['outcome'],'held');self.assertFalse(result['release_qualified'])
 +    def test_stale_database_fails(self):
 +        (self.gen/'manifest.json').write_text(json.dumps({'signed_databases':[{'name':'daily.cvd','header':'x:1'}]}))
@@ -185747,7 +185747,7 @@ index 0000000..c044dea
 +    main(a)
 diff --git a/tools/subset-selector/test_native_intake.py b/tools/subset-selector/test_native_intake.py
 new file mode 100644
-index 0000000..e599ac8
+index 0000000..293ee86
 --- /dev/null
 +++ b/tools/subset-selector/test_native_intake.py
 @@ -0,0 +1,53 @@
@@ -185770,7 +185770,7 @@ index 0000000..e599ac8
 +        p.add_argument('--'+arg,type=Path,required=True)
 +    a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
 +    measurements=[]
-+    for profile in ('full','legal-redress'):
++    for profile in ('full','pdf-jpeg-png-pe-exclusions'):
 +        for kind,source in [('clean',a.clean),('positive',a.positive)]:
 +            for repetition in range(3):
 +                before=source.read_bytes();folder,_=intake.preserve(source,a.output/'quarantine')
@@ -185786,7 +185786,7 @@ index 0000000..e599ac8
 +                    evidence=result['scan_evidence'][0]
 +                    assert (evidence['return_code']==1 if result['runtime'].get('scan_api')=='legacy-1.4'
 +                            else evidence['verdict'] in (2,3)),result
-+                if profile=='legal-redress':assert not result['release_qualified']
++                if profile=='pdf-jpeg-png-pe-exclusions':assert not result['release_qualified']
 +                measurements.append(dict(profile=profile,kind=kind,repetition=repetition,
 +                    wall_seconds=time.monotonic()-start,
 +                    child_cpu_seconds=used.ru_utime+used.ru_stime-cpu.ru_utime-cpu.ru_stime,
@@ -185795,7 +185795,7 @@ index 0000000..e599ac8
 +                    source_sha256=sha(source),record=str(folder/'record.json'),outcome=result['outcome'],
 +                    release_qualified=result['release_qualified']))
 +    folder,_=intake.preserve(a.clean,a.output/'quarantine')
-+    stale=intake.assess(folder,a.generation,a.probe,a.lib,a.certs,database_profile='legal-redress')
++    stale=intake.assess(folder,a.generation,a.probe,a.lib,a.certs,database_profile='pdf-jpeg-png-pe-exclusions')
 +    assert stale['outcome']=='failed' and 'stale' in stale['reason'],stale
 +    report={'passed':True,'real_scans':len(measurements),'stale_default_rejected':True,
 +        'note':'Integration telemetry under concurrent regression-test load, not a controlled performance benchmark. Single-file intake includes verification, fresh engine startup and durable writes. These are NOT replacements for the prior controlled 78-process tables. Historical signed database allowed for tests with 168h limit; shipping default is 48h.',
@@ -185957,7 +185957,7 @@ index 0000000..edb3764
 +a.output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
 diff --git a/tools/subset-selector/test_support.py b/tools/subset-selector/test_support.py
 new file mode 100644
-index 0000000..c01c058
+index 0000000..4057a8c
 --- /dev/null
 +++ b/tools/subset-selector/test_support.py
 @@ -0,0 +1,27 @@
@@ -185980,11 +185980,11 @@ index 0000000..c01c058
 +    verdict=2 if candidate=='detected' else 0
 +    rc=2 if candidate=='failed' else 1 if verdict==2 else 0
 +    row=dict(kind='scan',path=str((folder/'original').resolve()),round=0,
-+        allmatch=int(profile=='legal-redress'),candidate_outcome=candidate,hold_bits=holds,
++        allmatch=int(profile=='pdf-jpeg-png-pe-exclusions'),candidate_outcome=candidate,hold_bits=holds,
 +        events=[],verdict=verdict,return_code=rc,scanned_bytes=10,sha256=digest,after_sha256=digest,
 +        final_name='Test.Detection' if verdict==2 else None,root_type='CL_TYPE_PDF',
-+        outcome='held' if profile=='legal-redress' and candidate=='clean' else candidate,
-+        release_blocker='parser-completeness-unproven' if profile=='legal-redress' else None)
++        outcome='held' if profile=='pdf-jpeg-png-pe-exclusions' and candidate=='clean' else candidate,
++        release_blocker='parser-completeness-unproven' if profile=='pdf-jpeg-png-pe-exclusions' else None)
 +    rows=[dict(kind='runtime',engine_sha256=select_db.sha(lib),unrar_modules_verified=1),
 +          dict(kind='engine',signatures=10),row,dict(kind='batch',round=0,allmatch=row['allmatch'])]
 +    return row, '\n'.join(map(json.dumps,rows))

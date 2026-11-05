@@ -15,7 +15,7 @@ def fixtures(out, upstream):
     im.save(out/'clean.jpg',quality=90,exif=b'Exif\0\0SYNTHETIC_METADATA')
     def pdf(path,encrypt=None,pages=1):
         c=canvas.Canvas(str(path),invariant=1,encrypt=encrypt)
-        c.setAuthor('Synthetic evidence metadata');c.setTitle('Synthetic Legal Redress attachment')
+        c.setAuthor('Synthetic evidence metadata');c.setTitle('Synthetic document attachment')
         for i in range(pages):
             c.drawString(50,750,'Synthetic attachment; no real complaint data. '+str(i));c.showPage()
         c.save()

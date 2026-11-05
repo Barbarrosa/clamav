@@ -74,14 +74,14 @@ Primary sources checked on 29 October 2026:
 
 ## Configuration and operating contract
 
-The documented selector flag remains **`--database-profile=legal-redress`**.
+The documented selector flag remains **`--database-profile=pdf-jpeg-png-pe-exclusions`**.
 Omitting it retains **full** mode and its existing first-hit behavior. The reduced
 profile forces accepting all-match and never releases a no-detection original.
 The low-level `scan.py`/native probe are diagnostic scanning interfaces. Use
 `intake.py` for the hardened local evidence workflow; neither is a public upload
 service or a complete production sandbox.
 
-The selector version is `1.4.0-boundary-tested-experimental`. **Regenerate earlier
+The selector version is `1.4.1-profile-named-experimental`. **Regenerate earlier
 generations** after rebuilding the probe; the old probe/selector hashes must fail.
 Use the exact requested engine and its matching RAR libraries. For a build tree:
 
@@ -93,7 +93,7 @@ python3 tools/subset-selector/select_db.py \
   --probe /absolute/scan_probe --certs certs --output /absolute/new-generation \
   /absolute/main.cvd /absolute/daily.cvd /absolute/bytecode.cvd
 python3 tools/subset-selector/intake.py \
-  --database-profile=legal-redress \
+  --database-profile=pdf-jpeg-png-pe-exclusions \
   --source /private/upload/original.pdf --quarantine /private/quarantine \
   --generation /absolute/new-generation --probe /absolute/scan_probe \
   --lib /absolute/build/libclamav/libclamav.so.14.0.0 --certs certs

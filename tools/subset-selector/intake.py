@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Private local evidence intake; full is default, Legal Redress stays held.
+"""Private local evidence intake; full is default, PDF/JPEG/PNG with PE exclusions stays held.
 Linux only. No network/form integration or automatic restricted-release override.
 SPDX-License-Identifier: GPL-2.0-only
 """
@@ -110,7 +110,7 @@ def validate_result(stdout, original, expected_hash, profile, lib):
         raise ValueError('runtime engine or parser modules mismatch')
     if not _integer(engine.get('signatures')) or engine['signatures'] < 1:
         raise ValueError('invalid engine signature count')
-    mode = int(profile == 'legal-redress')
+    mode = int(profile == 'pdf-jpeg-png-pe-exclusions')
     for obj in (row, batch):
         if type(obj.get('allmatch')) is not int or obj['allmatch'] != mode or type(obj.get('round')) is not int or obj['round'] != 0:
             raise ValueError('unexpected scan mode or round')
@@ -204,7 +204,7 @@ def _assess_locked(folder, generation, probe, lib, certs, broad, database_profil
             record.update(outcome='held', reason='unsupported-encrypted-limited-or-incomplete')
         elif candidate == 'detected':
             record.update(outcome='detected', reason='scanner-detection')
-        elif database_profile == 'legal-redress':
+        elif database_profile == 'pdf-jpeg-png-pe-exclusions':
             record.update(outcome='held', reason='parser-completeness-unproven')
         elif candidate == 'clean':
             record.update(outcome='clean', reason='full-database-no-detection')

@@ -2,7 +2,8 @@
 
 This development fork reduces ClamAV's memory use and provides tools for testing
 further reductions. The normal engine keeps the full signature database; an
-optional restricted profile and offline storage experiments are separate paths.
+optional profile is limited to PDF, JPEG and PNG files while excluding eligible
+Windows-executable rules. Research tools explore further savings separately.
 
 ClamAV's project overview, installation links and licensing are preserved in
 [the ClamAV README](README.ClamAV.md).
@@ -24,22 +25,19 @@ latest ClamAV release or a universal memory limit. See the
 
 Other useful changes and tools include:
 
-- **Smaller matcher and scan-state structures.** Compact transition IDs,
-  contiguous nodes, split pattern records and logical tracking sized to each
-  rule reduce overhead. Linux can also release unused pool pages while keeping
-  allocation addresses intact.
-- **Correct handling of weak evidence before a strong match.** AC and
-  Boyer–Moore matching continue after nonterminal weak or deferred potentially
-  unwanted application (PUA) evidence, addressing the demonstrated case where
-  it masked a later strong detection.
-- **An optional Legal Redress profile.** Standalone adapters conservatively
-  exclude eligible PE-specific rules for a restricted attachment workflow.
+- **Less space spent on bookkeeping.** The engine uses shorter references,
+  smaller common records and fewer unused tracking slots. On Linux it can also
+  return unused memory pages to the operating system.
+- **A detection-selection fix.** A weak or deferred alert no longer stops the
+  demonstrated search path before it can find a later strong detection.
+- **An optional PDF/JPEG/PNG profile with PE exclusions.** This excludes
+  eligible rules specific to Windows executables (the PE file format).
   That profile measured **131.1 MiB** compiled resident RAM while loading
   **601,004 signatures** from the same snapshot. It has a narrower rule set and
   an explicit hold policy; see the caveats below.
-- **Reproducible optimization research.** Native structure exports, memory
-  accounting, regression fixtures and solver models make proposed savings
-  inspectable before changing the scanner.
+- **Checkable research results.** Tools capture the real engine's data, search
+  for smaller ways to store it, and check that every original value can be
+  recovered. The research explanation below separates this from running RAM.
 
 ## Caveats
 
@@ -49,22 +47,57 @@ Other useful changes and tools include:
 - **Memory and speed depend on the workload.** Construction, concurrent scans,
   reload overlap and full update validation need separate budgets. There is no
   sub-200-MB whole-process guarantee or universal throughput improvement.
-- **Detection agreement does not imply identical reporting order.** Exact
-  upstream first-name and duplicate-alert order equivalence is not established;
-  allocation addresses can affect ties. Order-changing experiments remain
-  disabled or archived.
-- **Legal Redress is opt-in and does not automatically release clean files.**
+- **The same detections can be reported in a different order.** Identical
+  first labels and duplicate-alert order are not established for every case.
+  Some experiments failed this requirement and remain disabled or archived.
+- **The restricted profile is opt-in and does not automatically clear files.**
   Reduced no-detection results remain held because recursive parser completeness
-  is not established. Signature-count reductions are not detection-coverage
-  percentages. Full mode remains the default.
-- **Solver savings are modeled storage, not measured scanner RAM.** The latest
-  624 → 453 MiB result is an offline representation experiment. It is not
-  integrated into the engine. RC2 and Minisat ran; the linked Lean counting
-  construction was not executed.
+  is not established: a file may contain embedded material the scanner has not
+  fully examined. Loading fewer rules is not a measurement of how much malware
+  can still be detected. Full mode remains the default.
+- **Research savings have not yet become scanner RAM savings.** The smaller
+  storage model described below is not integrated into the engine.
 - **Private layouts changed.** The public `clamav.h` API remains unchanged,
   but internal consumers and Rust bindings must match this build. Most recorded
   qualification is on 64-bit Linux; it does not establish Windows, macOS or
   32-bit parity.
+
+## Research results in plain language
+
+The research asks: **can we store the engine's information more efficiently
+without losing any of it?** This is separate from reducing the set of rules.
+
+For example, two fields might contain the same pattern length almost everywhere.
+Instead of storing both complete lists, we can store one list and the exceptions.
+A solver is an automatic chooser: it searches combinations of such decisions
+while enforcing exact answers and a limit on the work needed to read a value.
+
+The latest experiment used a real compiled engine with 3.6 million signatures.
+For the parts of the engine it accounted for, it built a representation of about
+**453 MiB instead of 624 MiB: 27.45% smaller**. Checks recovered all **75 million
+field values** exactly. This does **not** mean the running scanner now uses
+453 MiB. It is the size of the counted data and its supporting indexes; other
+allocations remain outside the model, and the scanner still uses its existing
+representation. This saving must not be added to the measured 17.5% RAM reduction
+above.
+
+There is a tradeoff: a prototype reader needed about **69% more CPU time** to
+read pattern fields from the smallest layout in a small artificial benchmark.
+Whole-scanner speed and memory remain to be measured after integration. The
+useful result is a tested opportunity for further savings, rather than a finished
+engine improvement.
+
+The executed solvers were ordinary **RC2 and Minisat**. The newer mathematical
+counting algorithm that prompted the investigation was **not executed**, and no
+speed advantage for it has been demonstrated. The repository includes the
+Boolean formulas—true/false constraints describing the storage choices—so other
+solvers can be tried on the same problem.
+
+Read the [plain-language findings](docs/system-model.md) for the results and
+limits, or the [technical evidence and reproduction guide](docs/system-model-results/README.md)
+for the actual formulas, assignments and checks. Earlier work lists
+[40 ideas](docs/memory-search-ideas.md) and [five small initial experiments](docs/memory-search-five-results.md);
+those small examples are not whole-engine memory measurements.
 
 ## What changed under the hood
 
@@ -75,7 +108,7 @@ Other useful changes and tools include:
 | Logical scan state | Ordinary rules use their validated subsignature count; compatibility-sensitive rules retain 64 slots. Shared offsets replace per-context row-pointer tables. | [State and ownership](docs/demand-engine-implementation.md) |
 | Allocation and evidence | Free pool pages can be reclaimed on Linux; borrowed-key lookup avoids allocating duplicate evidence names while preserving the full history. | [Retained strategies](docs/qualified-strategies-implementation.md) |
 | Detection selection | Candidate traversal continues after nonterminal evidence; stop, trust and error handling remain explicit. | [Correctness repair](docs/regression-fix-and-memory-frontier.md) |
-| Restricted database workflow | Signed inputs are validated in full before generating the optional reduced profile. Local intake records preserve originals and hold incomplete outcomes. | [Selector tools](tools/subset-selector/README.md) and [profile contract](docs/subset-selector-configuration.md) |
+| Restricted database workflow | The `pdf-jpeg-png-pe-exclusions` profile accepts PDF/JPEG/PNG root files, skips eligible PE-specific rules and reports all matches. Preparation validates signed inputs in full; originals are preserved and incomplete outcomes remain held. | [Selector tools](tools/subset-selector/README.md) and [profile contract](docs/subset-selector-configuration.md) |
 | Offline field synthesis | A solver chooses how native fields are stored or derived, then reconstructs every captured value to check the answer. | [Plain-language result](docs/system-model.md) and [formulas and reproduction](docs/system-model-results/README.md) |
 
 The runtime still uses ClamAV's matching and full-pattern verification paths.
@@ -121,12 +154,12 @@ file-page caches, scan timing and reload costs.
 - **Work on the engine:** start with [compact layouts](docs/compact-resident-engine.md)
   and [retained allocation improvements](docs/qualified-strategies-implementation.md).
 - **Try the restricted workflow:** follow the [selector setup](tools/subset-selector/README.md).
-  `--database-profile=legal-redress` belongs to those adapters, not `clamscan`
-  or `clamd`; rebuild generations after changing their probe or library.
-- **Investigate further savings:** read the [40 ideas](docs/memory-search-ideas.md),
-  [five initial tests](docs/memory-search-five-results.md), then the
-  [real-engine solver model](docs/system-model.md). Those reports describe
-  different stages and their savings must not be added together.
+  Use `--database-profile=pdf-jpeg-png-pe-exclusions` on those adapters, not on
+  `clamscan` or `clamd`. The name describes file types and rule exclusions,
+  rather than an application. Generic and uncertain rules remain; finding
+  embedded PE content still holds the file. Regenerate prepared generations
+  after this rename or after changing the probe or library. See the
+  [naming and migration note](docs/subset-selector-configuration.md#configuration).
 - **Review rejected implementations:** [archived experiments](experiments/README.md)
   explain why logical sharing and length-bound relocation were not enabled.
 - **Use a maintained-release base:** inspect the

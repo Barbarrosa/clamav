@@ -1,9 +1,22 @@
 # Three-way performance and cache experiment
 
 These tools compare the original pinned ClamAV engine, the retained full engine,
-and the retained Legal Redress profile on the same machine, database and files.
+and the retained PDF/JPEG/PNG with PE exclusions profile on the same machine, database and files.
 They are measurement tools, not an upload service or a release authorization.
 See [the measured report](../../../docs/three-way-performance.md).
+
+The restricted variant is named `pdf-jpeg-png-pe-exclusions`: PDF, JPEG and PNG
+root files, conservative exclusion of eligible PE-specific rules, and accepting
+all-match scanning. Generic, uncertain and effect-bearing rules are retained;
+the name does not mean all PE-related rules are removed. Executable content and
+reduced no-detection candidates remain held by the adapter's existing policy.
+
+New runs and summaries use this descriptive name. The readers also accept the
+historical variant label in archived plans, process records and summaries,
+normalizing only report keys and displayed labels. They never rename raw files,
+change measurements, or rewrite the commands and hashes recorded at run time.
+Regenerate prepared database generations with the renamed adapter, and use a
+fresh results directory rather than resuming an old-label matrix.
 
 ## Build and identify the engines
 
@@ -149,5 +162,11 @@ back to exact evidence. For correctness, run the normal C/Rust/scanner suites,
 required arguments, and `test_integration.py --require-detections`. Do not use
 unittest discovery to import the argument-taking signed-input script.
 
+The compatibility checks use the archived summary without changing its bytes:
+
+```sh
+python3 -m unittest discover -s tools/subset-selector/performance -p 'test_*.py' -v
+```
+
 No probe clean candidate authorizes automatic reduced release. Use the actual
-`scan.py` / `intake.py --database-profile=legal-redress` adapter for that policy.
+`scan.py` / `intake.py --database-profile=pdf-jpeg-png-pe-exclusions` adapter for that policy.

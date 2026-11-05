@@ -9,7 +9,7 @@ STATUS = {
     'production_ready': False,
     'restricted_automatic_release': False,
     'default_database_profile': 'full',
-    'restricted_flag': '--database-profile=legal-redress',
+    'restricted_flag': '--database-profile=pdf-jpeg-png-pe-exclusions',
     'blockers': [
         {'id':'parser-completeness',
          'reason':'PE exclusion boundary tests pass; universal parsing completeness is not established. Reduced clean candidates remain held.'},

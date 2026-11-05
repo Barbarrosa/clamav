@@ -75,15 +75,15 @@ class IntakeHardeningTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'runtime'):self.validate(rows)
     def test_legacy_results_preserve_return_code_and_holds(self):
         for profile,candidate,holds in [('full','clean',0),('full','detected',0),
-                ('legal-redress','clean',0),('legal-redress','detected',0),
-                ('legal-redress','held',1),('full','failed',0)]:
+                ('pdf-jpeg-png-pe-exclusions','clean',0),('pdf-jpeg-png-pe-exclusions','detected',0),
+                ('pdf-jpeg-png-pe-exclusions','held',1),('full','failed',0)]:
             with self.subTest(profile=profile,candidate=candidate,holds=holds):
                 _,output=test_support.result(self.folder,self.lib,profile,candidate,holds)
                 rows=[json.loads(x) for x in output.splitlines()]
                 rows[0]['scan_api']='legacy-1.4';rows[2]['verdict']=None
                 row,_,_=self.validate(rows,profile)
                 self.assertEqual(row['candidate_outcome'],candidate)
-                if profile=='legal-redress':self.assertNotEqual(row['outcome'],'clean')
+                if profile=='pdf-jpeg-png-pe-exclusions':self.assertNotEqual(row['outcome'],'clean')
     def test_legacy_contradictory_results_rejected(self):
         for update in [dict(verdict=0),dict(verdict=2),dict(return_code=1),dict(return_code=2),
                 dict(final_name='Detection'),dict(events=[{'event':'legacy_virus','name':'Detection'}])]:
@@ -94,9 +94,9 @@ class IntakeHardeningTests(unittest.TestCase):
     def test_unknown_api_rejected(self):
         rows=[json.loads(x) for x in self.stdout.splitlines()];rows[0]['scan_api']='future-api'
         with self.assertRaisesRegex(ValueError,'unsupported scanner API'):self.validate(rows)
-    def test_legal_never_releases(self):
-        _,output=test_support.result(self.folder,self.lib,'legal-redress')
-        result=self.assess(output,database_profile='legal-redress')
+    def test_restricted_profile_never_releases(self):
+        _,output=test_support.result(self.folder,self.lib,'pdf-jpeg-png-pe-exclusions')
+        result=self.assess(output,database_profile='pdf-jpeg-png-pe-exclusions')
         self.assertEqual(result['outcome'],'held');self.assertFalse(result['release_qualified'])
     def test_stale_database_fails(self):
         (self.gen/'manifest.json').write_text(json.dumps({'signed_databases':[{'name':'daily.cvd','header':'x:1'}]}))

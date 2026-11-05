@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scan with all databases (default), or opt in with --database-profile=legal-redress.
+"""Scan with all databases (default), or opt in with --database-profile=pdf-jpeg-png-pe-exclusions.
 
 The restricted profile always uses all-match and preserves evidence holds.
 Exit 0 means the scan process completed; read each JSON outcome for its verdict.
@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 from select_db import sha, validate_generation
 
-PROFILES = ('full', 'legal-redress')
+PROFILES = ('full', 'pdf-jpeg-png-pe-exclusions')
 
 
 def command(*, probe, lib, certs, files, generation=None, database=None,
@@ -26,11 +26,11 @@ def command(*, probe, lib, certs, files, generation=None, database=None,
         raise ValueError('unknown database profile')
     if (generation is None) == (database is None):
         raise ValueError('supply exactly one of generation or database')
-    restricted = database_profile == 'legal-redress'
+    restricted = database_profile == 'pdf-jpeg-png-pe-exclusions'
     if restricted and generation is None:
-        raise ValueError('legal-redress requires a verified --generation')
+        raise ValueError('pdf-jpeg-png-pe-exclusions requires a verified --generation')
     if restricted and broad:
-        raise ValueError('legal-redress only accepts the PDF/JPEG/PNG root profile')
+        raise ValueError('pdf-jpeg-png-pe-exclusions only accepts the PDF/JPEG/PNG root profile')
     if not 1 <= repetitions <= 10000:
         raise ValueError('repetitions must be between 1 and 10000')
     if generation is not None:
@@ -54,8 +54,8 @@ def parser():
     source.add_argument('--generation', type=Path, help='prepared signed-input generation')
     source.add_argument('--database', type=Path, help='original full database directory')
     p.add_argument('--database-profile', choices=PROFILES, default='full',
-                   help='full (default) loads everything; legal-redress omits proven PE-only groups and forces all-match')
-    p.add_argument('--allmatch', action='store_true', help='all matches in full mode (automatic in legal-redress mode)')
+                   help='full (default) loads all enabled rules; pdf-jpeg-png-pe-exclusions accepts PDF/JPEG/PNG roots, omits eligible PE-only groups and reports all matches')
+    p.add_argument('--allmatch', action='store_true', help='all matches in full mode (automatic in pdf-jpeg-png-pe-exclusions mode)')
     p.add_argument('--broad', action='store_true', help='broader root policy, full mode only')
     p.add_argument('--repetitions', type=int, default=1)
     p.add_argument('--reload-overlap', action='store_true', help='measure replacement construction while the old engine remains loaded')

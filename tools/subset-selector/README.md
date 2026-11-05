@@ -2,11 +2,18 @@
 
 **Production release remains blocked.** The [readiness review](../../docs/production-readiness.md) documents fixed intake failures, current tests, resource/freshness flags and unresolved release gates. Run `python3 tools/subset-selector/readiness.py`; exit 3 means this build is not approved for production.
 
-Use **`--database-profile=legal-redress`** on `scan.py` or `intake.py` to opt in to the reduced database. **`--database-profile=full` is the default** and loads every rule enabled by the retained configuration. The restricted flag forces all-match scanning with accepting callbacks. Detection multisets and severity must match; alert order and the selected final name may differ. Read [the configuration and validation report](../../docs/subset-selector-configuration.md).
+Use **`--database-profile=pdf-jpeg-png-pe-exclusions`** on `scan.py` or `intake.py` to opt in to the reduced database. **`--database-profile=full` is the default** and loads every rule enabled by the retained configuration. The restricted flag forces all-match scanning with accepting callbacks. Detection multisets and severity must match; alert order and the selected final name may differ. Read [the configuration and validation report](../../docs/subset-selector-configuration.md).
+
+The profile name describes PDF/JPEG/PNG root files and conservative exclusion of
+eligible Windows-executable rules. Generic, uncertain and effect-bearing rules
+remain. Regenerate prepared generations after updating to the renamed profile;
+the manifest binds its identity and selector version. The
+[migration note](../../docs/subset-selector-configuration.md#configuration)
+explains the historical labels preserved in archived results.
 
 **Reduced automatic clean release remains disabled because parser completeness is unproven.** A no-detection result is still available in `candidate_outcome`, with `outcome=held` for the evidence workflow. This flag does not change the existing scanner service, engine defaults or evidence policy.
 
-The [fresh three-way performance report](../../docs/three-way-performance.md) compares pinned original ClamAV, this full-database engine and Legal Redress with the same build and workload. It includes empty/hydrated OS and clean-result caches, CPU time/utilization, RSS/PSS/USS, reload/update peaks, database percentages and exact text/image tables. Reproduce it with [the performance tools](performance/README.md). Historical figures below remain labeled as earlier observations; use the fresh report for current comparisons.
+The [fresh three-way performance report](../../docs/three-way-performance.md) compares pinned original ClamAV, this full-database engine and PDF/JPEG/PNG with PE exclusions with the same build and workload. It includes empty/hydrated OS and clean-result caches, CPU time/utilization, RSS/PSS/USS, reload/update peaks, database percentages and exact text/image tables. Reproduce it with [the performance tools](performance/README.md). Historical figures below remain labeled as earlier observations; use the fresh report for current comparisons.
 
 The [PE boundary and release-backport report](../../docs/boundary-backports.md)
 records 65 boundary cases per engine, mutation controls and separate stable/LTS
@@ -19,7 +26,7 @@ After preparing a generation using the instructions below, make a newline-separa
 
 ```sh
 python3 tools/subset-selector/scan.py \
-  --database-profile=legal-redress \
+  --database-profile=pdf-jpeg-png-pe-exclusions \
   --generation ../generation-001 --probe ../scan_probe \
   --lib ../build/libclamav/libclamav.so.14.0.0 --certs certs \
   --files ../files.txt
@@ -93,7 +100,7 @@ For a read-only compiled census, build `census_probe.c` against the exact source
 
 ```sh
 python3 tools/subset-selector/intake.py \
-  --database-profile=legal-redress \
+  --database-profile=pdf-jpeg-png-pe-exclusions \
   --source /path/to/synthetic.pdf --quarantine ../private-intake \
   --generation ../generation-001 --probe ../scan_probe \
   --lib ../build/libclamav/libclamav.so.14.0.0 --certs certs

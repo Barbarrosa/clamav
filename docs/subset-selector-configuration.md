@@ -1,18 +1,35 @@
 # Configurable restricted database profile
 
-**Current hardening revision:** see [production readiness](production-readiness.md) for selector 1.3, required regeneration, intake exit codes, resource/freshness limits and release blockers. The figures below remain historical measurements of 1.2.
+**Current hardening revision:** see [production readiness](production-readiness.md) for the current selector, required regeneration, intake exit codes, resource/freshness limits and release blockers. The figures below remain historical measurements of 1.2.
 
 29 October 2026 (UTC). This follow-up implements the user's acceptance of changed alert order when all applicable detections remain present, with exact original results when all database families are enabled. The earlier experiment and its stricter failed ordering gate remain preserved in [the original report](subset-selector-implementation.md).
 
 ## Configuration
 
-The opt-in flag is **`--database-profile=legal-redress`** on `tools/subset-selector/scan.py` and `intake.py`. The default is **`--database-profile=full`**. This is a standalone public-API adapter flag, not an upstream `clamscan` command or `clamd.conf` setting. No existing engine/service default was changed.
+The opt-in flag is **`--database-profile=pdf-jpeg-png-pe-exclusions`** on `tools/subset-selector/scan.py` and `intake.py`. The default is **`--database-profile=full`**. This is a standalone public-API adapter flag, not an upstream `clamscan` command or `clamd.conf` setting. No existing engine/service default was changed.
+
+The name describes the selected options: PDF, JPEG and PNG root files, with
+eligible PE-specific rule groups excluded. Generic rules, uncertain rules and
+rules needed for other effects remain. The name does not mean embedded Windows
+executables are impossible: observing PE content still produces a hold.
+
+**Naming update:** archived measurements use the former label `legal-redress`.
+Current commands use `pdf-jpeg-png-pe-exclusions`; the rule-selection and hold
+policy are unchanged. The profile identity in generation manifests has changed,
+so regenerate prepared generations with the updated selector and matching probe.
+Historical measurements and their original hashes remain preserved.
+
+The [native rename check](profile-rename-validation.json) loaded the signed
+snapshot in full, compared the default and explicit full modes with the same
+native probe, and exercised PDF/JPEG/PNG scans under the new option. Restricted
+no-detection results and the unsupported-type control remained held. This is a
+rename regression check, not a new performance or release qualification.
 
 From `source/`, after building `scan_probe` and preparing a generation:
 
 ```sh
 python3 tools/subset-selector/scan.py \
-  --database-profile=legal-redress \
+  --database-profile=pdf-jpeg-png-pe-exclusions \
   --generation ../generation-001 --probe ../scan_probe \
   --lib ../build/libclamav/libclamav.so.14.0.0 --certs certs \
   --files ../private-original-files.txt
@@ -76,7 +93,7 @@ Fresh results and exact provenance are recorded in [the configuration result sum
 
 ## Fresh results through the flag
 
-| Measurement | Full (`--allmatch`) | Legal Redress |
+| Measurement | Full (`--allmatch`) | PDF/JPEG/PNG with PE exclusions |
 |---|---:|---:|
 | Compiled RSS, mean | 790.085 MiB | 129.654 MiB |
 | Construction / observed scan high water, max | 823.570 MiB | 160.617 MiB |

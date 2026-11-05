@@ -1,6 +1,6 @@
-# Restricted Legal Redress database selector — experimental
+# Restricted PDF/JPEG/PNG database selector with PE exclusions — experimental
 
-**Follow-up:** the documented `--database-profile=legal-redress` flag now opts in to all-match restricted scanning, with full mode remaining the default. The user accepted alert-order differences when detection multisets and severity are preserved. See [the configuration follow-up](subset-selector-configuration.md) for that contract and new validation. The results below preserve the original, stricter experiment; parser-completeness holds remain in force.
+**Follow-up:** the documented `--database-profile=pdf-jpeg-png-pe-exclusions` flag now opts in to all-match restricted scanning, with full mode remaining the default. The user accepted alert-order differences when detection multisets and severity are preserved. See [the configuration follow-up](subset-selector-configuration.md) for that contract and new validation. The results below preserve the original, stricter experiment; parser-completeness holds remain in force.
 
 28 October 2026, America/Phoenix. **Working selector and intake prototype; qualification failed. Automatic clean release from a reduced database is disabled.** The retained full-database runtime, configuration defaults, prior experiments and evidence remain unchanged at `005bb6c6ca880b13184775956d0f87faf541ea0b`.
 
@@ -160,7 +160,7 @@ Version 1.1 adds mandatory full-load validation and probe binding after the meas
 
 Shadow switching validates the generation and updates only `shadow-current` / `shadow-previous`; it never edits the full service configuration. Automatic release activation is deliberately unavailable. After any real signature update, regenerate and rerun the qualification corpus and ordering/parser gates. A new signed database is authentic, not automatically safe to reduce. Rollback retains the previous immutable generation and all signed inputs. Filesystem crash durability and concurrent production deployment orchestration need further qualification.
 
-The next blocking work is exact order preservation relative to the retained full engine, explicit propagation of incomplete-parser/limit outcomes, and isolated whole-lifecycle accounting. This experiment demonstrates a large real memory opportunity, but its current practical role is **shadow evaluation and evidence-preserving triage**, not an approved automatic-release scanner for Legal Redress.
+The next blocking work is exact order preservation relative to the retained full engine, explicit propagation of incomplete-parser/limit outcomes, and isolated whole-lifecycle accounting. This experiment demonstrates a large real memory opportunity, but its current practical role is **shadow evaluation and evidence-preserving triage**, not an approved automatic-release scanner for the restricted PDF/JPEG/PNG profile.
 
 ## Primary sources consulted
 

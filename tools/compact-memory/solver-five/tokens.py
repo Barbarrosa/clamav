@@ -129,7 +129,7 @@ def run(output, probe=None):
               'feasibility_audit_scope': 'four 8-byte rows and one candidate; same encoding as primary experiments',
               'original_public_rule_references_preserved': len(references),
               'public_sources': provenance,
-              'scope': 'public literal and synthetic byte rows; not full or Legal Redress compiled exports',
+              'scope': 'public literal and synthetic byte rows; not full or PDF/JPEG/PNG with PE exclusions compiled exports',
               'solver': 'conventional RC2 and Minisat22; linked counting construction not executed'}
     (output / 'tokens.json').write_text(json.dumps(result, indent=2) + '\n')
     return result

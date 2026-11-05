@@ -1,12 +1,12 @@
-# ClamAV 1.5.4 Legal Redress backport
+# ClamAV 1.5.4 PDF/JPEG/PNG with PE exclusions backport
 
 This directory contains the source patch and revision metadata against official tag `clamav-1.5.4`.
 Apply `backport.patch` to a checkout of the exact upstream revision below.
 The resulting tree contains `tools/subset-selector/README.md` and
-`docs/legal-redress-backport.md`. See also the combined
+`docs/pdf-jpeg-png-pe-exclusions-backport.md`. See also the combined
 [validation report](../../docs/boundary-backports.md).
 
-Full database mode is the default; opt in with `--database-profile=legal-redress`.
+Full database mode is the default; opt in with `--database-profile=pdf-jpeg-png-pe-exclusions`.
 Reduced no-detection results remain held. This is experimental, not production
 approval. Synthetic first-hit results can differ, including weak/strong selection
 on stable; accepting all-match detection equivalence is the tested contract.
@@ -19,9 +19,24 @@ bytes preserved; signed-input and tamper tests; 88 shared Python tests; core eng
 Rust, scanner and sigtool suites. Daemon/update operations remain unqualified here.
 
 Apply `backport.patch` with `git apply --index` to an
-unmodified checkout of `fa59fca15872bb8a914ba4c68188bcc8a502cbdf`. The patch was applied to a fresh Git index and
+unmodified checkout of `fa59fca15872bb8a914ba4c68188bcc8a502cbdf`. The original, pre-rename patch was applied to a fresh Git index and
 its resulting tree verified as `51e985888344c2e7964538ad458289b590a2984c`. Backport commit: `ef83184a457e762f95cc7807ed678020497cea33`.
 The separately supplied release archive includes `source-manifest.json`;
 `archive.json` here records its identity and checksum. Official databases and native
 binaries are not bundled; prepare a fresh signed generation using your built engine.
 Earlier 1.6 performance images are not measurements of this release backport.
+
+## Profile-name update
+
+The current patch uses `--database-profile=pdf-jpeg-png-pe-exclusions` and the
+`pdf-jpeg-png-pe-exclusions-hold-v1` profile identity. This describes the allowed root
+file types and the conservative omission of eligible PE-specific rules. The full
+database default, accepting all-match behavior and held no-detection policy are
+unchanged. Regenerate prepared generations after rebuilding the probe/library.
+
+`archive.json` and `revision.json` describe the original release archive and
+pre-rename patch, including their original names, checksums and source-tree IDs.
+They do not describe the rewritten patch. Embedded `docs/backport-results/`
+measurements are also preserved as historical evidence.
+[Current patch identity and validation scope](profile-rename.json) records the
+new checksum. The option rename has not rerun the full release-engine matrix.
