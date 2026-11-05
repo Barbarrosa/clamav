@@ -1,151 +1,137 @@
-# ClamAV
+# ClamAV — compact-memory branch
 
-This branch is the **compact resident engine development fork**, based on
-upstream commit `dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d`.
-See [implementation, tuning, and validation](docs/compact-resident-engine.md).
-It is an experimental fork, not an official ClamAV release.
+This development fork reduces ClamAV's memory use and provides tools for testing
+further reductions. The normal engine keeps the full signature database; an
+optional restricted profile and offline storage experiments are separate paths.
 
-<p align="center">
-  <img width="250" height="250" src="https://raw.githubusercontent.com/Cisco-Talos/clamav/main/logo.png" alt='Maeve, the ClamAV mascot'>
-</p>
+ClamAV's project overview, installation links and licensing are preserved in
+[the ClamAV README](README.ClamAV.md).
 
-<p align="center">
-  ClamAV® is an open source antivirus engine for detecting trojans, viruses,
-  malware & other malicious threats.
-</p>
+## Benefits
 
-<p align="center">
-  <a href="https://github.com/Cisco-Talos/clamav/actions"><img src="https://github.com/Cisco-Talos/clamav/workflows/CMake%20Build/badge.svg" height="18"></a>
-  <a href="https://discord.gg/6vNAqWnVgw"><img src="https://img.shields.io/discord/636023333074370595.svg?logo=discord" height="18"/></a>
-  <a href="https://twitter.com/clamav"><img src="https://abs.twimg.com/favicons/twitter.ico" width="18" height="18"></a>
-</p>
+**Lower memory use with the full database.** The controlled Linux comparison
+on 29 October 2026 loaded the same **3,628,192 signatures** in both engines:
 
-## Documentation & FAQ
+| Measurement | Original ClamAV | This branch, full database |
+|---|---:|---:|
+| Compiled engine resident RAM, mean | 959.6 MiB | **791.2 MiB** |
+| Two-engine reload peak resident RAM | 1,916.1 MiB | **1,613.2 MiB** |
 
-ClamAV documentation is hosted at [docs.clamav.net](https://docs.clamav.net/).
-The source archive for each release also includes a copy of the documentation
-for [offline](docs/html/index.html) reading.
+That is about **17.5% less resident RAM** after compilation. The comparison used
+a pinned upstream development revision and signed database snapshot, not the
+latest ClamAV release or a universal memory limit. See the
+[measurements, workloads and reproduction details](docs/three-way-performance.md).
 
-You can contribute to the documentation by submitting improvements to
-[Cisco-Talos/clamav-documentation](https://github.com/Cisco-Talos/clamav-documentation)
+Other useful changes and tools include:
 
-## ClamAV News
+- **Smaller matcher and scan-state structures.** Compact transition IDs,
+  contiguous nodes, split pattern records and logical tracking sized to each
+  rule reduce overhead. Linux can also release unused pool pages while keeping
+  allocation addresses intact.
+- **Correct handling of weak evidence before a strong match.** AC and
+  Boyer–Moore matching continue after nonterminal weak or deferred potentially
+  unwanted application (PUA) evidence, addressing the demonstrated case where
+  it masked a later strong detection.
+- **An optional Legal Redress profile.** Standalone adapters conservatively
+  exclude eligible PE-specific rules for a restricted attachment workflow.
+  That profile measured **131.1 MiB** compiled resident RAM while loading
+  **601,004 signatures** from the same snapshot. It has a narrower rule set and
+  an explicit hold policy; see the caveats below.
+- **Reproducible optimization research.** Native structure exports, memory
+  accounting, regression fixtures and solver models make proposed savings
+  inspectable before changing the scanner.
 
-For information about the features in this and prior releases, read
-[the news](NEWS.md).
+## Caveats
 
-Catch up on the latest about ClamAV by reading our
-[blog](http://blog.clamav.net) and follow us on Twitter `@clamav`.
+- **This is an experimental 1.6.0 development fork.** Production qualification,
+  security-maintenance parity and deployment isolation remain unresolved.
+  Read the [readiness review](docs/production-readiness.md) before deployment.
+- **Memory and speed depend on the workload.** Construction, concurrent scans,
+  reload overlap and full update validation need separate budgets. There is no
+  sub-200-MB whole-process guarantee or universal throughput improvement.
+- **Detection agreement does not imply identical reporting order.** Exact
+  upstream first-name and duplicate-alert order equivalence is not established;
+  allocation addresses can affect ties. Order-changing experiments remain
+  disabled or archived.
+- **Legal Redress is opt-in and does not automatically release clean files.**
+  Reduced no-detection results remain held because recursive parser completeness
+  is not established. Signature-count reductions are not detection-coverage
+  percentages. Full mode remains the default.
+- **Solver savings are modeled storage, not measured scanner RAM.** The latest
+  624 → 453 MiB result is an offline representation experiment. It is not
+  integrated into the engine. RC2 and Minisat ran; the linked Lean counting
+  construction was not executed.
+- **Private layouts changed.** The public `clamav.h` API remains unchanged,
+  but internal consumers and Rust bindings must match this build. Most recorded
+  qualification is on 64-bit Linux; it does not establish Windows, macOS or
+  32-bit parity.
 
-## ClamAV Signatures
+## What changed under the hood
 
-Anyone can learn to read and write ClamAV signatures. To get started, see our
-[signature writing manual](https://docs.clamav.net/manual/Signatures.html).
+| Area | Branch behavior | Implementation and evidence |
+|---|---|---|
+| Aho–Corasick (AC) matcher | Four-byte transition IDs and a contiguous node arena replace native pointer transitions on 64-bit targets. | [Compact engine](docs/compact-resident-engine.md) |
+| Pattern records | The common LP64 record shrinks from 136 to 96 bytes; uncommon metadata uses a 48-byte extension. | [Layout and workload limits](docs/compact-resident-engine.md) |
+| Logical scan state | Ordinary rules use their validated subsignature count; compatibility-sensitive rules retain 64 slots. Shared offsets replace per-context row-pointer tables. | [State and ownership](docs/demand-engine-implementation.md) |
+| Allocation and evidence | Free pool pages can be reclaimed on Linux; borrowed-key lookup avoids allocating duplicate evidence names while preserving the full history. | [Retained strategies](docs/qualified-strategies-implementation.md) |
+| Detection selection | Candidate traversal continues after nonterminal evidence; stop, trust and error handling remain explicit. | [Correctness repair](docs/regression-fix-and-memory-frontier.md) |
+| Restricted database workflow | Signed inputs are validated in full before generating the optional reduced profile. Local intake records preserve originals and hold incomplete outcomes. | [Selector tools](tools/subset-selector/README.md) and [profile contract](docs/subset-selector-configuration.md) |
+| Offline field synthesis | A solver chooses how native fields are stored or derived, then reconstructs every captured value to check the answer. | [Plain-language result](docs/system-model.md) and [formulas and reproduction](docs/system-model-results/README.md) |
 
-## Installation Instructions
+The runtime still uses ClamAV's matching and full-pattern verification paths.
+The default memory changes add no scan-time rule paging or solver dependency.
 
-### Using Docker
+## Build and compare
 
-ClamAV can be run using Docker. For details, visit to the online manual under
-["Docker"](https://docs.clamav.net/manual/Installing/Docker.html) and check out
-our images on [Docker Hub](https://hub.docker.com/r/clamav/clamav).
+Install the [normal ClamAV build dependencies](INSTALL.md), then build from
+the repository root:
 
-### Using a Package Manager
+```sh
+cmake -S . -B build -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_TESTS=ON \
+  -DENABLE_MAN_PAGES=OFF \
+  -DCVD_CERTS_DIRECTORY="$PWD/certs"
+cmake --build build --parallel 2
+ctest --test-dir build --output-on-failure
+```
 
-For help installing from a package manager, refer to the online manual under
-["Packages"](https://docs.clamav.net/manual/Installing/Packages.html).
+The certificate path is for running from the source/build tree. Installed
+deployments need the installed certificate directory. Keep signature verification
+enabled when comparing engines.
 
-### Using an Installer
+These branch-specific CMake options make the layouts easy to compare:
 
-The following install packages are available for download from
-[clamav.net/downloads](https://www.clamav.net/downloads):
+| Option | Default | Purpose |
+|---|---|---|
+| `ENABLE_COMPACT_LSIG_STATE` | `ON` | Size ordinary logical tracking to the rule; `OFF` uses full-width rows. |
+| `ENABLE_AC_NODE_IDS` | `ON` | Use compact transitions; `OFF` selects native pointers. |
+| `ENABLE_AC_FLAT_NODES` | `ON` | Locate nodes by arena arithmetic when IDs are enabled; `OFF` uses indirect IDs. |
+| `ENABLE_FLAT_HASH_STORE` | `OFF` | Experimental contiguous hash storage; its higher construction peak remains a concern. |
+| `ENABLE_AC_DISPOSABLE_BUILD` | `OFF` | Experimental separate construction pool; it changes duplicate-alert ordering. |
 
-- Linux - Debian and RPM packages for x86_64 and i686. *New in v0.104.*
-- macOS - PKG installer for x86_64 and arm64 (universal). *New in v0.104.*
-- Windows - MSI installers and portable ZIP packages for win32 and x64.
+Use separate build directories with the same database, dependencies and scan
+options for comparisons. The [compact-engine guide](docs/compact-resident-engine.md)
+includes ABI checks and comparison commands; the
+[three-way report](docs/three-way-performance.md) distinguishes process RAM,
+file-page caches, scan timing and reload costs.
 
-To learn how to use these packages, refer to the online manual under
-["Installing"](https://docs.clamav.net/manual/Installing.html#installing-with-an-installer).
+## Where to go next
 
-### Build from Source
+- **Work on the engine:** start with [compact layouts](docs/compact-resident-engine.md)
+  and [retained allocation improvements](docs/qualified-strategies-implementation.md).
+- **Try the restricted workflow:** follow the [selector setup](tools/subset-selector/README.md).
+  `--database-profile=legal-redress` belongs to those adapters, not `clamscan`
+  or `clamd`; rebuild generations after changing their probe or library.
+- **Investigate further savings:** read the [40 ideas](docs/memory-search-ideas.md),
+  [five initial tests](docs/memory-search-five-results.md), then the
+  [real-engine solver model](docs/system-model.md). Those reports describe
+  different stages and their savings must not be added together.
+- **Review rejected implementations:** [archived experiments](experiments/README.md)
+  explain why logical sharing and length-bound relocation were not enabled.
+- **Use a maintained-release base:** inspect the
+  [1.5.4 and 1.4.6 backport patches](docs/boundary-backports.md). These remain
+  custom experimental patches requiring their own qualification.
 
-For step-by-step instructions, refer to the online manual:
-- [Unix/Linux/Mac](https://docs.clamav.net/manual/Installing/Installing-from-source-Unix.html)
-- [Windows](https://docs.clamav.net/manual/Installing/Installing-from-source-Windows.html)
-
-The source archive for each release includes a copy of the documentation for
-[offline](docs/html/UserManual.html) reading.
-
-A reference with all of the available build options can be found in the
-[INSTALL.md](INSTALL.md) file.
-
-You can find additional advice for developers in the online manual under
-["For Developers"](https://docs.clamav.net/manual/Development.html).
-
-### Upgrading from a previous version
-
-Visit [the FAQ](https://docs.clamav.net/faq/faq-upgrade.html) for tips on how
-to upgrade from a previous version.
-
-## Join the ClamAV Community
-
-The best way to get in touch with the ClamAV community is to join our
-[mailing lists](https://docs.clamav.net/faq/faq-ml.html).
-
-You can also join the community on our
-[ClamAV Discord chat server](https://discord.gg/6vNAqWnVgw).
-
-## Want to make a contribution?
-
-The ClamAV development team welcomes
-[code contributions](https://github.com/Cisco-Talos/clamav),
-improvements to
-[our documentation](https://github.com/Cisco-Talos/clamav-documentation),
-and also [bug reports](https://github.com/Cisco-Talos/clamav/issues).
-
-Thanks for joining us!
-
-## Licensing
-
-ClamAV is licensed for public/open source use under the GNU General Public
-License, Version 2 (GPLv2).
-
-See `COPYING.txt` for a copy of the license.
-
-### 3rd Party Code
-
-ClamAV contains a number of components that include code copied in part or in
-whole from 3rd party projects and whose code is not owned by Cisco and which
-are licensed differently than ClamAV. These include:
-
-- Yara: Apache 2.0 license
-  - Yara has since switched to the BSD 3-Clause License;
-    Our source is out-of-date and needs to be updated.
-- 7z / lzma: public domain
-- libclamav's NSIS/NulSoft parser includes:
-  - zlib: permissive free software license
-  - bzip2 / libbzip2: BSD-like license
-- OpenBSD's libc/regex: BSD license
-- file: BSD license
-- str.c: Contains BSD licensed modified-implementations of strtol(), stroul()
-  functions, Copyright (c) 1990 The Regents of the University of California.
-- pngcheck (png.c): MIT/X11-style license
-- getopt.c: MIT license
-- Curl: license inspired by MIT/X, but not identical
-- libmspack: LGPL license
-- UnRAR (libclamunrar): a non-free/restricted open source license
-  - Note: The UnRAR license is incompatible with GPLv2 because it contains a
-    clause that prohibits reverse engineering a RAR compression algorithm from
-    the UnRAR decompression code.
-    For this reason, libclamunrar/libclamunrar_iface is not linked at all with
-    libclamav. It is instead loaded at run-time. If it fails to load, ClamAV
-    will continue running without RAR support.
-
-See the `COPYING` directory for a copy of the 3rd party project licenses.
-
-## Acknowledgements
-
-Credit for contributions to each release can be found in the [News](NEWS.md).
-
-ClamAV is brought to you by
-[the ClamAV Team](https://www.clamav.net/about.html#credits)
+For upstream usage, community information and GPLv2/third-party licensing,
+see [README.ClamAV.md](README.ClamAV.md).
