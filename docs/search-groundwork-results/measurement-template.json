@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "scope": "whole_scanner",
+  "binding": {
+    "baseline_artifact_sha256": null,
+    "candidate_artifact_sha256": null,
+    "database_sha256": null,
+    "corpus_sha256": null,
+    "configuration_sha256": null,
+    "hardware_sha256": null,
+    "policy_sha256": null,
+    "semantic_contract_sha256": null,
+    "semantic_contract": "ordered-observables-v1"
+  },
+  "cases": [
+    {
+      "id": "cold",
+      "workload_sha256": null,
+      "cache_state": "cold",
+      "workload_class": "ordinary",
+      "concurrency": 1,
+      "trials": [
+        {
+          "pair_id": "pair-001",
+          "baseline": {
+            "scan_cpu_seconds": null,
+            "scan_wall_seconds": null,
+            "scan_latency_p95_ms": null,
+            "scan_latency_p99_ms": null,
+            "startup_cpu_seconds": null,
+            "startup_wall_seconds": null,
+            "reload_cpu_seconds": null,
+            "reload_wall_seconds": null,
+            "update_cpu_seconds": null,
+            "update_wall_seconds": null,
+            "resident_bytes_cold": null,
+            "resident_bytes_hydrated": null,
+            "construction_peak_bytes": null,
+            "reload_peak_bytes": null,
+            "update_overlap_peak_bytes": null,
+            "scan_context_bytes": null,
+            "scan_scratch_bytes": null,
+            "builder_scratch_bytes": null
+          },
+          "candidate": {
+            "scan_cpu_seconds": null,
+            "scan_wall_seconds": null,
+            "scan_latency_p95_ms": null,
+            "scan_latency_p99_ms": null,
+            "startup_cpu_seconds": null,
+            "startup_wall_seconds": null,
+            "reload_cpu_seconds": null,
+            "reload_wall_seconds": null,
+            "update_cpu_seconds": null,
+            "update_wall_seconds": null,
+            "resident_bytes_cold": null,
+            "resident_bytes_hydrated": null,
+            "construction_peak_bytes": null,
+            "reload_peak_bytes": null,
+            "update_overlap_peak_bytes": null,
+            "scan_context_bytes": null,
+            "scan_scratch_bytes": null,
+            "builder_scratch_bytes": null
+          },
+          "correctness": {
+            "baseline_status": null,
+            "candidate_status": null,
+            "baseline_transcript_sha256": null,
+            "candidate_transcript_sha256": null,
+            "baseline_policy_sha256": null,
+            "candidate_policy_sha256": null
+          },
+          "metric_provenance": {
+            "scan_latency_p95_ms": {
+              "source": "per_file_latency_distribution",
+              "quantile_method": "nearest_rank",
+              "baseline_samples": null,
+              "candidate_samples": null
+            },
+            "scan_latency_p99_ms": {
+              "source": "per_file_latency_distribution",
+              "quantile_method": "nearest_rank",
+              "baseline_samples": null,
+              "candidate_samples": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "warm",
+      "workload_sha256": null,
+      "cache_state": "warm",
+      "workload_class": "ordinary",
+      "concurrency": 1,
+      "trials": [
+        {
+          "pair_id": "pair-001",
+          "baseline": {
+            "scan_cpu_seconds": null,
+            "scan_wall_seconds": null,
+            "scan_latency_p95_ms": null,
+            "scan_latency_p99_ms": null,
+            "startup_cpu_seconds": null,
+            "startup_wall_seconds": null,
+            "reload_cpu_seconds": null,
+            "reload_wall_seconds": null,
+            "update_cpu_seconds": null,
+            "update_wall_seconds": null,
+            "resident_bytes_cold": null,
+            "resident_bytes_hydrated": null,
+            "construction_peak_bytes": null,
+            "reload_peak_bytes": null,
+            "update_overlap_peak_bytes": null,
+            "scan_context_bytes": null,
+            "scan_scratch_bytes": null,
+            "builder_scratch_bytes": null
+          },
+          "candidate": {
+            "scan_cpu_seconds": null,
+            "scan_wall_seconds": null,
+            "scan_latency_p95_ms": null,
+            "scan_latency_p99_ms": null,
+            "startup_cpu_seconds": null,
+            "startup_wall_seconds": null,
+            "reload_cpu_seconds": null,
+            "reload_wall_seconds": null,
+            "update_cpu_seconds": null,
+            "update_wall_seconds": null,
+            "resident_bytes_cold": null,
+            "resident_bytes_hydrated": null,
+            "construction_peak_bytes": null,
+            "reload_peak_bytes": null,
+            "update_overlap_peak_bytes": null,
+            "scan_context_bytes": null,
+            "scan_scratch_bytes": null,
+            "builder_scratch_bytes": null
+          },
+          "correctness": {
+            "baseline_status": null,
+            "candidate_status": null,
+            "baseline_transcript_sha256": null,
+            "candidate_transcript_sha256": null,
+            "baseline_policy_sha256": null,
+            "candidate_policy_sha256": null
+          },
+          "metric_provenance": {
+            "scan_latency_p95_ms": {
+              "source": "per_file_latency_distribution",
+              "quantile_method": "nearest_rank",
+              "baseline_samples": null,
+              "candidate_samples": null
+            },
+            "scan_latency_p99_ms": {
+              "source": "per_file_latency_distribution",
+              "quantile_method": "nearest_rank",
+              "baseline_samples": null,
+              "candidate_samples": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "adversarial",
+      "workload_sha256": null,
+      "cache_state": "warm",
+      "workload_class": "adversarial",
+      "concurrency": 1,
+      "trials": [
+        {
+          "pair_id": "pair-001",
+          "baseline": {
+            "scan_cpu_seconds": null,
+            "scan_wall_seconds": null,
+            "scan_latency_p95_ms": null,
+            "scan_latency_p99_ms": null,
+            "startup_cpu_seconds": null,
+            "startup_wall_seconds": null,
+            "reload_cpu_seconds": null,
+            "reload_wall_seconds": null,
+            "update_cpu_seconds": null,
+            "update_wall_seconds": null,
+            "resident_bytes_cold": null,
+            "resident_bytes_hydrated": null,
+            "construction_peak_bytes": null,
+            "reload_peak_bytes": null,
+            "update_overlap_peak_bytes": null,
+            "scan_context_bytes": null,
+            "scan_scratch_bytes": null,
+            "builder_scratch_bytes": null
+          },
+          "candidate": {
+            "scan_cpu_seconds": null,
+            "scan_wall_seconds": null,
+            "scan_latency_p95_ms": null,
+            "scan_latency_p99_ms": null,
+            "startup_cpu_seconds": null,
+            "startup_wall_seconds": null,
+            "reload_cpu_seconds": null,
+            "reload_wall_seconds": null,
+            "update_cpu_seconds": null,
+            "update_wall_seconds": null,
+            "resident_bytes_cold": null,
+            "resident_bytes_hydrated": null,
+            "construction_peak_bytes": null,
+            "reload_peak_bytes": null,
+            "update_overlap_peak_bytes": null,
+            "scan_context_bytes": null,
+            "scan_scratch_bytes": null,
+            "builder_scratch_bytes": null
+          },
+          "correctness": {
+            "baseline_status": null,
+            "candidate_status": null,
+            "baseline_transcript_sha256": null,
+            "candidate_transcript_sha256": null,
+            "baseline_policy_sha256": null,
+            "candidate_policy_sha256": null
+          },
+          "metric_provenance": {
+            "scan_latency_p95_ms": {
+              "source": "per_file_latency_distribution",
+              "quantile_method": "nearest_rank",
+              "baseline_samples": null,
+              "candidate_samples": null
+            },
+            "scan_latency_p99_ms": {
+              "source": "per_file_latency_distribution",
+              "quantile_method": "nearest_rank",
+              "baseline_samples": null,
+              "candidate_samples": null
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

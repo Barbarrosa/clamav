@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "scope": "synthetic hand-counted configuration oracle; not ClamAV memory or performance measurements",
+  "solver_executed": "Minisat22 complete enumeration and conditioned uniqueness checks",
+  "linked_counting_algorithm_executed": false,
+  "counting_unit": "one declared provider/program configuration; native fixes inactive fields false",
+  "synthetic_costs": {
+    "native_bytes": 256,
+    "encoded_fixed_bytes": 120,
+    "stored_field_payload_bytes": 16,
+    "alias_payload_bytes": 0
+  },
+  "independent_oracle": "enumerate provider/program tuples, reject dependency cycles with DFS, apply hand byte costs",
+  "exploratory_relaxations": {
+    "allow_log_lookup": true,
+    "allow_component_regression": true,
+    "scope": "tiny synthetic oracle only, not approval of scanner behavior or speed"
+  },
+  "source_sha256": {
+    "tools/compact-memory/search-groundwork/make_counting_fixtures.py": "ea027bc837c36f1cab75cb259546238bacbce034d102fe05fc8c54038345c27e",
+    "tools/compact-memory/search-groundwork/choice_cnf.py": "e2cc7823296deac1bbd1ebb99f0a7fcb92688cb58e9f52d9e35206e63b29adc3",
+    "tools/compact-memory/search-groundwork/search_model.py": "373187f7143a4ce895d3f727a9fd0d058e5c4561144e596ba905ecc6aca6e756",
+    "tools/compact-memory/search-groundwork/complexity_metrics.py": "3d4308514ad0246428f2ef2127edaf68567f41b1a5918a84f5c14f739d2883e1",
+    "tools/compact-memory/search-groundwork/catalog.json": "90696670095c145392e840e3114e755012313709d18c5dd19c385efcadbf30c2",
+    "tools/compact-memory/search-groundwork/baseline-contract.json": "4bedd19b0b2beaf36f1831deac0fa684b131797c2236886eda51df6dbbe397da",
+    "tools/compact-memory/system-model/field_synthesis.py": "6e06b638cabae51a6b31caa36d207ca6d027b6b84514ace63419d432f020bb5a"
+  },
+  "queries": [
+    {
+      "name": "budget-135",
+      "budget_bytes": 135,
+      "forced_provider": null,
+      "expected_count": 0,
+      "count": 0,
+      "enumeration_complete": true,
+      "independent_configuration_oracle_agrees": true,
+      "deterministic_extension_checks": 0,
+      "independent_second_extension_unsat_checks": 0,
+      "configurations": [],
+      "variables": 115,
+      "primary_variables": 32,
+      "auxiliary_variables": 83,
+      "clauses": 323,
+      "maximum_clause_width": 3,
+      "cnf": "budget-135.cnf",
+      "cnf_sha256": "26561739cbba977362b07c12487b71a39684078c3079698119e4b881c0d330ee",
+      "variable_map": "budget-135.variables.json",
+      "variable_map_sha256": "064dcfbca09b82634a9a3cd8796767538e1c01437a7881868019c1405b784290"
+    },
+    {
+      "name": "budget-136",
+      "budget_bytes": 136,
+      "forced_provider": null,
+      "expected_count": 2,
+      "count": 2,
+      "enumeration_complete": true,
+      "independent_configuration_oracle_agrees": true,
+      "deterministic_extension_checks": 2,
+      "independent_second_extension_unsat_checks": 2,
+      "configurations": [
+        {
+          "choices": [
+            "encoded",
+            "alias",
+            "raw"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "alias"
+          ],
+          "steady_bytes": 136
+        }
+      ],
+      "variables": 114,
+      "primary_variables": 32,
+      "auxiliary_variables": 82,
+      "clauses": 320,
+      "maximum_clause_width": 3,
+      "cnf": "budget-136.cnf",
+      "cnf_sha256": "3a7f0191055f35f04fca4d833418d2ca80105e32347e3925239ed7d3435daeb5",
+      "variable_map": "budget-136.variables.json",
+      "variable_map_sha256": "9148b76fc7a0dc8a3ce5c195884d06fd2e6855d4389a76616292b90ef77d3c95"
+    },
+    {
+      "name": "budget-152",
+      "budget_bytes": 152,
+      "forced_provider": null,
+      "expected_count": 3,
+      "count": 3,
+      "enumeration_complete": true,
+      "independent_configuration_oracle_agrees": true,
+      "deterministic_extension_checks": 3,
+      "independent_second_extension_unsat_checks": 3,
+      "configurations": [
+        {
+          "choices": [
+            "encoded",
+            "alias",
+            "raw"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "alias"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "raw"
+          ],
+          "steady_bytes": 152
+        }
+      ],
+      "variables": 97,
+      "primary_variables": 32,
+      "auxiliary_variables": 65,
+      "clauses": 262,
+      "maximum_clause_width": 3,
+      "cnf": "budget-152.cnf",
+      "cnf_sha256": "1a645a0bf50e4daaf285d9a9ba5c8ecadc93f77a85004de5311bfa82df0f7a74",
+      "variable_map": "budget-152.variables.json",
+      "variable_map_sha256": "ffaf57d2078358c55da5a36ace51bfb77ab87688206bda4efa303af43bcae5e6"
+    },
+    {
+      "name": "budget-256",
+      "budget_bytes": 256,
+      "forced_provider": null,
+      "expected_count": 4,
+      "count": 4,
+      "enumeration_complete": true,
+      "independent_configuration_oracle_agrees": true,
+      "deterministic_extension_checks": 4,
+      "independent_second_extension_unsat_checks": 4,
+      "configurations": [
+        {
+          "choices": [
+            "encoded",
+            "alias",
+            "raw"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "alias"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "raw"
+          ],
+          "steady_bytes": 152
+        },
+        {
+          "choices": [
+            "native"
+          ],
+          "steady_bytes": 256
+        }
+      ],
+      "variables": 117,
+      "primary_variables": 32,
+      "auxiliary_variables": 85,
+      "clauses": 330,
+      "maximum_clause_width": 3,
+      "cnf": "budget-256.cnf",
+      "cnf_sha256": "8744c7e5a751aabb8746a6cb988a7802e61a2759ff8fa1cdbf15b9b82edd006c",
+      "variable_map": "budget-256.variables.json",
+      "variable_map_sha256": "680f2b5645ffd33801ba4431bedfb89e0982a887e7cdcdeda41b35caa1d29e66"
+    },
+    {
+      "name": "budget-256-native",
+      "budget_bytes": 256,
+      "forced_provider": "native",
+      "expected_count": 1,
+      "count": 1,
+      "enumeration_complete": true,
+      "independent_configuration_oracle_agrees": true,
+      "deterministic_extension_checks": 1,
+      "independent_second_extension_unsat_checks": 1,
+      "configurations": [
+        {
+          "choices": [
+            "native"
+          ],
+          "steady_bytes": 256
+        }
+      ],
+      "variables": 117,
+      "primary_variables": 32,
+      "auxiliary_variables": 85,
+      "clauses": 331,
+      "maximum_clause_width": 3,
+      "cnf": "budget-256-native.cnf",
+      "cnf_sha256": "7efc69fb5b3489f2643ce967572791ce26c1c30d2470a8774f1365c1bffe43a0",
+      "variable_map": "budget-256-native.variables.json",
+      "variable_map_sha256": "370c6492295636eed02e3ad21bf89c9f6ab15626dd173c5f11f985294eed1c0a"
+    },
+    {
+      "name": "budget-256-encoded",
+      "budget_bytes": 256,
+      "forced_provider": "encoded",
+      "expected_count": 3,
+      "count": 3,
+      "enumeration_complete": true,
+      "independent_configuration_oracle_agrees": true,
+      "deterministic_extension_checks": 3,
+      "independent_second_extension_unsat_checks": 3,
+      "configurations": [
+        {
+          "choices": [
+            "encoded",
+            "alias",
+            "raw"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "alias"
+          ],
+          "steady_bytes": 136
+        },
+        {
+          "choices": [
+            "encoded",
+            "raw",
+            "raw"
+          ],
+          "steady_bytes": 152
+        }
+      ],
+      "variables": 117,
+      "primary_variables": 32,
+      "auxiliary_variables": 85,
+      "clauses": 331,
+      "maximum_clause_width": 3,
+      "cnf": "budget-256-encoded.cnf",
+      "cnf_sha256": "0a2f07e6b818cd5458c0f93df451ded642a52c7c415cac95e9f42d7520fd2f86",
+      "variable_map": "budget-256-encoded.variables.json",
+      "variable_map_sha256": "370c6492295636eed02e3ad21bf89c9f6ab15626dd173c5f11f985294eed1c0a"
+    }
+  ],
+  "all_expected_counts_and_unique_extensions_verified": true
+}

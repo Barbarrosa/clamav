@@ -1,0 +1,1453 @@
+{
+  "schema_version": 1,
+  "purpose": "Evidence-indexed finite choice catalog. These are research variables, not enabled engine options or independently additive savings.",
+  "baseline_reference": {
+    "upstream_commit": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+    "upstream_scope": "Pinned original ClamAV development baseline, not the latest supported release.",
+    "retained_structural_baseline": "The current compact-memory branch with ENABLE_COMPACT_LSIG_STATE=ON, ENABLE_AC_NODE_IDS=ON, ENABLE_AC_FLAT_NODES=ON, ENABLE_FLAT_HASH_STORE=OFF, ENABLE_AC_DISPOSABLE_BUILD=OFF.",
+    "distinction": "The catalog baseline choices inherit the retained implementation. That inheritance is not proof of empirical performance or exact ordered behavior against upstream.",
+    "baseline_measurement_reference": "docs/three-way-performance.md",
+    "required_identity": [
+      "engine_commit",
+      "engine_source_sha256",
+      "binary_sha256",
+      "database_sha256",
+      "compiler_and_flags",
+      "hardware_cpu",
+      "os_and_allocator",
+      "scan_options",
+      "cache_state",
+      "concurrency",
+      "input_sha256"
+    ]
+  },
+  "status_values": [
+    "retained",
+    "prototype",
+    "unimplemented",
+    "rejected"
+  ],
+  "property_status_values": [
+    "passed",
+    "failed",
+    "unknown",
+    "inherited"
+  ],
+  "default_unknown_policy": "No unknown value is silently treated as a passed correctness/performance claim or a zero cost.",
+  "baseline_inheritance_note": "Baseline choices preserve current branch code in their own groups; they do not certify baseline parity against original upstream ClamAV.",
+  "strict_failure_note": "Known ordering or component-performance failures remain explicit. A new post-order or differently bounded design is a distinct unimplemented variable, not a retroactive pass for an archived implementation.",
+  "cross_family_accounting_note": "Numeric values in evidence refer to different snapshots, builds and accounting boundaries. Do not sum them as whole-engine savings. Runtime metrics require fresh source-bound evidence.",
+  "groups": [
+    {
+      "id": "token_storage",
+      "label": "Exact signature-token storage",
+      "baseline_choice": "native16bit",
+      "choices": [
+        {
+          "id": "native16bit",
+          "label": "Retained 16-bit token arrays",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(token_length)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": 0,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": 90363298,
+            "scope": "Captured AC pattern/prefix token payload only; excludes metadata, allocator and the rest of the engine."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/regression-fix-and-memory-frontier.md",
+              "scope": "Pinned signed full database; native payload census, not process RSS."
+            }
+          ]
+        },
+        {
+          "id": "byte_specialized_exactshared",
+          "label": "Exact token sharing with byte-only specialization",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(token_length)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": 41908669,
+            "scope": "Standalone equality-census representation including two uint32 directories; excludes flags, alignment, builder scratch and verifier integration."
+          },
+          "requirements": [
+            "adapt_all_token_consumers",
+            "retain_wide_tagged_fallback",
+            "preserve_pattern_boundaries_and_special_tables",
+            "actual_page_reclamation"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/regression-fix-and-memory-frontier.md",
+              "scope": "1,066,576 distinct token strings; 84.93% of captured patterns byte-only.",
+              "native_payload_bytes": 90363298,
+              "represented_component_bytes": 41908669
+            }
+          ]
+        },
+        {
+          "id": "joint_dictionary",
+          "label": "Joint selection of exact shared token fragments",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(decoded_length)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "candidate_generation_plus_exact_selection"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "charge_dictionary_and_all_directories",
+            "retain_exact_raw_fallback",
+            "bound_decoded_bytes_for_early_exit",
+            "adapt_all_token_consumers"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/joint-token-dictionary.md",
+              "scope": "Public literal fixtures and constructed examples, not official compiled token exports.",
+              "fixture_native_image_bytes": 756,
+              "fixture_selected_image_bytes": 689
+            }
+          ]
+        },
+        {
+          "id": "block_decoded",
+          "label": "Compressed token blocks with a bounded decode cache",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(block_decoded_bytes)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 1,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "charge_cold_hydrated_and_evicted_cache_states",
+            "bound_cache_miss_amplification",
+            "adversarial_collision_trace",
+            "adapt_all_token_consumers"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/complexity-shift-implementation.md",
+              "scope": "Isolated native token prototype; no scanner parity qualification.",
+              "block_bytes": 4096,
+              "decoded_cache_bytes": 1048576,
+              "represented_component_mib": 23.704,
+              "random_block_probe_microseconds_approx": 11
+            },
+            {
+              "path": "docs/complexity-shift-implementation.md",
+              "scope": "Larger isolated block layout; component size is not full-engine memory.",
+              "block_bytes": 262144,
+              "decoded_cache_bytes": 1048576,
+              "represented_component_mib": 22.219,
+              "random_block_probe_microseconds_approx": 518
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "field_provider",
+      "label": "Pattern and native scalar-field providers",
+      "baseline_choice": "native",
+      "choices": [
+        {
+          "id": "native",
+          "label": "Retained native struct members",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": 0,
+            "scan_allocation_upper_bound": 0,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/system-model.md",
+              "scope": "Capture uses retained native fields; raw diagnostic IDs are not credited as removable native storage."
+            }
+          ]
+        },
+        {
+          "id": "packed_direct",
+          "label": "Constants and direct packed or base-offset fields",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "charge_dispatch_and_identity_resolution",
+            "preserve_native_integer_width_and_nulls",
+            "compile_matching_accessor_consumer",
+            "actual_page_reclamation"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/system-model.md",
+              "scope": "Field-image exact reconstruction on captured engine; all surrounding retained payload remains charged.",
+              "work_limit": 2,
+              "known_modeled_payload_bytes": 557800241,
+              "known_native_payload_bytes": 654376517
+            }
+          ]
+        },
+        {
+          "id": "derived_sparse",
+          "label": "Derived fields with exact sparse exceptions",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "failed",
+            "known_regressions": [
+              {
+                "metric": "pattern_field_reader_cpu_ratio",
+                "ratio": 1.686835497220711,
+                "reference": "schema-driven native-member memcpy reader",
+                "scope": "Work16 isolated provider; uniform sequential/random field traces after verification; identity resolution excluded."
+              }
+            ]
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_for_fixed_dependency_and_rank_bounds",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "bound_every_dependency_chain",
+            "reject_cycles",
+            "charge_dispatch_and_identity_resolution",
+            "preserve_native_integer_width_and_nulls",
+            "native_scanner_equivalence"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/system-model.md",
+              "scope": "Work16 bounded language, not a universal compressor minimum.",
+              "known_modeled_payload_bytes": 474726605,
+              "known_native_payload_bytes": 654376517
+            },
+            {
+              "path": "docs/system-model-results/native-probes.json",
+              "scope": "Actual C provider microbenchmark. No whole-scanner slowdown or parity conclusion."
+            }
+          ]
+        },
+        {
+          "id": "length_relocation_archived",
+          "label": "Archived relocation of byte bounds into extensions",
+          "status": "rejected",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "failed",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown",
+            "captured_component_roundtrip": "passed"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "preserve_compile_established_order",
+            "preserve_extension_ownership_and_special_zero_bounds"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/length-bounds-implementation.md",
+              "scope": "Archived implementation; exact fields and normal corpus pass but strict first-name and duplicate ordering fail.",
+              "counted_payload_reduction_bytes": 11925608,
+              "compiled_rss_reduction_mib": 5.754
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "logical_descriptors",
+      "label": "Logical descriptors and expression ownership",
+      "baseline_choice": "native",
+      "choices": [
+        {
+          "id": "native",
+          "label": "Retained inline descriptors and expressions",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_expression_evaluation",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/logical-sharing-implementation.md",
+              "scope": "Corrected retained native logical allocation, names and allocator rounding excluded.",
+              "counted_component_bytes": 61773786
+            }
+          ]
+        },
+        {
+          "id": "exactintern_postorder",
+          "label": "Exact sharing after candidate order is frozen",
+          "status": "unimplemented",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_expression_evaluation_plus_descriptor_reference",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "freeze_and_preserve_order_before_compaction",
+            "coordinate_complete_key_equality",
+            "preserve_null_vs_zero_and_pointer_coordinates",
+            "preserve_transactional_oom_ownership",
+            "actual_page_reclamation"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/logical-sharing-implementation.md",
+              "scope": "Post-order sharing is a proposed alternative; it does not inherit the archived implementation's performance or correctness results."
+            }
+          ]
+        },
+        {
+          "id": "allocation_intern_archived",
+          "label": "Archived loading-time exact descriptor interning",
+          "status": "rejected",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "failed",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown",
+            "captured_component_roundtrip": "passed"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_expression_evaluation_plus_descriptor_reference",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "noncryptographic_hash_cons_with_exact_key_comparison"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "count_retained_interner_keys_and_capacity",
+            "all_distinct_database_control"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/logical-sharing-implementation.md",
+              "scope": "Two-process-per-variant historical prototype; incompatible strict ordering fixture.",
+              "native_counted_component_bytes": 61773786,
+              "prototype_counted_component_bytes": 15666857,
+              "compiled_rss_reduction_mib": 51.693
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "routing",
+      "label": "Exact matcher transition routing",
+      "baseline_choice": "native_currentdense",
+      "choices": [
+        {
+          "id": "native_currentdense",
+          "label": "Retained dense completed uint32 transition rows",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_per_input_byte",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": 0,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/correlated-optimization-opportunities.md",
+              "scope": "Retained routing component in historical full-database census.",
+              "component_mib": 75.164
+            }
+          ]
+        },
+        {
+          "id": "shared_microblocks",
+          "label": "Exact shared completed transition microblocks",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_per_input_byte_for_fixed_block_width",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "preserve_every_state_byte_transition",
+            "preserve_candidate_and_output_order",
+            "charge_state_to_row_and_block_indexes",
+            "retain_dense_fallback_when_image_expands",
+            "adversarial_repetitive_transition_trace"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/correlated-optimization-opportunities.md",
+              "scope": "All real transition values reconstruct; native scan lookup timing was not measured.",
+              "block_entries": 16,
+              "represented_component_mib": 19.078,
+              "native_component_mib": 75.164
+            }
+          ]
+        },
+        {
+          "id": "cyclic_rank",
+          "label": "Cyclic transition groups with bounded word-rank routing",
+          "status": "rejected",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "failed",
+            "known_regressions": [
+              {
+                "metric": "all_zero_transition_time_ratio",
+                "ratio": 3.529,
+                "scope": "Paired isolated PE-root routing; same inputs and dense reference."
+              },
+              {
+                "metric": "repeated_0_to_255_transition_time_ratio",
+                "ratio": 3.344,
+                "scope": "Paired isolated PE-root routing; same inputs and dense reference."
+              }
+            ]
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_per_input_byte_for_group_size_at_most_64",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "preserve_every_state_byte_transition",
+            "preserve_candidate_and_output_order",
+            "charge_state_to_row_group_masks_and_destinations"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/correlated-optimization-opportunities.md",
+              "scope": "Component exactness checks passed; severe repetitive-input regression blocks strict parity.",
+              "group_rows": 64,
+              "represented_component_mib": 10.631,
+              "native_component_mib": 75.164
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "names",
+      "label": "Stable signature names",
+      "baseline_choice": "native_stable",
+      "choices": [
+        {
+          "id": "native_stable",
+          "label": "Retained stable NUL-terminated names",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_pointer_return",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/memory-algorithm-inventory.md",
+              "scope": "Counted name text and exact unique-text census; not a universal compression lower bound.",
+              "native_text_mib": 83.56,
+              "unique_text_mib": 83.133
+            }
+          ]
+        },
+        {
+          "id": "exact_intern",
+          "label": "Exact whole-name interning with stable lifetime",
+          "status": "unimplemented",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_pointer_return",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "preserve_null_vs_empty_names",
+            "preserve_borrowed_pointer_lifetimes",
+            "preserve_distinct_original_pointer_metadata_where_observable",
+            "count_interner_keys_and_capacity"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/memory-algorithm-inventory.md",
+              "scope": "Only about 0.427 MiB of duplicate whole-name text was observed. Interner metadata can exceed that opportunity."
+            }
+          ]
+        },
+        {
+          "id": "compressed_materialize",
+          "label": "Compressed name blocks with permanent materialization",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(decoded_block_bytes)_on_first_use",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 1,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "no_eviction_of_borrowed_name_pointers",
+            "retire_compressed_copy_after_permanent_expansion",
+            "charge_all_names_touched_state",
+            "bound_first_alert_latency",
+            "count_simultaneous_decoded_and_compressed_blocks"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/correlated-optimization-opportunities.md",
+              "scope": "Cold image is smaller; fully materialized names can exceed native raw names. Not a worst-case lasting RSS saving.",
+              "cold_component_mib": 29.82,
+              "fully_materialized_component_mib": 91.591,
+              "native_unique_text_mib": 83.133
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "scan_state",
+      "label": "Mutable logical scan-state representation",
+      "baseline_choice": "current_compact",
+      "choices": [
+        {
+          "id": "current_compact",
+          "label": "Retained compact arrays with native unset sentinels",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_per_slot_access",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": 0,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "O(logical_slots)_initialization"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/compact-resident-engine.md",
+              "scope": "Compatibility-sensitive bytecode, YARA, macros and byte-compare rules retain required widths."
+            }
+          ]
+        },
+        {
+          "id": "zero_sentinel",
+          "label": "Bijective zero-default first and last offset arrays",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)_per_slot_access",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 1,
+            "dependency_depth_upper_bound": 0,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 1,
+            "construction_growth": "OS_mapping_and_page_touch_cost_requires_measurement",
+            "additional_integer_operations_per_offset_access": 1,
+            "additional_operation_scope": "One XOR for the bijection only; address calculation, ownership checks and compatibility adaptation are not included in this extra-operation count."
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "adapt_every_raw_array_reader_and_writer",
+            "retain_all_uint32_values_and_sentinels",
+            "qualify_bytecode_yara_bytecompare_compatibility",
+            "measure_reset_reuse_pagefaults_and_all_pages_written"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/correlated-optimization-opportunities.md",
+              "scope": "Fresh anonymous-mapping probe only. No saving after all pages are written; not a WordPress or full-engine average.",
+              "pe_slots": 1386025,
+              "first_last_payload_bytes": 11088200,
+              "untouched_native_rss_increase_kib": 10888,
+              "untouched_zero_rss_increase_kib": 56,
+              "fully_written_native_rss_increase_kib": 10888,
+              "fully_written_zero_rss_increase_kib": 10888
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lifecycle",
+      "label": "Compilation, allocation and generation lifetime",
+      "baseline_choice": "current",
+      "choices": [
+        {
+          "id": "current",
+          "label": "Retained ownership and address-preserving free-page release",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_scan_access",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/qualified-strategies-implementation.md",
+              "scope": "Linux MADV_DONTNEED free-list advice is already retained; do not count it again as new savings."
+            }
+          ]
+        },
+        {
+          "id": "postorder_arena",
+          "label": "Post-order arena compaction with releasable ownership",
+          "status": "unimplemented",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_scan_access_if_direct_references_preserved",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "freeze_and_preserve_order_before_compaction",
+            "preserve_all_interior_references",
+            "transactional_failure_retains_original_engine",
+            "count_simultaneous_original_and_new_objects",
+            "actual_page_reclamation"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/logical-sharing-implementation.md",
+              "scope": "Candidate future compaction phase, not a working fix for archived ordering failures."
+            }
+          ]
+        },
+        {
+          "id": "immutable_generation_chunks",
+          "label": "Share exact unchanged immutable chunks across generations",
+          "status": "unimplemented",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_scan_access_if_direct_references_preserved",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "stable_local_ids_and_generation_references",
+            "exact_content_equality_not_fingerprints",
+            "retain_old_borrowers_until_completion",
+            "all_changed_update_control",
+            "account_reference_tables_and_construction_hashing",
+            "no_unverified_cross_generation_source_reuse"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/memory-algorithm-inventory.md",
+              "scope": "Architectural opportunity only; all-changed updates may share nothing. No quantified saving or reload-latency qualification."
+            }
+          ]
+        },
+        {
+          "id": "disposable_builder_archived",
+          "label": "Existing opt-in disposable AC builder",
+          "status": "rejected",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "failed",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "inherited_scan_access",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "preserve_compile_established_order",
+            "count_builder_to_arena_overlap"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/demand-engine-implementation.md",
+              "scope": "ENABLE_AC_DISPOSABLE_BUILD remains OFF because allocation changes affect duplicate reporting order."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lookup",
+      "label": "Source identity and compact-record lookup",
+      "baseline_choice": "native",
+      "choices": [
+        {
+          "id": "native",
+          "label": "Retained direct native pointers and existing IDs",
+          "status": "retained",
+          "correctness": {
+            "selected_rules_and_dependencies": "inherited",
+            "exact_verifier_values": "inherited",
+            "severity_and_nonterminal_evidence": "inherited",
+            "ordered_duplicate_reporting": "inherited",
+            "exact_names_and_nulls": "inherited",
+            "borrowed_pointer_lifetimes": "inherited",
+            "parser_and_trust_behavior": "inherited",
+            "error_limit_and_oom_behavior": "inherited",
+            "signed_source_validation": "inherited",
+            "concurrency_and_reload_lifetimes": "inherited"
+          },
+          "performance": {
+            "whole_scanner_parity": "inherited",
+            "component_parity": "inherited",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)",
+            "dependent_read_upper_bound": 1,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": 0,
+            "scan_allocation_upper_bound": 0,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": 0,
+            "construction_growth": "inherited"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/compact-resident-engine.md",
+              "scope": "Baseline member/ID address calculation. This one-read abstraction excludes hardware latency and surrounding scanner work."
+            }
+          ]
+        },
+        {
+          "id": "direct_ids",
+          "label": "Consistent direct IDs into compiled compact arrays",
+          "status": "unimplemented",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(1)",
+            "dependent_read_upper_bound": null,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": null,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 0,
+            "new_decoder_path_count": null,
+            "construction_growth": "unknown"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "adapt_every_consumer_to_dense_ids",
+            "preserve_compiled_traversal_and_duplicate_identity",
+            "bound_width_and_keep_wide_fallback",
+            "preserve_external_borrowed_pointers_or_adapt_contract"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/system-model.md",
+              "scope": "Proposed way to avoid the research address-to-row resolver. Not integrated or qualified."
+            }
+          ]
+        },
+        {
+          "id": "research_binary_locator",
+          "label": "Research binary-search source-address resolver",
+          "status": "prototype",
+          "correctness": {
+            "selected_rules_and_dependencies": "unknown",
+            "exact_verifier_values": "unknown",
+            "severity_and_nonterminal_evidence": "unknown",
+            "ordered_duplicate_reporting": "unknown",
+            "exact_names_and_nulls": "unknown",
+            "borrowed_pointer_lifetimes": "unknown",
+            "parser_and_trust_behavior": "unknown",
+            "error_limit_and_oom_behavior": "unknown",
+            "signed_source_validation": "unknown",
+            "concurrency_and_reload_lifetimes": "unknown"
+          },
+          "performance": {
+            "whole_scanner_parity": "unknown",
+            "component_parity": "unknown",
+            "known_regressions": []
+          },
+          "complexity": {
+            "lookup_growth": "O(log(records))",
+            "dependent_read_upper_bound": 45,
+            "integer_operation_upper_bound": null,
+            "decoded_value_upper_bound": 0,
+            "dependency_depth_upper_bound": null,
+            "scan_allocation_upper_bound": null,
+            "new_persistent_cache_count": 0,
+            "new_format_count": 1,
+            "new_decoder_path_count": null,
+            "construction_growth": "O(records_log_records)_sort"
+          },
+          "memory_model": {
+            "bytes": null,
+            "scope": "Unmeasured for this candidate; do not treat as zero or as additive experiment savings."
+          },
+          "requirements": [
+            "charge_entire_locator_and_dispatch",
+            "explicitly_relax_native_constant_lookup_growth_if_explored"
+          ],
+          "conflicts": [],
+          "evidence": [
+            {
+              "path": "docs/system-model-results/summary.json",
+              "scope": "Current private-capture provider index, not a shipping scanner design. Largest family bound is 45 key/index reads; table has a 16-byte header plus 12 bytes per source object."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "explore-query.cnf.gz": {
+    "bytes": 4032647,
+    "sha256": "3db3c07892d5558a464c3405f67c9313a1614c64136d3ddfc6a0838e60e0ad66",
+    "uncompressed_bytes": 20969027,
+    "uncompressed_sha256": "134ae40d8c03d79ff498b09cfbcb21b947a3493ec9eac6185518cffc6a0fa42d"
+  },
+  "explore-variables.json.gz": {
+    "bytes": 700289,
+    "sha256": "19474fe41fc8fd7eabffecbacccdd3dbc8c125a70a011412d7d91f1ab5de408a",
+    "uncompressed_bytes": 3536533,
+    "uncompressed_sha256": "022683bf3cbaa2b49de6a4e068435ab0a2e84799c749d1c33b1544288d99b9c2"
+  },
+  "explore-witness.json.gz": {
+    "bytes": 725426,
+    "sha256": "78d9f10e2e713d63c17565ca3021c7f60d3337e3ef0dd589043d6c54726d334d",
+    "uncompressed_bytes": 2465814,
+    "uncompressed_sha256": "c7aa97d1cf6db25d96cf1314c845be66e6a33e26523e47fb61f4c03d21feffb4"
+  }
+}

@@ -99,6 +99,12 @@ for the actual formulas, assignments and checks. Earlier work lists
 [40 ideas](docs/memory-search-ideas.md) and [five small initial experiments](docs/memory-search-five-results.md);
 those small examples are not whole-engine memory measurements.
 
+The [search groundwork](docs/search-groundwork.md) now makes correctness,
+performance evidence and complexity limits explicit. It prepares counting-safe
+queries, measures added lookup/decoding work and code complexity indicators, and
+blocks unknown qualifications from becoming claimed improvements. The linked
+algorithm's large canonical input format remains a practical obstacle.
+
 ## What changed under the hood
 
 | Area | Branch behavior | Implementation and evidence |

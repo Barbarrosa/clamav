@@ -1,0 +1,1992 @@
+{
+  "source_summary_sha256": "1f50048a216ad1c29cbc2ff41b640c2338e8a695fb45273b47dc62ade3e2df6c",
+  "complexity_analyzer_sha256": "3d4308514ad0246428f2ef2127edaf68567f41b1a5918a84f5c14f739d2883e1",
+  "scope": "actual work16 selected programs, static resource analysis; no runtime or whole-scanner performance measurement",
+  "families": {
+    "patterns": {
+      "scope": "component-wise scalar-GET semantic bounds, not CPU timing or whole-scanner complexity",
+      "rows": 1508210,
+      "fields": [
+        {
+          "field": "pattern",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 45,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "prefix",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ext",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "virname",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "sigid",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "lsigid[0]",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 44,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "lsigid[1]",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 45,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "lsigid[2]",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 45,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "offdata[0]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 3,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "offdata[1]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "offdata[2]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "offdata[3]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "offset_min",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 3,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "offset_max",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 44,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "length[0]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "length[1]",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 45,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "length[2]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "prefix_length[0]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "prefix_length[1]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "prefix_length[2]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "parts",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "partno",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "rtype",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 43,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "type",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 54,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "depth",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 44,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 1,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "sigopts",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 43,
+          "data_and_identity_reads_upper": 53,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 1,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        }
+      ],
+      "worst_bounds": {
+        "payload_read_operations": 11,
+        "payload_bytes_read": 84,
+        "descriptor_visits": 2,
+        "dependency_edges": 1,
+        "dependency_depth": 1,
+        "rank_popcounts": 8,
+        "rank_loop_iterations": 7,
+        "data_control_tests": 3,
+        "scan_allocations": 0,
+        "scan_syscalls": 0
+      },
+      "identity_strategy": "binary_address",
+      "identity_lookup_reads_upper": 43,
+      "identity_search_levels_upper": 21,
+      "identity_growth": "O(log N) in identity object count",
+      "field_query_growth": "O(D + 8), where D is the validated field dependency bound",
+      "field_query_constant_for_fixed_dependency_bound": true,
+      "rank_block_bits": 512,
+      "rank_popcounts_per_sparse_step_upper": 8,
+      "descriptor_dispatch_included_as_visits": true,
+      "limits": [
+        "A descriptor visit is reported separately, not assumed to cost zero or one hardware load.",
+        "Packed loads are aligned u64 reads; the rank base is one u32 read.",
+        "Bounds include identity resolution when requested; binary-address lookup worsens O(1) direct field access.",
+        "Data-control tests exclude descriptor-static format dispatch, which is charged by descriptor visits.",
+        "No cache misses, compiler effects, syscall latency, wall time or RSS prediction is inferred.",
+        "The binary resolver is a declared design bound, not an instrumented scanner implementation."
+      ]
+    },
+    "candidates": {
+      "scope": "component-wise scalar-GET semantic bounds, not CPU timing or whole-scanner complexity",
+      "rows": 2279919,
+      "fields": [
+        {
+          "field": "me",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 45,
+          "data_and_identity_reads_upper": 47,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "next",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 45,
+          "data_and_identity_reads_upper": 47,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "next_same",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 45,
+          "data_and_identity_reads_upper": 47,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        }
+      ],
+      "worst_bounds": {
+        "payload_read_operations": 2,
+        "payload_bytes_read": 16,
+        "descriptor_visits": 1,
+        "dependency_edges": 0,
+        "dependency_depth": 0,
+        "rank_popcounts": 0,
+        "rank_loop_iterations": 0,
+        "data_control_tests": 2,
+        "scan_allocations": 0,
+        "scan_syscalls": 0
+      },
+      "identity_strategy": "binary_address",
+      "identity_lookup_reads_upper": 45,
+      "identity_search_levels_upper": 22,
+      "identity_growth": "O(log N) in identity object count",
+      "field_query_growth": "O(D + 8), where D is the validated field dependency bound",
+      "field_query_constant_for_fixed_dependency_bound": true,
+      "rank_block_bits": 512,
+      "rank_popcounts_per_sparse_step_upper": 8,
+      "descriptor_dispatch_included_as_visits": true,
+      "limits": [
+        "A descriptor visit is reported separately, not assumed to cost zero or one hardware load.",
+        "Packed loads are aligned u64 reads; the rank base is one u32 read.",
+        "Bounds include identity resolution when requested; binary-address lookup worsens O(1) direct field access.",
+        "Data-control tests exclude descriptor-static format dispatch, which is charged by descriptor visits.",
+        "No cache misses, compiler effects, syscall latency, wall time or RSS prediction is inferred.",
+        "The binary resolver is a declared design bound, not an instrumented scanner implementation."
+      ]
+    },
+    "nodes": {
+      "scope": "component-wise scalar-GET semantic bounds, not CPU timing or whole-scanner complexity",
+      "rows": 555950,
+      "fields": [
+        {
+          "field": "list",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 41,
+          "data_and_identity_reads_upper": 43,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "trans",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 41,
+          "data_and_identity_reads_upper": 43,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "fail",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 41,
+          "data_and_identity_reads_upper": 43,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        }
+      ],
+      "worst_bounds": {
+        "payload_read_operations": 2,
+        "payload_bytes_read": 16,
+        "descriptor_visits": 1,
+        "dependency_edges": 0,
+        "dependency_depth": 0,
+        "rank_popcounts": 0,
+        "rank_loop_iterations": 0,
+        "data_control_tests": 2,
+        "scan_allocations": 0,
+        "scan_syscalls": 0
+      },
+      "identity_strategy": "binary_address",
+      "identity_lookup_reads_upper": 41,
+      "identity_search_levels_upper": 20,
+      "identity_growth": "O(log N) in identity object count",
+      "field_query_growth": "O(D + 8), where D is the validated field dependency bound",
+      "field_query_constant_for_fixed_dependency_bound": true,
+      "rank_block_bits": 512,
+      "rank_popcounts_per_sparse_step_upper": 8,
+      "descriptor_dispatch_included_as_visits": true,
+      "limits": [
+        "A descriptor visit is reported separately, not assumed to cost zero or one hardware load.",
+        "Packed loads are aligned u64 reads; the rank base is one u32 read.",
+        "Bounds include identity resolution when requested; binary-address lookup worsens O(1) direct field access.",
+        "Data-control tests exclude descriptor-static format dispatch, which is charged by descriptor visits.",
+        "No cache misses, compiler effects, syscall latency, wall time or RSS prediction is inferred.",
+        "The binary resolver is a declared design bound, not an instrumented scanner implementation."
+      ]
+    },
+    "logical": {
+      "scope": "component-wise scalar-GET semantic bounds, not CPU timing or whole-scanner complexity",
+      "rows": 312310,
+      "fields": [
+        {
+          "field": "id",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "bc_idx",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "type",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 39,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "flag",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 39,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 1,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "u",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "virname",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.val",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 40,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.range",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.str",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.cnt[0]",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.cnt[1]",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.cnt[2]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 3,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.subsigs",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.target",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.engine",
+          "operation": "alias_add",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.nos",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.ep",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 39,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.filesize",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.container",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.handlertype",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.intermediates",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 40,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.icongrp1",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.icongrp2",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 50,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.macro_ptids",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 39,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "tdb.mempool",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 39,
+          "data_and_identity_reads_upper": 39,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        }
+      ],
+      "worst_bounds": {
+        "payload_read_operations": 11,
+        "payload_bytes_read": 84,
+        "descriptor_visits": 2,
+        "dependency_edges": 1,
+        "dependency_depth": 1,
+        "rank_popcounts": 8,
+        "rank_loop_iterations": 7,
+        "data_control_tests": 3,
+        "scan_allocations": 0,
+        "scan_syscalls": 0
+      },
+      "identity_strategy": "binary_address",
+      "identity_lookup_reads_upper": 39,
+      "identity_search_levels_upper": 19,
+      "identity_growth": "O(log N) in identity object count",
+      "field_query_growth": "O(D + 8), where D is the validated field dependency bound",
+      "field_query_constant_for_fixed_dependency_bound": true,
+      "rank_block_bits": 512,
+      "rank_popcounts_per_sparse_step_upper": 8,
+      "descriptor_dispatch_included_as_visits": true,
+      "limits": [
+        "A descriptor visit is reported separately, not assumed to cost zero or one hardware load.",
+        "Packed loads are aligned u64 reads; the rank base is one u32 read.",
+        "Bounds include identity resolution when requested; binary-address lookup worsens O(1) direct field access.",
+        "Data-control tests exclude descriptor-static format dispatch, which is charged by descriptor visits.",
+        "No cache misses, compiler effects, syscall latency, wall time or RSS prediction is inferred.",
+        "The binary resolver is a declared design bound, not an instrumented scanner implementation."
+      ]
+    },
+    "extensions": {
+      "scope": "component-wise scalar-GET semantic bounds, not CPU timing or whole-scanner complexity",
+      "rows": 17509,
+      "fields": [
+        {
+          "field": "customdata",
+          "operation": "constant",
+          "bounds": {
+            "payload_read_operations": 0,
+            "payload_bytes_read": 0,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 0,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 31,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "special_table",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "mindist",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "maxdist",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 33,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "boundary",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "special",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "special_pattern",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ch[0]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 3,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ch[1]",
+          "operation": "store_base_null",
+          "bounds": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 8,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 32,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ch_mindist[0]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ch_mindist[1]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ch_maxdist[0]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 10,
+            "payload_bytes_read": 76,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 41,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        },
+        {
+          "field": "ch_maxdist[1]",
+          "operation": "sparse_override",
+          "bounds": {
+            "payload_read_operations": 11,
+            "payload_bytes_read": 84,
+            "descriptor_visits": 2,
+            "dependency_edges": 1,
+            "dependency_depth": 1,
+            "rank_popcounts": 8,
+            "rank_loop_iterations": 7,
+            "data_control_tests": 2,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 1,
+          "identity_lookup_reads_upper": 31,
+          "data_and_identity_reads_upper": 42,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 2,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        }
+      ],
+      "worst_bounds": {
+        "payload_read_operations": 11,
+        "payload_bytes_read": 84,
+        "descriptor_visits": 2,
+        "dependency_edges": 1,
+        "dependency_depth": 1,
+        "rank_popcounts": 8,
+        "rank_loop_iterations": 7,
+        "data_control_tests": 3,
+        "scan_allocations": 0,
+        "scan_syscalls": 0
+      },
+      "identity_strategy": "binary_address",
+      "identity_lookup_reads_upper": 31,
+      "identity_search_levels_upper": 15,
+      "identity_growth": "O(log N) in identity object count",
+      "field_query_growth": "O(D + 8), where D is the validated field dependency bound",
+      "field_query_constant_for_fixed_dependency_bound": true,
+      "rank_block_bits": 512,
+      "rank_popcounts_per_sparse_step_upper": 8,
+      "descriptor_dispatch_included_as_visits": true,
+      "limits": [
+        "A descriptor visit is reported separately, not assumed to cost zero or one hardware load.",
+        "Packed loads are aligned u64 reads; the rank base is one u32 read.",
+        "Bounds include identity resolution when requested; binary-address lookup worsens O(1) direct field access.",
+        "Data-control tests exclude descriptor-static format dispatch, which is charged by descriptor visits.",
+        "No cache misses, compiler effects, syscall latency, wall time or RSS prediction is inferred.",
+        "The binary resolver is a declared design bound, not an instrumented scanner implementation."
+      ]
+    },
+    "transition_values": {
+      "scope": "component-wise scalar-GET semantic bounds, not CPU timing or whole-scanner complexity",
+      "rows": 19703808,
+      "fields": [
+        {
+          "field": "destination",
+          "operation": "store_xor",
+          "bounds": {
+            "payload_read_operations": 2,
+            "payload_bytes_read": 16,
+            "descriptor_visits": 1,
+            "dependency_edges": 0,
+            "dependency_depth": 0,
+            "rank_popcounts": 0,
+            "rank_loop_iterations": 0,
+            "data_control_tests": 1,
+            "scan_allocations": 0,
+            "scan_syscalls": 0
+          },
+          "structural_dependency_depth": 0,
+          "identity_lookup_reads_upper": 35,
+          "data_and_identity_reads_upper": 37,
+          "native_baseline": {
+            "payload_read_operations": 1,
+            "payload_bytes_read": 4,
+            "descriptor_visits": 0,
+            "identity_lookup_reads_upper": 0
+          }
+        }
+      ],
+      "worst_bounds": {
+        "payload_read_operations": 2,
+        "payload_bytes_read": 16,
+        "descriptor_visits": 1,
+        "dependency_edges": 0,
+        "dependency_depth": 0,
+        "rank_popcounts": 0,
+        "rank_loop_iterations": 0,
+        "data_control_tests": 1,
+        "scan_allocations": 0,
+        "scan_syscalls": 0
+      },
+      "identity_strategy": "binary_address",
+      "identity_lookup_reads_upper": 35,
+      "identity_search_levels_upper": 17,
+      "identity_growth": "O(log N) in identity object count",
+      "field_query_growth": "O(D + 8), where D is the validated field dependency bound",
+      "field_query_constant_for_fixed_dependency_bound": true,
+      "rank_block_bits": 512,
+      "rank_popcounts_per_sparse_step_upper": 8,
+      "descriptor_dispatch_included_as_visits": true,
+      "limits": [
+        "A descriptor visit is reported separately, not assumed to cost zero or one hardware load.",
+        "Packed loads are aligned u64 reads; the rank base is one u32 read.",
+        "Bounds include identity resolution when requested; binary-address lookup worsens O(1) direct field access.",
+        "Data-control tests exclude descriptor-static format dispatch, which is charged by descriptor visits.",
+        "No cache misses, compiler effects, syscall latency, wall time or RSS prediction is inferred.",
+        "The binary resolver is a declared design bound, not an instrumented scanner implementation."
+      ]
+    }
+  }
+}

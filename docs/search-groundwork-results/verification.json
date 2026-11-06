@@ -1,0 +1,10 @@
+{
+  "complete_assignment_variables": 295443,
+  "clauses_evaluated": 1005993,
+  "maximum_clause_width": 3,
+  "all_clauses_satisfied": true,
+  "all_published_hashes_verified": true,
+  "all_six_native_reader_image_hashes_match_selected_images": true,
+  "source_hashes_match_final_execution_sources": true,
+  "scope": "saved actual Boolean assignment and current-image checks; not an independent optimality or scanner-performance certificate"
+}

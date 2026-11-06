@@ -1,0 +1,37 @@
+{
+  "baseline_artifact_sha256": null,
+  "candidate_artifact_sha256": null,
+  "database_sha256": null,
+  "corpus_sha256": null,
+  "configuration_sha256": null,
+  "hardware_sha256": null,
+  "policy_sha256": null,
+  "semantic_contract_sha256": null,
+  "semantic_contract": "ordered-observables-v1",
+  "cases": [
+    {
+      "id": "cold",
+      "workload_sha256": null,
+      "cache_state": "cold",
+      "workload_class": "ordinary",
+      "concurrency": 1,
+      "minimum_pairs": 3
+    },
+    {
+      "id": "warm",
+      "workload_sha256": null,
+      "cache_state": "warm",
+      "workload_class": "ordinary",
+      "concurrency": 1,
+      "minimum_pairs": 3
+    },
+    {
+      "id": "adversarial",
+      "workload_sha256": null,
+      "cache_state": "warm",
+      "workload_class": "adversarial",
+      "concurrency": 1,
+      "minimum_pairs": 3
+    }
+  ]
+}

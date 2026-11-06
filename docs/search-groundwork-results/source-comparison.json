@@ -1,0 +1,318 @@
+{
+  "scope": "lexical source indicators against actual original upstream ClamAV; not cyclomatic complexity, asymptotic proof or runtime parity",
+  "upstream_repository": "Cisco-Talos/clamav",
+  "upstream_commit": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+  "retained_repository_head": "5652ce028736b8346b6bc2e400197ab09fc9d948",
+  "analyzer_sha256": "3d4308514ad0246428f2ef2127edaf68567f41b1a5918a84f5c14f739d2883e1",
+  "comparisons": [
+    {
+      "path": "libclamav/matcher-ac.c",
+      "status": "measured",
+      "upstream": {
+        "git_blob_sha": "a1a378d4fa5f2605e7eaaa4b659206b7cec9b8b8",
+        "github_url": "https://github.com/Cisco-Talos/clamav/blob/dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d/libclamav/matcher-ac.c",
+        "saved_blob_identity_verified": true,
+        "path": "/workspace/search-groundwork-upstream-sources/libclamav/matcher-ac.c",
+        "bytes": 127967,
+        "sha256": "2f935abe5a87bca81a83a9db8c66ff90e2d014580746d4fe2655d664cbc6d0f8",
+        "language": "c",
+        "physical_lines": 3358,
+        "nonblank_noncomment_code_lines": 2663,
+        "branch_keyword_sites": {
+          "if": 489,
+          "case": 36,
+          "switch": 11
+        },
+        "branch_keyword_sites_total": 536,
+        "loop_keyword_sites": {
+          "for": 55,
+          "while": 20,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 75,
+        "short_circuit_or_conditional_operator_sites": 175,
+        "explicit_allocation_or_release_call_sites": 94,
+        "preprocessor_conditional_sites": 5,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained": {
+        "path": "libclamav/matcher-ac.c",
+        "bytes": 136805,
+        "sha256": "49d8e591f1dfbb158a2f43ef17f3d5f97192f65b25826b33099ee41e97dc8641",
+        "language": "c",
+        "physical_lines": 3555,
+        "nonblank_noncomment_code_lines": 2818,
+        "branch_keyword_sites": {
+          "if": 500,
+          "case": 36,
+          "switch": 11
+        },
+        "branch_keyword_sites_total": 547,
+        "loop_keyword_sites": {
+          "for": 58,
+          "while": 20,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 78,
+        "short_circuit_or_conditional_operator_sites": 207,
+        "explicit_allocation_or_release_call_sites": 55,
+        "preprocessor_conditional_sites": 15,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained_minus_upstream": {
+        "physical_lines": 197,
+        "nonblank_noncomment_code_lines": 155,
+        "branch_keyword_sites_total": 11,
+        "loop_keyword_sites_total": 3,
+        "short_circuit_or_conditional_operator_sites": 32,
+        "explicit_allocation_or_release_call_sites": -39,
+        "preprocessor_conditional_sites": 10
+      },
+      "comparison_scope": "same whole C/header source path; all compile-time branches in each file; not dynamic or transitive call-graph work"
+    },
+    {
+      "path": "libclamav/matcher-ac.h",
+      "status": "measured",
+      "upstream": {
+        "git_blob_sha": "243d9c5d32abbe0cf6433c2633843c711eea0a78",
+        "github_url": "https://github.com/Cisco-Talos/clamav/blob/dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d/libclamav/matcher-ac.h",
+        "saved_blob_identity_verified": true,
+        "path": "/workspace/search-groundwork-upstream-sources/libclamav/matcher-ac.h",
+        "bytes": 6323,
+        "sha256": "6b5e571ad660a63d80f7d0a11d638c0e3e44971faa90c389b665dc5de72d7f30",
+        "language": "c",
+        "physical_lines": 184,
+        "nonblank_noncomment_code_lines": 106,
+        "branch_keyword_sites": {
+          "if": 0,
+          "case": 0,
+          "switch": 0
+        },
+        "branch_keyword_sites_total": 0,
+        "loop_keyword_sites": {
+          "for": 0,
+          "while": 0,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 0,
+        "short_circuit_or_conditional_operator_sites": 0,
+        "explicit_allocation_or_release_call_sites": 0,
+        "preprocessor_conditional_sites": 1,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained": {
+        "path": "libclamav/matcher-ac.h",
+        "bytes": 9445,
+        "sha256": "75a4e708399688a85fc70e13fcd60fd98f12b855570605e368d3151f5387aa19",
+        "language": "c",
+        "physical_lines": 252,
+        "nonblank_noncomment_code_lines": 150,
+        "branch_keyword_sites": {
+          "if": 0,
+          "case": 0,
+          "switch": 0
+        },
+        "branch_keyword_sites_total": 0,
+        "loop_keyword_sites": {
+          "for": 0,
+          "while": 0,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 0,
+        "short_circuit_or_conditional_operator_sites": 4,
+        "explicit_allocation_or_release_call_sites": 0,
+        "preprocessor_conditional_sites": 3,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained_minus_upstream": {
+        "physical_lines": 68,
+        "nonblank_noncomment_code_lines": 44,
+        "branch_keyword_sites_total": 0,
+        "loop_keyword_sites_total": 0,
+        "short_circuit_or_conditional_operator_sites": 4,
+        "explicit_allocation_or_release_call_sites": 0,
+        "preprocessor_conditional_sites": 2
+      },
+      "comparison_scope": "same whole C/header source path; all compile-time branches in each file; not dynamic or transitive call-graph work"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "status": "measured",
+      "upstream": {
+        "git_blob_sha": "c460ff9b8c647ea585b5bd5f30680cb817866498",
+        "github_url": "https://github.com/Cisco-Talos/clamav/blob/dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d/libclamav/matcher-hash.c",
+        "saved_blob_identity_verified": true,
+        "path": "/workspace/search-groundwork-upstream-sources/libclamav/matcher-hash.c",
+        "bytes": 14660,
+        "sha256": "453c19dc36b9521abadd2e3f4aa7a9ecfa7c9710b2e21e7e9f68e10f58d2a9df",
+        "language": "c",
+        "physical_lines": 467,
+        "nonblank_noncomment_code_lines": 374,
+        "branch_keyword_sites": {
+          "if": 49,
+          "case": 21,
+          "switch": 4
+        },
+        "branch_keyword_sites_total": 74,
+        "loop_keyword_sites": {
+          "for": 4,
+          "while": 6,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 10,
+        "short_circuit_or_conditional_operator_sites": 22,
+        "explicit_allocation_or_release_call_sites": 0,
+        "preprocessor_conditional_sites": 3,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained": {
+        "path": "libclamav/matcher-hash.c",
+        "bytes": 24785,
+        "sha256": "828f9a1bd61b74f538a39627dd2700e0bbb4f3b606c2068c055062c41c345822",
+        "language": "c",
+        "physical_lines": 755,
+        "nonblank_noncomment_code_lines": 633,
+        "branch_keyword_sites": {
+          "if": 91,
+          "case": 21,
+          "switch": 4
+        },
+        "branch_keyword_sites_total": 116,
+        "loop_keyword_sites": {
+          "for": 9,
+          "while": 8,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 17,
+        "short_circuit_or_conditional_operator_sites": 39,
+        "explicit_allocation_or_release_call_sites": 9,
+        "preprocessor_conditional_sites": 7,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained_minus_upstream": {
+        "physical_lines": 288,
+        "nonblank_noncomment_code_lines": 259,
+        "branch_keyword_sites_total": 42,
+        "loop_keyword_sites_total": 7,
+        "short_circuit_or_conditional_operator_sites": 17,
+        "explicit_allocation_or_release_call_sites": 9,
+        "preprocessor_conditional_sites": 4
+      },
+      "comparison_scope": "same whole C/header source path; all compile-time branches in each file; not dynamic or transitive call-graph work"
+    },
+    {
+      "path": "libclamav/mpool.c",
+      "status": "measured",
+      "upstream": {
+        "git_blob_sha": "14d2fab06a1f540b27ab41964c5d0babd5de0717",
+        "github_url": "https://github.com/Cisco-Talos/clamav/blob/dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d/libclamav/mpool.c",
+        "saved_blob_identity_verified": true,
+        "path": "/workspace/search-groundwork-upstream-sources/libclamav/mpool.c",
+        "bytes": 21000,
+        "sha256": "e58cd254538c23c282ec173d5daaa42f18127fbcd1e153bd5c6d1c91cb8888c7",
+        "language": "c",
+        "physical_lines": 930,
+        "nonblank_noncomment_code_lines": 797,
+        "branch_keyword_sites": {
+          "if": 42,
+          "case": 4,
+          "switch": 1
+        },
+        "branch_keyword_sites_total": 47,
+        "loop_keyword_sites": {
+          "for": 2,
+          "while": 6,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 8,
+        "short_circuit_or_conditional_operator_sites": 6,
+        "explicit_allocation_or_release_call_sites": 6,
+        "preprocessor_conditional_sites": 34,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained": {
+        "path": "libclamav/mpool.c",
+        "bytes": 22347,
+        "sha256": "248d610f06d2df298bb8e66e11decfe546916a8a9408167516e78a87ed3b07ed",
+        "language": "c",
+        "physical_lines": 965,
+        "nonblank_noncomment_code_lines": 824,
+        "branch_keyword_sites": {
+          "if": 44,
+          "case": 4,
+          "switch": 1
+        },
+        "branch_keyword_sites_total": 49,
+        "loop_keyword_sites": {
+          "for": 4,
+          "while": 6,
+          "do": 0
+        },
+        "loop_keyword_sites_total": 10,
+        "short_circuit_or_conditional_operator_sites": 7,
+        "explicit_allocation_or_release_call_sites": 6,
+        "preprocessor_conditional_sites": 35,
+        "python_function_definitions": null,
+        "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+      },
+      "retained_minus_upstream": {
+        "physical_lines": 35,
+        "nonblank_noncomment_code_lines": 27,
+        "branch_keyword_sites_total": 2,
+        "loop_keyword_sites_total": 2,
+        "short_circuit_or_conditional_operator_sites": 1,
+        "explicit_allocation_or_release_call_sites": 0,
+        "preprocessor_conditional_sites": 1
+      },
+      "comparison_scope": "same whole C/header source path; all compile-time branches in each file; not dynamic or transitive call-graph work"
+    }
+  ],
+  "prototype_measured_separately": {
+    "role": "standalone diagnostic reader; includes both native_get baseline and synthesized reader, validation and timing harness; not an engine source delta",
+    "path": "tools/compact-memory/system-model/probe_field_store.c",
+    "bytes": 14663,
+    "sha256": "06b898dd3ebae633a36398bdc4b946c8823cf43ad2dfd04efb435893faf9fa79",
+    "language": "c",
+    "physical_lines": 293,
+    "nonblank_noncomment_code_lines": 285,
+    "branch_keyword_sites": {
+      "if": 44,
+      "case": 14,
+      "switch": 2
+    },
+    "branch_keyword_sites_total": 60,
+    "loop_keyword_sites": {
+      "for": 16,
+      "while": 0,
+      "do": 0
+    },
+    "loop_keyword_sites_total": 16,
+    "short_circuit_or_conditional_operator_sites": 49,
+    "explicit_allocation_or_release_call_sites": 7,
+    "preprocessor_conditional_sites": 0,
+    "python_function_definitions": null,
+    "scope": "lexical maintenance-complexity indicators; not cyclomatic complexity or an asymptotic proof"
+  },
+  "unmeasured": [
+    {
+      "path": "libclamav_rust/src/evidence.rs",
+      "status": "unsupported_language",
+      "reason": "The analyzer supports C and Python only; no Rust metric or engine-wide source-complexity total is inferred."
+    }
+  ],
+  "limits": [
+    "The source files were fetched by exact upstream commit through the GitHub connector and verified against each connector-provided Git blob SHA.",
+    "These counts include all source-level compile-time variants rather than only instructions enabled in the measured build.",
+    "Whole-file lexical differences can describe maintenance burden but do not establish runtime work or asymptotic complexity.",
+    "The prototype scope differs from each engine file and is deliberately not added to retained file deltas.",
+    "Use measured scanner comparisons and declared field-resource bounds for performance and algorithm-complexity acceptance.",
+    "Allocation/release site counts recognize explicit listed function names only; wrappers or macros can hide those names. These are neither allocation frequencies nor evidence of fewer runtime allocations."
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "scope": "native C field-provider exact-reconstruction and artificial-query microbenchmarks for current full-explore selected images",
+  "all_values_verified": 75460242,
+  "native_baseline": "same diagnostic probe with schema-driven memcpy; not specialized original ClamAV scanner code",
+  "source_probe_sha256": "06b898dd3ebae633a36398bdc4b946c8823cf43ad2dfd04efb435893faf9fa79",
+  "families": {
+    "patterns": {
+      "report": "patterns.json",
+      "report_sha256": "a34882d1e8607be3771333c7d26f504d718023cfd9565347e8eb580d0ed70396",
+      "image_sha256": "af19291620e2e137b971c0486c74a4569fd3abda7e7ea8fcd94f6188fbab139e",
+      "all_values_verified": 39213460,
+      "aggregate_field_to_native_cpu_ratio": 0.8092873637244911,
+      "by_trace": {
+        "sequential": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 0.3758918837854518
+        },
+        "random": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.1024741856070148
+        }
+      }
+    },
+    "candidates": {
+      "report": "candidates.json",
+      "report_sha256": "dbe1ae67c0edf0cebc4c00ea643a4346ce0bb48f5a71d15fd69c4f6eeadac954",
+      "image_sha256": "a7777e27b80793fd3ecfda3e5a0eecb9c75df8b9873cd3edccb54bf92f4b3d6b",
+      "all_values_verified": 6839757,
+      "aggregate_field_to_native_cpu_ratio": 1.232869101542411,
+      "by_trace": {
+        "sequential": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.3297698985224506
+        },
+        "random": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.2189539276610895
+        }
+      }
+    },
+    "nodes": {
+      "report": "nodes.json",
+      "report_sha256": "4c00a889977d0ab536167a65d93287f5e87e0b0aeefb78ce825050b02c865ba8",
+      "image_sha256": "fca502b74f15e4d8e308965a845bccd9acc99cf1c629bd88cf8b6080a162f121",
+      "all_values_verified": 1667850,
+      "aggregate_field_to_native_cpu_ratio": 1.3164261795112544,
+      "by_trace": {
+        "sequential": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.0158552346147753
+        },
+        "random": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.4198250644446078
+        }
+      }
+    },
+    "logical": {
+      "report": "logical.json",
+      "report_sha256": "b461204db2c46606049b2ac0085d804f0ec0848d1ff12508569f32e3452e0c06",
+      "image_sha256": "4633314e22a82ae2865bca905b8a2482018086e8d5afce7c2823833758f10036",
+      "all_values_verified": 7807750,
+      "aggregate_field_to_native_cpu_ratio": 0.7920347333398597,
+      "by_trace": {
+        "sequential": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 0.3482695459600047
+        },
+        "random": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.0022900584192405
+        }
+      }
+    },
+    "extensions": {
+      "report": "extensions.json",
+      "report_sha256": "9116b259900a04c74ba34afab75514ab4ca6b57c813da499ed8808c15a20a9ba",
+      "image_sha256": "6992c5d7b6f6c5814961baf0ccbcdb222680b33a0083924bb4e69c024f122354",
+      "all_values_verified": 227617,
+      "aggregate_field_to_native_cpu_ratio": 1.2083819292354696,
+      "by_trace": {
+        "sequential": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 0.6254937094791704
+        },
+        "random": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.708205089840902
+        }
+      }
+    },
+    "transition_values": {
+      "report": "transition_values.json",
+      "report_sha256": "68011a5ddb6e4b205c0a4a31759163dd5861af0ddb8db7742d49d36ac83f26f1",
+      "image_sha256": "6c8a0e0a319f5b0312801de54e68a02dc044900c06f11e03df4dd3df6d99c316",
+      "all_values_verified": 19703808,
+      "aggregate_field_to_native_cpu_ratio": 1.230061488894446,
+      "by_trace": {
+        "sequential": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 0.5591031183372627
+        },
+        "random": {
+          "queries": 300000,
+          "trials": 3,
+          "field_to_native_cpu_ratio": 1.4157038217923308
+        }
+      }
+    }
+  },
+  "strict_baseline_performance_qualified": false,
+  "limits": [
+    "Identity lookup, scanner work, allocation/reload costs and parser behavior are excluded.",
+    "Verification touches every value before timing; this is not a cold-cache experiment.",
+    "Uniform artificial field traces are not captured scanner access distributions.",
+    "Three serial trials per trace with alternating reader order; CPU affinity is not pinned and no confidence intervals are claimed.",
+    "Ratios across families are not combined into a scanner-speed estimate."
+  ]
+}

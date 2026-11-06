@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "reference": "https://github.com/openai/math/blob/main/lean/ComparatorChallenges/SubexponentialSAT.lean",
+  "source_sha256": "134ae40d8c03d79ff498b09cfbcb21b947a3493ec9eac6185518cffc6a0fa42d",
+  "source_bytes": 20969027,
+  "variables": 295443,
+  "source_clauses": 1005993,
+  "canonical_clauses": 1005963,
+  "source_literal_occurrences": 2679037,
+  "source_maximum_clause_width": 3,
+  "canonical_maximum_clause_width": 3,
+  "canonical_logical_bits": 3029313958669,
+  "packed_transport_bytes_if_materialized": 378664244834,
+  "declared_unused_variables_preserved": true,
+  "normalization": "finite-set literal/clauses deduplication and Lean literal-code ordering; no tautology elimination",
+  "linked_counter_executed": false,
+  "limits": [
+    "Logical input length is the theorem parameter, not DIMACS byte count.",
+    "Packed bytes are only a transport, not a supplied counting-machine executable.",
+    "Canonical encoding preserves the assignment universe, including declared free variables."
+  ],
+  "materialization_cap_bits": 8388608,
+  "within_materialization_cap": false,
+  "status": "length_only"
+}

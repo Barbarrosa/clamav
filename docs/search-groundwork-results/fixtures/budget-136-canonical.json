@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "reference": "https://github.com/openai/math/blob/main/lean/ComparatorChallenges/SubexponentialSAT.lean",
+  "source_sha256": "3a7f0191055f35f04fca4d833418d2ca80105e32347e3925239ed7d3435daeb5",
+  "source_bytes": 3191,
+  "variables": 114,
+  "source_clauses": 320,
+  "canonical_clauses": 317,
+  "source_literal_occurrences": 690,
+  "source_maximum_clause_width": 3,
+  "canonical_maximum_clause_width": 3,
+  "canonical_logical_bits": 340272,
+  "packed_transport_bytes_if_materialized": 42534,
+  "declared_unused_variables_preserved": true,
+  "normalization": "finite-set literal/clauses deduplication and Lean literal-code ordering; no tautology elimination",
+  "linked_counter_executed": false,
+  "limits": [
+    "Logical input length is the theorem parameter, not DIMACS byte count.",
+    "Packed bytes are only a transport, not a supplied counting-machine executable.",
+    "Canonical encoding preserves the assignment universe, including declared free variables."
+  ],
+  "materialization_cap_bits": 8388608,
+  "within_materialization_cap": true,
+  "transport": {
+    "logical_bits": 340272,
+    "transport_bytes": 42534,
+    "transport_sha256": "56374677d3efb84f58b4acc643ed69d95dbf76d0dc6e97a2e3fb232a31349e0f",
+    "transport_encoding": "MSB-first packed Boolean list; final low padding bits zero",
+    "counter_protocol": "none; an executable-specific adapter is still required"
+  },
+  "status": "prepared"
+}

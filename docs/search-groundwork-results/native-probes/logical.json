@@ -1,0 +1,84 @@
+{
+  "scope": "native field-provider microbenchmark; identity resolution and scanner work excluded",
+  "native_baseline": "schema-driven memcpy of a captured native member, not specialized scanner code",
+  "timing_state": "after complete value verification; no cold-cache claim",
+  "rows": 312310,
+  "fields": 25,
+  "image_bytes": 16514456,
+  "native_bytes": 52468080,
+  "all_values_verified": 7807750,
+  "verification_checksum": "99a97191cfb44124",
+  "trials": [
+    {
+      "trace": "sequential",
+      "trial": 0,
+      "queries": 100000,
+      "native_cpu_seconds": 0.00135585,
+      "field_cpu_seconds": 0.000480542,
+      "native_wall_seconds": 0.00135845,
+      "field_wall_seconds": 0.000481066,
+      "checksum": "0ff4cd711b6a1e9e"
+    },
+    {
+      "trace": "sequential",
+      "trial": 1,
+      "queries": 100000,
+      "native_cpu_seconds": 0.00128194,
+      "field_cpu_seconds": 0.000324151,
+      "native_wall_seconds": 0.001282896,
+      "field_wall_seconds": 0.00032464,
+      "checksum": "0ff4cd711b6a1e9e"
+    },
+    {
+      "trace": "sequential",
+      "trial": 2,
+      "queries": 100000,
+      "native_cpu_seconds": 0.000652647,
+      "field_cpu_seconds": 0.000341266,
+      "native_wall_seconds": 0.000653436,
+      "field_wall_seconds": 0.000341585,
+      "checksum": "0ff4cd711b6a1e9e"
+    },
+    {
+      "trace": "random",
+      "trial": 0,
+      "queries": 100000,
+      "native_cpu_seconds": 0.002631019,
+      "field_cpu_seconds": 0.002970041,
+      "native_wall_seconds": 0.002632101,
+      "field_wall_seconds": 0.002970753,
+      "checksum": "7a904a971ba2fb59"
+    },
+    {
+      "trace": "random",
+      "trial": 1,
+      "queries": 100000,
+      "native_cpu_seconds": 0.002499644,
+      "field_cpu_seconds": 0.001893526,
+      "native_wall_seconds": 0.002500583,
+      "field_wall_seconds": 0.001894339,
+      "checksum": "7a904a971ba2fb59"
+    },
+    {
+      "trace": "random",
+      "trial": 2,
+      "queries": 100000,
+      "native_cpu_seconds": 0.001814138,
+      "field_cpu_seconds": 0.002097138,
+      "native_wall_seconds": 0.001814808,
+      "field_wall_seconds": 0.002097886,
+      "checksum": "7a904a971ba2fb59"
+    }
+  ],
+  "family": "logical",
+  "layout_scope": "new search-groundwork full-explore selected field image; not the earlier D16 model",
+  "image_sha256": "4633314e22a82ae2865bca905b8a2482018086e8d5afce7c2823833758f10036",
+  "native_sha256": "78523ea5d339389730a1af17f93ab0597ad986c577aafb5352135176cc4aa4a7",
+  "schema_sha256": "9093fa84812a713c01f67feceb44acb4ae344fad0f066125957b99228682c917",
+  "probe_sha256": "33374b597ac84e410fe59518d61f6da726fb38531236a3167a9b6beea25f0c68",
+  "query_distribution": "uniform fields; sequential row/field cycling and independent pseudo-random row/field samples; 100000 queries per trace and trial",
+  "cpu_affinity": "not pinned; no statistical confidence claim",
+  "identity_resolution_measured": false,
+  "whole_scanner_performance_measured": false,
+  "aggregate_field_to_native_cpu_ratio": 0.7920347333398597
+}

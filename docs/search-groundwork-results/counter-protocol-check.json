@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "status": "fixture_count_matched",
+  "count": "2",
+  "input_sha256": "3a7f0191055f35f04fca4d833418d2ca80105e32347e3925239ed7d3435daeb5",
+  "input": {
+    "declared_variables": 114,
+    "clauses": 320,
+    "literal_occurrences": 690,
+    "maximum_clause_width": 3
+  },
+  "backend_label": "conventional Minisat22 bounded enumeration; not the linked counting construction",
+  "backend_label_source": "caller declaration, not verified algorithm identity",
+  "declared_identity_files": [
+    {
+      "path": "/workspace/clamav/tools/compact-memory/search-groundwork/enumerate_counter.py",
+      "sha256": "2ee7dafb6daeff0352ab4cf39c8170b98798496ac8d72429e3296866301b4e72",
+      "bytes": 1620
+    },
+    {
+      "path": "/workspace/clamav/tools/compact-memory/search-groundwork/run_search.py",
+      "sha256": "d91c78c70ebcd4da72b7f41ca8539d5ae17ad673a168816f29a858d482a92af8",
+      "bytes": 19587
+    },
+    {
+      "path": "/workspace/clamav/tools/compact-memory/search-groundwork/canonical_input.py",
+      "sha256": "ffc0a0684fceb87eb0868cd5e4e926d59025eabf6409bd56509f7e3a86d5cfc9",
+      "bytes": 11563
+    }
+  ],
+  "argv_sha256": "dc3da6557d115bb94daf2df8abe589114e102f4a87c96ef667ac01fcc18461bb",
+  "timeout_seconds": 30,
+  "output_limit_bytes_per_stream": 1048576,
+  "expected_count": "2",
+  "verified_against_supplied_expected_count": true,
+  "independent_proof_certificate_verified": false,
+  "linked_counting_construction_execution_established": false,
+  "scope": "external counter protocol and artifact binding; no independent count certification for general instances",
+  "returncode": 0,
+  "elapsed_wall_seconds": 0.11401503099932597,
+  "stdout_bytes": 118,
+  "stdout_sha256": "d868faf590281e2a3b22b14adc732764a178f4c37d69a1805e9d864cab46a061",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "input_and_declared_identities_unchanged": true
+}

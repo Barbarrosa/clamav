@@ -1,0 +1,85 @@
+{
+  "scope": "native field-provider microbenchmark; identity resolution and scanner work excluded",
+  "native_baseline": "schema-driven memcpy of a captured native member, not specialized scanner code",
+  "timing_state": "after complete value verification; no cold-cache claim",
+  "rows": 19703808,
+  "fields": 1,
+  "image_bytes": 46796600,
+  "native_bytes": 78815232,
+  "all_values_verified": 19703808,
+  "verification_checksum": "8d594af1d0154533",
+  "trials": [
+    {
+      "trace": "sequential",
+      "trial": 0,
+      "queries": 100000,
+      "native_cpu_seconds": 0.000916628,
+      "field_cpu_seconds": 0.000624516,
+      "native_wall_seconds": 0.000919227,
+      "field_wall_seconds": 0.000625053,
+      "checksum": "d5f9dd1107046dc3"
+    },
+    {
+      "trace": "sequential",
+      "trial": 1,
+      "queries": 100000,
+      "native_cpu_seconds": 0.000794908,
+      "field_cpu_seconds": 0.000362006,
+      "native_wall_seconds": 0.000795481,
+      "field_wall_seconds": 0.000362367,
+      "checksum": "d5f9dd1107046dc3"
+    },
+    {
+      "trace": "sequential",
+      "trial": 2,
+      "queries": 100000,
+      "native_cpu_seconds": 0.000700198,
+      "field_cpu_seconds": 0.000361886,
+      "native_wall_seconds": 0.000700647,
+      "field_wall_seconds": 0.000362277,
+      "checksum": "d5f9dd1107046dc3"
+    },
+    {
+      "trace": "random",
+      "trial": 0,
+      "queries": 100000,
+      "native_cpu_seconds": 0.0033537,
+      "field_cpu_seconds": 0.005275107,
+      "native_wall_seconds": 0.003355152,
+      "field_wall_seconds": 0.005276111,
+      "checksum": "6f4610a84340d176"
+    },
+    {
+      "trace": "random",
+      "trial": 1,
+      "queries": 100000,
+      "native_cpu_seconds": 0.003226461,
+      "field_cpu_seconds": 0.003181996,
+      "native_wall_seconds": 0.0032274,
+      "field_wall_seconds": 0.003183033,
+      "checksum": "6f4610a84340d176"
+    },
+    {
+      "trace": "random",
+      "trial": 2,
+      "queries": 100000,
+      "native_cpu_seconds": 0.002136456,
+      "field_cpu_seconds": 0.003883045,
+      "native_wall_seconds": 0.002137265,
+      "field_wall_seconds": 0.003883571,
+      "checksum": "6f4610a84340d176"
+    }
+  ],
+  "family": "transition_values",
+  "layout_scope": "new search-groundwork full-explore selected field image; not the earlier D16 model",
+  "image_sha256": "6c8a0e0a319f5b0312801de54e68a02dc044900c06f11e03df4dd3df6d99c316",
+  "native_sha256": "4e8baf41f185bdf029ce085a86a9e9b803ec27bc6a48f7a5a7e9e493804f60b8",
+  "schema_sha256": "2199755ce071dcd41f851b9c5a03ac941efd5227e99f08602890e711a00fca15",
+  "probe_sha256": "33374b597ac84e410fe59518d61f6da726fb38531236a3167a9b6beea25f0c68",
+  "query_distribution": "uniform fields; sequential row/field cycling and independent pseudo-random row/field samples; 100000 queries per trace and trial",
+  "cpu_affinity": "not pinned; no statistical confidence claim",
+  "identity_resolution_measured": false,
+  "whole_scanner_performance_measured": false,
+  "native_destination_columns_checked_against_original_capture": true,
+  "aggregate_field_to_native_cpu_ratio": 1.230061488894446
+}

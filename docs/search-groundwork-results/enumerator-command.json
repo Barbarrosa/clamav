@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "tools/compact-memory/search-groundwork/enumerate_counter.py",
+    "{input}",
+    "--limit",
+    "100",
+    "--seconds",
+    "5"
+  ],
+  "label": "conventional Minisat22 bounded enumeration; not the linked counting construction",
+  "identity_files": [
+    "../../tools/compact-memory/search-groundwork/enumerate_counter.py",
+    "../../tools/compact-memory/search-groundwork/run_search.py",
+    "../../tools/compact-memory/search-groundwork/canonical_input.py"
+  ]
+}

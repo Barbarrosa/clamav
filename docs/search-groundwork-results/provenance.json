@@ -1,0 +1,43 @@
+{
+  "date_utc": "2026-11-06",
+  "source_base_commit": "5652ce028736b8346b6bc2e400197ab09fc9d948",
+  "scanner_runtime_changed": false,
+  "rule_selection_changed": false,
+  "source_sha256": {
+    "canonical_input.py": "ffc0a0684fceb87eb0868cd5e4e926d59025eabf6409bd56509f7e3a86d5cfc9",
+    "catalog.json": "90696670095c145392e840e3114e755012313709d18c5dd19c385efcadbf30c2",
+    "make_counting_fixtures.py": "ea027bc837c36f1cab75cb259546238bacbce034d102fe05fc8c54038345c27e",
+    "complexity_metrics.py": "3d4308514ad0246428f2ef2127edaf68567f41b1a5918a84f5c14f739d2883e1",
+    "baseline-contract.json": "4bedd19b0b2beaf36f1831deac0fa684b131797c2236886eda51df6dbbe397da",
+    "search_model.py": "373187f7143a4ce895d3f727a9fd0d058e5c4561144e596ba905ecc6aca6e756",
+    "run_search.py": "d91c78c70ebcd4da72b7f41ca8539d5ae17ad673a168816f29a858d482a92af8",
+    "test_complexity_metrics.py": "3f93593133a63a1d94f4f1c1fd629ba453869dc5dbe70398e13434e153971dd0",
+    "test_choice_cnf.py": "2fa8ed5f1e9abbb28037f18b5e46b41f2f5d8c08f6a4ddca0ce67ffab3662787",
+    "test_run_counter.py": "29bb4b189fe565dda0b998fd5010f9a9844e74ae9c977fc89d5015a65d62aca2",
+    "test_canonical_input.py": "6ed85be38561721bf64b763173fa8de631cb5252fc6a4700c127c4b755128790",
+    "test_search_model.py": "725275bdf6bcd95dc1addcbd39fc92e622ce214dd7c570dfffa1c0333b4d6930",
+    "test_measurement_contract.py": "af22a96ebec327b2afe285d13ec690b01ca9170d4a7ad540fbff37d894e0bff7",
+    "choice_cnf.py": "e2cc7823296deac1bbd1ebb99f0a7fcb92688cb58e9f52d9e35206e63b29adc3",
+    "enumerate_counter.py": "2ee7dafb6daeff0352ab4cf39c8170b98798496ac8d72429e3296866301b4e72",
+    "run_counter.py": "63f8f32e8811fa9dd25ed10d9d1c786843065b0be03067eba62deeb5c53ad9d7",
+    "measurement_contract.py": "23b0741b151b02840c8895ec631973388a5e283a8d20129c87efded061b4fcf4"
+  },
+  "original_baseline_commit": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+  "original_baseline_source_identity": "four C/header files verified against GitHub Git blobs; full upstream engine not rebuilt in this pass",
+  "historical_database_and_capture": "same private signed-database capture as docs/system-model-results; source hashes are in run summaries",
+  "python": "3.12.14",
+  "counter_backends_executed": [
+    "PySAT RC2",
+    "Minisat22 enumeration"
+  ],
+  "linked_counting_algorithm_executed": false,
+  "whole_scanner_performance_qualification": "missing; component observations cannot replace it",
+  "private_assets_excluded": [
+    "signed databases",
+    "native snapshots",
+    "native pointer constants",
+    "candidate definition payloads",
+    "generated field images",
+    "native binaries"
+  ]
+}

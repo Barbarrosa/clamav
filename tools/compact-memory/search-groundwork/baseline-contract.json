@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "purpose": "Baseline comparison and complexity contracts for offline memory-choice research. Unknown evidence is never a passed guarantee.",
+  "baseline_reference": {
+    "upstream_commit": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d",
+    "upstream_scope": "Pinned original ClamAV development baseline, not the latest supported release.",
+    "retained_structural_baseline": "The current compact-memory branch with ENABLE_COMPACT_LSIG_STATE=ON, ENABLE_AC_NODE_IDS=ON, ENABLE_AC_FLAT_NODES=ON, ENABLE_FLAT_HASH_STORE=OFF, ENABLE_AC_DISPOSABLE_BUILD=OFF.",
+    "distinction": "The catalog baseline choices inherit the retained implementation. That inheritance is not proof of empirical performance or exact ordered behavior against upstream.",
+    "baseline_measurement_reference": "docs/three-way-performance.md",
+    "required_identity": [
+      "engine_commit",
+      "engine_source_sha256",
+      "binary_sha256",
+      "database_sha256",
+      "compiler_and_flags",
+      "hardware_cpu",
+      "os_and_allocator",
+      "scan_options",
+      "cache_state",
+      "concurrency",
+      "input_sha256"
+    ]
+  },
+  "correctness_properties": {
+    "selected_rules_and_dependencies": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "exact_verifier_values": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "severity_and_nonterminal_evidence": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "ordered_duplicate_reporting": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "exact_names_and_nulls": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "borrowed_pointer_lifetimes": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "parser_and_trust_behavior": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "error_limit_and_oom_behavior": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "signed_source_validation": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "concurrency_and_reload_lifetimes": {
+      "required": true,
+      "unknown_policy": "block_strict_qualification"
+    }
+  },
+  "correctness_scope_notes": [
+    "All selected rules and dependency closure must remain; the restricted PDF/JPEG/PNG rule-selection option is not a memory representation choice in this search.",
+    "Preserve duplicate multiplicity, traversal order and exact reported names when the ordered-reporting contract is selected. A source-preserving fallback does not prove this property against a different baseline implementation.",
+    "The corrected nonterminal-evidence behavior must remain. A baseline shortcut that loses a later strong detection is not acceptable performance work reduction.",
+    "Component roundtrip checks prove captured values only. They do not prove complete scanner behavior, pointer ownership or all possible future databases."
+  ],
+  "performance_metrics": {
+    "scan_cpu_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "scan_wall_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "scan_latency_p95_ms": {
+      "unit": "milliseconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "scan_latency_p99_ms": {
+      "unit": "milliseconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "startup_cpu_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "startup_wall_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "reload_cpu_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "reload_wall_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "update_cpu_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "update_wall_seconds": {
+      "unit": "seconds",
+      "required": true,
+      "comparison": "no_increase_vs_baseline",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "resident_bytes_cold": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "resident_bytes_hydrated": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "construction_peak_bytes": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "reload_peak_bytes": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "scan_scratch_bytes": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "builder_scratch_bytes": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "update_overlap_peak_bytes": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    },
+    "scan_context_bytes": {
+      "unit": "bytes",
+      "required": true,
+      "comparison": "account_explicitly_and_constrain_requested_budget",
+      "numeric_limit": null,
+      "unknown_policy": "block_strict_qualification"
+    }
+  },
+  "performance_workloads": [
+    "ordinary_clean",
+    "positive_detections",
+    "weak_pua_and_duplicate_flood",
+    "random_and_repetitive_bytes",
+    "longest_token_or_name",
+    "random_and_cache_colliding_lookups",
+    "all_fields_or_names_touched",
+    "reload_equal_generation",
+    "reload_changed_generation",
+    "update_validation_overlap",
+    "maximum_supported_concurrency"
+  ],
+  "complexity_metrics": {
+    "lookup_growth": {
+      "required": true,
+      "rule": "No larger asymptotic class than the same baseline operation; O(log records) is not O(1).",
+      "numeric_limit": null
+    },
+    "dependent_read_upper_bound": {
+      "required": true,
+      "unit": "dependent payload/index/descriptor reads per query",
+      "numeric_limit": null
+    },
+    "integer_operation_upper_bound": {
+      "required": true,
+      "unit": "declared integer primitives per query",
+      "numeric_limit": null
+    },
+    "decoded_value_upper_bound": {
+      "required": true,
+      "unit": "values or bytes reconstructed to answer one query",
+      "numeric_limit": null
+    },
+    "dependency_depth_upper_bound": {
+      "required": true,
+      "unit": "dependent provider calls",
+      "numeric_limit": null
+    },
+    "scan_allocation_upper_bound": {
+      "required": true,
+      "unit": "allocation calls per query",
+      "numeric_limit": 0
+    },
+    "new_persistent_cache_count": {
+      "required": true,
+      "unit": "cache/eviction subsystems",
+      "numeric_limit": 0
+    },
+    "new_format_count": {
+      "required": true,
+      "unit": "new serialized representations",
+      "numeric_limit": null
+    },
+    "new_decoder_path_count": {
+      "required": true,
+      "unit": "new decoder/accessor cases",
+      "numeric_limit": null
+    },
+    "lexical_code_metrics": {
+      "required": true,
+      "rule": "Measure source bytes, code lines, branches, loops and allocator-call sites on source-bound paths. Lexical indicators are not a formal algorithmic-complexity proof.",
+      "numeric_limit": null
+    },
+    "construction_growth": {
+      "required": true,
+      "rule": "Charge dictionary search, sorting, interning and all compile-time conversions; offline work is not free.",
+      "numeric_limit": null
+    },
+    "whole_lifetime_memory": {
+      "required": true,
+      "rule": "Include original/new representations, indexes, caches, scratch, allocator/page effects and simultaneous engine generations; unknown allocations are not zero.",
+      "numeric_limit": null
+    }
+  },
+  "policies": {
+    "strict_vs_baseline": {
+      "allow_failed": false,
+      "allow_unknown_correctness": false,
+      "allow_unknown_performance": false,
+      "allow_unimplemented": false,
+      "allow_asymptotic_lookup_regression": false,
+      "allow_rule_omission": false,
+      "require_source_bound_whole_engine_validation": true,
+      "inheritance_is_empirical_upstream_pass": false
+    },
+    "exploratory": {
+      "allow_failed": false,
+      "allow_unknown_correctness": true,
+      "allow_unknown_performance": true,
+      "allow_unimplemented": true,
+      "allow_asymptotic_lookup_regression": false,
+      "allow_rule_omission": false,
+      "result_label": "research_candidate_not_qualified",
+      "require_explicit_relaxation_of_known_failure": true
+    }
+  },
+  "counting_contract": {
+    "unit": "One declared configuration selects exactly one choice in each active group. It is not automatically a distinct physical image.",
+    "unique_auxiliary_extension_required": true,
+    "requirements": [
+      "Deterministically define all arithmetic and derived-depth auxiliaries.",
+      "Fix inactive-family state instead of leaving it unconstrained.",
+      "Use full-equivalence gate encodings, including long-clause replacements.",
+      "Reject duplicate choice IDs and contradictory evidence.",
+      "Declare any equivalent-description canonicalization before interpreting counts as physical-layout counts."
+    ],
+    "projection_note": "Ordinary fixed-width model counting does not itself provide projected counting over only genuine selection variables.",
+    "linked_algorithm_executed": false
+  },
+  "evidence_rules": [
+    "A timing observation applies only to its recorded source, machine, inputs, options and cache state.",
+    "Never add reductions from different experiments or overlapping storage boundaries.",
+    "No raw CVD, signature body, name text or pointer constant belongs in public catalogs or formula metadata.",
+    "Numerical experiment entries below are scoped observations, not default solver cost coefficients. Missing costs stay null."
+  ]
+}
