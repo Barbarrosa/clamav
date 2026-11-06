@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "build_option": "ENABLE_MEMORY_PERTURB=OFF",
+  "full_engine_build_succeeded": true,
+  "baseline_library_sha256": "871c95bca8f04e5bebb348e90327b0d4adb5355114e664baa4b68447eac6104a",
+  "rebuilt_library_sha256": "db8f951f672056638ac56a3860bb02315735aec26e25f29c7a3d52f680df9564",
+  "rebuilt_library_byte_identical_to_baseline": false,
+  "perturbation_exports": [],
+  "normal_build_contains_no_perturbation_exports": true,
+  "claim_scope": "observed Release Linux build; no all-platform binary-identity claim",
+  "scanner_verification": {
+    "exit_code": 0,
+    "fixtures": 9,
+    "matches_measured_ordinary_control": true,
+    "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+    "matching_signature_counts": [
+      3628192
+    ],
+    "padding_environment_ignored": true,
+    "padding_log_created": false,
+    "stdout_sha256": "60b2cf7ec2e17bb96ed9c315dba1c0a42e116e011c11a6b7fe2a57b773e6b777",
+    "stderr_sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+  },
+  "all_perturbation_symbols_absent": true
+}

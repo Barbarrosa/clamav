@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "audit_source_sha256": "2bbb5b34007b15208a05610e86b27db9869a6b56f39cbd378e272a94408f28d1",
+  "plan_sha256": "1b0f6742c3fed72791963edc3ebd2eaf9e494aef2cd6bfb31a338026f6e47264",
+  "summary_sha256": "e3147414df2dbd52b40ca4d4c2d981afead2b5331b941e9824f7fd7965dd69bb",
+  "validated_cases": 7,
+  "validated_scan_records": 1141,
+  "all_ordered_input_hashes_match_plan": true,
+  "all_ordered_semantics_match_controls": true,
+  "all_dose_counters_and_rss_summaries_match_raw": true,
+  "artifact_sha256": {
+    "plan.json": "1b0f6742c3fed72791963edc3ebd2eaf9e494aef2cd6bfb31a338026f6e47264",
+    "summary.json": "e3147414df2dbd52b40ca4d4c2d981afead2b5331b941e9824f7fd7965dd69bb",
+    "000-instrumented-patterns-32-r0.jsonl": "99b043cb2d30c54c0e3769474c8daeebbfd29baea490cebd66da3e83e5b6f0ff",
+    "000-instrumented-patterns-32-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "000-instrumented-patterns-32-r0-perturb.jsonl": "a5196ab08c6ec476b74d5669c509dabf07a2b9164ae793f0562955b36062d488",
+    "001-instrumented-names-0-r0.jsonl": "c6fb7bf52ecbcc0014f40dcbb64dfb86a2a4b5fc9bf847359abd3cf4b4e4fa27",
+    "001-instrumented-names-0-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "001-instrumented-names-0-r0-perturb.jsonl": "7ef10b5970f3b7eef2af3d782387147210b1cff49e580a74d687bbb52d10d669",
+    "002-instrumented-patterns-0-r0.jsonl": "a5e5a6ed1415b97426ea01f774c6d6e986d0087223f3ce2c5cde9368cf48ff95",
+    "002-instrumented-patterns-0-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "002-instrumented-patterns-0-r0-perturb.jsonl": "c04b6cdef3c3277b3a6f6b8638eff010ddd94c52834d7b74bd843c1a068cb765",
+    "003-stock-disabled-0-r0.jsonl": "fdc127b5588b58c0abd87893680471507ecf482deedbf4c376564035fc669a7a",
+    "003-stock-disabled-0-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "004-instrumented-names-32-r0.jsonl": "c40c431a432557eb974dd1acdfa793353fe674aa220a429e8437905250e75f20",
+    "004-instrumented-names-32-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "004-instrumented-names-32-r0-perturb.jsonl": "1b7084b87f1c0784c8dc4d83e933f61cd5fca5e49ceb5ba290ffe7e52bb69197",
+    "005-instrumented-candidates-32-r0.jsonl": "560ac6e0ce70949efbddba40ebed126723d5578316ecb08904cf9c83efaac6c6",
+    "005-instrumented-candidates-32-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "005-instrumented-candidates-32-r0-perturb.jsonl": "de2d869d4abd4b7a9247c5a30aa9802b08b0a61e55e5d9223a1add758a58e02d",
+    "006-instrumented-candidates-0-r0.jsonl": "417bb20393c5112005e54aba43707e7653ca029e16925e918c2b9d0ad481badd",
+    "006-instrumented-candidates-0-r0.stderr": "861381c01755ba42001b7df2eec80977c7279bbe6cac7201afd333593099af02",
+    "006-instrumented-candidates-0-r0-perturb.jsonl": "51f3ef8ab87f5d030f7342b53df63747ec48db4f215f5a7f362b749f1ee207e3"
+  },
+  "cases": [
+    {
+      "ordinal": 0,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 32,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    },
+    {
+      "ordinal": 1,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    },
+    {
+      "ordinal": 2,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 0,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    },
+    {
+      "ordinal": 3,
+      "variant": "stock",
+      "group": "disabled",
+      "dose": 0,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    },
+    {
+      "ordinal": 4,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 32,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    },
+    {
+      "ordinal": 5,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 32,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    },
+    {
+      "ordinal": 6,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 0,
+      "semantic_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c",
+      "signatures": [
+        3628192,
+        3628192
+      ],
+      "scan_records": 163
+    }
+  ],
+  "limitations": [
+    "Integrity and internal consistency checks do not authenticate a modified reporter.",
+    "Counters remain cumulative requests, not live memory or removable overhead.",
+    "If reload was enabled, replacement-engine scan semantics were not exercised by this harness.",
+    "No claim of complete allocator coverage or performance parity is established."
+  ]
+}

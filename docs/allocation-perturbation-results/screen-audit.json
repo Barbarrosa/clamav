@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "audit_source_sha256": "2bbb5b34007b15208a05610e86b27db9869a6b56f39cbd378e272a94408f28d1",
+  "plan_sha256": "75723fed0b7d3ba7cc7064519d04c8c235b7eaeef12c5c03427c62aa64b9b216",
+  "summary_sha256": "432fd84bdba0f77efb3dd2868aa3c977caec40ad7e20c8c8865442dab11bce1b",
+  "validated_cases": 28,
+  "validated_scan_records": 252,
+  "all_ordered_input_hashes_match_plan": true,
+  "all_ordered_semantics_match_controls": true,
+  "all_dose_counters_and_rss_summaries_match_raw": true,
+  "artifact_sha256": {
+    "plan.json": "75723fed0b7d3ba7cc7064519d04c8c235b7eaeef12c5c03427c62aa64b9b216",
+    "summary.json": "432fd84bdba0f77efb3dd2868aa3c977caec40ad7e20c8c8865442dab11bce1b",
+    "000-instrumented-names-0-r0.jsonl": "319532e8fa4f04515cae75b39785a0fb4417350223765d99eebc58f370014feb",
+    "000-instrumented-names-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "000-instrumented-names-0-r0-perturb.jsonl": "d10ced85f4d2a44b2f35662c45b2d892a040625227fba380c9c3847bd69e2827",
+    "001-instrumented-candidates-32-r0.jsonl": "f9caabe035ef289fbb96bf98fd785f0774154098709764a9fdc560b04b25d3d7",
+    "001-instrumented-candidates-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "001-instrumented-candidates-32-r0-perturb.jsonl": "18dec7bcc7f324a602f6d4bfe98e6dfcb458757fb6266b720b84b973803027ea",
+    "002-instrumented-tokens-8-r0.jsonl": "93fafbcbc9ba64257b169bc581fb63360050307389aba60b215b8cae72573b73",
+    "002-instrumented-tokens-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "002-instrumented-tokens-8-r0-perturb.jsonl": "042ac5694ed1c0b664ad86b52a2ecdb9095005943ee1a53874a788b30ef0dc9c",
+    "003-instrumented-transitions-32-r0.jsonl": "5c1540185d067251969e29050dccaab87b7223355060a0543d042818a6ed5f00",
+    "003-instrumented-transitions-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "003-instrumented-transitions-32-r0-perturb.jsonl": "53f459d48db8e07ab97b481eb819b543ba933be0a164a863be063bb44eae129b",
+    "004-instrumented-hashes-32-r0.jsonl": "8e6994326d16afaee1855081e58da242e4df4df7d7caace78b386d78e62a40ef",
+    "004-instrumented-hashes-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "004-instrumented-hashes-32-r0-perturb.jsonl": "d92d3b5207f3f862fe42896fbda3ce8b2c2479995665b37edbd58abe86abbf87",
+    "005-instrumented-scanstate-8-r0.jsonl": "94dee6c7ad2d78daa107b13ab388b92509309a109cc96a034b187bcc9bd20503",
+    "005-instrumented-scanstate-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "005-instrumented-scanstate-8-r0-perturb.jsonl": "8cbd8b9c4babf690c216ea4e37572b2e80bd04b497216ce18799495bcb57e846",
+    "006-instrumented-scanstate-32-r0.jsonl": "8c765fe92f21fceb38eddfec388aafa27577889dbbd23dcac00238c2f66fd7a3",
+    "006-instrumented-scanstate-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "006-instrumented-scanstate-32-r0-perturb.jsonl": "4e3d641b4d22075c552e27db97d50aeda200acb313615777ec787a84eaeb385b",
+    "007-stock-disabled-0-r0.jsonl": "86a69ec13ef35b98e7d478aa656388ec2460975ab4fefeddbc7008f832dd4c95",
+    "007-stock-disabled-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "008-instrumented-logical-8-r0.jsonl": "9d69c0e134fdbcff4923f43394ea93f1fd8a2fc1627b29f8bcc19b6dc8872e77",
+    "008-instrumented-logical-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "008-instrumented-logical-8-r0-perturb.jsonl": "aeb6b8e300babfde1a1643439e5e1fb144c9d79e402d39eed7a3e02b8a114ae6",
+    "009-instrumented-nodes-32-r0.jsonl": "13fd75ddc04cc288e02a8e3ee141ffa824fe55c0f012d8ec80acef0504ebcd37",
+    "009-instrumented-nodes-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "009-instrumented-nodes-32-r0-perturb.jsonl": "a9a7fb6ed61beca159a4e62cf3918be0800e6134ac2c7400abe376b726e45552",
+    "010-instrumented-heap_other-8-r0.jsonl": "43c22da77994988964049806ff41e5d49663bf4490e70d4c622a642127ce7e8f",
+    "010-instrumented-heap_other-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "010-instrumented-heap_other-8-r0-perturb.jsonl": "19c377c63e696b07fc38eb2f905d3292c7a45b9d374641ee1035bd2bf6d62ec1",
+    "011-instrumented-pool_other-32-r0.jsonl": "0609c08f258f146c2b120daed98a0489a0965b2a557b544489d0076ec978cb8e",
+    "011-instrumented-pool_other-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "011-instrumented-pool_other-32-r0-perturb.jsonl": "f0907f64b6b919b15b8cee754c575657091f78a2d11ad1e4ff6594611853c07d",
+    "012-instrumented-patterns-32-r0.jsonl": "6a75d4f3ea935c71a7f939b992717c91073ea1bc38c4f762e4d666ca201cea88",
+    "012-instrumented-patterns-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "012-instrumented-patterns-32-r0-perturb.jsonl": "7263111aefb307295b4d161454974201dd28c24ae8c295144ca134070ab151d9",
+    "013-instrumented-names-0-r0.jsonl": "582e50a4ab839ef4e1728fb5da42687610d4b924ed7761ef64e2ad5b4fe024e8",
+    "013-instrumented-names-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "013-instrumented-names-0-r0-perturb.jsonl": "d10ced85f4d2a44b2f35662c45b2d892a040625227fba380c9c3847bd69e2827",
+    "014-instrumented-heap_other-32-r0.jsonl": "5ea7a4f615f4bbb380658256d8fe8c1e320dbc477a0d4cb706f691bcf4eaa79a",
+    "014-instrumented-heap_other-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "014-instrumented-heap_other-32-r0-perturb.jsonl": "147b6be852bfa16cb35fcffd199cd510ecff73a2032f0d3eaecc8c0ec903826e",
+    "015-instrumented-logical-32-r0.jsonl": "2cd41f78c00e634ebdcda174530a2cb701b22a2e6913f5cf53d57c5226bc557a",
+    "015-instrumented-logical-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "015-instrumented-logical-32-r0-perturb.jsonl": "2d598c1dbd006d5549a8047ca6c3fd3da070a3a01972248f8cba92166bddd39a",
+    "016-instrumented-build_scratch-8-r0.jsonl": "e34b6a9c9d33019675309d29276b31a3163df655454fed508e6e4355c7a3374b",
+    "016-instrumented-build_scratch-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "016-instrumented-build_scratch-8-r0-perturb.jsonl": "873bf3abf006ec94ed882b8d0975bfae922129e73dbcc3a9d97ef8c5b5247d15",
+    "017-instrumented-build_scratch-32-r0.jsonl": "3d0013f52dd76e020c77526c33eefc77a7fb006bd660559068a393c969ec9eed",
+    "017-instrumented-build_scratch-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "017-instrumented-build_scratch-32-r0-perturb.jsonl": "5867caee67a6c7b7e6470d426886d4688daccc1428e41a3d48f2b52184317c20",
+    "018-instrumented-nodes-8-r0.jsonl": "217d0e3f552e53b7110930f317e973d3856442d81f50367da3e71f4b040be6a2",
+    "018-instrumented-nodes-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "018-instrumented-nodes-8-r0-perturb.jsonl": "5afb849b93c099b97d21cf76aa19b684c163e17ed85e310ce1d9bfa31cdf4fbf",
+    "019-instrumented-hashes-8-r0.jsonl": "d231e305363e81cc7f49fdd488800eb9a8b45c964548229eb7b550f4f4a12aa6",
+    "019-instrumented-hashes-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "019-instrumented-hashes-8-r0-perturb.jsonl": "5151854e4ee927950bc5359d1209f59cd109b45e69f4c247ef73e0465aecac1a",
+    "020-instrumented-transitions-8-r0.jsonl": "4a18ac1869440960b492233d13fe89f173e642bde3493ca77a57e82bc2aac72d",
+    "020-instrumented-transitions-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "020-instrumented-transitions-8-r0-perturb.jsonl": "49f97fb7945926da9e2c9d7b08a075dc68dcbf33665a2215cd9534847d3eb566",
+    "021-instrumented-names-8-r0.jsonl": "f2a6ac7a2853722113f2369d362cbdd41511eeeb254eacd11278fa719c6122cf",
+    "021-instrumented-names-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "021-instrumented-names-8-r0-perturb.jsonl": "62c2e1c4b423b86b85b048ee58adc6043a4173ad2022c949b19867808fc14afc",
+    "022-instrumented-tokens-32-r0.jsonl": "aacf3ae6f43f1a7cb3fde8e68fc5061752e2608c4d92661a4d05a0642111ee42",
+    "022-instrumented-tokens-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "022-instrumented-tokens-32-r0-perturb.jsonl": "663895f6f677c710bc099afb8673c6dad4aeb0770b90dad2f67bced30424aaa3",
+    "023-instrumented-candidates-8-r0.jsonl": "92f24ec4d67912d0f0e477df30ed974bb6527e00ecc06102f9d69e255f64dd61",
+    "023-instrumented-candidates-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "023-instrumented-candidates-8-r0-perturb.jsonl": "73f3e8cb82978cdd93cd6ab232c10e7acb82e0f9c35d231dab3f93ed74873ad4",
+    "024-instrumented-patterns-8-r0.jsonl": "c8737e9a4b7a37b94989fd3e8c53bedc0ca3fb7d51971f8f17f4258faa9bbd8c",
+    "024-instrumented-patterns-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "024-instrumented-patterns-8-r0-perturb.jsonl": "0b4d00a809bb7752dda77605623acbab4378b00345f844d997850301f8b10607",
+    "025-instrumented-names-32-r0.jsonl": "8b3336cdd7eeaf3db6262c8964a7b9d2f58fdd095e71534c3e73f1531b89b8c4",
+    "025-instrumented-names-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "025-instrumented-names-32-r0-perturb.jsonl": "95920772d5a9f2b2ec1dc20a62fe581267884c9a1b9f5d3c21407b923943cb1c",
+    "026-instrumented-pool_other-8-r0.jsonl": "c5e168c0486f3e97cf9d3bdd643d1d41c89a8273ccb571ba28a6da4dc6676574",
+    "026-instrumented-pool_other-8-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "026-instrumented-pool_other-8-r0-perturb.jsonl": "8955859abfe4e5bc298f0560026123a5d88ec05c4a57a7596351814b753f18fb",
+    "027-instrumented-names-0-r0.jsonl": "0746dc5bdf8e72b2217f926d51fb22bcb655cffc1eea52a38abef21038936fb4",
+    "027-instrumented-names-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "027-instrumented-names-0-r0-perturb.jsonl": "d10ced85f4d2a44b2f35662c45b2d892a040625227fba380c9c3847bd69e2827"
+  },
+  "cases": [
+    {
+      "ordinal": 0,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 1,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 2,
+      "variant": "instrumented",
+      "group": "tokens",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 3,
+      "variant": "instrumented",
+      "group": "transitions",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 4,
+      "variant": "instrumented",
+      "group": "hashes",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 5,
+      "variant": "instrumented",
+      "group": "scanstate",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 6,
+      "variant": "instrumented",
+      "group": "scanstate",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 7,
+      "variant": "stock",
+      "group": "disabled",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 8,
+      "variant": "instrumented",
+      "group": "logical",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 9,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 10,
+      "variant": "instrumented",
+      "group": "heap_other",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 11,
+      "variant": "instrumented",
+      "group": "pool_other",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 12,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 13,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 14,
+      "variant": "instrumented",
+      "group": "heap_other",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 15,
+      "variant": "instrumented",
+      "group": "logical",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 16,
+      "variant": "instrumented",
+      "group": "build_scratch",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 17,
+      "variant": "instrumented",
+      "group": "build_scratch",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 18,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 19,
+      "variant": "instrumented",
+      "group": "hashes",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 20,
+      "variant": "instrumented",
+      "group": "transitions",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 21,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 22,
+      "variant": "instrumented",
+      "group": "tokens",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 23,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 24,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 25,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 26,
+      "variant": "instrumented",
+      "group": "pool_other",
+      "dose": 8,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 27,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    }
+  ],
+  "limitations": [
+    "Integrity and internal consistency checks do not authenticate a modified reporter.",
+    "Counters remain cumulative requests, not live memory or removable overhead.",
+    "If reload was enabled, replacement-engine scan semantics were not exercised by this harness.",
+    "No claim of complete allocator coverage or performance parity is established."
+  ]
+}

@@ -407,6 +407,11 @@ set(LIBCLAMAV_SOURCES
     udf.c               udf.h
 )
 
+if(ENABLE_MEMORY_PERTURB)
+    list(APPEND LIBCLAMAV_SOURCES memory_perturb.c memory_perturb.h)
+    add_definitions(-DCM_MEMORY_PERTURB=1)
+endif()
+
 if(ENABLE_SHARED_LIB)
     # The clamav shared library.
     add_library( clamav SHARED )

@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "tests": [
+    {
+      "suite": "allocation-perturbation",
+      "passed": 21,
+      "command": "python3 -m unittest discover -s tools/compact-memory/allocation-perturbation -p 'test_*.py' -q"
+    },
+    {
+      "suite": "search-groundwork",
+      "passed": 84,
+      "command": "python3 -m unittest discover -s tools/compact-memory/search-groundwork -p 'test_*.py' -q",
+      "extra_dependency_environment": "isolated NumPy/python-sat environment"
+    }
+  ],
+  "production_allocator_C_cases": 144,
+  "experimental_processes": 51,
+  "experimental_scan_records": 1537,
+  "independent_audits_passed": [
+    "screen",
+    "confirm",
+    "reload"
+  ],
+  "additional_default_off_scan_records": 9,
+  "source_sha256": {
+    "CMakeLists.txt": "7c777418dea2d3c832ed825e20b9025116e2fdeb4ae01a0b9116783f284de84b",
+    "libclamav/CMakeLists.txt": "640d4de67c1bd4887de995f12d8e3eb8ab0a81c61f0bd3684f17d69e83884385",
+    "libclamav/libclamav.map": "d2d93e2efac50fdeadd70af4fe0e83d2c60feda5ec1823d4b9587972cf6bc608",
+    "libclamav/matcher-ac.c": "274cc01e11add1e150b00d030e51ecd36b9ff1fdf181c64f5b3210709f26193d",
+    "libclamav/matcher-bm.c": "bc8ea5ce217b78701b08019fbd9f0b3b8e1025af55660247580e637a4d76bcae",
+    "libclamav/matcher-hash.c": "147ff3b6dfd0e7b5c38339cf85b1f840da8fee427b5b728cfc4156c37424d186",
+    "libclamav/matcher-pcre.c": "f002d6c1147da65e13e321296ffadd0e83b2e8a1944a83c5bfcd168554f45b07",
+    "libclamav/memory_perturb.c": "221fcaf2c0030e5c60f171ed1a047e7c1246fe3f39cca2f81606d8473cbe9fb9",
+    "libclamav/memory_perturb.h": "59d99437a0f357935eb7f52bcc7965ffa59497c9318e80663be0276a53138da5",
+    "libclamav/mpool.c": "cfd494e091ea4c51b79063ec76669db770b71b89db50c5b793c2a977d5645cbe",
+    "libclamav/mpool.h": "55e9dba8b602cc7e261026172d4e44fef194e47366266e1d937ff8bfa7acfac2",
+    "libclamav/others_common.c": "0ddb15f3e91c45b5d27c99a3e661dbf18c833a8b186751e2a3ab8b930dabc778",
+    "libclamav/readdb.c": "8b63f5f8723eb1b4e530cd83c3711536e8c7c726126e0728dd70841df9240533",
+    "tools/compact-memory/allocation-perturbation/README.md": "03a6ad1213bcae0bc79b65b3554778a9e691c75042167c5b4e0dcd88db192f7d",
+    "tools/compact-memory/allocation-perturbation/audit_results.py": "2bbb5b34007b15208a05610e86b27db9869a6b56f39cbd378e272a94408f28d1",
+    "tools/compact-memory/allocation-perturbation/build_probe.py": "9e8962eff9b94731a2cf759e9601df650e8b6a27a93ba0f9efbc3ffaf760d080",
+    "tools/compact-memory/allocation-perturbation/pool_class_analysis.py": "7a99abfb3af2ee22891ee5e9a5e802d5fa700417b186e862e1df6c9afe077ad9",
+    "tools/compact-memory/allocation-perturbation/prepare_corpus.py": "c6e6f1729db419e0f74345ac4577f939c985f4b08b2aef5b77e15bc9a8740de4",
+    "tools/compact-memory/allocation-perturbation/probe.c": "52588c89942d0c033b0f7bba1703b30cf7211c730ba23fa1942a4187f6ad7c03",
+    "tools/compact-memory/allocation-perturbation/run_matrix.py": "d6301bc8ed360ab858c4ddc3f048d38a14232ecbb2c83dfeff9d6ee188d32121",
+    "tools/compact-memory/allocation-perturbation/test_audit_results.py": "b63a5d204904bdeef9b5120437879540ec18606b0789d7b20ebf9240f6502dea",
+    "tools/compact-memory/allocation-perturbation/test_instrumentation.py": "d4ec821828f8c735db458b096b51acc18b3b96dd0dd3159f5484a90d2435f731",
+    "tools/compact-memory/allocation-perturbation/test_pool_class_analysis.py": "15ed5a894f53c4b333d25a82fdcde0f29fbdd56bb0de598d6ec236c11946ac3e",
+    "tools/compact-memory/allocation-perturbation/test_runner.py": "a166b158fbebeccbad1b43415e4fbc6f633d0ae34ce37d286f39a155cc6eb8b9",
+    "tools/subset-selector/performance/performance_probe.c": "f28ae4ed357172c8deb72e948accf935d589a9ebb5e09ef20c5834c1896fc528",
+    "tools/subset-selector/scan_probe.c": "1cd9b6a11629008f6ffab9d6baa5ca3489bf8f750ae280b041a37d9b0f5dda8c"
+  },
+  "limitations": [
+    "Current-source normal build is not byte-identical to the preserved baseline artifact; it has no perturbation symbols, ignored injection settings, and matched the nine-fixture baseline transcript.",
+    "Primary-engine scans only: replacement engines were compiled but not scanned.",
+    "Cumulative allocation/request padding is not live injected memory.",
+    "Not all direct heap, Rust or external-library allocations are annotated.",
+    "No measured saving or all-input correctness/performance guarantee is claimed."
+  ]
+}

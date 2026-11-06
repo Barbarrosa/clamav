@@ -1,0 +1,934 @@
+{
+  "schema_version": 1,
+  "identities": {
+    "instrumented": {
+      "probe_sha256": "fb012ada21d8bf5eba124db57ee2c4b2d3a07d0d28915b6bd7cf4708ea404664",
+      "library_sha256": "800d5f211d52df4899f41c7d05282fa29d10677416c15a6db2f2f3613d5ee6a0"
+    },
+    "stock": {
+      "probe_sha256": "372f256a579d764374168e4cee6f6a7ecb50279f3999c60b171ae9a6edbd2c07",
+      "library_sha256": "871c95bca8f04e5bebb348e90327b0d4adb5355114e664baa4b68447eac6104a"
+    }
+  },
+  "seed": 20261108,
+  "plan": [
+    {
+      "ordinal": 0,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 1,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "repetition": 0
+    },
+    {
+      "ordinal": 2,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 0,
+      "repetition": 0
+    },
+    {
+      "ordinal": 3,
+      "variant": "stock",
+      "group": "disabled",
+      "dose": 0,
+      "repetition": 0
+    },
+    {
+      "ordinal": 4,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 5,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 6,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 0,
+      "repetition": 0
+    }
+  ],
+  "experiment_source_sha256": {
+    "run_matrix.py": "d6301bc8ed360ab858c4ddc3f048d38a14232ecbb2c83dfeff9d6ee188d32121",
+    "probe.c": "52588c89942d0c033b0f7bba1703b30cf7211c730ba23fa1942a4187f6ad7c03",
+    "performance_probe.c": "f28ae4ed357172c8deb72e948accf935d589a9ebb5e09ef20c5834c1896fc528",
+    "scan_probe.c": "1cd9b6a11629008f6ffab9d6baa5ca3489bf8f750ae280b041a37d9b0f5dda8c"
+  },
+  "fixture_list_sha256": "de5fdd96f1f6cb55197c5e8ff7c12b285349eb638833bf0a0f81a379ab143019",
+  "fixtures": [
+    {
+      "name": "000-clean.png",
+      "bytes": 4090,
+      "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737"
+    },
+    {
+      "name": "001-clean.jpg",
+      "bytes": 12945,
+      "sha256": "f476902738440afb1b6d4011048e0180d97d480e956d44d187b00afe9182a577"
+    },
+    {
+      "name": "002-clean.pdf",
+      "bytes": 1437,
+      "sha256": "00214c467e91fe7f5b64d986bd50d9971b246e839449741d02d1d24c0c8f0039"
+    },
+    {
+      "name": "003-long.pdf",
+      "bytes": 50068,
+      "sha256": "a010bebc8f19bf9f95cbe38ec5ce6f2c64e17749c2ff6200dd8a92c1a5c863ee"
+    },
+    {
+      "name": "004-misleading-mime.exe",
+      "bytes": 1424,
+      "sha256": "dc2a8f4baf5b7c3b554213ce7d0bed2ea1c060450ad5bde4a63f04e91b114a2e"
+    },
+    {
+      "name": "005-photo-00.png",
+      "bytes": 4046,
+      "sha256": "12eb26be4d8e9989c5fb7c1ad348a70923f3a3356dd9c984fa2a1c4f6317983f"
+    },
+    {
+      "name": "006-photo-01.png",
+      "bytes": 4046,
+      "sha256": "08e32239f9304e9ba8eb02d193d1b66df68a28d8a28b03cadb9a7af4cdd08b37"
+    },
+    {
+      "name": "007-photo-02.png",
+      "bytes": 4046,
+      "sha256": "1e3eee359cdf3d051c0899804a3e89b1fcb1faadb2cae93d89d5298b62a1fa65"
+    },
+    {
+      "name": "008-photo-03.png",
+      "bytes": 4046,
+      "sha256": "86ed3743f79f17e3c4bc850d140a69edaed2b7d78f41b5c3b5ddd676e8c6953d"
+    },
+    {
+      "name": "009-photo-04.png",
+      "bytes": 4046,
+      "sha256": "49ec3a0a6e7a76760f927d1289597fd2c955529c29a9e0117b111a24daf28d64"
+    },
+    {
+      "name": "010-photo-05.png",
+      "bytes": 4046,
+      "sha256": "7d51bc85e310f5ccef35889541aee18456939b5e8a2a686b85b147457ded970a"
+    },
+    {
+      "name": "011-photo-06.png",
+      "bytes": 4046,
+      "sha256": "a4e0d1649bb696f4a7cdfdbb6c317443a96773baa2a6d0d2b2c7c67cdfbb966c"
+    },
+    {
+      "name": "012-photo-07.png",
+      "bytes": 4046,
+      "sha256": "1845131b66766019c1b14208ebd61ab53fbe23029ab4c198dc74d413cb6ea458"
+    },
+    {
+      "name": "013-photo-08.png",
+      "bytes": 4046,
+      "sha256": "f856e3227d0a8b16dbe3eae9f63ff000521c8c4a44fd3b2bd7de368cebf69025"
+    },
+    {
+      "name": "014-photo-09.png",
+      "bytes": 4046,
+      "sha256": "8379cea5ffa88c4e7a771b19937905583ca64c49b1c211a2a8df12ebfc099a7f"
+    },
+    {
+      "name": "015-photo-10.png",
+      "bytes": 4047,
+      "sha256": "dc5b5406c074d91a3aa150b3cd2238dab6b62424c01ab256151a3c609cb41a27"
+    },
+    {
+      "name": "016-photo-11.png",
+      "bytes": 4047,
+      "sha256": "309fe9bb82c38e5046110ed14f774b5958a5cbf5037993c82cf6978e0cfe183b"
+    },
+    {
+      "name": "017-photo-12.png",
+      "bytes": 4047,
+      "sha256": "6ddfe302cf91101c260e9df32bd9ab45fb7bf0e2cd931cf66894ebeed3b6878f"
+    },
+    {
+      "name": "018-photo-13.png",
+      "bytes": 4047,
+      "sha256": "e1e25cb5227094355d471f93a89cde4276c79df1cb54cfb03aeb1a14e38ddc56"
+    },
+    {
+      "name": "019-photo-14.png",
+      "bytes": 4047,
+      "sha256": "c72698144ff75de96660e0fc75cc76afe139da0c093b20a20ad325fbdd5c318a"
+    },
+    {
+      "name": "020-photo-15.png",
+      "bytes": 4047,
+      "sha256": "1af65499ee6b2dfb0a5c0dd0418847766b88cc6c0f24fccc8afbf91d91bdcf89"
+    },
+    {
+      "name": "021-photo-16.png",
+      "bytes": 4047,
+      "sha256": "ae71bdb9c09a62fa72e5bd3377eecabe51a3de77ac10e32c1b992d6114b987df"
+    },
+    {
+      "name": "022-photo-17.png",
+      "bytes": 4047,
+      "sha256": "2bbd53c38502a66d618de5c8c293afa2226369ff3f3845710c37adf1e6ae988c"
+    },
+    {
+      "name": "023-photo-18.png",
+      "bytes": 4047,
+      "sha256": "a520aa33fe4bc4c698579bf954841de2b0eb7a22757598b59e425ea9a7d2b7ab"
+    },
+    {
+      "name": "024-photo-19.png",
+      "bytes": 4047,
+      "sha256": "9f36c3e9cd57f2db16b1733bb8a1a74b38973de87506c7b1b012c705aca7e8d9"
+    },
+    {
+      "name": "025-image-document.pdf",
+      "bytes": 7203892,
+      "sha256": "8e85b7a2298144df9e2e5f6d129b826b36d369918ed1c7836ebdc9188ebadeb4"
+    },
+    {
+      "name": "026-noisy.jpg",
+      "bytes": 1721825,
+      "sha256": "d59f12db1185dca5b3df5a028ae4030dc7b1af2b45eec55600f2c26b49710a3c"
+    },
+    {
+      "name": "027-noisy.png",
+      "bytes": 5769384,
+      "sha256": "522e2f0cc6238415758de4579f63a6a255d2f74bbbaf4f6508e478bd170ac35d"
+    },
+    {
+      "name": "000-clam-aspack.exe",
+      "bytes": 7680,
+      "sha256": "fa2901d4e97497165ce275bd8a9e94fe5266ea7a0795d96e0e439da0c7645c36"
+    },
+    {
+      "name": "001-clam-fsg.exe",
+      "bytes": 6656,
+      "sha256": "13f8764444fb9a0ffc9bfe2120e1ad163779846b747163bf14b71519504cb9ae"
+    },
+    {
+      "name": "002-clam-mew.exe",
+      "bytes": 1560,
+      "sha256": "bfe7eeb1939e8bc16f90cb5d921437056e0e456a00a8ea3b31bd9754f6c89885"
+    },
+    {
+      "name": "003-clam-nsis.exe",
+      "bytes": 47437,
+      "sha256": "652847877739943f99273c1388c56c375cb6715b01c7135f7bab882a0be3f888"
+    },
+    {
+      "name": "004-clam-pespin.exe",
+      "bytes": 16384,
+      "sha256": "1dba66766f99bbd55c28113775a54a9cc22d93735494be96237a4081be89e82b"
+    },
+    {
+      "name": "005-clam-petite.exe",
+      "bytes": 4096,
+      "sha256": "f4091b710d78322370e849381cddedc878bbe580563d993f4195b2bcb1ffc5b8"
+    },
+    {
+      "name": "006-clam-upack.exe",
+      "bytes": 1852,
+      "sha256": "80a03f1b06996e084f54e6218019e1f0e2c3e789c72a9264145c8e0602c84702"
+    },
+    {
+      "name": "007-clam-upx.exe",
+      "bytes": 3072,
+      "sha256": "d1973ca87229f403ef214905c4a9c2f2a4cca73e1b5b0217eb3f7595e706e16f"
+    },
+    {
+      "name": "008-clam-v2.rar",
+      "bytes": 350,
+      "sha256": "db8de765a932a60fa5acf2321e07f4ed2c336e6a78474cf8228e730577bc3a75"
+    },
+    {
+      "name": "009-clam-v3.rar",
+      "bytes": 364,
+      "sha256": "9ce61f3a6a692618f4969af44fc70867eafca86b27a9cd10ea801262635d3e87"
+    },
+    {
+      "name": "010-clam-wwpack.exe",
+      "bytes": 4096,
+      "sha256": "f8a027d8f09a8943c32e0cdee35fe0d4ce77da174c7773cafde752397d4a75f4"
+    },
+    {
+      "name": "011-clam-yc.exe",
+      "bytes": 6226,
+      "sha256": "4ebe56972199136a749eca73eb221272cabf725436d6b939b8c1182383c562a9"
+    },
+    {
+      "name": "012-clam.7z",
+      "bytes": 362,
+      "sha256": "eb9075912c0ecd1ddc840922f87795061466314f403f20ea8bb9daf5d533c242"
+    },
+    {
+      "name": "013-clam.arj",
+      "bytes": 393,
+      "sha256": "8fdcc534e30eb458ae180a32fc533b6d97635ba56ec8de5598e30be5396bba14"
+    },
+    {
+      "name": "014-clam.bin-be.cpio",
+      "bytes": 1024,
+      "sha256": "b7a4701f8555156559f7957c4f395f88e1d1253a42578d96f5ebacf19528533c"
+    },
+    {
+      "name": "015-clam.bin-le.cpio",
+      "bytes": 1024,
+      "sha256": "579b55e1dc10d79d232c43289658f206a946ee69131332b63ff2613dc117cea9"
+    },
+    {
+      "name": "016-clam.bz2.zip",
+      "bytes": 462,
+      "sha256": "cf435f5c22acbaf2270985d651b29b48ef2fed210cc48f1720ef8c539582920b"
+    },
+    {
+      "name": "017-clam.cab",
+      "bytes": 621,
+      "sha256": "489ffd1f819cf09d742de715a20f4e0cc6b8d50bc837452b59f5b09304e961a5"
+    },
+    {
+      "name": "018-clam.chm",
+      "bytes": 10950,
+      "sha256": "f22f10a9fa67f984589d85db753b83e1e3dd6780aa9f425d0fa27fd545d9bd7e"
+    },
+    {
+      "name": "019-clam.d64.zip",
+      "bytes": 422,
+      "sha256": "36d58e6da9c33c5fae8fd5086adcdaf77180dfb5d8daafd74843b83fd2b318fd"
+    },
+    {
+      "name": "020-clam.ea05.exe",
+      "bytes": 211738,
+      "sha256": "981564018dff1f07a4ce0afe4388a2804b5db94cfd22a9dd4d6047761041effc"
+    },
+    {
+      "name": "021-clam.ea06.exe",
+      "bytes": 257960,
+      "sha256": "04e2ca3b7f3f55736bd3cd56c7c6b9e4423fa9574870d3ae316552c118e32fe3"
+    },
+    {
+      "name": "022-clam.exe",
+      "bytes": 544,
+      "sha256": "71e7b604d18aefd839e51a39c88df8383bb4c071dc31f87f00a2b5df580d4495"
+    },
+    {
+      "name": "023-clam.exe.2007.one",
+      "bytes": 1147720,
+      "sha256": "d0a9df85d9c3042263dd9c32e2b8110b7a5c3f295e222a8fa48029f8bf0a5583"
+    },
+    {
+      "name": "024-clam.exe.2010.one",
+      "bytes": 1529144,
+      "sha256": "1139a72ab95778e4dcc473603bdcb126cf1d7d796eb9d6fc59d64a3d5468a2c4"
+    },
+    {
+      "name": "025-clam.exe.binhex",
+      "bytes": 833,
+      "sha256": "1cf8e74b9f77c8a1cabf325670a9a01075713de50a2e0c5be9ff361d25f5f7f1"
+    },
+    {
+      "name": "026-clam.exe.bz2",
+      "bytes": 348,
+      "sha256": "0376edde0203be9370ffcf52a15e0b19ad8ebc342f67c3c1743241d0ba230fd1"
+    },
+    {
+      "name": "027-clam.exe.html",
+      "bytes": 782,
+      "sha256": "7629414b98069b77fa0022e545a28651e2fc8f96e3435dafd43ee9387b97ebcf"
+    },
+    {
+      "name": "028-clam.exe.mbox.base64",
+      "bytes": 919,
+      "sha256": "0878e94280d2f5f02268c733f91bc3293f8a89b4ae65ed8dc606bb489e09a388"
+    },
+    {
+      "name": "029-clam.exe.mbox.uu",
+      "bytes": 960,
+      "sha256": "a3c2e42cadd5cb0ea69b4fc47d4bf45040b66ade44c33cb288cb44ce6fe8b5f9"
+    },
+    {
+      "name": "030-clam.exe.rtf",
+      "bytes": 20255,
+      "sha256": "bba4eab51c27a6ffbd86bf870048da1902cc7235a4de49cf30208906dac50f85"
+    },
+    {
+      "name": "031-clam.exe.szdd",
+      "bytes": 308,
+      "sha256": "29a6a08fa2effe9ab4ee9fd7d7e72f13f621ad7d41fd980843e5005130c0fa8e"
+    },
+    {
+      "name": "032-clam.exe.webapp-export.one",
+      "bytes": 52297,
+      "sha256": "f5ae4bdb59719b8b9fde153ebcaf12a5b67c214de7c4083c0e968d3c3db0e02f"
+    },
+    {
+      "name": "033-clam.exe_and_mail.tar.gz",
+      "bytes": 528,
+      "sha256": "ab18f7b704299301c38ca5254e14c25e59f8510c26c1a6ea531eaafa80a1eea7"
+    },
+    {
+      "name": "034-clam.impl.zip",
+      "bytes": 394,
+      "sha256": "a8bd0287347484f46769f608a63c56fc35d78bd6b1b0a8acdf466465296040f4"
+    },
+    {
+      "name": "035-clam.iso",
+      "bytes": 360448,
+      "sha256": "7acc034732b3406dd8cf210bb4016e426628708c5444c948ab8d323279e72dab"
+    },
+    {
+      "name": "036-clam.mail",
+      "bytes": 1337,
+      "sha256": "e42bcd485cd1c3f145a465eacae2a8f6dffe69b2319f84d9bd7d97b670363338"
+    },
+    {
+      "name": "037-clam.mail-boundary-backslash.eml",
+      "bytes": 1237,
+      "sha256": "036482918cb56757c0b953ce9c1d642c3d2713e74e9318983c6f16c7932555c0"
+    },
+    {
+      "name": "038-clam.mail-boundary-comment-quote.eml",
+      "bytes": 1252,
+      "sha256": "9b0923ed8a0d0a78ec3f11c1171a2dbbcd9a89b7ecc7699676336c314efea90b"
+    },
+    {
+      "name": "039-clam.mail-boundary-comment-quoted-pair.eml",
+      "bytes": 1239,
+      "sha256": "94d25b6effde2226b6662487850a15c52f52abe973ccd9643ffdaaefe895e4ae"
+    },
+    {
+      "name": "040-clam.mail-boundary-comment-unquoted-pair.eml",
+      "bytes": 1266,
+      "sha256": "7ef67cf040e24c451c34d0de3764670f7381500bb33f2dd356dee15065c4f6e3"
+    },
+    {
+      "name": "041-clam.mail-boundary-comment-unquoted-semicolon.eml",
+      "bytes": 1271,
+      "sha256": "9be758c191516af3f25e6f838755908b8a034de3d2785b01f06b08fba42425df"
+    },
+    {
+      "name": "042-clam.mail-boundary-comment-unquoted-whitespace.eml",
+      "bytes": 1271,
+      "sha256": "1dbbe3e7c59391121dac5c723a7044a0975ad64516d5805e8e7a01dfa761115f"
+    },
+    {
+      "name": "043-clam.mail-boundary-content-disposition.eml",
+      "bytes": 1296,
+      "sha256": "1e490e0fcdb73e4dc985cf11517c5de3775343a3a3492590054f520dd85eb075"
+    },
+    {
+      "name": "044-clam.mail-boundary-escaped-quote.eml",
+      "bytes": 1258,
+      "sha256": "192cf4e44f83c12730914d4115c9edec5fbaa338eb1bb9867ef93fce074632ac"
+    },
+    {
+      "name": "045-clam.mail-boundary-escaped-semicolon-spaced-parameter.eml",
+      "bytes": 1116,
+      "sha256": "3a9d553c44a26fa328082fe3dd5edc6352d21a20672feb7697ff2ba1fb7f742d"
+    },
+    {
+      "name": "046-clam.mail-boundary-escaped-whitespace-parameter.eml",
+      "bytes": 1099,
+      "sha256": "129d7b29a037d67e9a5c6b54c9e6e9c44c2206da065f857562c5aa112e5733ce"
+    },
+    {
+      "name": "047-clam.mail-boundary-intervening-parameter.eml",
+      "bytes": 1111,
+      "sha256": "4d406023645cf25c4e14c7d80c5486b2fe92331e8e8be537108f8c567b70bee9"
+    },
+    {
+      "name": "048-clam.mail-boundary-invalid-continuation.eml",
+      "bytes": 1112,
+      "sha256": "119e25937efefd5bec77c0eec0e21d576bc19e86977e417876bdbb453e9ccd62"
+    },
+    {
+      "name": "049-clam.mail-boundary-leading-whitespace.eml",
+      "bytes": 1242,
+      "sha256": "34fc2d74eb36b74d026e0e969344b59b9b9f22074794219df04e60bcf101febc"
+    },
+    {
+      "name": "050-clam.mail-boundary-lone-escaped-semicolon.eml",
+      "bytes": 1228,
+      "sha256": "eb63fa8e6f01fd717ce0dbb7e622e3f9bde52aafb53d212d44655ec8f1009ac2"
+    },
+    {
+      "name": "051-clam.mail-boundary-malformed-spaced-parameter.eml",
+      "bytes": 1095,
+      "sha256": "632977cb76532e8002a58d6b7dca4f2cb3b938effad85dcb43603a40df4ed5f0"
+    },
+    {
+      "name": "052-clam.mail-boundary-ordinary-parameter.eml",
+      "bytes": 1101,
+      "sha256": "b8361d47941ae3253479ee2311a7bac957ebb85cc0742b992506ab96a4cd0e30"
+    },
+    {
+      "name": "053-clam.mail-boundary-rfc2231-continuation.eml",
+      "bytes": 1256,
+      "sha256": "874aabddfa502031204e303bae010e19578a266a2f29ca534857be9873357119"
+    },
+    {
+      "name": "054-clam.mail-boundary-rfc2231-duplicate-canonical.eml",
+      "bytes": 1125,
+      "sha256": "3e1e79368bb0ac24532bb716727d1a699113f3b21e19d5ec2776023da95e7223"
+    },
+    {
+      "name": "055-clam.mail-boundary-rfc2231-encoded-first.eml",
+      "bytes": 1276,
+      "sha256": "a7d2971cd02b35e0e9d6e2b1002e675d32c5545d801d15b08ac16b2ad9d75874"
+    },
+    {
+      "name": "056-clam.mail-boundary-rfc2231-literal-quotes.eml",
+      "bytes": 1287,
+      "sha256": "7e333196b834202c8e2bd899c681f19b2e3957e3ddeb4cfc79ebb78e43f23908"
+    },
+    {
+      "name": "057-clam.mail-boundary-rfc2231-literal-syntax-continuation.eml",
+      "bytes": 1290,
+      "sha256": "507a757280f45d5a4fb44a06d134ce0f7503552f356106d287956f8070640a1b"
+    },
+    {
+      "name": "058-clam.mail-boundary-rfc2231-nonascii-continuation.eml",
+      "bytes": 1281,
+      "sha256": "22edbef9be604da0e6607c45cd9aabfe1e0e0375850c4d4c2c12afe5d85f0417"
+    },
+    {
+      "name": "059-clam.mail-boundary-rfc2231-repeated-section-zero.eml",
+      "bytes": 1286,
+      "sha256": "48e1af58dd5f98c26538cd38091e1186b805018ff78f8faf652ff961dde811a1"
+    },
+    {
+      "name": "060-clam.mail-boundary-space-delimiter.eml",
+      "bytes": 1268,
+      "sha256": "8becdb800ee509c164018f90d46bba74d0aadbd9764dbb7fcf7452657960d7ec"
+    },
+    {
+      "name": "061-clam.mail-boundary-spaced-continuation.eml",
+      "bytes": 1279,
+      "sha256": "e52a8320ae9fd9e81df06ed60279f5a604bd2b6d4912e0e4a4cc92d7a372338a"
+    },
+    {
+      "name": "062-clam.mail-boundary-spaced-escaped-semicolon-parameter.eml",
+      "bytes": 1100,
+      "sha256": "b88e8ecd1b489b4fb85ddc4de773fea598c8f3a1cc3608136e4accdd4bc8dd94"
+    },
+    {
+      "name": "063-clam.mail-boundary-spaced-parameter.eml",
+      "bytes": 1102,
+      "sha256": "55ae290edc1439ecfd9f91056fa6320a0cc7cb770bb11ca1b6dd0189554dd782"
+    },
+    {
+      "name": "064-clam.mail-boundary-spaced-rfc2231-parameter.eml",
+      "bytes": 1098,
+      "sha256": "7d881e48147c32ddb4b6628c399a80fed0532c99239ba188894a2f652d5bdebc"
+    },
+    {
+      "name": "065-clam.mail-boundary-unquoted-escaped-semicolon.eml",
+      "bytes": 1266,
+      "sha256": "a1511cca4c4f1d69586b03e85bd28bc778b93a1a2c299f3edb1745c920ceefdd"
+    },
+    {
+      "name": "066-clam.mail-comment-header-name.eml",
+      "bytes": 1248,
+      "sha256": "e6cb90ee8fb4326f8a8c8554e340dfacc52133e4ed190416965e1117599e23a7"
+    },
+    {
+      "name": "067-clam.mail-content-disposition-escaped-semicolon.eml",
+      "bytes": 1251,
+      "sha256": "e48e0364032e21912cbf32eccbd4bf2e64da5c7c1ac6f5cc5ff9abc0823fa756"
+    },
+    {
+      "name": "068-clam.mail-disposition-rfc2231-boundary.eml",
+      "bytes": 1320,
+      "sha256": "9b7300ce3c61c8a07debb223a71354d565da02899293a0a1f3a8fb10b67ab484"
+    },
+    {
+      "name": "069-clam.mail-multiple-boundaries.eml",
+      "bytes": 1235,
+      "sha256": "9baaac36c36324025e75f022c1caf027a04e4c1c4e71dde918b00e0b0614148d"
+    },
+    {
+      "name": "070-clam.mail-multiple-content-type.eml",
+      "bytes": 1266,
+      "sha256": "eab994c16d64a087819c4376ab4ac3c587345891782bb710991f011a5b221be2"
+    },
+    {
+      "name": "071-clam.mail-nested-comment-header-name.eml",
+      "bytes": 1327,
+      "sha256": "71696cf686681837be1994f07e678fc28d6f0a85dd5163b1183a204a9152953b"
+    },
+    {
+      "name": "072-clam.mail-semicolon-boundary.eml",
+      "bytes": 1235,
+      "sha256": "842b10d285b57984b013a4845a5709e632e05f1f23e3263bc24af938b9b50904"
+    },
+    {
+      "name": "073-clam.newc.cpio",
+      "bytes": 1024,
+      "sha256": "fbdea780c00804b6bc26dbbfc959f39f6899e50cb805844c20c2a2dce0ff1546"
+    },
+    {
+      "name": "074-clam.odc.cpio",
+      "bytes": 1024,
+      "sha256": "6a8b1e791abc8a9423d085c83cef7870413b985c79390262bf2bcbae66215d18"
+    },
+    {
+      "name": "075-clam.ole.doc",
+      "bytes": 16384,
+      "sha256": "5ecdc3d43a7632d400bf3c6fd9422f31d67467da0feca98f2f414f7dde803c39"
+    },
+    {
+      "name": "076-clam.pdf",
+      "bytes": 7277,
+      "sha256": "c46d28b54a8efe5821125e9002c6de29f52f5ad736625637326e47ceb49a07e7"
+    },
+    {
+      "name": "077-clam.ppt",
+      "bytes": 33793,
+      "sha256": "e9dcedfb1014b23fc7895db5eb8e0eb9613e3a28210faccb337c100615c48b1f"
+    },
+    {
+      "name": "078-clam.sis",
+      "bytes": 596,
+      "sha256": "2e75399c9f6fa7741db9ccf506de2895b3a78a3d574fa776c65f533b717555b5"
+    },
+    {
+      "name": "079-clam.split.oneseg.zip",
+      "bytes": 502,
+      "sha256": "317ee71100aa2470fb5f327d18e5f5558e7cfe411840b589e8d1261228bea507"
+    },
+    {
+      "name": "080-clam.tar.gz",
+      "bytes": 486,
+      "sha256": "52cfcc90cffafe62a0abe41013c01be4e1b45cc880b2d2d1db083fda6d767fc4"
+    },
+    {
+      "name": "081-clam.tnef",
+      "bytes": 9738,
+      "sha256": "cd5b6e9c5e1c76f13eeb367d58ee2115e54be0215e9336764134c78b93044110"
+    },
+    {
+      "name": "082-clam.zip",
+      "bytes": 404,
+      "sha256": "21495c3a579d537dc63b0df710f63e60a0bfbc74d1c2739a313dbd42dd31e1fa"
+    },
+    {
+      "name": "083-clam_IScab_ext.exe",
+      "bytes": 1748612,
+      "sha256": "12034f5b33659db235db83a18b4f5d972219a07aab633c6e23a6de8372205a0a"
+    },
+    {
+      "name": "084-clam_IScab_int.exe",
+      "bytes": 1744032,
+      "sha256": "124d5f640891430e4f7fa9bbb95c46601f132d6cfb070924c85f81e221acbe9b"
+    },
+    {
+      "name": "085-clam_ISmsi_ext.exe",
+      "bytes": 1215239,
+      "sha256": "d33908f09dfee2c0299618beb0b5b24fd40db0a8285f46841cbd2b42b179b58b"
+    },
+    {
+      "name": "086-clam_ISmsi_int.exe",
+      "bytes": 1184248,
+      "sha256": "f7531f276c9ce9558676a435d926c1234226215e4392c57143b589c470f7235f"
+    },
+    {
+      "name": "087-clam_cache_emax.tgz",
+      "bytes": 3079,
+      "sha256": "f2b5fd5eaf1c4526ac39559964dc360d28de673599b8676f8718307cbb38ef89"
+    },
+    {
+      "name": "088-clamjol.iso",
+      "bytes": 374784,
+      "sha256": "89116d0005e023fabc2cdd61a3c5a9050a8a8982c96ba145ee3df295625d91d5"
+    },
+    {
+      "name": "000-broken.pdf",
+      "bytes": 48,
+      "sha256": "4149322f48d98b2f78a8c587616442c373db2a0a4cea5312d8f21b7726d78024"
+    },
+    {
+      "name": "001-clean.jpg",
+      "bytes": 12945,
+      "sha256": "f476902738440afb1b6d4011048e0180d97d480e956d44d187b00afe9182a577"
+    },
+    {
+      "name": "002-clean.pdf",
+      "bytes": 1437,
+      "sha256": "00214c467e91fe7f5b64d986bd50d9971b246e839449741d02d1d24c0c8f0039"
+    },
+    {
+      "name": "003-clean.png",
+      "bytes": 4090,
+      "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737"
+    },
+    {
+      "name": "004-clean.zip",
+      "bytes": 337,
+      "sha256": "2c4c34dfeda2d5aabe9bd2bde8f59dd4f848cb076da986fc5b878423cb896f8e"
+    },
+    {
+      "name": "005-document.docx",
+      "bytes": 907,
+      "sha256": "bd809df93bc64ca06071ff1628c100973ea793f2ed32b5009864359f701c21f7"
+    },
+    {
+      "name": "006-embedded-pe.pdf",
+      "bytes": 855,
+      "sha256": "7db96b191cc8abf036149d2a08198f4a91a560cb0c17159dde22896bc1ee57f2"
+    },
+    {
+      "name": "007-empty.png",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "008-encrypted.pdf",
+      "bytes": 1979,
+      "sha256": "1b94a79fe9bc7ab4071c7642b6cd3caf1e442928d2ba22014a5e2fd66724c224"
+    },
+    {
+      "name": "009-long.pdf",
+      "bytes": 50068,
+      "sha256": "a010bebc8f19bf9f95cbe38ec5ce6f2c64e17749c2ff6200dd8a92c1a5c863ee"
+    },
+    {
+      "name": "010-misleading-mime.exe",
+      "bytes": 1424,
+      "sha256": "dc2a8f4baf5b7c3b554213ce7d0bed2ea1c060450ad5bde4a63f04e91b114a2e"
+    },
+    {
+      "name": "011-nested-pe.eml",
+      "bytes": 1265,
+      "sha256": "1aff7637196b74db595052bbeee6213ac8f2b0d5cf7f731381421b1aaead612c"
+    },
+    {
+      "name": "012-nested-pe.zip",
+      "bytes": 372,
+      "sha256": "5a9ccc2eb68b5916925171f093a8ced0defec08c99eb82842be4371c292f56a3"
+    },
+    {
+      "name": "013-nested.zip",
+      "bytes": 452,
+      "sha256": "a17056f9b2092b81ff1ea15c708761b4bdc4243b906bb38327449be16d53cab1"
+    },
+    {
+      "name": "014-oversized.pdf",
+      "bytes": 5242889,
+      "sha256": "6b461935d80adaeb2b3b5fc008388767f975af84a3268a4913a9ebf62e08630f"
+    },
+    {
+      "name": "015-pdf-zip-polyglot.pdf",
+      "bytes": 1809,
+      "sha256": "0319188fac7b767536a33bd833edb80517e7e17b424a2c3b7c7cd86b626680ce"
+    },
+    {
+      "name": "016-photo-00.png",
+      "bytes": 4046,
+      "sha256": "12eb26be4d8e9989c5fb7c1ad348a70923f3a3356dd9c984fa2a1c4f6317983f"
+    },
+    {
+      "name": "017-photo-01.png",
+      "bytes": 4046,
+      "sha256": "08e32239f9304e9ba8eb02d193d1b66df68a28d8a28b03cadb9a7af4cdd08b37"
+    },
+    {
+      "name": "018-photo-02.png",
+      "bytes": 4046,
+      "sha256": "1e3eee359cdf3d051c0899804a3e89b1fcb1faadb2cae93d89d5298b62a1fa65"
+    },
+    {
+      "name": "019-photo-03.png",
+      "bytes": 4046,
+      "sha256": "86ed3743f79f17e3c4bc850d140a69edaed2b7d78f41b5c3b5ddd676e8c6953d"
+    },
+    {
+      "name": "020-photo-04.png",
+      "bytes": 4046,
+      "sha256": "49ec3a0a6e7a76760f927d1289597fd2c955529c29a9e0117b111a24daf28d64"
+    },
+    {
+      "name": "021-photo-05.png",
+      "bytes": 4046,
+      "sha256": "7d51bc85e310f5ccef35889541aee18456939b5e8a2a686b85b147457ded970a"
+    },
+    {
+      "name": "022-photo-06.png",
+      "bytes": 4046,
+      "sha256": "a4e0d1649bb696f4a7cdfdbb6c317443a96773baa2a6d0d2b2c7c67cdfbb966c"
+    },
+    {
+      "name": "023-photo-07.png",
+      "bytes": 4046,
+      "sha256": "1845131b66766019c1b14208ebd61ab53fbe23029ab4c198dc74d413cb6ea458"
+    },
+    {
+      "name": "024-photo-08.png",
+      "bytes": 4046,
+      "sha256": "f856e3227d0a8b16dbe3eae9f63ff000521c8c4a44fd3b2bd7de368cebf69025"
+    },
+    {
+      "name": "025-photo-09.png",
+      "bytes": 4046,
+      "sha256": "8379cea5ffa88c4e7a771b19937905583ca64c49b1c211a2a8df12ebfc099a7f"
+    },
+    {
+      "name": "026-photo-10.png",
+      "bytes": 4047,
+      "sha256": "dc5b5406c074d91a3aa150b3cd2238dab6b62424c01ab256151a3c609cb41a27"
+    },
+    {
+      "name": "027-photo-11.png",
+      "bytes": 4047,
+      "sha256": "309fe9bb82c38e5046110ed14f774b5958a5cbf5037993c82cf6978e0cfe183b"
+    },
+    {
+      "name": "028-photo-12.png",
+      "bytes": 4047,
+      "sha256": "6ddfe302cf91101c260e9df32bd9ab45fb7bf0e2cd931cf66894ebeed3b6878f"
+    },
+    {
+      "name": "029-photo-13.png",
+      "bytes": 4047,
+      "sha256": "e1e25cb5227094355d471f93a89cde4276c79df1cb54cfb03aeb1a14e38ddc56"
+    },
+    {
+      "name": "030-photo-14.png",
+      "bytes": 4047,
+      "sha256": "c72698144ff75de96660e0fc75cc76afe139da0c093b20a20ad325fbdd5c318a"
+    },
+    {
+      "name": "031-photo-15.png",
+      "bytes": 4047,
+      "sha256": "1af65499ee6b2dfb0a5c0dd0418847766b88cc6c0f24fccc8afbf91d91bdcf89"
+    },
+    {
+      "name": "032-photo-16.png",
+      "bytes": 4047,
+      "sha256": "ae71bdb9c09a62fa72e5bd3377eecabe51a3de77ac10e32c1b992d6114b987df"
+    },
+    {
+      "name": "033-photo-17.png",
+      "bytes": 4047,
+      "sha256": "2bbd53c38502a66d618de5c8c293afa2226369ff3f3845710c37adf1e6ae988c"
+    },
+    {
+      "name": "034-photo-18.png",
+      "bytes": 4047,
+      "sha256": "a520aa33fe4bc4c698579bf954841de2b0eb7a22757598b59e425ea9a7d2b7ab"
+    },
+    {
+      "name": "035-photo-19.png",
+      "bytes": 4047,
+      "sha256": "9f36c3e9cd57f2db16b1733bb8a1a74b38973de87506c7b1b012c705aca7e8d9"
+    },
+    {
+      "name": "036-plain.txt",
+      "bytes": 56,
+      "sha256": "b67f0de3bc16ee0405016643c784a7f444aafc9169908cf9976c136934c3c33c"
+    },
+    {
+      "name": "037-png-appended-pe.png",
+      "bytes": 4634,
+      "sha256": "c6b3a6d0b3d048288e787349bf88d12ea78dfb0a3a490230daec79a16f1fd3ba"
+    },
+    {
+      "name": "038-renamed-pe.pdf",
+      "bytes": 544,
+      "sha256": "71e7b604d18aefd839e51a39c88df8383bb4c071dc31f87f00a2b5df580d4495"
+    },
+    {
+      "name": "039-truncated.png",
+      "bytes": 75,
+      "sha256": "3af71e1a3299682c341561410ab1edf580589923cbc525722682c7c1468aa257"
+    },
+    {
+      "name": "040-audio.wav",
+      "bytes": 16044,
+      "sha256": "56d4af65701c26df20bd4021eda95b6e830348ce3a746086079fe89285548dc9"
+    },
+    {
+      "name": "041-document-clean.docx",
+      "bytes": 525,
+      "sha256": "8e4c11bb6fd7745e05d6c38dbddce5b3a4a639fd86023a46d763b6e3ae5ef458"
+    },
+    {
+      "name": "042-email-clean.eml",
+      "bytes": 6041,
+      "sha256": "a77da132531c2fe74d98834f2dcdc02c80a863eaf6854fa392fc3923c1bb6126"
+    },
+    {
+      "name": "043-encrypted.zip",
+      "bytes": 997,
+      "sha256": "ab1cd8f61a59f26f1878615053b556d6008b4d72638f7596b465d90db2d7274d"
+    },
+    {
+      "name": "044-malformed.zip",
+      "bytes": 84,
+      "sha256": "94ef2019f3f12c24513a7d005ee853537774c40759152a1065d9dcdbfec4ec25"
+    },
+    {
+      "name": "045-recursion-limit.zip",
+      "bytes": 2169,
+      "sha256": "2c91049f45a91cbd413ec0d75916e863354c4d20863dccae5a5715f27bfaef06"
+    }
+  ],
+  "database": [
+    {
+      "name": "bytecode.cvd",
+      "bytes": 281702,
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+    },
+    {
+      "name": "daily.cvd",
+      "bytes": 23443876,
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+    },
+    {
+      "name": "database-provenance.json",
+      "bytes": 833,
+      "sha256": "0099a8387bbce93daed17f5560d4502d9deb098c38beb9a314392e5f98109cc5"
+    },
+    {
+      "name": "main.cvd",
+      "bytes": 89072577,
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "CMakeLists.txt",
+      "bytes": 390,
+      "sha256": "d416b0bbe85b46e27efa1298ced4273bdfbded6b8f9410cdb5c51d96df88ff10"
+    },
+    {
+      "name": "clamav.crt",
+      "bytes": 1976,
+      "sha256": "60200e4b4b1b1b7257bb4550487aeb142034341f3300a8526e77a3134a940e9d"
+    }
+  ],
+  "resource_limits": {
+    "address_space_bytes": 4294967296,
+    "cpu_seconds": 120,
+    "wall_seconds": 150,
+    "cpu": 0,
+    "max_cumulative_added_bytes": 536870912
+  },
+  "reload": true,
+  "scan_passes": 1,
+  "shared_zero_controls": 0,
+  "scope": "allocation sensitivity of annotated paths; cumulative injection totals are not live allocation sizes"
+}

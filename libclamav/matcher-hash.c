@@ -24,6 +24,7 @@
 
 #include "matcher.h"
 #include "others.h"
+#include "memory_perturb.h"
 #include "str.h"
 
 const char *cli_hash_name(cli_hash_type_t type)
@@ -137,7 +138,7 @@ static cl_error_t hm_root(struct cl_engine *engine, hash_purpose_t purpose, stru
     }
 
     if (NULL == root) {
-        if (NULL == (root = MPOOL_CALLOC(engine->mempool, 1, sizeof(*root)))) {
+        if (NULL == (root = CM_MPOOL_CALLOC("hashes", engine->mempool, 1, sizeof(*root)))) {
             return CL_EMEM;
         }
 #ifdef USE_MPOOL
@@ -270,7 +271,7 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
         item = cli_htu32_find(ht, size);
         if (!item) {
             struct cli_htu32_element htitem;
-            szh = MPOOL_CALLOC(root->mempool, 1, sizeof(*szh));
+            szh = CM_MPOOL_CALLOC("hashes", root->mempool, 1, sizeof(*szh));
             if (!szh) {
                 cli_errmsg("hm_addhash_bin: failed to allocate size hash\n");
                 return CL_EMEM;
@@ -293,7 +294,7 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
     }
     szh->items++;
 
-    szh->hash_array = MPOOL_REALLOC2(root->mempool, szh->hash_array, hlen * szh->items);
+    szh->hash_array = CM_MPOOL_REALLOC2("hashes", root->mempool, szh->hash_array, hlen * szh->items);
     if (!szh->hash_array) {
         cli_errmsg("hm_addhash_bin: failed to grow hash array to %u entries\n", szh->items);
         szh->items = 0;
@@ -302,7 +303,7 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
         return CL_EMEM;
     }
 
-    szh->virusnames = MPOOL_REALLOC2(root->mempool, (void *)szh->virusnames, sizeof(*szh->virusnames) * szh->items);
+    szh->virusnames = CM_MPOOL_REALLOC2("hashes", root->mempool, (void *)szh->virusnames, sizeof(*szh->virusnames) * szh->items);
     if (!szh->virusnames) {
         cli_errmsg("hm_addhash_bin: failed to grow virusname array to %u entries\n", szh->items);
         szh->items = 0;
@@ -444,7 +445,7 @@ static void *hm_array_alloc(size_t count, size_t width)
 {
     if (!count || count > SIZE_MAX / width)
         return NULL;
-    return malloc(count * width);
+    return CM_PERTURB_MALLOC("hashes", count * width);
 }
 
 static bool hm_count_bucket(struct cli_hash_compiled *out, const struct cli_sz_hash *bucket)
@@ -499,7 +500,7 @@ cl_error_t hm_flush(struct cli_matcher *root)
         return CL_SUCCESS;
 #ifdef ENABLE_FLAT_HASH_STORE
     unsigned int t;
-    struct cli_hash_compiled *groups = calloc(CLI_HASH_AVAIL_TYPES, sizeof(*groups));
+    struct cli_hash_compiled *groups = CM_PERTURB_CALLOC("hashes", CLI_HASH_AVAIL_TYPES, sizeof(*groups));
     if (!groups)
         return CL_EMEM;
 
@@ -534,7 +535,7 @@ cl_error_t hm_flush(struct cli_matcher *root)
         if (out->items) {
             out->hashes = hm_array_alloc(out->items, cli_hash_len(t));
             out->name_offsets = hm_array_alloc(out->items, out->name_width);
-            out->names = malloc(out->name_bytes);
+            out->names = CM_PERTURB_MALLOC("hashes", out->name_bytes);
             if (!out->hashes || !out->name_offsets || !out->names)
                 goto nomem;
             out->names[0] = '\0';

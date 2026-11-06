@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "identities": {
+    "instrumented": {
+      "probe_sha256": "fb012ada21d8bf5eba124db57ee2c4b2d3a07d0d28915b6bd7cf4708ea404664",
+      "library_sha256": "800d5f211d52df4899f41c7d05282fa29d10677416c15a6db2f2f3613d5ee6a0"
+    },
+    "stock": {
+      "probe_sha256": "372f256a579d764374168e4cee6f6a7ecb50279f3999c60b171ae9a6edbd2c07",
+      "library_sha256": "871c95bca8f04e5bebb348e90327b0d4adb5355114e664baa4b68447eac6104a"
+    }
+  },
+  "seed": 20261106,
+  "plan": [
+    {
+      "ordinal": 0,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "repetition": 0,
+      "shared_zero_control": true,
+      "control_index": 0
+    },
+    {
+      "ordinal": 1,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 2,
+      "variant": "instrumented",
+      "group": "tokens",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 3,
+      "variant": "instrumented",
+      "group": "transitions",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 4,
+      "variant": "instrumented",
+      "group": "hashes",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 5,
+      "variant": "instrumented",
+      "group": "scanstate",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 6,
+      "variant": "instrumented",
+      "group": "scanstate",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 7,
+      "variant": "stock",
+      "group": "disabled",
+      "dose": 0,
+      "repetition": 0
+    },
+    {
+      "ordinal": 8,
+      "variant": "instrumented",
+      "group": "logical",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 9,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 10,
+      "variant": "instrumented",
+      "group": "heap_other",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 11,
+      "variant": "instrumented",
+      "group": "pool_other",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 12,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 13,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "repetition": 0,
+      "shared_zero_control": true,
+      "control_index": 1
+    },
+    {
+      "ordinal": 14,
+      "variant": "instrumented",
+      "group": "heap_other",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 15,
+      "variant": "instrumented",
+      "group": "logical",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 16,
+      "variant": "instrumented",
+      "group": "build_scratch",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 17,
+      "variant": "instrumented",
+      "group": "build_scratch",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 18,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 19,
+      "variant": "instrumented",
+      "group": "hashes",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 20,
+      "variant": "instrumented",
+      "group": "transitions",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 21,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 22,
+      "variant": "instrumented",
+      "group": "tokens",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 23,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 24,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 25,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 32,
+      "repetition": 0
+    },
+    {
+      "ordinal": 26,
+      "variant": "instrumented",
+      "group": "pool_other",
+      "dose": 8,
+      "repetition": 0
+    },
+    {
+      "ordinal": 27,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "repetition": 0,
+      "shared_zero_control": true,
+      "control_index": 2
+    }
+  ],
+  "experiment_source_sha256": {
+    "run_matrix.py": "d6301bc8ed360ab858c4ddc3f048d38a14232ecbb2c83dfeff9d6ee188d32121",
+    "probe.c": "52588c89942d0c033b0f7bba1703b30cf7211c730ba23fa1942a4187f6ad7c03",
+    "performance_probe.c": "f28ae4ed357172c8deb72e948accf935d589a9ebb5e09ef20c5834c1896fc528",
+    "scan_probe.c": "1cd9b6a11629008f6ffab9d6baa5ca3489bf8f750ae280b041a37d9b0f5dda8c"
+  },
+  "fixture_list_sha256": "743ce655b13a40ae4b0e9a217b6486637312f3c79b4bf3f87c15654b60c102a4",
+  "fixtures": [
+    {
+      "name": "000-clean.png",
+      "bytes": 4090,
+      "sha256": "41fb06acd6fe8f9a4a2e3c70dc7b75f4dc35a7d2c85915646f01dd2ed33e7737"
+    },
+    {
+      "name": "001-clean.jpg",
+      "bytes": 12945,
+      "sha256": "f476902738440afb1b6d4011048e0180d97d480e956d44d187b00afe9182a577"
+    },
+    {
+      "name": "002-clean.pdf",
+      "bytes": 1437,
+      "sha256": "00214c467e91fe7f5b64d986bd50d9971b246e839449741d02d1d24c0c8f0039"
+    },
+    {
+      "name": "000-clam-aspack.exe",
+      "bytes": 7680,
+      "sha256": "fa2901d4e97497165ce275bd8a9e94fe5266ea7a0795d96e0e439da0c7645c36"
+    },
+    {
+      "name": "001-clam-fsg.exe",
+      "bytes": 6656,
+      "sha256": "13f8764444fb9a0ffc9bfe2120e1ad163779846b747163bf14b71519504cb9ae"
+    },
+    {
+      "name": "002-clam-mew.exe",
+      "bytes": 1560,
+      "sha256": "bfe7eeb1939e8bc16f90cb5d921437056e0e456a00a8ea3b31bd9754f6c89885"
+    },
+    {
+      "name": "000-broken.pdf",
+      "bytes": 48,
+      "sha256": "4149322f48d98b2f78a8c587616442c373db2a0a4cea5312d8f21b7726d78024"
+    },
+    {
+      "name": "001-clean.jpg",
+      "bytes": 12945,
+      "sha256": "f476902738440afb1b6d4011048e0180d97d480e956d44d187b00afe9182a577"
+    },
+    {
+      "name": "002-clean.pdf",
+      "bytes": 1437,
+      "sha256": "00214c467e91fe7f5b64d986bd50d9971b246e839449741d02d1d24c0c8f0039"
+    }
+  ],
+  "database": [
+    {
+      "name": "bytecode.cvd",
+      "bytes": 281702,
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+    },
+    {
+      "name": "daily.cvd",
+      "bytes": 23443876,
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6"
+    },
+    {
+      "name": "database-provenance.json",
+      "bytes": 833,
+      "sha256": "0099a8387bbce93daed17f5560d4502d9deb098c38beb9a314392e5f98109cc5"
+    },
+    {
+      "name": "main.cvd",
+      "bytes": 89072577,
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+    }
+  ],
+  "certificates": [
+    {
+      "name": "CMakeLists.txt",
+      "bytes": 390,
+      "sha256": "d416b0bbe85b46e27efa1298ced4273bdfbded6b8f9410cdb5c51d96df88ff10"
+    },
+    {
+      "name": "clamav.crt",
+      "bytes": 1976,
+      "sha256": "60200e4b4b1b1b7257bb4550487aeb142034341f3300a8526e77a3134a940e9d"
+    }
+  ],
+  "resource_limits": {
+    "address_space_bytes": 4294967296,
+    "cpu_seconds": 120,
+    "wall_seconds": 150,
+    "cpu": 0,
+    "max_cumulative_added_bytes": 536870912
+  },
+  "reload": false,
+  "scan_passes": 1,
+  "shared_zero_controls": 3,
+  "scope": "allocation sensitivity of annotated paths; cumulative injection totals are not live allocation sizes"
+}

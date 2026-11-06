@@ -58,6 +58,7 @@
 
 #include "clamav.h"
 #include "others.h"
+#include "memory_perturb.h"
 #include "str.h"
 #include "platform.h"
 #include "regex/regex.h"
@@ -229,7 +230,7 @@ void *cli_max_malloc(size_t size)
         return NULL;
     }
 
-    alloc = malloc(size);
+    alloc = CM_PERTURB_MALLOC("heap_other", size);
 
     if (!alloc) {
         perror("malloc_problem");
@@ -250,7 +251,7 @@ void *cli_max_calloc(size_t nmemb, size_t size)
         return NULL;
     }
 
-    alloc = calloc(nmemb, size);
+    alloc = CM_PERTURB_CALLOC("heap_other", nmemb, size);
 
     if (!alloc) {
         perror("calloc_problem");
@@ -270,7 +271,7 @@ void *cli_safer_realloc(void *ptr, size_t size)
         return NULL;
     }
 
-    alloc = realloc(ptr, size);
+    alloc = CM_PERTURB_REALLOC("heap_other", ptr, size);
 
     if (!alloc) {
         perror("realloc_problem");
@@ -290,7 +291,7 @@ void *cli_safer_realloc_or_free(void *ptr, size_t size)
         return NULL;
     }
 
-    alloc = realloc(ptr, size);
+    alloc = CM_PERTURB_REALLOC("heap_other", ptr, size);
 
     if (!alloc) {
         perror("realloc_problem");
@@ -317,7 +318,7 @@ void *cli_max_realloc(void *ptr, size_t size)
         return NULL;
     }
 
-    alloc = realloc(ptr, size);
+    alloc = CM_PERTURB_REALLOC("heap_other", ptr, size);
 
     if (!alloc) {
         perror("realloc_problem");
@@ -338,7 +339,7 @@ void *cli_max_realloc_or_free(void *ptr, size_t size)
         return NULL;
     }
 
-    alloc = realloc(ptr, size);
+    alloc = CM_PERTURB_REALLOC("heap_other", ptr, size);
 
     if (!alloc) {
         perror("realloc_problem");

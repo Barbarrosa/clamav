@@ -60,6 +60,7 @@
 #include "matcher-hash.h"
 #include "matcher.h"
 #include "others.h"
+#include "memory_perturb.h"
 #include "str.h"
 #include "dconf.h"
 #include "filetypes.h"
@@ -116,7 +117,7 @@ char *cli_virname(const char *virname, unsigned int official)
     if (official)
         return cli_safer_strdup(virname);
 
-    newname = (char *)malloc(strlen(virname) + 11 + 1);
+    newname = (char *)CM_PERTURB_MALLOC("names", strlen(virname) + 11 + 1);
     if (!newname) {
         cli_errmsg("cli_virname: Can't allocate memory for newname\n");
         return NULL;
@@ -471,7 +472,7 @@ cl_error_t readdb_parse_ldb_subsignature(struct cli_matcher *root, const char *v
             goto done;
         }
 
-        patt = MPOOL_CALLOC(root->mempool, 1, sizeof(*patt));
+        patt = CM_MPOOL_CALLOC("patterns", root->mempool, 1, sizeof(*patt));
         if (!patt) {
             cli_errmsg("Failed to allocate memory for macro AC pattern struct\n");
             status = CL_EMEM;
@@ -494,7 +495,7 @@ cl_error_t readdb_parse_ldb_subsignature(struct cli_matcher *root, const char *v
         patt->length[0]          = root->ac_mindepth;
 
         /* dummy */
-        patt->pattern = MPOOL_CALLOC(root->mempool, patt->length[0], sizeof(*patt->pattern));
+        patt->pattern = CM_MPOOL_CALLOC("tokens", root->mempool, patt->length[0], sizeof(*patt->pattern));
         if (!patt->pattern) {
             MPOOL_FREE(root->mempool, patt->ext);
             MPOOL_FREE(root->mempool, patt);
@@ -513,7 +514,7 @@ cl_error_t readdb_parse_ldb_subsignature(struct cli_matcher *root, const char *v
         if (current_subsig_index > 0) {
             /* allow mapping from lsig back to pattern for macros */
             if (!tdb->macro_ptids)
-                tdb->macro_ptids = MPOOL_CALLOC(root->mempool, num_subsigs, sizeof(*tdb->macro_ptids));
+                tdb->macro_ptids = CM_MPOOL_CALLOC("logical", root->mempool, num_subsigs, sizeof(*tdb->macro_ptids));
             if (!tdb->macro_ptids) {
                 status = CL_EMEM;
                 goto done;
@@ -951,7 +952,7 @@ cl_error_t cli_add_content_match_pattern(struct cli_matcher *root, const char *v
         /*
          * format seems like it can be handled with the Boyer-Moore (BM) pattern matcher.
          */
-        bm_new = (struct cli_bm_patt *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_bm_patt));
+        bm_new = (struct cli_bm_patt *)CM_MPOOL_CALLOC("patterns", root->mempool, 1, sizeof(struct cli_bm_patt));
         if (!bm_new)
             return CL_EMEM;
 
@@ -1857,7 +1858,7 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
                 }
 
                 off[i] = cnt = tdb->cnt[CLI_TDB_UINT]++;
-                tdb->val     = (uint32_t *)MPOOL_REALLOC2(tdb->mempool, tdb->val, tdb->cnt[CLI_TDB_UINT] * sizeof(uint32_t));
+                tdb->val     = (uint32_t *)CM_MPOOL_REALLOC2("logical", tdb->mempool, tdb->val, tdb->cnt[CLI_TDB_UINT] * sizeof(uint32_t));
                 if (!tdb->val) {
                     tdb->cnt[CLI_TDB_UINT] = 0;
                     return -1;
@@ -1873,7 +1874,7 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
                 }
 
                 off[i] = cnt = tdb->cnt[CLI_TDB_UINT]++;
-                tdb->val     = (uint32_t *)MPOOL_REALLOC2(tdb->mempool, tdb->val, tdb->cnt[CLI_TDB_UINT] * sizeof(uint32_t));
+                tdb->val     = (uint32_t *)CM_MPOOL_REALLOC2("logical", tdb->mempool, tdb->val, tdb->cnt[CLI_TDB_UINT] * sizeof(uint32_t));
                 if (!tdb->val) {
                     tdb->cnt[CLI_TDB_UINT] = 0;
                     return -1;
@@ -1893,7 +1894,7 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
                     return 1;
                 }
                 tdb->cnt[CLI_TDB_UINT] += (ftypes_count + 1);
-                tdb->val = (uint32_t *)MPOOL_REALLOC2(tdb->mempool, tdb->val, tdb->cnt[CLI_TDB_UINT] * sizeof(uint32_t));
+                tdb->val = (uint32_t *)CM_MPOOL_REALLOC2("logical", tdb->mempool, tdb->val, tdb->cnt[CLI_TDB_UINT] * sizeof(uint32_t));
                 if (!tdb->val) {
                     tdb->cnt[CLI_TDB_UINT] = 0;
                     return -1;
@@ -1918,7 +1919,7 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
                 *pt2++ = 0;
                 off[i] = cnt = tdb->cnt[CLI_TDB_RANGE];
                 tdb->cnt[CLI_TDB_RANGE] += 2;
-                tdb->range = (uint32_t *)MPOOL_REALLOC2(tdb->mempool, tdb->range, tdb->cnt[CLI_TDB_RANGE] * sizeof(uint32_t));
+                tdb->range = (uint32_t *)CM_MPOOL_REALLOC2("logical", tdb->mempool, tdb->range, tdb->cnt[CLI_TDB_RANGE] * sizeof(uint32_t));
                 if (!tdb->range) {
                     tdb->cnt[CLI_TDB_RANGE] = 0;
                     return -1;
@@ -1941,7 +1942,7 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
 
                 off[i] = cnt = tdb->cnt[CLI_TDB_RANGE];
                 tdb->cnt[CLI_TDB_RANGE] += 3;
-                tdb->range = (uint32_t *)MPOOL_REALLOC2(tdb->mempool, tdb->range, tdb->cnt[CLI_TDB_RANGE] * sizeof(uint32_t));
+                tdb->range = (uint32_t *)CM_MPOOL_REALLOC2("logical", tdb->mempool, tdb->range, tdb->cnt[CLI_TDB_RANGE] * sizeof(uint32_t));
                 if (!tdb->range) {
                     tdb->cnt[CLI_TDB_RANGE] = 0;
                     return -1;
@@ -1960,7 +1961,7 @@ static int lsigattribs(char *attribs, struct cli_lsig_tdb *tdb)
             case CLI_TDB_STR:
                 off[i] = cnt = tdb->cnt[CLI_TDB_STR];
                 tdb->cnt[CLI_TDB_STR] += strlen(pt) + 1;
-                tdb->str = (char *)MPOOL_REALLOC2(tdb->mempool, tdb->str, tdb->cnt[CLI_TDB_STR] * sizeof(char));
+                tdb->str = (char *)CM_MPOOL_REALLOC2("logical", tdb->mempool, tdb->str, tdb->cnt[CLI_TDB_STR] * sizeof(char));
                 if (!tdb->str) {
                     cli_errmsg("lsigattribs: Can't allocate memory for tdb->str\n");
                     return -1;
@@ -2194,7 +2195,7 @@ static cl_error_t load_oneldb(char *buffer, int chkpua, struct cl_engine *engine
 
     root = engine->root[tdb.target[0]];
 
-    lsig = (struct cli_ac_lsig *)MPOOL_CALLOC(engine->mempool, 1, sizeof(struct cli_ac_lsig));
+    lsig = (struct cli_ac_lsig *)CM_MPOOL_CALLOC("logical", engine->mempool, 1, sizeof(struct cli_ac_lsig));
     if (!lsig) {
         cli_errmsg("cli_loadldb: Can't allocate memory for lsig\n");
         status = CL_EMEM;
@@ -2202,7 +2203,7 @@ static cl_error_t load_oneldb(char *buffer, int chkpua, struct cl_engine *engine
     }
 
     lsig->type    = CLI_LSIG_NORMAL;
-    lsig->u.logic = CLI_MPOOL_STRDUP(engine->mempool, logic);
+    lsig->u.logic = CM_MPOOL_STRDUP("logical", engine->mempool, logic);
     if (!lsig->u.logic) {
         cli_errmsg("cli_loadldb: Can't allocate memory for lsig->logic\n");
         status = CL_EMEM;
@@ -2211,7 +2212,7 @@ static cl_error_t load_oneldb(char *buffer, int chkpua, struct cl_engine *engine
 
     lsigid[0] = lsig->id = root->ac_lsigs;
 
-    newtable = (struct cli_ac_lsig **)MPOOL_REALLOC(engine->mempool, root->ac_lsigtable, (root->ac_lsigs + 1) * sizeof(struct cli_ac_lsig *));
+    newtable = (struct cli_ac_lsig **)CM_MPOOL_REALLOC("logical", engine->mempool, root->ac_lsigtable, (root->ac_lsigs + 1) * sizeof(struct cli_ac_lsig *));
     if (!newtable) {
         cli_errmsg("cli_loadldb: Can't realloc root->ac_lsigtable\n");
         status = CL_EMEM;
@@ -3974,7 +3975,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
             /* generate a test lsig if one does not exist */
             if (!tsig) {
                 /*** populating lsig ***/
-                tsig = (struct cli_ac_lsig *)MPOOL_CALLOC(engine->mempool, 1, sizeof(struct cli_ac_lsig));
+                tsig = (struct cli_ac_lsig *)CM_MPOOL_CALLOC("logical", engine->mempool, 1, sizeof(struct cli_ac_lsig));
                 if (!tsig) {
                     cli_errmsg("load_oneyara: cannot allocate memory for test lsig\n");
                     free(substr);
@@ -3999,7 +4000,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
                 }
 
                 root->ac_lsigs++;
-                newtable = (struct cli_ac_lsig **)MPOOL_REALLOC(engine->mempool, root->ac_lsigtable, root->ac_lsigs * sizeof(struct cli_ac_lsig *));
+                newtable = (struct cli_ac_lsig **)CM_MPOOL_REALLOC("logical", engine->mempool, root->ac_lsigtable, root->ac_lsigs * sizeof(struct cli_ac_lsig *));
                 if (!newtable) {
                     root->ac_lsigs--;
                     cli_errmsg("load_oneyara: cannot allocate test root->ac_lsigtable\n");
@@ -4237,7 +4238,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
     /*** populating lsig ***/
     root = engine->root[tdb.target[0]];
 
-    lsig = (struct cli_ac_lsig *)MPOOL_CALLOC(engine->mempool, 1, sizeof(struct cli_ac_lsig));
+    lsig = (struct cli_ac_lsig *)CM_MPOOL_CALLOC("logical", engine->mempool, 1, sizeof(struct cli_ac_lsig));
     if (!lsig) {
         cli_errmsg("load_oneyara: Can't allocate memory for lsig\n");
         FREE_TDB(tdb);
@@ -4251,7 +4252,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
         cli_yaramsg("normal lsig triggered yara: %s\n", logic);
 
         lsig->type    = CLI_LSIG_NORMAL;
-        lsig->u.logic = CLI_MPOOL_STRDUP(engine->mempool, logic);
+        lsig->u.logic = CM_MPOOL_STRDUP("logical", engine->mempool, logic);
         free(logic);
         if (!lsig->u.logic) {
             cli_errmsg("load_oneyara: Can't allocate memory for lsig->logic\n");
@@ -4290,7 +4291,7 @@ static int load_oneyara(YR_RULE *rule, int chkpua, struct cl_engine *engine, uns
     lsigid[0] = lsig->id = root->ac_lsigs;
 
     root->ac_lsigs++;
-    newtable = (struct cli_ac_lsig **)MPOOL_REALLOC(engine->mempool, root->ac_lsigtable, root->ac_lsigs * sizeof(struct cli_ac_lsig *));
+    newtable = (struct cli_ac_lsig **)CM_MPOOL_REALLOC("logical", engine->mempool, root->ac_lsigtable, root->ac_lsigs * sizeof(struct cli_ac_lsig *));
     if (!newtable) {
         root->ac_lsigs--;
         cli_errmsg("cli_loadldb: Can't realloc root->ac_lsigtable\n");

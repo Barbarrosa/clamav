@@ -1,0 +1,551 @@
+{
+  "schema_version": 1,
+  "source_parent_commit": "b131c8e7128c8908f9ae5a6690e79952356a36c8",
+  "engine_source_sha256": {
+    "CMakeLists.txt": "7c777418dea2d3c832ed825e20b9025116e2fdeb4ae01a0b9116783f284de84b",
+    "libclamav/CMakeLists.txt": "640d4de67c1bd4887de995f12d8e3eb8ab0a81c61f0bd3684f17d69e83884385",
+    "libclamav/libclamav.map": "d2d93e2efac50fdeadd70af4fe0e83d2c60feda5ec1823d4b9587972cf6bc608",
+    "libclamav/memory_perturb.c": "221fcaf2c0030e5c60f171ed1a047e7c1246fe3f39cca2f81606d8473cbe9fb9",
+    "libclamav/memory_perturb.h": "59d99437a0f357935eb7f52bcc7965ffa59497c9318e80663be0276a53138da5",
+    "libclamav/mpool.c": "cfd494e091ea4c51b79063ec76669db770b71b89db50c5b793c2a977d5645cbe",
+    "libclamav/mpool.h": "55e9dba8b602cc7e261026172d4e44fef194e47366266e1d937ff8bfa7acfac2",
+    "libclamav/matcher-ac.c": "274cc01e11add1e150b00d030e51ecd36b9ff1fdf181c64f5b3210709f26193d",
+    "libclamav/matcher-bm.c": "bc8ea5ce217b78701b08019fbd9f0b3b8e1025af55660247580e637a4d76bcae",
+    "libclamav/matcher-pcre.c": "f002d6c1147da65e13e321296ffadd0e83b2e8a1944a83c5bfcd168554f45b07",
+    "libclamav/matcher-hash.c": "147ff3b6dfd0e7b5c38339cf85b1f840da8fee427b5b728cfc4156c37424d186",
+    "libclamav/others_common.c": "0ddb15f3e91c45b5d27c99a3e661dbf18c833a8b186751e2a3ab8b930dabc778",
+    "libclamav/readdb.c": "8b63f5f8723eb1b4e530cd83c3711536e8c7c726126e0728dd70841df9240533"
+  },
+  "compiler": "cc (Debian 14.2.0-19) 14.2.0",
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "python": "3.12.14"
+  },
+  "instrumented_build_cache": {
+    "BYTECODE_RUNTIME:STRING": "interpreter",
+    "CMAKE_BUILD_TYPE:STRING": "Release",
+    "CMAKE_C_FLAGS:STRING": "",
+    "CMAKE_C_FLAGS_RELEASE:STRING": "-O3 -DNDEBUG",
+    "ENABLE_AC_DISPOSABLE_BUILD:BOOL": "OFF",
+    "ENABLE_AC_FLAT_NODES:BOOL": "ON",
+    "ENABLE_AC_NODE_IDS:BOOL": "ON",
+    "ENABLE_ALL_THE_WARNINGS:BOOL": "OFF",
+    "ENABLE_APP:BOOL": "OFF",
+    "ENABLE_CLAMONACC:BOOL": "ON",
+    "ENABLE_COMPACT_LSIG_STATE:BOOL": "ON",
+    "ENABLE_DEBUG:BOOL": "OFF",
+    "ENABLE_DOXYGEN:BOOL": "OFF",
+    "ENABLE_EXAMPLES:BOOL": "OFF",
+    "ENABLE_EXPERIMENTAL:BOOL": "OFF",
+    "ENABLE_EXTERNAL_MSPACK:BOOL": "OFF",
+    "ENABLE_FLAT_HASH_STORE:BOOL": "OFF",
+    "ENABLE_FRESHCLAM_DNS_FIX:BOOL": "OFF",
+    "ENABLE_FRESHCLAM_NO_CACHE:BOOL": "OFF",
+    "ENABLE_FUZZ:BOOL": "OFF",
+    "ENABLE_JSON_SHARED:BOOL": "OFF",
+    "ENABLE_LIBCLAMAV_ONLY:BOOL": "ON",
+    "ENABLE_MAN_PAGES:BOOL": "OFF",
+    "ENABLE_MEMORY_PERTURB:BOOL": "ON",
+    "ENABLE_MILTER:BOOL": "ON",
+    "ENABLE_SHARED_LIB:BOOL": "ON",
+    "ENABLE_STATIC_LIB:BOOL": "OFF",
+    "ENABLE_STRN_INTERNAL:BOOL": "OFF",
+    "ENABLE_SYSTEMD:BOOL": "OFF",
+    "ENABLE_TESTS:BOOL": "OFF",
+    "ENABLE_UNRAR:BOOL": "ON",
+    "ENABLE_WERROR:BOOL": "OFF",
+    "ENABLE_WINDOWS_INSTALL_THIRDPARTY_DEPENDENCIES:BOOL": "ON",
+    "MAINTAINER_MODE:BOOL": "OFF"
+  },
+  "instrumented_library_sha256": "800d5f211d52df4899f41c7d05282fa29d10677416c15a6db2f2f3613d5ee6a0",
+  "tagged_source_sites": [
+    {
+      "path": "libclamav/mpool.c",
+      "line": 979,
+      "operation": "CM_MPOOL_STRDUP",
+      "group": "names"
+    },
+    {
+      "path": "libclamav/mpool.c",
+      "line": 981,
+      "operation": "CM_MPOOL_MALLOC",
+      "group": "names"
+    },
+    {
+      "path": "libclamav/mpool.c",
+      "line": 1002,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 103,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "candidates"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 117,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "candidates"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 143,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 499,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "transitions"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 542,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 543,
+      "operation": "CM_PERTURB_REALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 546,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 547,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 584,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "nodes"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 630,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "nodes"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 635,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "transitions"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 680,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "transitions"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 752,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 795,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 907,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 986,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "nodes"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 994,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "transitions"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1793,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1800,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1806,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1807,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1808,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1809,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1810,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 1946,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2023,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2033,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2042,
+      "operation": "CM_PERTURB_REALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2245,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2251,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2394,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2501,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2753,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2943,
+      "operation": "CM_MPOOL_MALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 2951,
+      "operation": "CM_MPOOL_MALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3000,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3039,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3171,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "build_scratch"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3185,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3274,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3515,
+      "operation": "CM_MPOOL_MALLOC",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/matcher-ac.c",
+      "line": 3543,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/matcher-bm.c",
+      "line": 172,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-bm.c",
+      "line": 177,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-pcre.c",
+      "line": 448,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-pcre.c",
+      "line": 453,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "scanstate"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 141,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 274,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 297,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 306,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 448,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 503,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/matcher-hash.c",
+      "line": 538,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "hashes"
+    },
+    {
+      "path": "libclamav/others_common.c",
+      "line": 233,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "heap_other"
+    },
+    {
+      "path": "libclamav/others_common.c",
+      "line": 254,
+      "operation": "CM_PERTURB_CALLOC",
+      "group": "heap_other"
+    },
+    {
+      "path": "libclamav/others_common.c",
+      "line": 274,
+      "operation": "CM_PERTURB_REALLOC",
+      "group": "heap_other"
+    },
+    {
+      "path": "libclamav/others_common.c",
+      "line": 294,
+      "operation": "CM_PERTURB_REALLOC",
+      "group": "heap_other"
+    },
+    {
+      "path": "libclamav/others_common.c",
+      "line": 321,
+      "operation": "CM_PERTURB_REALLOC",
+      "group": "heap_other"
+    },
+    {
+      "path": "libclamav/others_common.c",
+      "line": 342,
+      "operation": "CM_PERTURB_REALLOC",
+      "group": "heap_other"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 120,
+      "operation": "CM_PERTURB_MALLOC",
+      "group": "names"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 475,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 498,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "tokens"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 517,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 955,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "patterns"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 1861,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 1877,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 1897,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 1922,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 1945,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 1964,
+      "operation": "CM_MPOOL_REALLOC2",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 2198,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 2206,
+      "operation": "CM_MPOOL_STRDUP",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 2215,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 3978,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 4003,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 4241,
+      "operation": "CM_MPOOL_CALLOC",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 4255,
+      "operation": "CM_MPOOL_STRDUP",
+      "group": "logical"
+    },
+    {
+      "path": "libclamav/readdb.c",
+      "line": 4294,
+      "operation": "CM_MPOOL_REALLOC",
+      "group": "logical"
+    }
+  ],
+  "coverage": "Literal tagged C sites plus centralized pool allocation and common heap helpers. Not a whole-program heap census; excludes untagged heap/Rust/external allocations."
+}

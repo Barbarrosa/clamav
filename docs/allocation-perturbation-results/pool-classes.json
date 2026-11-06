@@ -1,0 +1,1351 @@
+{
+  "schema_version": 1,
+  "scope": "LP64 fixed-record pool fragment charges; not RSS or a live allocation trace",
+  "analysis_implementation_sha256": "7a99abfb3af2ee22891ee5e9a5e802d5fa700417b186e862e1df6c9afe077ad9",
+  "mpool_source_sha256": "cfd494e091ea4c51b79063ec76669db770b71b89db50c5b793c2a977d5645cbe",
+  "capture_summary_sha256": "1f50048a216ad1c29cbc2ff41b640c2338e8a695fb45273b47dc62ade3e2df6c",
+  "capture_source_base_commit": "e75a9bcf3711dcd703105a677f4926269888d1d4",
+  "header_bytes": 2,
+  "size_classes": [
+    8,
+    11,
+    13,
+    16,
+    17,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    37,
+    40,
+    41,
+    48,
+    56,
+    72,
+    74,
+    75,
+    76,
+    78,
+    79,
+    80,
+    81,
+    101,
+    104,
+    109,
+    113,
+    116,
+    120,
+    128,
+    131,
+    143,
+    151,
+    152,
+    153,
+    196,
+    256,
+    360,
+    403,
+    404,
+    432,
+    486,
+    514,
+    548,
+    578,
+    604,
+    633,
+    697,
+    743,
+    784,
+    839,
+    1176,
+    1536,
+    1666,
+    2056,
+    2168,
+    2392,
+    2985,
+    3221,
+    3433,
+    3753,
+    3832,
+    4104,
+    4280,
+    4696,
+    4952,
+    5256,
+    5826,
+    6264,
+    7176,
+    8440,
+    9096,
+    16392,
+    32780,
+    50961,
+    63504,
+    65558,
+    101912,
+    131088,
+    262144,
+    507976,
+    524296,
+    1048584,
+    2097152,
+    4194304,
+    8388608,
+    16777216,
+    33554432,
+    67108864,
+    134217728
+  ],
+  "families": [
+    {
+      "family": "patterns",
+      "retained_record_count": 1508210,
+      "payload_bytes": 144788160,
+      "baseline": {
+        "requested_bytes": 96,
+        "header_bytes": 2,
+        "alignment": 8,
+        "alignment_padding_range": [
+          0,
+          7
+        ],
+        "fresh_carve_possible_charges": [
+          101,
+          104,
+          109
+        ],
+        "charge_above_payload_range": [
+          5,
+          13
+        ],
+        "tail_rounding_range": [
+          0,
+          4
+        ],
+        "free_list_lookup_class": 109,
+        "by_alignment_padding": [
+          {
+            "alignment_padding": 0,
+            "needed_bytes": 98,
+            "fragment_charge_bytes": 101,
+            "tail_rounding_bytes": 3
+          },
+          {
+            "alignment_padding": 1,
+            "needed_bytes": 99,
+            "fragment_charge_bytes": 101,
+            "tail_rounding_bytes": 2
+          },
+          {
+            "alignment_padding": 2,
+            "needed_bytes": 100,
+            "fragment_charge_bytes": 101,
+            "tail_rounding_bytes": 1
+          },
+          {
+            "alignment_padding": 3,
+            "needed_bytes": 101,
+            "fragment_charge_bytes": 101,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 4,
+            "needed_bytes": 102,
+            "fragment_charge_bytes": 104,
+            "tail_rounding_bytes": 2
+          },
+          {
+            "alignment_padding": 5,
+            "needed_bytes": 103,
+            "fragment_charge_bytes": 104,
+            "tail_rounding_bytes": 1
+          },
+          {
+            "alignment_padding": 6,
+            "needed_bytes": 104,
+            "fragment_charge_bytes": 104,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 7,
+            "needed_bytes": 105,
+            "fragment_charge_bytes": 109,
+            "tail_rounding_bytes": 4
+          }
+        ]
+      },
+      "total_charge_above_payload_range_bytes": [
+        7541050,
+        19606730
+      ],
+      "padded_request_profiles": {
+        "8": {
+          "requested_bytes": 104,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            109,
+            113
+          ],
+          "charge_above_payload_range": [
+            5,
+            9
+          ],
+          "tail_rounding_range": [
+            0,
+            3
+          ],
+          "free_list_lookup_class": 113,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 106,
+              "fragment_charge_bytes": 109,
+              "tail_rounding_bytes": 3
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 107,
+              "fragment_charge_bytes": 109,
+              "tail_rounding_bytes": 2
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 108,
+              "fragment_charge_bytes": 109,
+              "tail_rounding_bytes": 1
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 109,
+              "fragment_charge_bytes": 109,
+              "tail_rounding_bytes": 0
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 110,
+              "fragment_charge_bytes": 113,
+              "tail_rounding_bytes": 3
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 111,
+              "fragment_charge_bytes": 113,
+              "tail_rounding_bytes": 2
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 112,
+              "fragment_charge_bytes": 113,
+              "tail_rounding_bytes": 1
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 113,
+              "fragment_charge_bytes": 113,
+              "tail_rounding_bytes": 0
+            }
+          ]
+        },
+        "32": {
+          "requested_bytes": 128,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            131,
+            143
+          ],
+          "charge_above_payload_range": [
+            3,
+            15
+          ],
+          "tail_rounding_range": [
+            0,
+            11
+          ],
+          "free_list_lookup_class": 143,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 130,
+              "fragment_charge_bytes": 131,
+              "tail_rounding_bytes": 1
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 131,
+              "fragment_charge_bytes": 131,
+              "tail_rounding_bytes": 0
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 132,
+              "fragment_charge_bytes": 143,
+              "tail_rounding_bytes": 11
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 133,
+              "fragment_charge_bytes": 143,
+              "tail_rounding_bytes": 10
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 134,
+              "fragment_charge_bytes": 143,
+              "tail_rounding_bytes": 9
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 135,
+              "fragment_charge_bytes": 143,
+              "tail_rounding_bytes": 8
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 136,
+              "fragment_charge_bytes": 143,
+              "tail_rounding_bytes": 7
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 137,
+              "fragment_charge_bytes": 143,
+              "tail_rounding_bytes": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "candidates",
+      "retained_record_count": 2279919,
+      "payload_bytes": 54718056,
+      "baseline": {
+        "requested_bytes": 24,
+        "header_bytes": 2,
+        "alignment": 8,
+        "alignment_padding_range": [
+          0,
+          7
+        ],
+        "fresh_carve_possible_charges": [
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "charge_above_payload_range": [
+          2,
+          9
+        ],
+        "tail_rounding_range": [
+          0,
+          0
+        ],
+        "free_list_lookup_class": 33,
+        "by_alignment_padding": [
+          {
+            "alignment_padding": 0,
+            "needed_bytes": 26,
+            "fragment_charge_bytes": 26,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 1,
+            "needed_bytes": 27,
+            "fragment_charge_bytes": 27,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 2,
+            "needed_bytes": 28,
+            "fragment_charge_bytes": 28,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 3,
+            "needed_bytes": 29,
+            "fragment_charge_bytes": 29,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 4,
+            "needed_bytes": 30,
+            "fragment_charge_bytes": 30,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 5,
+            "needed_bytes": 31,
+            "fragment_charge_bytes": 31,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 6,
+            "needed_bytes": 32,
+            "fragment_charge_bytes": 32,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 7,
+            "needed_bytes": 33,
+            "fragment_charge_bytes": 33,
+            "tail_rounding_bytes": 0
+          }
+        ]
+      },
+      "total_charge_above_payload_range_bytes": [
+        4559838,
+        20519271
+      ],
+      "padded_request_profiles": {
+        "8": {
+          "requested_bytes": 32,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            37,
+            40,
+            41
+          ],
+          "charge_above_payload_range": [
+            5,
+            9
+          ],
+          "tail_rounding_range": [
+            0,
+            3
+          ],
+          "free_list_lookup_class": 41,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 34,
+              "fragment_charge_bytes": 37,
+              "tail_rounding_bytes": 3
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 35,
+              "fragment_charge_bytes": 37,
+              "tail_rounding_bytes": 2
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 36,
+              "fragment_charge_bytes": 37,
+              "tail_rounding_bytes": 1
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 37,
+              "fragment_charge_bytes": 37,
+              "tail_rounding_bytes": 0
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 38,
+              "fragment_charge_bytes": 40,
+              "tail_rounding_bytes": 2
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 39,
+              "fragment_charge_bytes": 40,
+              "tail_rounding_bytes": 1
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 40,
+              "fragment_charge_bytes": 40,
+              "tail_rounding_bytes": 0
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 41,
+              "fragment_charge_bytes": 41,
+              "tail_rounding_bytes": 0
+            }
+          ]
+        },
+        "32": {
+          "requested_bytes": 56,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            72
+          ],
+          "charge_above_payload_range": [
+            16,
+            16
+          ],
+          "tail_rounding_range": [
+            7,
+            14
+          ],
+          "free_list_lookup_class": 72,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 58,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 14
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 59,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 13
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 60,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 12
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 61,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 11
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 62,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 10
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 63,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 9
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 64,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 8
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 65,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 7
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "logical_records",
+      "retained_record_count": 312310,
+      "payload_bytes": 52468080,
+      "baseline": {
+        "requested_bytes": 168,
+        "header_bytes": 2,
+        "alignment": 8,
+        "alignment_padding_range": [
+          0,
+          7
+        ],
+        "fresh_carve_possible_charges": [
+          196
+        ],
+        "charge_above_payload_range": [
+          28,
+          28
+        ],
+        "tail_rounding_range": [
+          19,
+          26
+        ],
+        "free_list_lookup_class": 196,
+        "by_alignment_padding": [
+          {
+            "alignment_padding": 0,
+            "needed_bytes": 170,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 26
+          },
+          {
+            "alignment_padding": 1,
+            "needed_bytes": 171,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 25
+          },
+          {
+            "alignment_padding": 2,
+            "needed_bytes": 172,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 24
+          },
+          {
+            "alignment_padding": 3,
+            "needed_bytes": 173,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 23
+          },
+          {
+            "alignment_padding": 4,
+            "needed_bytes": 174,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 22
+          },
+          {
+            "alignment_padding": 5,
+            "needed_bytes": 175,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 21
+          },
+          {
+            "alignment_padding": 6,
+            "needed_bytes": 176,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 20
+          },
+          {
+            "alignment_padding": 7,
+            "needed_bytes": 177,
+            "fragment_charge_bytes": 196,
+            "tail_rounding_bytes": 19
+          }
+        ]
+      },
+      "total_charge_above_payload_range_bytes": [
+        8744680,
+        8744680
+      ],
+      "padded_request_profiles": {
+        "8": {
+          "requested_bytes": 176,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            196
+          ],
+          "charge_above_payload_range": [
+            20,
+            20
+          ],
+          "tail_rounding_range": [
+            11,
+            18
+          ],
+          "free_list_lookup_class": 196,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 178,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 18
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 179,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 17
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 180,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 16
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 181,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 15
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 182,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 14
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 183,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 13
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 184,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 12
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 185,
+              "fragment_charge_bytes": 196,
+              "tail_rounding_bytes": 11
+            }
+          ]
+        },
+        "32": {
+          "requested_bytes": 200,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            256
+          ],
+          "charge_above_payload_range": [
+            56,
+            56
+          ],
+          "tail_rounding_range": [
+            47,
+            54
+          ],
+          "free_list_lookup_class": 256,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 202,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 54
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 203,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 53
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 204,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 52
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 205,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 51
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 206,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 50
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 207,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 49
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 208,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 48
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 209,
+              "fragment_charge_bytes": 256,
+              "tail_rounding_bytes": 47
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "extensions",
+      "retained_record_count": 17509,
+      "payload_bytes": 840432,
+      "baseline": {
+        "requested_bytes": 48,
+        "header_bytes": 2,
+        "alignment": 8,
+        "alignment_padding_range": [
+          0,
+          7
+        ],
+        "fresh_carve_possible_charges": [
+          56,
+          72
+        ],
+        "charge_above_payload_range": [
+          8,
+          24
+        ],
+        "tail_rounding_range": [
+          0,
+          15
+        ],
+        "free_list_lookup_class": 72,
+        "by_alignment_padding": [
+          {
+            "alignment_padding": 0,
+            "needed_bytes": 50,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 6
+          },
+          {
+            "alignment_padding": 1,
+            "needed_bytes": 51,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 5
+          },
+          {
+            "alignment_padding": 2,
+            "needed_bytes": 52,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 4
+          },
+          {
+            "alignment_padding": 3,
+            "needed_bytes": 53,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 3
+          },
+          {
+            "alignment_padding": 4,
+            "needed_bytes": 54,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 2
+          },
+          {
+            "alignment_padding": 5,
+            "needed_bytes": 55,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 1
+          },
+          {
+            "alignment_padding": 6,
+            "needed_bytes": 56,
+            "fragment_charge_bytes": 56,
+            "tail_rounding_bytes": 0
+          },
+          {
+            "alignment_padding": 7,
+            "needed_bytes": 57,
+            "fragment_charge_bytes": 72,
+            "tail_rounding_bytes": 15
+          }
+        ]
+      },
+      "total_charge_above_payload_range_bytes": [
+        140072,
+        420216
+      ],
+      "padded_request_profiles": {
+        "8": {
+          "requested_bytes": 56,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            72
+          ],
+          "charge_above_payload_range": [
+            16,
+            16
+          ],
+          "tail_rounding_range": [
+            7,
+            14
+          ],
+          "free_list_lookup_class": 72,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 58,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 14
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 59,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 13
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 60,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 12
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 61,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 11
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 62,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 10
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 63,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 9
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 64,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 8
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 65,
+              "fragment_charge_bytes": 72,
+              "tail_rounding_bytes": 7
+            }
+          ]
+        },
+        "32": {
+          "requested_bytes": 80,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            101
+          ],
+          "charge_above_payload_range": [
+            21,
+            21
+          ],
+          "tail_rounding_range": [
+            12,
+            19
+          ],
+          "free_list_lookup_class": 101,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 82,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 19
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 83,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 18
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 84,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 17
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 85,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 16
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 86,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 15
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 87,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 14
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 88,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 13
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 89,
+              "fragment_charge_bytes": 101,
+              "tail_rounding_bytes": 12
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "transition_rows",
+      "retained_record_count": 76968,
+      "payload_bytes": 78815232,
+      "baseline": {
+        "requested_bytes": 1024,
+        "header_bytes": 2,
+        "alignment": 8,
+        "alignment_padding_range": [
+          0,
+          7
+        ],
+        "fresh_carve_possible_charges": [
+          1176
+        ],
+        "charge_above_payload_range": [
+          152,
+          152
+        ],
+        "tail_rounding_range": [
+          143,
+          150
+        ],
+        "free_list_lookup_class": 1176,
+        "by_alignment_padding": [
+          {
+            "alignment_padding": 0,
+            "needed_bytes": 1026,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 150
+          },
+          {
+            "alignment_padding": 1,
+            "needed_bytes": 1027,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 149
+          },
+          {
+            "alignment_padding": 2,
+            "needed_bytes": 1028,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 148
+          },
+          {
+            "alignment_padding": 3,
+            "needed_bytes": 1029,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 147
+          },
+          {
+            "alignment_padding": 4,
+            "needed_bytes": 1030,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 146
+          },
+          {
+            "alignment_padding": 5,
+            "needed_bytes": 1031,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 145
+          },
+          {
+            "alignment_padding": 6,
+            "needed_bytes": 1032,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 144
+          },
+          {
+            "alignment_padding": 7,
+            "needed_bytes": 1033,
+            "fragment_charge_bytes": 1176,
+            "tail_rounding_bytes": 143
+          }
+        ]
+      },
+      "total_charge_above_payload_range_bytes": [
+        11699136,
+        11699136
+      ],
+      "padded_request_profiles": {
+        "8": {
+          "requested_bytes": 1032,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            1176
+          ],
+          "charge_above_payload_range": [
+            144,
+            144
+          ],
+          "tail_rounding_range": [
+            135,
+            142
+          ],
+          "free_list_lookup_class": 1176,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 1034,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 142
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 1035,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 141
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 1036,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 140
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 1037,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 139
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 1038,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 138
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 1039,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 137
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 1040,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 136
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 1041,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 135
+            }
+          ]
+        },
+        "32": {
+          "requested_bytes": 1056,
+          "header_bytes": 2,
+          "alignment": 8,
+          "alignment_padding_range": [
+            0,
+            7
+          ],
+          "fresh_carve_possible_charges": [
+            1176
+          ],
+          "charge_above_payload_range": [
+            120,
+            120
+          ],
+          "tail_rounding_range": [
+            111,
+            118
+          ],
+          "free_list_lookup_class": 1176,
+          "by_alignment_padding": [
+            {
+              "alignment_padding": 0,
+              "needed_bytes": 1058,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 118
+            },
+            {
+              "alignment_padding": 1,
+              "needed_bytes": 1059,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 117
+            },
+            {
+              "alignment_padding": 2,
+              "needed_bytes": 1060,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 116
+            },
+            {
+              "alignment_padding": 3,
+              "needed_bytes": 1061,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 115
+            },
+            {
+              "alignment_padding": 4,
+              "needed_bytes": 1062,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 114
+            },
+            {
+              "alignment_padding": 5,
+              "needed_bytes": 1063,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 113
+            },
+            {
+              "alignment_padding": 6,
+              "needed_bytes": 1064,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 112
+            },
+            {
+              "alignment_padding": 7,
+              "needed_bytes": 1065,
+              "fragment_charge_bytes": 1176,
+              "tail_rounding_bytes": 111
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "builder_node_record_profile": {
+    "requested_bytes": 24,
+    "header_bytes": 2,
+    "alignment": 8,
+    "alignment_padding_range": [
+      0,
+      7
+    ],
+    "fresh_carve_possible_charges": [
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33
+    ],
+    "charge_above_payload_range": [
+      2,
+      9
+    ],
+    "tail_rounding_range": [
+      0,
+      0
+    ],
+    "free_list_lookup_class": 33,
+    "by_alignment_padding": [
+      {
+        "alignment_padding": 0,
+        "needed_bytes": 26,
+        "fragment_charge_bytes": 26,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 1,
+        "needed_bytes": 27,
+        "fragment_charge_bytes": 27,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 2,
+        "needed_bytes": 28,
+        "fragment_charge_bytes": 28,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 3,
+        "needed_bytes": 29,
+        "fragment_charge_bytes": 29,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 4,
+        "needed_bytes": 30,
+        "fragment_charge_bytes": 30,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 5,
+        "needed_bytes": 31,
+        "fragment_charge_bytes": 31,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 6,
+        "needed_bytes": 32,
+        "fragment_charge_bytes": 32,
+        "tail_rounding_bytes": 0
+      },
+      {
+        "alignment_padding": 7,
+        "needed_bytes": 33,
+        "fragment_charge_bytes": 33,
+        "tail_rounding_bytes": 0
+      }
+    ]
+  },
+  "builder_node_scope": "individual old builder nodes are freed after packing; retained flat-node arenas use libc calloc, so per-node pool charges do not apply to them",
+  "hypothetical_class_examples": [
+    {
+      "new_class_bytes": 1040,
+      "family": "transition_rows",
+      "reason": "1024+2+maximum alignment padding 7 fits 1040; existing class is1176",
+      "fragment_charge_reduction_per_record": 136,
+      "historical_capture_charge_reduction_bytes": 10467648
+    },
+    {
+      "new_class_bytes": 184,
+      "family": "logical_records",
+      "reason": "168+2+maximum alignment padding7 fits184; existing class is196",
+      "fragment_charge_reduction_per_record": 12,
+      "historical_capture_charge_reduction_bytes": 3747720
+    }
+  ],
+  "limitations": [
+    "The counts come from the cited earlier full-engine capture, not the perturbation run counters.",
+    "Charge above payload includes necessary metadata and alignment, not only potentially avoidable rounding.",
+    "Fresh carve padding depends on preceding allocation addresses; exact per-record charges were not traced.",
+    "Free-list selection uses the worst-case class, while fresh carving may select a smaller class.",
+    "Mapped page slack, free fragments, growing directories, names and variable token buffers are outside this fixed-record subtotal.",
+    "Prospective size classes are arithmetic examples, not implemented allocator changes or measured RSS savings.",
+    "Changing size classes can alter addresses, duplicate-order behavior, reuse, construction and reload peaks."
+  ]
+}

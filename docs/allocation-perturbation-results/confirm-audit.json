@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "audit_source_sha256": "2bbb5b34007b15208a05610e86b27db9869a6b56f39cbd378e272a94408f28d1",
+  "plan_sha256": "95cff862f2b33908ee21e4bf32612931b5f07553821f5c64e32c5d826373d769",
+  "summary_sha256": "9d02e2263a76e1615acdb3230f72c9b1670385e683fa8803ea5bb13d808f91b8",
+  "validated_cases": 16,
+  "validated_scan_records": 144,
+  "all_ordered_input_hashes_match_plan": true,
+  "all_ordered_semantics_match_controls": true,
+  "all_dose_counters_and_rss_summaries_match_raw": true,
+  "artifact_sha256": {
+    "plan.json": "95cff862f2b33908ee21e4bf32612931b5f07553821f5c64e32c5d826373d769",
+    "summary.json": "9d02e2263a76e1615acdb3230f72c9b1670385e683fa8803ea5bb13d808f91b8",
+    "000-instrumented-names-32-r0.jsonl": "123a75c027e69971a227c16741b995d495be0f7c578f756b3c25756bb0726350",
+    "000-instrumented-names-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "000-instrumented-names-32-r0-perturb.jsonl": "95920772d5a9f2b2ec1dc20a62fe581267884c9a1b9f5d3c21407b923943cb1c",
+    "001-instrumented-nodes-0-r1.jsonl": "2691b532bdd60613bdc296bb6d8f5692fd15b07f92a037235b111b9e093acf0b",
+    "001-instrumented-nodes-0-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "001-instrumented-nodes-0-r1-perturb.jsonl": "114fb10d049d9e36f55a34d0cb73b62f9ddae6606c6dc7834f56d4d8c35f86a2",
+    "002-instrumented-nodes-0-r0.jsonl": "d7af792159ebefaa725edf61dde85a1c365f254b17242928696b845b629e6eac",
+    "002-instrumented-nodes-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "002-instrumented-nodes-0-r0-perturb.jsonl": "114fb10d049d9e36f55a34d0cb73b62f9ddae6606c6dc7834f56d4d8c35f86a2",
+    "003-instrumented-candidates-32-r1.jsonl": "5030e2f2cadba6050cae0ef231e552f363f18ca535206c6d993385e57cdd0d4d",
+    "003-instrumented-candidates-32-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "003-instrumented-candidates-32-r1-perturb.jsonl": "18dec7bcc7f324a602f6d4bfe98e6dfcb458757fb6266b720b84b973803027ea",
+    "004-instrumented-candidates-0-r1.jsonl": "8ca29daed7ba7becc6faab10d6f519f9626ee5709eeb96809e838132142790ee",
+    "004-instrumented-candidates-0-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "004-instrumented-candidates-0-r1-perturb.jsonl": "10b5e084e0cd4c11027613e7e194be50f82551b49d49d9c236ce51f3ac7c2e73",
+    "005-instrumented-patterns-32-r1.jsonl": "0a2386d0e989f724a9b4ddcadd08d01fa965811186b3d1408b758ae5b34b798c",
+    "005-instrumented-patterns-32-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "005-instrumented-patterns-32-r1-perturb.jsonl": "7263111aefb307295b4d161454974201dd28c24ae8c295144ca134070ab151d9",
+    "006-instrumented-patterns-32-r0.jsonl": "a30db19c8557bcb777a66d6b7a0cd5d07f5770921966b343f8cdf6d7429b8ad4",
+    "006-instrumented-patterns-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "006-instrumented-patterns-32-r0-perturb.jsonl": "7263111aefb307295b4d161454974201dd28c24ae8c295144ca134070ab151d9",
+    "007-instrumented-names-0-r1.jsonl": "242eefcd767d672da89f992961c2261a03b6664b4ee5c96429284d23e6d254ef",
+    "007-instrumented-names-0-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "007-instrumented-names-0-r1-perturb.jsonl": "d10ced85f4d2a44b2f35662c45b2d892a040625227fba380c9c3847bd69e2827",
+    "008-instrumented-candidates-32-r0.jsonl": "31daf64a6734b5e66b853c7aabfa6e3e8ba38677d58d3adf26bce6d1d348f01a",
+    "008-instrumented-candidates-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "008-instrumented-candidates-32-r0-perturb.jsonl": "18dec7bcc7f324a602f6d4bfe98e6dfcb458757fb6266b720b84b973803027ea",
+    "009-instrumented-patterns-0-r0.jsonl": "737af48a13b1fa4a8437b3b4fbc13c01637b646cb0274f9ca64cfad4c4687115",
+    "009-instrumented-patterns-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "009-instrumented-patterns-0-r0-perturb.jsonl": "de049c45b78b1d6add15cdb1bdbd94fe16facc04dd96eb9f7d7b3f9c0540ebe3",
+    "010-instrumented-names-32-r1.jsonl": "302fab116afd0d98aa9c9f260b8a04c42f3dcfef79f0b5e547e7250def57cb7a",
+    "010-instrumented-names-32-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "010-instrumented-names-32-r1-perturb.jsonl": "95920772d5a9f2b2ec1dc20a62fe581267884c9a1b9f5d3c21407b923943cb1c",
+    "011-instrumented-candidates-0-r0.jsonl": "4f0f479b014de18f751d7f57a6ca77df6a816e04fb9b085f63c3684e9c5f4fba",
+    "011-instrumented-candidates-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "011-instrumented-candidates-0-r0-perturb.jsonl": "10b5e084e0cd4c11027613e7e194be50f82551b49d49d9c236ce51f3ac7c2e73",
+    "012-instrumented-names-0-r0.jsonl": "9893df5cc5d887c5999037cac711be1c931515dff1bdba1db881b6d16d2eece3",
+    "012-instrumented-names-0-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "012-instrumented-names-0-r0-perturb.jsonl": "d10ced85f4d2a44b2f35662c45b2d892a040625227fba380c9c3847bd69e2827",
+    "013-instrumented-nodes-32-r1.jsonl": "ad206e3d808fab08fd70f9893b57dff48d32e4074f43d19b216b38a6a2199218",
+    "013-instrumented-nodes-32-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "013-instrumented-nodes-32-r1-perturb.jsonl": "a9a7fb6ed61beca159a4e62cf3918be0800e6134ac2c7400abe376b726e45552",
+    "014-instrumented-nodes-32-r0.jsonl": "64ea108e637de9cce722d6f05ca41e5e43a1ed602ba7c51847a17845fc6273a7",
+    "014-instrumented-nodes-32-r0.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "014-instrumented-nodes-32-r0-perturb.jsonl": "a9a7fb6ed61beca159a4e62cf3918be0800e6134ac2c7400abe376b726e45552",
+    "015-instrumented-patterns-0-r1.jsonl": "4acc8fc099dccf85cd468890c6105106e5e416ea06b88768869c608ebdd6f4fe",
+    "015-instrumented-patterns-0-r1.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+    "015-instrumented-patterns-0-r1-perturb.jsonl": "de049c45b78b1d6add15cdb1bdbd94fe16facc04dd96eb9f7d7b3f9c0540ebe3"
+  },
+  "cases": [
+    {
+      "ordinal": 0,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 1,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 2,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 3,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 4,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 5,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 6,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 7,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 8,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 9,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 10,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 11,
+      "variant": "instrumented",
+      "group": "candidates",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 12,
+      "variant": "instrumented",
+      "group": "names",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 13,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 14,
+      "variant": "instrumented",
+      "group": "nodes",
+      "dose": 32,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    },
+    {
+      "ordinal": 15,
+      "variant": "instrumented",
+      "group": "patterns",
+      "dose": 0,
+      "semantic_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948",
+      "signatures": [
+        3628192
+      ],
+      "scan_records": 9
+    }
+  ],
+  "limitations": [
+    "Integrity and internal consistency checks do not authenticate a modified reporter.",
+    "Counters remain cumulative requests, not live memory or removable overhead.",
+    "If reload was enabled, replacement-engine scan semantics were not exercised by this harness.",
+    "No claim of complete allocator coverage or performance parity is established."
+  ]
+}

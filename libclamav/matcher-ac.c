@@ -36,6 +36,7 @@
 
 #include "clamav.h"
 #include "others.h"
+#include "memory_perturb.h"
 #include "matcher.h"
 #include "matcher-ac.h"
 #include "filetypes.h"
@@ -99,7 +100,7 @@ static inline int insert_list(struct cli_matcher *root, struct cli_ac_patt *patt
     struct cli_ac_list *new;
     struct cli_ac_list **newtable;
 
-    new = (struct cli_ac_list *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_ac_list));
+    new = (struct cli_ac_list *)CM_MPOOL_CALLOC("candidates", root->mempool, 1, sizeof(struct cli_ac_list));
     if (!new) {
         cli_errmsg("cli_ac_addpatt: Can't allocate memory for list node\n");
         return CL_EMEM;
@@ -113,7 +114,7 @@ static inline int insert_list(struct cli_matcher *root, struct cli_ac_patt *patt
         return CL_EMEM;
     }
     root->ac_lists++;
-    newtable = MPOOL_REALLOC(root->mempool, root->ac_listtable, (size_t)root->ac_lists * sizeof(*newtable));
+    newtable = CM_MPOOL_REALLOC("candidates", root->mempool, root->ac_listtable, (size_t)root->ac_lists * sizeof(*newtable));
     if (!newtable) {
         root->ac_lists--;
         cli_errmsg("cli_ac_addpatt: Can't realloc ac_listtable\n");
@@ -139,7 +140,7 @@ struct cli_ac_patt_ext *cli_ac_patt_ext_new(struct cli_matcher *root, struct cli
 {
     if (p->ext)
         return p->ext;
-    p->ext = MPOOL_CALLOC(root->mempool, 1, sizeof(*p->ext));
+    p->ext = CM_MPOOL_CALLOC("patterns", root->mempool, 1, sizeof(*p->ext));
     if (p->ext) {
         p->ext->ch[0] = CLI_MATCH_IGNORE;
         p->ext->ch[1] = CLI_MATCH_IGNORE;
@@ -495,7 +496,7 @@ static bool store_trans_node(struct cli_matcher *root, cli_ac_transition_t *tran
         if (root->trans_capacity > SIZE_MAX / sizeof(*root->trans_array) - 1024)
             goto done;
         newCapacity               = root->trans_capacity + 1024;
-        cli_ac_transition_t **ret = MPOOL_REALLOC(root->mempool, root->trans_array, newCapacity * sizeof(*ret));
+        cli_ac_transition_t **ret = CM_MPOOL_REALLOC("transitions", root->mempool, root->trans_array, newCapacity * sizeof(*ret));
         if (NULL == ret) {
             cli_errmsg("cli_ac_addpatt: Can't allocate memory for cleanup storage of trans\n");
             goto done;
@@ -538,12 +539,12 @@ static inline struct cli_ac_node *ac_scan_node(const struct cli_matcher *root, c
  * passes the alert-order compatibility gate. Transition rows stay resident. */
 #if defined(CLI_AC_FLAT_NODES) && defined(ENABLE_AC_DISPOSABLE_BUILD)
 #define AC_DISPOSABLE_BUILD 1
-#define AC_INDEX_CALLOC(root, count) calloc((count), sizeof(*(root)->ac_nodeidx))
-#define AC_INDEX_REALLOC(root, bytes) realloc((root)->ac_nodeidx, (bytes))
+#define AC_INDEX_CALLOC(root, count) CM_PERTURB_CALLOC("build_scratch", (count), sizeof(*(root)->ac_nodeidx))
+#define AC_INDEX_REALLOC(root, bytes) CM_PERTURB_REALLOC("build_scratch", (root)->ac_nodeidx, (bytes))
 #define AC_INDEX_FREE(root) free((root)->ac_nodeidx)
 #else
-#define AC_INDEX_CALLOC(root, count) MPOOL_CALLOC((root)->mempool, (count), sizeof(*(root)->ac_nodeidx))
-#define AC_INDEX_REALLOC(root, bytes) MPOOL_REALLOC((root)->mempool, (root)->ac_nodeidx, (bytes))
+#define AC_INDEX_CALLOC(root, count) CM_MPOOL_CALLOC("build_scratch", (root)->mempool, (count), sizeof(*(root)->ac_nodeidx))
+#define AC_INDEX_REALLOC(root, bytes) CM_MPOOL_REALLOC("build_scratch", (root)->mempool, (root)->ac_nodeidx, (bytes))
 #define AC_INDEX_FREE(root) MPOOL_FREE((root)->mempool, (root)->ac_nodeidx)
 #endif
 #define AC_NODE_POOL(root) ((root)->ac_buildpool ? (root)->ac_buildpool : (root)->mempool)
@@ -580,7 +581,7 @@ static cl_error_t ac_pack_nodes(struct cli_matcher *root)
     if (!ac_array_fits(root->ac_nodes, 2, sizeof(*nodes)))
         return CL_EMEM;
     count = (size_t)root->ac_nodes + 2;
-    nodes = calloc(count, sizeof(*nodes));
+    nodes = CM_PERTURB_CALLOC("nodes", count, sizeof(*nodes));
     if (!nodes)
         return CL_EMEM;
 
@@ -626,12 +627,12 @@ static inline struct cli_ac_node *add_new_node(struct cli_matcher *root, uint16_
         cli_errmsg("cli_ac_addpatt: AC node table exceeds representable size\n");
         return NULL;
     }
-    new = MPOOL_CALLOC(AC_NODE_POOL(root), 1, sizeof(*new));
+    new = CM_MPOOL_CALLOC("nodes", AC_NODE_POOL(root), 1, sizeof(*new));
     if (!new)
         return NULL;
 
     if (i != len - 1) {
-        new->trans = MPOOL_CALLOC(root->mempool, 256, sizeof(*new->trans));
+        new->trans = CM_MPOOL_CALLOC("transitions", root->mempool, 256, sizeof(*new->trans));
         if (!new->trans) {
             MPOOL_FREE(AC_NODE_POOL(root), new);
             return NULL;
@@ -676,7 +677,7 @@ static int cli_ac_addpatt_recursive(struct cli_matcher *root, struct cli_ac_patt
 
     /* if current node has no trans table, generate one */
     if (!pt->trans) {
-        pt->trans = MPOOL_CALLOC(root->mempool, 256, sizeof(*pt->trans));
+        pt->trans = CM_MPOOL_CALLOC("transitions", root->mempool, 256, sizeof(*pt->trans));
         if (!pt->trans) {
             cli_errmsg("cli_ac_addpatt: Can't allocate memory for pt->trans\n");
             return CL_EMEM;
@@ -748,7 +749,7 @@ cl_error_t cli_ac_addpatt(struct cli_matcher *root, struct cli_ac_patt *pattern)
     if (root->ac_patterns == UINT32_MAX ||
         !ac_array_fits(root->ac_patterns, 1, sizeof(*newtable)))
         return CL_EMEM;
-    newtable = MPOOL_REALLOC(root->mempool, root->ac_pattable,
+    newtable = CM_MPOOL_REALLOC("patterns", root->mempool, root->ac_pattable,
                              ((size_t)root->ac_patterns + 1) * sizeof(*newtable));
     if (!newtable) {
         cli_errmsg("cli_ac_addpatt: Can't realloc ac_pattable\n");
@@ -791,7 +792,7 @@ static int ac_maketrans(struct cli_matcher *root)
     if (!ac_array_fits(root->ac_nodes, 0, sizeof(*queue)))
         return CL_EMEM;
     if (root->ac_nodes) {
-        queue = malloc((size_t)root->ac_nodes * sizeof(*queue));
+        queue = CM_PERTURB_MALLOC("build_scratch", (size_t)root->ac_nodes * sizeof(*queue));
         if (!queue)
             return CL_EMEM;
     }
@@ -903,7 +904,7 @@ static cl_error_t ac_build_lsig_layout(struct cli_matcher *root)
 
     if (!ac_array_fits(root->ac_lsigs, 1, sizeof(uint32_t)))
         return CL_EMEM;
-    root->ac_lsig_offsets = MPOOL_CALLOC(root->mempool, (size_t)root->ac_lsigs + 1, sizeof(uint32_t));
+    root->ac_lsig_offsets = CM_MPOOL_CALLOC("logical", root->mempool, (size_t)root->ac_lsigs + 1, sizeof(uint32_t));
     if (!root->ac_lsig_offsets)
         return CL_EMEM;
 
@@ -982,7 +983,7 @@ cl_error_t cli_ac_init(struct cli_matcher *root, uint8_t mindepth, uint8_t maxde
         return CL_EMEM;
 #endif
 #endif
-    root->ac_root = MPOOL_CALLOC(AC_NODE_POOL(root), 1, sizeof(*root->ac_root));
+    root->ac_root = CM_MPOOL_CALLOC("nodes", AC_NODE_POOL(root), 1, sizeof(*root->ac_root));
     if (!root->ac_root)
         goto nomem;
     root->ac_nodeidx = AC_INDEX_CALLOC(root, 2);
@@ -990,7 +991,7 @@ cl_error_t cli_ac_init(struct cli_matcher *root, uint8_t mindepth, uint8_t maxde
         goto nomem;
     root->ac_nodeidx[1]  = root->ac_root;
     root->ac_nodetable   = root->ac_nodeidx + 2;
-    root->ac_root->trans = MPOOL_CALLOC(root->mempool, 256, sizeof(*root->ac_root->trans));
+    root->ac_root->trans = CM_MPOOL_CALLOC("transitions", root->mempool, 256, sizeof(*root->ac_root->trans));
     if (!root->ac_root->trans)
         goto nomem;
 
@@ -1789,24 +1790,24 @@ static cl_error_t ac_initdata(struct cli_ac_data *data, uint32_t partsigs, uint3
     data->lsigs      = lsigs;
 
     if (reloffsigs) {
-        data->offset = malloc((size_t)reloffsigs * 2 * sizeof(uint32_t));
+        data->offset = CM_PERTURB_MALLOC("scanstate", (size_t)reloffsigs * 2 * sizeof(uint32_t));
         if (!data->offset)
             goto nomem;
         for (j = 0; j < (size_t)reloffsigs * 2; j += 2)
             data->offset[j] = CLI_OFF_NONE;
     }
     if (partsigs) {
-        data->offmatrix = calloc(partsigs, sizeof(*data->offmatrix));
+        data->offmatrix = CM_PERTURB_CALLOC("scanstate", partsigs, sizeof(*data->offmatrix));
         if (!data->offmatrix)
             goto nomem;
     }
     if (lsigs) {
         data->lsig_row_offsets = offsets;
-        data->lsigcnt          = calloc(slots, sizeof(uint32_t));
-        data->lsigsuboff_last  = malloc(slots * sizeof(uint32_t));
-        data->lsigsuboff_first = malloc(slots * sizeof(uint32_t));
-        data->yr_matches       = calloc(lsigs, sizeof(*data->yr_matches));
-        data->lsig_matches     = calloc(lsigs, sizeof(*data->lsig_matches));
+        data->lsigcnt          = CM_PERTURB_CALLOC("scanstate", slots, sizeof(uint32_t));
+        data->lsigsuboff_last  = CM_PERTURB_MALLOC("scanstate", slots * sizeof(uint32_t));
+        data->lsigsuboff_first = CM_PERTURB_MALLOC("scanstate", slots * sizeof(uint32_t));
+        data->yr_matches       = CM_PERTURB_CALLOC("scanstate", lsigs, sizeof(*data->yr_matches));
+        data->lsig_matches     = CM_PERTURB_CALLOC("scanstate", lsigs, sizeof(*data->lsig_matches));
         if (!data->lsigcnt || !data->lsigsuboff_last || !data->lsigsuboff_first ||
             !data->yr_matches || !data->lsig_matches)
             goto nomem;
@@ -1942,7 +1943,7 @@ inline static cl_error_t ac_addtype(struct cli_matched_type **list, cli_file_t t
 {
     struct cli_matched_type *tnode;
 
-    tnode = calloc(1, sizeof(struct cli_matched_type));
+    tnode = CM_PERTURB_CALLOC("scanstate", 1, sizeof(struct cli_matched_type));
     if (NULL == tnode) {
         cli_errmsg("cli_ac_addtype: Can't allocate memory for new type node\n");
         return CL_EMEM;
@@ -2019,7 +2020,7 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
 
             ls_matches = mdata->lsig_matches[lsig_id];
             if (ls_matches == NULL) { /* allocate cli_lsig_matches */
-                ls_matches = mdata->lsig_matches[lsig_id] = (struct cli_lsig_matches *)calloc(1, sizeof(struct cli_lsig_matches) +
+                ls_matches = mdata->lsig_matches[lsig_id] = (struct cli_lsig_matches *)CM_PERTURB_CALLOC("scanstate", 1, sizeof(struct cli_lsig_matches) +
                                                                                                      (ac_lsig->tdb.subsigs - 1) * sizeof(struct cli_subsig_matches *));
                 if (ls_matches == NULL) {
                     cli_errmsg("lsig_sub_matched: calloc failed for cli_lsig_matches\n");
@@ -2029,7 +2030,7 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
             }
             ss_matches = ls_matches->matches[subsig_id];
             if (ss_matches == NULL) { /*  allocate cli_subsig_matches */
-                ss_matches = ls_matches->matches[subsig_id] = malloc(sizeof(struct cli_subsig_matches));
+                ss_matches = ls_matches->matches[subsig_id] = CM_PERTURB_MALLOC("scanstate", sizeof(struct cli_subsig_matches));
                 if (ss_matches == NULL) {
                     cli_errmsg("lsig_sub_matched: malloc failed for cli_subsig_matches struct\n");
                     return CL_EMEM;
@@ -2038,7 +2039,7 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
                 ss_matches->last = sizeof(ss_matches->offsets) / sizeof(uint32_t) - 1;
             }
             if (ss_matches->next > ss_matches->last) { /* cli_matches out of space? realloc */
-                ss_matches = ls_matches->matches[subsig_id] = realloc(ss_matches, sizeof(struct cli_subsig_matches) + sizeof(uint32_t) * ss_matches->last * 2);
+                ss_matches = ls_matches->matches[subsig_id] = CM_PERTURB_REALLOC("scanstate", ss_matches, sizeof(struct cli_subsig_matches) + sizeof(uint32_t) * ss_matches->last * 2);
                 if (ss_matches == NULL) {
                     cli_errmsg("lsig_sub_matched: realloc failed for cli_subsig_matches struct\n");
                     return CL_EMEM;
@@ -2241,13 +2242,13 @@ cl_error_t cli_ac_scanbuff(
 
                             /* sparsely populated matrix, so allocate and initialize if NULL */
                             if (!mdata->offmatrix[pt->sigid - 1]) {
-                                mdata->offmatrix[pt->sigid - 1] = malloc(pt->parts * sizeof(int32_t *));
+                                mdata->offmatrix[pt->sigid - 1] = CM_PERTURB_MALLOC("scanstate", pt->parts * sizeof(int32_t *));
                                 if (!mdata->offmatrix[pt->sigid - 1]) {
                                     cli_errmsg("cli_ac_scanbuff: Can't allocate memory for mdata->offmatrix[%u]\n", pt->sigid - 1);
                                     return CL_EMEM;
                                 }
 
-                                mdata->offmatrix[pt->sigid - 1][0] = malloc(pt->parts * (CLI_DEFAULT_AC_TRACKLEN + 2) * sizeof(uint32_t));
+                                mdata->offmatrix[pt->sigid - 1][0] = CM_PERTURB_MALLOC("scanstate", pt->parts * (CLI_DEFAULT_AC_TRACKLEN + 2) * sizeof(uint32_t));
                                 if (!mdata->offmatrix[pt->sigid - 1][0]) {
                                     cli_errmsg("cli_ac_scanbuff: Can't allocate memory for mdata->offmatrix[%u][0]\n", pt->sigid - 1);
                                     free(mdata->offmatrix[pt->sigid - 1]);
@@ -2390,7 +2391,7 @@ cl_error_t cli_ac_scanbuff(
                                     }
 
                                     if (res) {
-                                        newres = (struct cli_ac_result *)malloc(sizeof(struct cli_ac_result));
+                                        newres = (struct cli_ac_result *)CM_PERTURB_MALLOC("scanstate", sizeof(struct cli_ac_result));
                                         if (!newres) {
                                             cli_errmsg("cli_ac_scanbuff: Can't allocate memory for newres %lu\n", (unsigned long)sizeof(struct cli_ac_result));
                                             return CL_EMEM;
@@ -2497,7 +2498,7 @@ cl_error_t cli_ac_scanbuff(
                                 }
 
                                 if (res) {
-                                    newres = (struct cli_ac_result *)malloc(sizeof(struct cli_ac_result));
+                                    newres = (struct cli_ac_result *)CM_PERTURB_MALLOC("scanstate", sizeof(struct cli_ac_result));
                                     if (!newres) {
                                         cli_errmsg("cli_ac_scanbuff: Can't allocate memory for newres %lu\n", (unsigned long)sizeof(struct cli_ac_result));
                                         return CL_EMEM;
@@ -2749,7 +2750,7 @@ inline static int ac_addspecial_add_alt_node(const char *subexpr, uint8_t sigopt
     UNUSEDPARAM(root);
 #endif
 
-    newnode = (struct cli_alt_node *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_alt_node));
+    newnode = (struct cli_alt_node *)CM_MPOOL_CALLOC("tokens", root->mempool, 1, sizeof(struct cli_alt_node));
     if (!newnode) {
         cli_errmsg("ac_addspecial_add_alt_node: Can't allocate new alternate node\n");
         return CL_EMEM;
@@ -2939,7 +2940,7 @@ inline static int ac_special_altstr(const char *hexpr, uint8_t sigopts, struct c
         /* single-bytes are len 2 in hex */
         if (slen == 2) {
             special->type       = AC_SPECIAL_ALT_CHAR;
-            (special->alt).byte = (unsigned char *)MPOOL_MALLOC(root->mempool, num);
+            (special->alt).byte = (unsigned char *)CM_MPOOL_MALLOC("tokens", root->mempool, num);
             if (!((special->alt).byte)) {
                 cli_errmsg("cli_ac_special_altstr: Can't allocate newspecial->str\n");
                 free(hexprcpy);
@@ -2947,7 +2948,7 @@ inline static int ac_special_altstr(const char *hexpr, uint8_t sigopts, struct c
             }
         } else {
             special->type        = AC_SPECIAL_ALT_STR_FIXED;
-            (special->alt).f_str = (unsigned char **)MPOOL_MALLOC(root->mempool, num * sizeof(unsigned char *));
+            (special->alt).f_str = (unsigned char **)CM_MPOOL_MALLOC("tokens", root->mempool, num * sizeof(unsigned char *));
             if (!((special->alt).f_str)) {
                 cli_errmsg("cli_ac_special_altstr: Can't allocate newspecial->str\n");
                 free(hexprcpy);
@@ -2996,7 +2997,7 @@ inline static int ac_special_altstr(const char *hexpr, uint8_t sigopts, struct c
         special->type = AC_SPECIAL_ALT_STR;
 
         /* allocate reusable subexpr */
-        if (!(subexpr = calloc(slen + 1, sizeof(char)))) {
+        if (!(subexpr = CM_PERTURB_CALLOC("build_scratch", slen + 1, sizeof(char)))) {
             cli_errmsg("ac_special_altstr: Can't allocate subexpr container\n");
             free(hexprcpy);
             return CL_EMEM;
@@ -3035,7 +3036,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
         return CL_EMALFDB;
     }
 
-    if ((new = (struct cli_ac_patt *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_ac_patt))) == NULL)
+    if ((new = (struct cli_ac_patt *)CM_MPOOL_CALLOC("patterns", root->mempool, 1, sizeof(struct cli_ac_patt))) == NULL)
         return CL_EMEM;
 
     /* Parse into a stack extension and allocate one only if it ends up
@@ -3167,7 +3168,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
         }
 
         hexnewsz = strlen(hexsig) + 1;
-        if (!(hexnew = (char *)calloc(1, hexnewsz))) {
+        if (!(hexnew = (char *)CM_PERTURB_CALLOC("build_scratch", 1, hexnewsz))) {
             MPOOL_FREE(root->mempool, new);
             free(hexcpy);
             return CL_EMEM;
@@ -3181,7 +3182,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
                 error = CL_EMALFDB;
                 break;
             }
-            newspecial = (struct cli_ac_special *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_ac_special));
+            newspecial = (struct cli_ac_special *)CM_MPOOL_CALLOC("tokens", root->mempool, 1, sizeof(struct cli_ac_special));
             if (!newspecial) {
                 cli_errmsg("cli_ac_addsig: Can't allocate newspecial\n");
                 error = CL_EMEM;
@@ -3270,7 +3271,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
             }
             cli_strlcat(hexnew, "()", hexnewsz);
             new->ext->special++;
-            newtable = (struct cli_ac_special **)MPOOL_REALLOC(root->mempool, new->ext->special_table, new->ext->special * sizeof(struct cli_ac_special *));
+            newtable = (struct cli_ac_special **)CM_MPOOL_REALLOC("tokens", root->mempool, new->ext->special_table, new->ext->special * sizeof(struct cli_ac_special *));
             if (!newtable) {
                 new->ext->special--;
                 MPOOL_FREE(root->mempool, newspecial);
@@ -3511,7 +3512,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
     if (ac_patt_ext_is_default(&extbuf)) {
         new->ext = NULL;
     } else {
-        new->ext = MPOOL_MALLOC(root->mempool, sizeof(*new->ext));
+        new->ext = CM_MPOOL_MALLOC("patterns", root->mempool, sizeof(*new->ext));
         if (NULL == new->ext) {
             new->ext = &extbuf; /* so the special table is still reachable */
             MPOOL_FREE(root->mempool, new->prefix ? new->prefix : new->pattern);
@@ -3539,7 +3540,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
         (new->offdata[0] != CLI_OFF_ABSOLUTE) &&
         (new->offdata[0] != CLI_OFF_MACRO)) {
 
-        root->ac_reloff = (struct cli_ac_patt **)MPOOL_REALLOC2(root->mempool, root->ac_reloff, (root->ac_reloff_num + 1) * sizeof(struct cli_ac_patt *));
+        root->ac_reloff = (struct cli_ac_patt **)CM_MPOOL_REALLOC2("patterns", root->mempool, root->ac_reloff, (root->ac_reloff_num + 1) * sizeof(struct cli_ac_patt *));
         if (!root->ac_reloff) {
             cli_errmsg("cli_ac_addsig: Can't allocate memory for root->ac_reloff\n");
             return CL_EMEM;

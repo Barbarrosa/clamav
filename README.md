@@ -109,6 +109,11 @@ method is not practical as specified. See the
 [plain-language feasibility investigation](docs/linked-counter-feasibility.md)
 for the measured input costs and the remaining algorithmic obstacle.
 
+An [allocation-padding experiment](docs/allocation-perturbation.md) also tests
+where small per-allocation costs grow into large RAM costs. It points to names,
+candidate lists and pattern records, and exposes spare space inside allocator
+slots. This is a diagnostic tool; it has not delivered another scanner saving.
+
 ## What changed under the hood
 
 | Area | Branch behavior | Implementation and evidence |
@@ -152,6 +157,7 @@ These branch-specific CMake options make the layouts easy to compare:
 | `ENABLE_AC_FLAT_NODES` | `ON` | Locate nodes by arena arithmetic when IDs are enabled; `OFF` uses indirect IDs. |
 | `ENABLE_FLAT_HASH_STORE` | `OFF` | Experimental contiguous hash storage; its higher construction peak remains a concern. |
 | `ENABLE_AC_DISPOSABLE_BUILD` | `OFF` | Experimental separate construction pool; it changes duplicate-alert ordering. |
+| `ENABLE_MEMORY_PERTURB` | `OFF` | Research probe that deliberately adds memory to selected allocations. |
 
 Use separate build directories with the same database, dependencies and scan
 options for comparisons. The [compact-engine guide](docs/compact-resident-engine.md)

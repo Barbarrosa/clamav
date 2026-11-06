@@ -313,6 +313,10 @@ CLAMAV_PRIVATE {
     cli_cvdverify;
     cli_newfilepath;
 
+    /* Present only in ENABLE_MEMORY_PERTURB research builds. */
+    cm_perturb_snapshot;
+    cm_perturb_pool_stats;
+
     __cli_strcasestr;
     __cli_strndup;
     __cli_strnlen;

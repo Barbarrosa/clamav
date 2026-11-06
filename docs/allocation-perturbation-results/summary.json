@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "scope": "Allocation sensitivity, not measured savings or proof of removable memory.",
+  "studies": {
+    "screen": {
+      "cases": 28,
+      "fixtures": 9,
+      "scan_records": 252,
+      "complete": true,
+      "all_semantics_match": true,
+      "uncensored": true,
+      "signatures_per_engine": 3628192,
+      "instrumented_library_sha256": "800d5f211d52df4899f41c7d05282fa29d10677416c15a6db2f2f3613d5ee6a0",
+      "fixture_transcript_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948"
+    },
+    "confirm": {
+      "cases": 16,
+      "fixtures": 9,
+      "scan_records": 144,
+      "complete": true,
+      "all_semantics_match": true,
+      "uncensored": true,
+      "signatures_per_engine": 3628192,
+      "instrumented_library_sha256": "800d5f211d52df4899f41c7d05282fa29d10677416c15a6db2f2f3613d5ee6a0",
+      "fixture_transcript_sha256": "f5c0549b56a684a78f87d995780a0d01f357e246a3d0061daec63364d7633948"
+    },
+    "reload": {
+      "cases": 7,
+      "fixtures": 163,
+      "scan_records": 1141,
+      "complete": true,
+      "all_semantics_match": true,
+      "uncensored": true,
+      "signatures_per_engine": 3628192,
+      "instrumented_library_sha256": "800d5f211d52df4899f41c7d05282fa29d10677416c15a6db2f2f3613d5ee6a0",
+      "fixture_transcript_sha256": "9c0af8866dadebd12c7d2c13f5cef8927667fe7c5fb0e0d104eab7bdeb47456c"
+    }
+  },
+  "screen_compiled_response": [
+    {
+      "group": "build_scratch",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": -28672
+    },
+    {
+      "group": "build_scratch",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 172032
+    },
+    {
+      "group": "candidates",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 19009536
+    },
+    {
+      "group": "candidates",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 93048832
+    },
+    {
+      "group": "hashes",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 7118848
+    },
+    {
+      "group": "hashes",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 23793664
+    },
+    {
+      "group": "heap_other",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 69632
+    },
+    {
+      "group": "heap_other",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 192512
+    },
+    {
+      "group": "logical",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 7790592
+    },
+    {
+      "group": "logical",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 49893376
+    },
+    {
+      "group": "names",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 29507584
+    },
+    {
+      "group": "names",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 151392256
+    },
+    {
+      "group": "nodes",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 4505600
+    },
+    {
+      "group": "nodes",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 22548480
+    },
+    {
+      "group": "patterns",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 14893056
+    },
+    {
+      "group": "patterns",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 63033344
+    },
+    {
+      "group": "pool_other",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 8192
+    },
+    {
+      "group": "pool_other",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 2240512
+    },
+    {
+      "group": "scanstate",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 126976
+    },
+    {
+      "group": "scanstate",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 73728
+    },
+    {
+      "group": "tokens",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 14086144
+    },
+    {
+      "group": "tokens",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 55595008
+    },
+    {
+      "group": "transitions",
+      "dose_bytes_per_request": 8,
+      "observations": 1,
+      "delta_bytes": 69632
+    },
+    {
+      "group": "transitions",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 86016
+    }
+  ],
+  "confirmation_compiled_response": [
+    {
+      "group": "candidates",
+      "dose_bytes_per_request": 32,
+      "observations": 2,
+      "delta_bytes": 92983296.0
+    },
+    {
+      "group": "names",
+      "dose_bytes_per_request": 32,
+      "observations": 2,
+      "delta_bytes": 151193600.0
+    },
+    {
+      "group": "nodes",
+      "dose_bytes_per_request": 32,
+      "observations": 2,
+      "delta_bytes": 22370304.0
+    },
+    {
+      "group": "patterns",
+      "dose_bytes_per_request": 32,
+      "observations": 2,
+      "delta_bytes": 63090688.0
+    }
+  ],
+  "reload_overlap_response": [
+    {
+      "group": "candidates",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 184881152
+    },
+    {
+      "group": "names",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 304848896
+    },
+    {
+      "group": "patterns",
+      "dose_bytes_per_request": 32,
+      "observations": 1,
+      "delta_bytes": 106201088
+    }
+  ],
+  "experimental_processes": 51,
+  "experimental_scan_records": 1537,
+  "all_study_audits_passed": true
+}

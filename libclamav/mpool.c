@@ -67,6 +67,7 @@ static inline void spam(const char *fmt, ...)
 #endif
 
 #include "mpool.h"
+#include "memory_perturb.h"
 
 #undef CL_DEBUG /* bb#2222 */
 
@@ -651,7 +652,17 @@ static void *allocate_aligned(struct MPMAP *mpm, size_t size, unsigned align, co
     return &f->u.a.fake;
 }
 
-void *mpool_malloc(struct MP *mp, size_t size)
+#ifdef CM_MEMORY_PERTURB
+#define MPOOL_MALLOC_IMPL mpool_malloc_raw
+#define MPOOL_REALLOC_IMPL mpool_realloc_raw
+#else
+#define MPOOL_MALLOC_IMPL mpool_malloc
+#define MPOOL_REALLOC_IMPL mpool_realloc
+#endif
+
+/* The research wrappers call these unchanged allocator implementations once.
+ * Internal realloc moves therefore do not charge or inject twice. */
+void *MPOOL_MALLOC_IMPL(struct MP *mp, size_t size)
 {
     size_t align = alignof(size);
     size_t i, needed = align_increase(size + FRAG_OVERHEAD, align);
@@ -754,6 +765,9 @@ void mpool_free(struct MP *mp, void *ptr)
 
 void *mpool_calloc(struct MP *mp, size_t nmemb, size_t size)
 {
+#ifdef CM_MEMORY_PERTURB
+    return cm_mpool_calloc("pool_other", mp, nmemb, size);
+#else
     size_t needed = nmemb * size;
     void *ptr;
 
@@ -761,14 +775,15 @@ void *mpool_calloc(struct MP *mp, size_t nmemb, size_t size)
     if ((ptr = mpool_malloc(mp, needed)))
         memset(ptr, 0, needed);
     return ptr;
+#endif
 }
 
-void *mpool_realloc(struct MP *mp, void *ptr, size_t size)
+void *MPOOL_REALLOC_IMPL(struct MP *mp, void *ptr, size_t size)
 {
     struct FRAG *f = NULL;
     size_t csize   = 0;
     void *new_ptr  = NULL;
-    if (!ptr) return mpool_malloc(mp, size);
+    if (!ptr) return MPOOL_MALLOC_IMPL(mp, size);
     f = (struct FRAG *)((char *)ptr - FRAG_OVERHEAD);
 
     if (!size || !(csize = from_bits(f->u.a.sbits))) {
@@ -781,12 +796,86 @@ void *mpool_realloc(struct MP *mp, void *ptr, size_t size)
         spam("malloc @%p size %lu (self) origsize %lu overhead %lu\n", f, (unsigned long)(size + FRAG_OVERHEAD + f->u.a.padding), (unsigned long)size, (unsigned long)(csize - size + FRAG_OVERHEAD + f->u.a.padding));
         return ptr;
     }
-    if (!(new_ptr = mpool_malloc(mp, size)))
+    if (!(new_ptr = MPOOL_MALLOC_IMPL(mp, size)))
         return NULL;
     memcpy(new_ptr, ptr, csize <= size ? csize : size);
     mpool_free(mp, ptr);
     return new_ptr;
 }
+
+#ifdef CM_MEMORY_PERTURB
+void *cm_mpool_malloc(const char *group, mpool_t *mp, size_t size)
+{
+    size_t physical, added;
+    void *ptr;
+    if (!cm_perturb_prepare(group, size, &physical, &added)) return NULL;
+    /* Keep the allocator's existing header/alignment arithmetic representable. */
+    if (physical > SIZE_MAX - FRAG_OVERHEAD - 7) {
+        cm_perturb_finish(group, NULL, size, added);
+        errno = ENOMEM;
+        return NULL;
+    }
+    ptr = mpool_malloc_raw(mp, physical);
+    cm_perturb_finish(group, ptr, size, added);
+    return ptr;
+}
+
+void *mpool_malloc(struct MP *mp, size_t size)
+{
+    return cm_mpool_malloc("pool_other", mp, size);
+}
+
+void *cm_mpool_calloc(const char *group, mpool_t *mp, size_t count, size_t size)
+{
+    void *ptr;
+    size_t requested;
+    if (size && count > SIZE_MAX / size) { cm_perturb_reject_overflow(group); return NULL; }
+    requested = count * size;
+    /* Preserve the pool's zero-sized calloc result without issuing a malloc. */
+    if (!requested) return NULL;
+    ptr = cm_mpool_malloc(group, mp, requested);
+    if (ptr) memset(ptr, 0, requested);
+    return ptr;
+}
+
+void *cm_mpool_realloc(const char *group, mpool_t *mp, void *ptr, size_t size)
+{
+    size_t physical, added;
+    void *result;
+    if (!cm_perturb_prepare(group, size, &physical, &added)) return NULL;
+    if (physical > SIZE_MAX - FRAG_OVERHEAD - 7) {
+        cm_perturb_finish(group, NULL, size, added);
+        errno = ENOMEM;
+        return NULL;
+    }
+    result = mpool_realloc_raw(mp, ptr, physical);
+    cm_perturb_finish(group, result, size, added);
+    return result;
+}
+
+void *mpool_realloc(struct MP *mp, void *ptr, size_t size)
+{
+    return cm_mpool_realloc("pool_other", mp, ptr, size);
+}
+
+void *cm_mpool_realloc2(const char *group, mpool_t *mp, void *ptr, size_t size)
+{
+    void *result = cm_mpool_realloc(group, mp, ptr, size);
+    if (!result) mpool_free(mp, ptr);
+    return result;
+}
+
+char *cm_mpool_strdup(const char *group, mpool_t *mp, const char *value)
+{
+    size_t size;
+    char *result;
+    if (!value) return NULL;
+    size = strlen(value) + 1;
+    result = cm_mpool_malloc(group, mp, size);
+    if (result) memcpy(result, value, size);
+    return result;
+}
+#endif
 
 void *mpool_realloc2(struct MP *mp, void *ptr, size_t size)
 {
@@ -887,9 +976,9 @@ char *cli_mpool_virname(mpool_t *mp, const char *virname, unsigned int official)
     }
 #endif
     if (official)
-        return cli_mpool_strdup(mp, virname);
+        return CM_MPOOL_STRDUP("names", mp, virname);
 
-    newname = (char *)mpool_malloc(mp, strlen(virname) + 11 + 1);
+    newname = (char *)CM_MPOOL_MALLOC("names", mp, strlen(virname) + 11 + 1);
     if (!newname) {
         cli_errmsg("cli_mpool_virname: Can't allocate memory for newname\n");
         return NULL;
@@ -910,7 +999,7 @@ uint16_t *cli_mpool_hex2ui(mpool_t *mp, const char *hex)
         return NULL;
     }
 
-    str = mpool_calloc(mp, (len / 2) + 1, sizeof(uint16_t));
+    str = CM_MPOOL_CALLOC("tokens", mp, (len / 2) + 1, sizeof(uint16_t));
     if (!str)
         return NULL;
 

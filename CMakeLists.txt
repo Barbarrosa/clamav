@@ -111,6 +111,11 @@ set(ENABLE_SYSTEMD_DEFAULT          ON)
 # See CMakeOptions.cmake for additional options.
 include(CMakeOptions.cmake)
 
+option(ENABLE_MEMORY_PERTURB "Research only: tagged allocation padding and cumulative diagnostics" OFF)
+if(ENABLE_MEMORY_PERTURB AND NOT UNIX)
+    message(FATAL_ERROR "ENABLE_MEMORY_PERTURB currently requires a POSIX research environment")
+endif()
+
 # Set build type to RelWithDebInfo if not specified.
 # This must be done before pulling in the Rust module
 # or else the default build will be Debug for Rust stuffs.

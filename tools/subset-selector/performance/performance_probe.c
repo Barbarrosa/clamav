@@ -114,6 +114,7 @@ static void run_batch(struct cl_engine *e,char **paths,size_t count,int metadata
     num(o,"files",count);num(o,"bytes",bytes);num(o,"root_cache_hits",hits);num(o,"held",held);num(o,"detected",detected);num(o,"failed",failed);
     measurements(o,start,end);memory_fields(o);emit(o);
 }
+#ifndef PERFORMANCE_PROBE_NO_MAIN
 int main(int argc,char **argv) {
     if(argc!=10){fprintf(stderr,"usage: %s DB CERTS SKIP|- LIST CASE DBLIST CACHE_STATE REPEATS ALLMATCH\n",argv[0]);return 2;}
     const char *mode=argv[5];int diagnostic=!strcmp(mode,"result-cache");int repeats=atoi(argv[8]),allmatch=atoi(argv[9]);CHECK(repeats>0&&repeats<101);
@@ -145,3 +146,4 @@ int main(int argc,char **argv) {
     }
     for(size_t i=0;i<nd;i++){free(dbfiles[i]);}for(size_t i=0;i<nf;i++){free(files[i]);}free(dbfiles);free(files);cl_engine_free(e);return 0;
 }
+#endif

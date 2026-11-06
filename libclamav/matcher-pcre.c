@@ -29,6 +29,7 @@
 #include "dconf.h"
 #include "events.h"
 #include "others.h"
+#include "memory_perturb.h"
 #include "matcher.h"
 #include "matcher-ac.h"
 #include "matcher-pcre.h"
@@ -444,12 +445,12 @@ cl_error_t cli_pcre_recaloff(struct cli_matcher *root, struct cli_pcre_off *data
     }
 
     /* allocate data structures */
-    data->shift = (uint32_t *)calloc(root->pcre_metas, sizeof(uint32_t));
+    data->shift = (uint32_t *)CM_PERTURB_CALLOC("scanstate", root->pcre_metas, sizeof(uint32_t));
     if (!data->shift) {
         cli_errmsg("cli_pcre_initoff: cannot allocate memory for data->shift\n");
         return CL_EMEM;
     }
-    data->offset = (uint32_t *)calloc(root->pcre_metas, sizeof(uint32_t));
+    data->offset = (uint32_t *)CM_PERTURB_CALLOC("scanstate", root->pcre_metas, sizeof(uint32_t));
     if (!data->offset) {
         cli_errmsg("cli_pcre_initoff: cannot allocate memory for data->offset\n");
         free(data->shift);
