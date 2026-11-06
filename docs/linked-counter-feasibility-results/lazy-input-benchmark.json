@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "source_sha256": "134ae40d8c03d79ff498b09cfbcb21b947a3493ec9eac6185518cffc6a0fa42d",
+  "adapter_source_sha256": "6215eb2bcac8757b7fec20a1a7ae06f5dba33c6394697590c775553d24e81371",
+  "canonical_codec_source_sha256": "ffc0a0684fceb87eb0868cd5e4e926d59025eabf6409bd56509f7e3a86d5cfc9",
+  "source_bytes": 20969027,
+  "variables": 295443,
+  "canonical_clauses": 1005963,
+  "canonical_logical_bits": 3029313958669,
+  "packed_transport_bytes_if_materialized": 378664244834,
+  "index_format": "packed uint64 clause ends",
+  "index_storage_bytes": 8183816,
+  "dimacs_parse_seconds": 5.419141792999653,
+  "index_build_seconds": 0.7408618250001382,
+  "random_bit_reads": 100000,
+  "random_read_seconds": 0.2744458540000778,
+  "runs_visited": 100000,
+  "logical_bits_covered_by_run_access": 2305437919,
+  "run_access_seconds": 0.2522460569998657,
+  "checksum": "dccb3c6fc5b6f254dcedb9b11e961edfd6d88c9d0f1ba61226c85fb33101a374",
+  "full_input_materialized": false,
+  "linked_counting_algorithm_executed": false,
+  "scope": "compact canonical-input access only; not counting, frontend simulation or a formal-step shortcut",
+  "complexity": {
+    "extra_index_space": "O(canonical clauses)",
+    "bit_access": "O(log canonical clauses + clause width)",
+    "run_access": "O(log canonical clauses + clause width) per run",
+    "expanded_window_limit_bits": 1048576
+  },
+  "limitations": [
+    "The caller still holds the compact canonical formula.",
+    "Lazy access avoids an expanded resident input but does not eliminate the counter working state.",
+    "The literal published frontend copies/parses/clears canonical words bit by bit; skipping them needs an additional justified implementation.",
+    "This benchmark does not run the linked counting method or establish its time/space requirements."
+  ],
+  "observed_resource_limits": {
+    "address_space_bytes": {
+      "soft": 2147483648,
+      "hard": 2147483648
+    },
+    "cpu_seconds": {
+      "soft": 110,
+      "hard": 115
+    },
+    "scope": "per-process observed limits; address space differs from resident RAM"
+  },
+  "process_highwater_rss_bytes": 413421568,
+  "process_user_cpu_seconds": 6.549205,
+  "process_system_cpu_seconds": 0.184435
+}

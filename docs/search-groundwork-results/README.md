@@ -1,5 +1,9 @@
 # Search groundwork evidence
 
+Follow-up: the [linked-counter feasibility investigation](../linked-counter-feasibility.md)
+now demonstrates compact input access and audits the published fallback dispatch.
+The historical results below remain unchanged.
+
 These are offline research results on the same signed-database capture used by
 the [earlier field model](../system-model.md): 3,628,192 signatures and
 75,460,242 captured field values. No scanner runtime or rule-selection default

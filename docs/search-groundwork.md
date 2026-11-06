@@ -72,12 +72,17 @@ successive budgets. Conditional queries demonstrate choosing among alternatives.
 This is a test of the encoding, not a memory result for real signatures or a
 formal proof of every part of the framework.
 
-There is a practical input-format obstacle for the linked construction. The full
-query's documented canonical encoding is about **353 GiB packed**, despite its
-much smaller DIMACS form. The frontend calculates that length without allocating
-the huge file and limits optional exports. It preserves the declared variable
-universe and follows the linked unary-number/list framing. This is not a claim
-that ClamAV or the optimizer needs 353 GiB of RAM.
+The full query's documented canonical encoding is about **353 GiB packed**,
+despite its much smaller DIMACS form. A compact input view now provides its bits
+without creating that file: the measured process peaked at about **394 MiB RAM**.
+It preserves the declared variable universe and linked unary-number/list framing.
+This measures input handling, not the counting algorithm's working memory.
+
+The [feasibility investigation](linked-counter-feasibility.md) identifies a more
+decisive obstacle: the published parameter settings send our queries to a
+fallback. The threshold for its proved large-input branch is astronomically
+beyond a feasible explicit input. The new method itself has not run; a practical
+adaptation would require additional algorithm development.
 
 ## What a promising result still needs
 

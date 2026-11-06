@@ -37,6 +37,9 @@ Read the [plain-language overview](../../../docs/search-groundwork.md) first.
 - `canonical_input.py` prepares the linked theorem's canonical Boolean input,
   computes its exact logical length without creating it, and limits optional
   packed transport writes.
+- `lazy_canonical.py` accesses the same input without expanding unary codes.
+  `linked_counter_audit.py` checks the pinned construction's integer settings
+  and literal resource sizes. Neither executes the counting algorithm.
 - `make_counting_fixtures.py` exports small independently checked count oracles.
   `run_counter.py` is an injectable external-counter protocol, not an extraction
   or implementation of the linked algorithm.
@@ -220,6 +223,39 @@ DIMACS: the recorded full query has about 3.03 trillion logical bits, approximat
 353 GiB packed. This is an input-encoding estimate, not optimizer or ClamAV RAM.
 The packed transport needs unpacking into the formal Boolean input; it is not a
 published executable solver interface.
+
+The compact view avoids materializing that transport. Its full-query input test
+used about 394 MiB resident RAM under a 2 GiB address-space cap:
+
+```sh
+(
+  ulimit -v 2097152
+  ulimit -S -t 110
+  ulimit -H -t 115
+  timeout 120s python3 tools/compact-memory/search-groundwork/lazy_canonical.py \
+    --cnf /private/search-explore/query.cnf --report /tmp/lazy-input.json \
+    --random-reads 100000 --run-limit 100000
+)
+```
+
+Bit access costs `O(log m + k)` using an `O(m)` clause-end index, where `m` is
+canonical clause count and `k` is clause width. The original compact formula also
+remains resident. A run iterator can skip unary stretches; it does not simulate
+or accelerate the published counter's formal trace.
+
+Audit a checkout of the linked project at the pinned revision:
+
+```sh
+python3 tools/compact-memory/search-groundwork/linked_counter_audit.py \
+  --cnf /private/search-explore/query.cnf \
+  --math-source /path/to/openai-math --report /tmp/linked-counter-audit.json
+```
+
+The [feasibility report](../../../docs/linked-counter-feasibility.md) explains why
+input access is practical but the published parameterization is not: our queries
+take its finite fallback, and forcing the large branch violates its proved
+parameter conditions. This is not a proof that every high-level adaptation is
+impossible, nor an independent Lean proof build.
 
 `run_counter.py` accepts a caller-supplied backend command and validates bounded
 responses against the exact input hash and optional oracle count. It records

@@ -103,7 +103,11 @@ The [search groundwork](docs/search-groundwork.md) now makes correctness,
 performance evidence and complexity limits explicit. It prepares counting-safe
 queries, measures added lookup/decoding work and code complexity indicators, and
 blocks unknown qualifications from becoming claimed improvements. The linked
-algorithm's large canonical input format remains a practical obstacle.
+algorithm's verbose input can now be accessed with about **394 MiB of RAM**.
+However, its published settings send our queries to a fallback; the new counting
+method is not practical as specified. See the
+[plain-language feasibility investigation](docs/linked-counter-feasibility.md)
+for the measured input costs and the remaining algorithmic obstacle.
 
 ## What changed under the hood
 

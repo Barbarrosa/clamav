@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "assessment_context_date": "2026-11-06",
+  "math_source_revision": "4eaee87548250b2682affda7d05d947c05554bae",
+  "source": {
+    "repository": "https://github.com/openai/math",
+    "proof_rebuilt": false,
+    "paper": {
+      "path": "preprints/The-Exponential-Time-Hypothesis-is-False-October-25-2026/paper.pdf",
+      "bytes": 887884,
+      "sha256": "5b1612dc2eebb2cad5b4cbe62d1fed2982f01ab1908c26f70010a651487e8123",
+      "git_blob": "0503566e95bc587a4076573a45132d97531b8ba6",
+      "git_blob_identity_verified": true
+    }
+  },
+  "platform": {
+    "system": "Linux",
+    "release": "6.18.57",
+    "machine": "x86_64",
+    "python": "3.12.14"
+  },
+  "tool_sha256": {
+    "tools/compact-memory/search-groundwork/canonical_input.py": "ffc0a0684fceb87eb0868cd5e4e926d59025eabf6409bd56509f7e3a86d5cfc9",
+    "tools/compact-memory/search-groundwork/lazy_canonical.py": "6215eb2bcac8757b7fec20a1a7ae06f5dba33c6394697590c775553d24e81371",
+    "tools/compact-memory/search-groundwork/benchmark_full_runs.py": "95cfae1a4b8ceee60dfa9f9e05b682df5495cee68874c45bc5117448a84fb8d2",
+    "tools/compact-memory/search-groundwork/linked_counter_audit.py": "f786caabb4dba25d7141a88a83138b65d89661b1e42cf7fcdf4a249a4be1c9d7",
+    "tools/compact-memory/search-groundwork/test_lazy_canonical.py": "b0c3067c5b0b16b9e5d84a02d395fb69ec33c1f35ff23e2ab736492af685f91a",
+    "tools/compact-memory/search-groundwork/test_linked_counter_audit.py": "09ba9637a2ec3c2c1b91dfe22775c0a1859ff94f41dd8e9d68617bde53aaab07"
+  },
+  "evidence_sha256": {
+    "linked-counter-audit.json": "dcc824d4595fb640fc2acaf469e229333a4a3a660c7eedbe965af4d1e7d2a443",
+    "lazy-input-benchmark.json": "2cc84bc16fa9ad13751b2684365b5a21c063efef560c012c13ecfa6ebea8fa59",
+    "full-rle-benchmark.json": "8ffa91f69bb5267eaed9686065ab0ab1f0fa88db4988fe0a28e1492497d51496"
+  },
+  "validation": {
+    "groundwork_tests_passed": 84,
+    "groundwork_test_command": "python3 -m unittest discover -s tools/compact-memory/search-groundwork -p 'test_*.py' -q",
+    "dependencies": "NumPy and python-sat supplied through isolated environment",
+    "published_query_decompression_hash_verified": true
+  },
+  "execution_scope": "Input adapter and source-derived arithmetic executed; no linked counter execution or Lean proof build.",
+  "resource_wrapper": {
+    "address_space_bytes": 2147483648,
+    "cpu_seconds_soft": 110,
+    "cpu_seconds_hard": 115,
+    "wall_seconds": 120,
+    "complete_traversal_exit_code": 0
+  }
+}

@@ -1,0 +1,431 @@
+{
+  "schema_version": 1,
+  "source_revision": "4eaee87548250b2682affda7d05d947c05554bae",
+  "sources": {
+    "lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/Asymptotics.lean": {
+      "sha256": "46db81509ce6ae092122c134e97ebda80fc327fd6d0ed0b1a6ef42e779b5ce6c",
+      "git_blob_sha": "da9003ffd1a9b8fcc82147b4152414b264d26d54",
+      "bytes": 13965,
+      "git_blob_identity_verified": true,
+      "url": "https://github.com/openai/math/blob/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/Asymptotics.lean"
+    },
+    "lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/NativeLargeEntry.lean": {
+      "sha256": "14c73b43c00cb0bd8a7c407e94b78662bd80a92eb8ccff0cdde6130331b9e45b",
+      "git_blob_sha": "7b913fbf641fddfa4eedbaef7c0e173aed42437c",
+      "bytes": 7119,
+      "git_blob_identity_verified": true,
+      "url": "https://github.com/openai/math/blob/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/NativeLargeEntry.lean"
+    },
+    "lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/FiniteFallback.lean": {
+      "sha256": "1d74c001b96a553e3e689e201150cb5285e23e0ed706c5ee8447378e852367c6",
+      "git_blob_sha": "1fc8e1817b4f24d3255ef8fc398fb2127d214284",
+      "bytes": 46348,
+      "git_blob_identity_verified": true,
+      "url": "https://github.com/openai/math/blob/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/FiniteFallback.lean"
+    },
+    "lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/NativeFrontend.lean": {
+      "sha256": "b0b4a583e7dcecb58621c0caf5188c89dc31c69eaf3adcf618a2f08584bebf4a",
+      "git_blob_sha": "bdf989fb6a58332fe298ad157357ca684f6e1a41",
+      "bytes": 14564,
+      "git_blob_identity_verified": true,
+      "url": "https://github.com/openai/math/blob/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/NativeFrontend.lean"
+    },
+    "lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/Final.lean": {
+      "sha256": "040360a8465957622d934e5f1bb4f2cce8dab950e78f52033fbf70da493184f5",
+      "git_blob_sha": "a69635a2492e06a26f2e33d4251edd1e21ba3332",
+      "bytes": 11701,
+      "git_blob_identity_verified": true,
+      "url": "https://github.com/openai/math/blob/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/Final.lean"
+    },
+    "lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/NativeLeafProgram.lean": {
+      "sha256": "12677b53c225579fff4f46201a493c5a362e210611a8b5c86c206b6cf009575a",
+      "git_blob_sha": "bdc142b5fec908abbf86355e02154444f4de8136",
+      "bytes": 1594,
+      "git_blob_identity_verified": true,
+      "url": "https://github.com/openai/math/blob/4eaee87548250b2682affda7d05d947c05554bae/lean/OAI/Algorithms/SubexponentialSAT/SqrtLogSpace/NativeLeafProgram.lean"
+    }
+  },
+  "audit_implementation_sha256": "f786caabb4dba25d7141a88a83138b65d89661b1e42cf7fcdf4a249a4be1c9d7",
+  "canonical_codec_source_sha256": "ffc0a0684fceb87eb0868cd5e4e926d59025eabf6409bd56509f7e3a86d5cfc9",
+  "input_sha256": "134ae40d8c03d79ff498b09cfbcb21b947a3493ec9eac6185518cffc6a0fa42d",
+  "dimacs_bytes": 20969027,
+  "variables": 295443,
+  "canonical_clauses": 1005963,
+  "canonical_logical_bits": 3029313958669,
+  "dispatch": {
+    "variables": 295443,
+    "lambda": 19,
+    "nu": 5,
+    "integer_sqrt_lambda": 4,
+    "schedule": 0,
+    "necessary_large_branch_condition_schedule_at_least_two": false,
+    "proved_large_branch_eligible": false,
+    "interpretation": "necessarily finite fallback under the published cutoff contract"
+  },
+  "fixture_dispatch": [
+    {
+      "variables": 97,
+      "lambda": 7,
+      "nu": 3,
+      "integer_sqrt_lambda": 2,
+      "schedule": 0,
+      "necessary_large_branch_condition_schedule_at_least_two": false,
+      "proved_large_branch_eligible": false,
+      "interpretation": "necessarily finite fallback under the published cutoff contract"
+    },
+    {
+      "variables": 114,
+      "lambda": 7,
+      "nu": 3,
+      "integer_sqrt_lambda": 2,
+      "schedule": 0,
+      "necessary_large_branch_condition_schedule_at_least_two": false,
+      "proved_large_branch_eligible": false,
+      "interpretation": "necessarily finite fallback under the published cutoff contract"
+    },
+    {
+      "variables": 115,
+      "lambda": 7,
+      "nu": 3,
+      "integer_sqrt_lambda": 2,
+      "schedule": 0,
+      "necessary_large_branch_condition_schedule_at_least_two": false,
+      "proved_large_branch_eligible": false,
+      "interpretation": "necessarily finite fallback under the published cutoff contract"
+    },
+    {
+      "variables": 117,
+      "lambda": 7,
+      "nu": 3,
+      "integer_sqrt_lambda": 2,
+      "schedule": 0,
+      "necessary_large_branch_condition_schedule_at_least_two": false,
+      "proved_large_branch_eligible": false,
+      "interpretation": "necessarily finite fallback under the published cutoff contract"
+    }
+  ],
+  "ordinary_size_range": {
+    "lower_n": 5,
+    "upper_n": "2^64",
+    "schedule": 0,
+    "checked_ceiling_log_intervals": [
+      {
+        "ceiling_log2_n": 3,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 4,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 5,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 6,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 7,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 8,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 9,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 10,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 11,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 12,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 13,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 14,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 15,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 16,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 17,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 18,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 19,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 20,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 21,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 22,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 23,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 24,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 25,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 26,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 27,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 28,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 29,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 30,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 31,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 32,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 33,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 34,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 35,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 36,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 37,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 38,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 39,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 40,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 41,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 42,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 43,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 44,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 45,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 46,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 47,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 48,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 49,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 50,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 51,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 52,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 53,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 54,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 55,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 56,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 57,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 58,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 59,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 60,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 61,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 62,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 63,
+        "schedule": 0
+      },
+      {
+        "ceiling_log2_n": 64,
+        "schedule": 0
+      }
+    ]
+  },
+  "cutoff_lower_bound_witness": {
+    "n": "2^639999",
+    "n_bit_length": 640000,
+    "exact_parameters": {
+      "lambda": 639999,
+      "nu": 20,
+      "integer_sqrt_lambda": 799,
+      "schedule": 1
+    },
+    "implication": "Any Ns with forall n>=Ns, schedule(n)>=2 must exceed 2^639999; the chosen cutoff is >=Ns.",
+    "padding_input_lower_bound": "more than 2^639999 logical bits in the unary variable header alone",
+    "not_a_materialized_formula": true
+  },
+  "finite_fallback_literal_sizes": [
+    {
+      "cutoff": 0,
+      "maximum_canonical_bits": 6,
+      "scanner_state_count": "2^7",
+      "scanner_state_count_log2": 7,
+      "program_label_factor_over_states": 7,
+      "interpretation": "size of literal finite-control expansion; not a lower bound for all symbolic implementations"
+    },
+    {
+      "cutoff": 1,
+      "maximum_canonical_bits": 59,
+      "scanner_state_count": "2^60",
+      "scanner_state_count_log2": 60,
+      "program_label_factor_over_states": 9,
+      "interpretation": "size of literal finite-control expansion; not a lower bound for all symbolic implementations"
+    },
+    {
+      "cutoff": 2,
+      "maximum_canonical_bits": 516,
+      "scanner_state_count": "2^517",
+      "scanner_state_count_log2": 517,
+      "program_label_factor_over_states": 11,
+      "interpretation": "size of literal finite-control expansion; not a lower bound for all symbolic implementations"
+    },
+    {
+      "cutoff": 20,
+      "maximum_canonical_bits": 1895558046285846,
+      "scanner_state_count": "2^1895558046285847",
+      "scanner_state_count_log2": 1895558046285847,
+      "program_label_factor_over_states": 47,
+      "interpretation": "size of literal finite-control expansion; not a lower bound for all symbolic implementations"
+    }
+  ],
+  "formal_frontend": {
+    "ambient_structured_steps": 27263826218919,
+    "formula": "7*L+4*n+2*(L-n-1)+14 = 9*L+2*n+12",
+    "scope": "exact source-stated structured-step count for one frontend phase, not CPU instructions or measured elapsed time",
+    "at_hypothetical_one_billion_steps_per_second_hours": 7.573285060810833,
+    "rate_is_measured": false
+  },
+  "counter_execution": {
+    "novel_outer_branch_executed": false,
+    "finite_table_materialized": false,
+    "lean_proof_rechecked": false,
+    "conventional_count_substitution_called_linked_method": false
+  },
+  "conclusion": "No practical execution route established for the published parameterization on this query. A compact input adapter cannot change its fallback dispatch.",
+  "limitations": [
+    "This is an exact parameter and literal-construction audit, not an independent Lean proof check.",
+    "A Program.code function need not be stored as a flat array; literal table sizes are not universal RAM lower bounds.",
+    "An efficient symbolic fallback still needs an effective count computation; replacing it with conventional #SAT is not a run of the novel branch.",
+    "Changing schedules, cutoffs, leaf algorithms or input macros requires separate correctness/resource justification.",
+    "The underlying high-level ideas are not proved impossible to redesign into a practical algorithm."
+  ],
+  "audit_seconds": 5.8517737150004905
+}

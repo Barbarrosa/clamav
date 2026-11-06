@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "scope": "complete RLE traversal of compact canonical-input view; not counting, formal frontend execution or proof of accelerated algorithm equivalence",
+  "source_sha256": "134ae40d8c03d79ff498b09cfbcb21b947a3493ec9eac6185518cffc6a0fa42d",
+  "source_bytes": 20969027,
+  "adapter_source_sha256": "6215eb2bcac8757b7fec20a1a7ae06f5dba33c6394697590c775553d24e81371",
+  "codec_source_sha256": "ffc0a0684fceb87eb0868cd5e4e926d59025eabf6409bd56509f7e3a86d5cfc9",
+  "probe_source_sha256": "95cfae1a4b8ceee60dfa9f9e05b682df5495cee68874c45bc5117448a84fb8d2",
+  "probe_source_path": "tools/compact-memory/search-groundwork/benchmark_full_runs.py",
+  "variables": 295443,
+  "canonical_clauses": 1005963,
+  "canonical_logical_bits": 3029313958669,
+  "packed_bytes_if_materialized": 378664244834,
+  "index_storage_bytes": 8183816,
+  "parse_seconds": 5.222015386999374,
+  "index_build_seconds": 0.7262645660002818,
+  "expected_runs_from_independent_grammar_sum": 12727852,
+  "expected_one_bits_from_independent_grammar_sum": 3029306588779,
+  "full_input_materialized": false,
+  "linked_counting_algorithm_executed": false,
+  "observed_resource_limits": {
+    "address_space_bytes": {
+      "soft": 2147483648,
+      "hard": 2147483648
+    },
+    "cpu_seconds": {
+      "soft": 110,
+      "hard": 115
+    }
+  },
+  "status": "complete",
+  "runs_visited": 12727852,
+  "logical_bits_covered": 3029313958669,
+  "one_bits_covered": 3029306588779,
+  "rle_stream_sha256": "93f3cf51fce67fce424fc7675c2fab14680b44dcf5deca21446cb2724299acf7",
+  "rle_hash_encoding": "concatenated little-endian <?Q records (Boolean, uint64 run length)",
+  "traversal_seconds": 33.76022595999984,
+  "total_seconds": 39.7085061329999,
+  "process_highwater_rss_bytes": 413175808,
+  "process_user_cpu_seconds": 39.549409,
+  "process_system_cpu_seconds": 0.180082,
+  "independent_grammar_totals_match": true,
+  "exit_status": "normal_completion",
+  "wrapper_exit_code": 0
+}
