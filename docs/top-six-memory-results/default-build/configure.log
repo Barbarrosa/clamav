@@ -1,0 +1,87 @@
+-- Rust tool `cargo` found: /workspace/clamav-cargo/bin/cargo, 1.90.0
+-- Rust tool `rustc` found: /workspace/clamav-cargo/bin/rustc, 1.90.0
+-- Rust tool `rustup` not found: Failed to determine version.
+-- Rust tool `rust-gdb` not found: Failed to determine version.
+-- Rust tool `rust-lldb` not found: Failed to determine version.
+-- Rust tool `rustdoc` found: /workspace/clamav-cargo/bin/rustdoc, 1.90.0
+-- Rust tool `rustfmt` not found: Failed to determine version.
+-- Rust tool `bindgen` not found.
+-- Rust's native static libs: -lgcc_s;-lutil;-lrt;-lpthread;-lm;-ldl;-lc
+-- Valgrind not found.
+-- Environment: 
+-- [1;33mConfiguration Options Summary[m --
+[36m    Package Version:        [mClamAV 1.6.0-devel-20261106
+[36m    libclamav version:      [m14:0:0
+[36m    libfreshclam version:   [m4:0:0
+[36m    Install prefix:         [m/usr/local
+[36m    Install database dir:   [m/usr/local/share/clamav
+[36m    Install config dir:     [m/usr/local/etc
+[36m    Host system:            [mLinux-6.18.57
+[36m    Target system:          [mLinux-6.18.57
+[36m    Compiler:               [m
+[34m        Build type:         [mRelease
+[34m        C compiler:         [m/usr/bin/cc
+[34m        C++ compiler:       [m/usr/bin/c++
+[34m        Rust toolchain:     [m/workspace/clamav-cargo/bin/cargo (1.90.0)
+[34m        CFLAGS:             [m-O3   
+[34m        CXXFLAGS:           [m-O3   
+[34m        WARNCFLAGS:         [m -Wall -Wextra -Wformat-security
+[36m    Build Options:          [m
+[34m        Build apps:         [mON
+[34m        Shared library:     [mON
+[34m        Static library:     [mOFF
+[34m        Enable UnRAR:       [mON
+[34m        Examples:           [mOFF
+[34m        Tests:              [mON
+[34m        Build man pages:    [mOFF
+[34m        Build doxygen HTML: [mOFF
+[34m        Maintainer Mode:    [mOFF
+[36m    Build Extras:           [m
+[34m        Build milter:       [mOFF  (toggle with -DENABLE_MILTER=ON/OFF)
+[34m        Build clamonacc:    [mOFF  (toggle with -DENABLE_CLAMONACC=ON/OFF)
+-- [1;36mEngine Options[m --
+[34m        Bytecode Runtime:   [m
+            interpreter            [m
+-- [1;36mTest Dependencies[m --
+[34m        Unit Test Framework:[m
+            libcheck        [m/workspace/qualification-deps/check/include
+                            [m/workspace/qualification-deps/check/lib/libcheck.so
+[34m        Feature Test Framework:[m
+            python3         [m/workspace/qualification-deps/venv/bin/python
+            test command    [mpytest;-v
+-- [1;36mlibclamav Dependencies[m --
+[34m        Compression support:[m
+            bzip2           [m/workspace/clamav-sysroot/usr/include
+                            [m/lib/x86_64-linux-gnu/libbz2.so.1.0
+            zlib            [m/usr/include
+                            [m/usr/lib/x86_64-linux-gnu/libz.so
+[34m        XML support:        [m
+            libxml2         [m/workspace/clamav-sysroot/usr/include/libxml2
+                            [m/lib/x86_64-linux-gnu/libxml2.so.2
+[34m        RegEx support:      [m
+            libpcre2        [m/usr/include
+                            [m/usr/lib/x86_64-linux-gnu/libpcre2-8.so
+[34m        Crypto support:     [m
+            openssl         [m/usr/include
+                            [m/usr/lib/x86_64-linux-gnu/libssl.so;/usr/lib/x86_64-linux-gnu/libcrypto.so
+[34m        JSON support:       [m
+            json-c          [m/workspace/clamav-sysroot/usr/include/json-c
+                            [m/workspace/clamav-sysroot/usr/lib/x86_64-linux-gnu/libjson-c.a
+[34m        Threading support:  [m
+            pthread         [m
+[34m        Locale support:     [m
+            iconv           [m/usr/include
+                            [m/usr/lib/x86_64-linux-gnu/libc.so
+-- [1;36mlibfreshclam Extra Dependencies[m --
+[34m        HTTP support:       [m
+            curl            [m/usr/include/x86_64-linux-gnu
+                            [m/usr/lib/x86_64-linux-gnu/libcurl.so
+-- [1;36mApplication Extra Dependencies[m --
+[34m        GUI support:        [m
+            ncurses         [m/workspace/qualification-deps/ncurses/usr/include
+                            [m/usr/lib/x86_64-linux-gnu/libncurses.so.6;/usr/lib/x86_64-linux-gnu/libtinfo.so.6
+[34m        systemd:            [mnot found
+
+-- Configuring done (1.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: /workspace/clamav-system-build

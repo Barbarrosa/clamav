@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "scope": "Isolated production-pool directory growth/copy experiment; not a scanner integration or performance qualification.",
+  "implementation_sha256": "a7dec00dea2a7b3de205b438c671d31802f0512374bc9e53469472fba59bab07",
+  "allocator_source_sha256": {
+    "mpool.c": "cfd494e091ea4c51b79063ec76669db770b71b89db50c5b793c2a977d5645cbe",
+    "mpool.h": "55e9dba8b602cc7e261026172d4e44fef194e47366266e1d937ff8bfa7acfac2",
+    "memory_perturb.h": "59d99437a0f357935eb7f52bcc7965ffa59497c9318e80663be0276a53138da5"
+  },
+  "harness_sha256": "18065b73a5f05c40367daae2a583b8fa8c5786f23cb2432d179044aab9eaec42",
+  "cases": [
+    {
+      "rows": 297075,
+      "pointer_bytes": 8,
+      "page_bytes": 4096,
+      "payload_bytes": 2376600,
+      "old_fragment_charge_bytes": 4194304,
+      "old_usable_capacity_bytes": 4194296,
+      "spare_capacity_bytes": 1817696,
+      "old_fragment_resident_pages_before_copy": 581,
+      "new_copy_resident_pages": 581,
+      "before_rss_kib": 3188,
+      "after_rss_kib": 3192,
+      "rss_saving_bytes": -4096,
+      "entire_old_capacity_forced_resident": false,
+      "all_values_and_order_equal": true
+    },
+    {
+      "rows": 297075,
+      "pointer_bytes": 8,
+      "page_bytes": 4096,
+      "payload_bytes": 2376600,
+      "old_fragment_charge_bytes": 4194304,
+      "old_usable_capacity_bytes": 4194296,
+      "spare_capacity_bytes": 1817696,
+      "old_fragment_resident_pages_before_copy": 1025,
+      "new_copy_resident_pages": 581,
+      "before_rss_kib": 4972,
+      "after_rss_kib": 3204,
+      "rss_saving_bytes": 1810432,
+      "entire_old_capacity_forced_resident": true,
+      "all_values_and_order_equal": true
+    }
+  ],
+  "limitations": [
+    "The directory alone does not reproduce full-engine interleaving or allocator reuse.",
+    "Forced-resident spare capacity is an artificial sensitivity case, not observed engine residency.",
+    "RSS observations include small libc/page-accounting variation.",
+    "Logical record/descriptor sharing is not implemented or validated here."
+  ]
+}

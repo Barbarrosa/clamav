@@ -76,6 +76,7 @@ enabled in both cases.
 | `ENABLE_COMPACT_LSIG_STATE` | `ON` | Reduces ordinary logical tracking rows. `OFF` restores full-width rows for comparisons/diagnosis. |
 | `ENABLE_AC_NODE_IDS` | `ON` | Uses four-byte transitions on 64-bit targets; the flat-node option selects how IDs locate nodes. `OFF` selects native pointer transitions. |
 | `ENABLE_AC_FLAT_NODES` | `ON` | With IDs enabled, pack nodes into an arena to replace the dependent pointer lookup with address arithmetic. `OFF` retains the indirect-ID implementation for comparison. Ignored with native transitions. |
+| `ENABLE_AC_DIRECTORY_RETENTION` | `ON` | Retains existing AC construction directories. `OFF` enables unqualified postcompile retirement research; it is not a qualified normal-build saving. Census/export tools need retention. |
 | `DISABLE_MPOOL` | Upstream default `0` | Use `1` for allocation-level sanitizer coverage; it is not a default memory optimization. |
 
 These choices are made at build time; there is no new per-scan API or command-line

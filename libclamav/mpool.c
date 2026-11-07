@@ -521,6 +521,18 @@ void mpool_destroy(struct MP *mp)
  * accesses; that is safe only for the payload of an already freed allocation.
  * Advice failure is harmless: the pool keeps ownership and remains reusable.
  */
+#if defined(C_LINUX) && defined(HAVE_MADVISE) && defined(MADV_DONTNEED)
+static size_t mpool_release_fragment_pages(struct MP *mp, struct FRAG *f, size_t bytes)
+{
+    uintptr_t start = align_to_pagesize(mp, (uintptr_t)f + sizeof(*f));
+    uintptr_t end   = (uintptr_t)f + bytes;
+    end -= end % mp->psize;
+    if (end > start && madvise((void *)start, end - start, MADV_DONTNEED) == 0)
+        return end - start;
+    return 0;
+}
+#endif
+
 static size_t mpool_release_free_pages(struct MP *mp)
 {
     size_t advised = 0;
@@ -532,13 +544,8 @@ static size_t mpool_release_free_pages(struct MP *mp)
         struct FRAG *f;
         if (from_bits(b) < mp->psize + sizeof(struct FRAG))
             continue;
-        for (f = mp->avail[b]; f; f = f->u.next.ptr) {
-            uintptr_t start = align_to_pagesize(mp, (uintptr_t)f + sizeof(*f));
-            uintptr_t end   = (uintptr_t)f + from_bits(b);
-            end -= end % mp->psize;
-            if (end > start && madvise((void *)start, end - start, MADV_DONTNEED) == 0)
-                advised += end - start;
-        }
+        for (f = mp->avail[b]; f; f = f->u.next.ptr)
+            advised += mpool_release_fragment_pages(mp, f, from_bits(b));
     }
     errno = saved_errno;
 #else
@@ -761,6 +768,31 @@ void mpool_free(struct MP *mp, void *ptr)
 
     f->u.next.ptr    = mp->avail[sbits];
     mp->avail[sbits] = f;
+}
+
+/* Reclaim one explicitly retired fragment without walking every free list or
+ * truncating maps. All live addresses and the free-list pop order are kept.
+ * This must be called only after every reader of ptr has finished. */
+void mpool_free_reclaim(struct MP *mp, void *ptr)
+{
+#if defined(C_LINUX) && defined(HAVE_MADVISE) && defined(MADV_DONTNEED)
+    struct FRAG *f;
+    size_t bytes;
+    int saved_errno;
+
+    if (!ptr)
+        return;
+    saved_errno = errno;
+    f = (struct FRAG *)((char *)ptr - FRAG_OVERHEAD);
+    bytes = from_bits(f->u.a.sbits);
+    f = allocbase_fromfrag(f);
+    mpool_free(mp, ptr);
+    if (bytes >= mp->psize + sizeof(*f))
+        (void)mpool_release_fragment_pages(mp, f, bytes);
+    errno = saved_errno;
+#else
+    mpool_free(mp, ptr);
+#endif
 }
 
 void *mpool_calloc(struct MP *mp, size_t nmemb, size_t size)

@@ -11,6 +11,7 @@
 #include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>
+#include "require_ac_directories.h"
 
 static uint64_t hot_bytes, candidate_bytes, pattern_bytes, hash_bytes, name_bytes;
 static uint64_t logical_bytes, logical_aux_bytes;
@@ -184,6 +185,8 @@ int main(int argc, char **argv)
         fprintf(stderr, "compile: %s\n", cl_strerror(s));
         return 5;
     }
+    if (!cm_require_ac_directories(e))
+        return 8;
     printf("{\"kind\":\"database\",\"signatures\":%u,\"pointer_bytes\":%zu,\"transition_bytes\":%zu,\"logical_record_bytes\":%zu}\n", n, sizeof(void *), sizeof(cli_ac_transition_t), sizeof(struct cli_ac_lsig));
     census(e);
     if (name_export && fclose(name_export)) return 7;

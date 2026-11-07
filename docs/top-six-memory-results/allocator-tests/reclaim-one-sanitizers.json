@@ -1,0 +1,19 @@
+{
+  "source_sha256": "c6b1a4f800309363a8405ac729dd97ec54f40ee4ad7da7dd097845f85d96c94c",
+  "sanitizers": true,
+  "advice": {
+    "checks": "passed",
+    "advice_calls": 2,
+    "advice_failures": 1,
+    "one_fragment_only": true,
+    "metadata_and_reuse_preserved": true
+  },
+  "fallback": {
+    "checks": "passed",
+    "advice_calls": 0,
+    "advice_failures": 0,
+    "one_fragment_only": true,
+    "metadata_and_reuse_preserved": true
+  },
+  "scope": "Targeted allocator operation only; scanner behavior and memory/performance require engine qualification."
+}

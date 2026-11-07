@@ -1,0 +1,888 @@
+[1/229] Building C object libclamav/CMakeFiles/regex.dir/regex/strlcpy.c.o
+[2/229] Building C object libclamav/CMakeFiles/regex.dir/regex/regcomp.c.o
+/workspace/clamav/libclamav/regex/regcomp.c: In function ‘cli_regcomp_real’:
+/workspace/clamav/libclamav/regex/regcomp.c:191:18: warning: comparison of integer expressions of different signedness: ‘sopno’ {aka ‘long int’} and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  191 |     if (p->ssize < len) {
+      |                  ^
+/workspace/clamav/libclamav/regex/regcomp.c: In function ‘freeset’:
+/workspace/clamav/libclamav/regex/regcomp.c:1101:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1101 |     for (i = 0; i < css; i++)
+      |                   ^
+/workspace/clamav/libclamav/regex/regcomp.c: In function ‘freezeset’:
+/workspace/clamav/libclamav/regex/regcomp.c:1129:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1129 |             for (i = 0; i < css; i++)
+      |                           ^
+/workspace/clamav/libclamav/regex/regcomp.c:1132:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1132 |             if (i == css)
+      |                   ^~
+/workspace/clamav/libclamav/regex/regcomp.c: In function ‘firstch’:
+/workspace/clamav/libclamav/regex/regcomp.c:1153:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1153 |     for (i = 0; i < css; i++)
+      |                   ^
+/workspace/clamav/libclamav/regex/regcomp.c: In function ‘nch’:
+/workspace/clamav/libclamav/regex/regcomp.c:1170:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+ 1170 |     for (i = 0; i < css; i++)
+      |                   ^
+[3/229] Building C object libclamav/CMakeFiles/regex.dir/regex/regexec.c.o
+In file included from /workspace/clamav/libclamav/regex/regexec.c:81:
+/workspace/clamav/libclamav/regex/engine.c: In function ‘smatcher’:
+/workspace/clamav/libclamav/regex/engine.c:219:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  219 |                 for (i = 1; i <= m->g->nsub; i++)
+      |                               ^~
+/workspace/clamav/libclamav/regex/engine.c:226:44: warning: assignment to ‘const char **’ from incompatible pointer type ‘char **’ [-Wincompatible-pointer-types]
+  226 |                                 m->lastpos = (char **)cli_max_malloc((g->nplus+1) *
+      |                                            ^
+/workspace/clamav/libclamav/regex/engine.c:277:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  277 |                 for (i = 1; i < nmatch; i++)
+      |                               ^
+/workspace/clamav/libclamav/regex/engine.c:278:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  278 |                         if (i <= m->g->nsub)
+      |                               ^~
+/workspace/clamav/libclamav/regex/engine.c: In function ‘sdissect’:
+/workspace/clamav/libclamav/regex/engine.c:311:21: warning: variable ‘dp’ set but not used [-Wunused-but-set-variable]
+  311 |         const char *dp;
+      |                     ^~
+In file included from /workspace/clamav/libclamav/regex/regexec.c:130:
+/workspace/clamav/libclamav/regex/engine.c: In function ‘lmatcher’:
+/workspace/clamav/libclamav/regex/engine.c:219:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  219 |                 for (i = 1; i <= m->g->nsub; i++)
+      |                               ^~
+/workspace/clamav/libclamav/regex/engine.c:226:44: warning: assignment to ‘const char **’ from incompatible pointer type ‘char **’ [-Wincompatible-pointer-types]
+  226 |                                 m->lastpos = (char **)cli_max_malloc((g->nplus+1) *
+      |                                            ^
+/workspace/clamav/libclamav/regex/engine.c:277:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  277 |                 for (i = 1; i < nmatch; i++)
+      |                               ^
+/workspace/clamav/libclamav/regex/engine.c:278:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  278 |                         if (i <= m->g->nsub)
+      |                               ^~
+/workspace/clamav/libclamav/regex/engine.c: In function ‘ldissect’:
+/workspace/clamav/libclamav/regex/engine.c:311:21: warning: variable ‘dp’ set but not used [-Wunused-but-set-variable]
+  311 |         const char *dp;
+      |                     ^~
+[4/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zBuf.c.o
+[5/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zBuf2.c.o
+[6/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zCrc.c.o
+[7/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zCrcOpt.c.o
+[8/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zDec.c.o
+[9/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zFile.c.o
+[10/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zIn.c.o
+[11/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/7zStream.c.o
+[12/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Bcj2.c.o
+[13/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Bra.c.o
+[14/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Bra86.c.o
+[15/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/BraIA64.c.o
+[16/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/CpuArch.c.o
+[17/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Delta.c.o
+[18/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Lzma2Dec.c.o
+[19/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/LzmaDec.c.o
+[20/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Ppmd7.c.o
+[21/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Ppmd7Dec.c.o
+[22/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/Xz.c.o
+[23/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/XzCrc64.c.o
+[24/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/XzDec.c.o
+/workspace/clamav/libclamav/7z/XzDec.c: In function ‘Lzma2State_Code’:
+/workspace/clamav/libclamav/7z/XzDec.c:309:80: warning: implicit conversion from ‘ECoderFinishMode’ to ‘ELzmaFinishMode’ [-Wenum-conversion]
+  309 |   SRes res = Lzma2Dec_DecodeToBuf((CLzma2Dec *)pp, dest, destLen, src, srcLen, finishMode, &status);
+      |                                                                                ^~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzDec.c: In function ‘Xz_ParseHeader’:
+/workspace/clamav/libclamav/7z/XzDec.c:501:56: warning: comparison of integer expressions of different signedness: ‘UInt32’ {aka ‘unsigned int’} and ‘int32_t’ {aka ‘int’} [-Wsign-compare]
+  501 |   if (CrcCalc(buf + XZ_SIG_SIZE, XZ_STREAM_FLAGS_SIZE) !=
+      |                                                        ^~
+/workspace/clamav/libclamav/7z/XzDec.c: In function ‘Xz_CheckFooter’:
+/workspace/clamav/libclamav/7z/XzDec.c:511:21: warning: comparison of integer expressions of different signedness: ‘int32_t’ {aka ‘int’} and ‘UInt32’ {aka ‘unsigned int’} [-Wsign-compare]
+  511 |       (GetUi32(buf) == CrcCalc(buf + 4, 6) &&
+      |                     ^~
+/workspace/clamav/libclamav/7z/XzDec.c: In function ‘XzBlock_Parse’:
+/workspace/clamav/libclamav/7z/XzDec.c:527:35: warning: comparison of integer expressions of different signedness: ‘UInt32’ {aka ‘unsigned int’} and ‘int32_t’ {aka ‘int’} [-Wsign-compare]
+  527 |   if (CrcCalc(header, headerSize) != GetUi32(header + headerSize))
+      |                                   ^~
+/workspace/clamav/libclamav/7z/XzDec.c:518:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzDec.c:537:5: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+  537 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &p->packSize);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzDec.c:537:35: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  537 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &p->packSize);
+      |                                   ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzDec.c:543:5: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+  543 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &p->unpackSize);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzDec.c:543:35: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  543 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &p->unpackSize);
+      |                                   ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzDec.c:550:5: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+  550 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &filter->id);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzDec.c:550:35: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  550 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &filter->id);
+      |                                   ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzDec.c:551:5: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+  551 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &size);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzDec.c:551:35: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  551 |     READ_VARINT_AND_CHECK(header, pos, headerSize, &size);
+      |                                   ^~~
+/workspace/clamav/libclamav/7z/XzDec.c:518:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+  518 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzDec.c: In function ‘XzUnpacker_Code’:
+/workspace/clamav/libclamav/7z/XzDec.c:850:38: warning: comparison of integer expressions of different signedness: ‘UInt32’ {aka ‘unsigned int’} and ‘int32_t’ {aka ‘int’} [-Wsign-compare]
+  850 |           if (CRC_GET_DIGEST(p->crc) != GetUi32(p->buf))
+      |                                      ^~
+[25/229] Building C object libclamav/CMakeFiles/lzma_sdk.dir/7z/XzIn.c.o
+/workspace/clamav/libclamav/7z/XzIn.c: In function ‘Xz_ReadIndex2’:
+/workspace/clamav/libclamav/7z/XzIn.c:87:11: warning: comparison of integer expressions of different signedness: ‘UInt32’ {aka ‘unsigned int’} and ‘int32_t’ {aka ‘int’} [-Wsign-compare]
+   87 |   if (crc != GetUi32(buf + size))
+      |           ^~
+/workspace/clamav/libclamav/7z/XzIn.c:27:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   27 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzIn.c:92:5: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+   92 |     READ_VARINT_AND_CHECK(buf, pos, size, &numBlocks64);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzIn.c:92:32: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   92 |     READ_VARINT_AND_CHECK(buf, pos, size, &numBlocks64);
+      |                                ^~~
+/workspace/clamav/libclamav/7z/XzIn.c:27:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+   27 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzIn.c:27:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   27 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzIn.c:110:7: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+  110 |       READ_VARINT_AND_CHECK(buf, pos, size, &block->totalSize);
+      |       ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzIn.c:110:34: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  110 |       READ_VARINT_AND_CHECK(buf, pos, size, &block->totalSize);
+      |                                  ^~~
+/workspace/clamav/libclamav/7z/XzIn.c:27:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+   27 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzIn.c:27:3: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   27 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |   ^~
+/workspace/clamav/libclamav/7z/XzIn.c:111:7: note: in expansion of macro ‘READ_VARINT_AND_CHECK’
+  111 |       READ_VARINT_AND_CHECK(buf, pos, size, &block->unpackSize);
+      |       ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzIn.c:111:34: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  111 |       READ_VARINT_AND_CHECK(buf, pos, size, &block->unpackSize);
+      |                                  ^~~
+/workspace/clamav/libclamav/7z/XzIn.c:27:40: note: in definition of macro ‘READ_VARINT_AND_CHECK’
+   27 |   if (s == 0) return SZ_ERROR_ARCHIVE; pos += s; }
+      |                                        ^~~
+/workspace/clamav/libclamav/7z/XzIn.c:79:24: warning: variable ‘crcStartPos’ set but not used [-Wunused-but-set-variable]
+   79 |   size_t i, numBlocks, crcStartPos, pos = 1;
+      |                        ^~~~~~~~~~~
+/workspace/clamav/libclamav/7z/XzIn.c: In function ‘Xz_ReadBackward’:
+/workspace/clamav/libclamav/7z/XzIn.c:201:20: warning: comparison of integer expressions of different signedness: ‘int32_t’ {aka ‘int’} and ‘UInt32’ {aka ‘unsigned int’} [-Wsign-compare]
+  201 |   if (GetUi32(buf) != CrcCalc(buf + 4, 6))
+      |                    ^~
+[26/229] Building C object libclamav/CMakeFiles/yara.dir/yara_compiler.c.o
+[27/229] Building C object libclamav/CMakeFiles/yara.dir/yara_exec.c.o
+[28/229] Building C object libclamav/CMakeFiles/yara.dir/yara_hash.c.o
+[29/229] Building C object libclamav/CMakeFiles/yara.dir/yara_parser.c.o
+[30/229] Building C object libclamav/CMakeFiles/yara.dir/yara_arena.c.o
+[31/229] Building C object libclamav/CMakeFiles/yara.dir/yara_grammar.c.o
+[32/229] Building C object libclamav/CMakeFiles/yara.dir/yara_lexer.c.o
+yara_lexer.c:2571:24: warning: ‘yy_fatal_error’ defined but not used [-Wunused-function]
+yara_lexer.l: In function ‘yara_yylex’:
+yara_lexer.l:263:16: warning: ‘%s’ directive output may be truncated writing up to 1023 bytes into a region of size 999 [-Wformat-truncation=]
+yara_lexer.l:262:7: note: ‘snprintf’ output between 26 and 1049 bytes into a destination of size 1024
+[33/229] Building C object libclamav/CMakeFiles/bytecode_runtime.dir/bytecode_nojit.c.o
+[34/229] cd /workspace/clamav-system-build/unit_tests/input && /workspace/system-build-python/cmake/data/bin/cmake -E make_directory /workspace/clamav-system-build/unit_tests/input/clamav_hdb_scanfiles && /workspace/system-build-python/cmake/data/bin/cmake -E make_directory /workspace/clamav-system-build/unit_tests/input/signing/sign
+[35/229] Building clamav_rust in /workspace/clamav-system-build with:  /workspace/clamav-cargo/bin/cargo build --target x86_64-unknown-linux-gnu --release --target-dir /workspace/clamav-system-buildEnvironment:  OPENSSL_DIR=/usr;OPENSSL_INCLUDE_DIR=/usr/include;OPENSSL_LIBS=crypto:ssl;OPENSSL_LIB_DIR=/usr/lib/x86_64-linux-gnu;CARGO_CMD=build;CARGO_TARGET_DIR=/workspace/clamav-system-build;MAINTAINER_MODE=OFF;CARGO_INCLUDE_DIRECTORIES="/workspace/clamav-sysroot/usr/include/libxml2;/usr/include;/usr/include;/workspace/clamav-system-build/libclamav;/workspace/clamav/libclamunrar_iface;/workspace/clamav/libclamav/..;/workspace/clamav-system-build;/workspace/clamav-sysroot/usr/include/json-c;/workspace/clamav/libclamav;/workspace/clamav/libclamav;/workspace/clamav/libclamav;/workspace/clamav/libclamav;/workspace/clamav-system-build/libclamav;/workspace/clamav/libclamav;/workspace/clamav/libclammspack/mspack;/workspace/clamav/libclamav_rust;/workspace/clamav-system-build;/usr/include;/usr/include;/usr/include;/workspace/clamav-sysroot/usr/include;/usr/include;/workspace/clamav-sysroot/usr/include/libxml2;/workspace/clamav-sysroot/usr/include/json-c;/usr/include";RUSTFLAGS=
+warning: virtual workspace defaulting to `resolver = "1"` despite one or more workspace members being on edition 2021 which implies `resolver = "2"`
+note: to keep the current resolver, specify `workspace.resolver = "1"` in the workspace root's manifest
+note: to use the edition 2021 resolver, specify `workspace.resolver = "2"` in the workspace root's manifest
+note: for more details see https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
+   Compiling clamav_rust v0.0.1 (/workspace/clamav/libclamav_rust)
+    Finished `release` profile [optimized] target(s) in 14.93s
+[36/229] Building C object libclamav/CMakeFiles/clamav.dir/fpu.c.o
+[37/229] Building C object libclamav/CMakeFiles/clamav.dir/blob.c.o
+[38/229] Building C object libclamav/CMakeFiles/clamav.dir/iowrap.c.o
+[39/229] Building C object libclamav/CMakeFiles/clamav.dir/json_api.c.o
+[40/229] Building C object libclamav/CMakeFiles/clamav.dir/hashtab.c.o
+[41/229] Building C object libclamav/CMakeFiles/clamav.dir/others_common.c.o
+[42/229] Building C object libclamav/CMakeFiles/clamav.dir/sf_base64decode.c.o
+[43/229] Building C object libclamav/CMakeFiles/clamav.dir/qsort.c.o
+[44/229] Building C object libclamav/CMakeFiles/clamav.dir/strlcat.c.o
+[45/229] Building C object libclamav/CMakeFiles/clamav.dir/table.c.o
+[46/229] Building C object libclamav/CMakeFiles/clamav.dir/str.c.o
+[47/229] Building C object libclamav/CMakeFiles/clamav.dir/text.c.o
+[48/229] Building C object libclamav/CMakeFiles/clamav.dir/uniq.c.o
+[49/229] Building C object libclamav/CMakeFiles/clamav.dir/disasm.c.o
+[50/229] Building C object libclamav/CMakeFiles/clamav.dir/filtering.c.o
+[51/229] Building C object libclamav/CMakeFiles/clamav.dir/matcher-bm.c.o
+[52/229] Building C object libclamav/CMakeFiles/clamav.dir/matcher-byte-comp.c.o
+[53/229] Building C object libclamav/CMakeFiles/clamav.dir/matcher-hash.c.o
+[54/229] Building C object libclamav/CMakeFiles/clamav.dir/matcher-pcre.c.o
+[55/229] Building C object libclamav/CMakeFiles/clamav.dir/matcher-ac.c.o
+/workspace/clamav/libclamav/matcher-ac.c: In function ‘ac_addtype’:
+/workspace/clamav/libclamav/matcher-ac.c:1992:115: warning: unused parameter ‘ctx’ [-Wunused-parameter]
+ 1992 | inline static cl_error_t ac_addtype(struct cli_matched_type **list, cli_file_t type, off_t offset, const cli_ctx *ctx)
+      |                                                                                                    ~~~~~~~~~~~~~~~^~~
+/workspace/clamav/libclamav/matcher-ac.c: In function ‘cli_ac_scanbuff’:
+/workspace/clamav/libclamav/matcher-ac.c:2361:48: warning: implicit conversion from ‘enum cli_file’ to ‘cl_error_t’ [-Wenum-conversion]
+ 2361 |                                         return CL_TYPE_IGNORED;
+      |                                                ^~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/matcher-ac.c:2479:44: warning: implicit conversion from ‘enum cli_file’ to ‘cl_error_t’ [-Wenum-conversion]
+ 2479 |                                     return CL_TYPE_IGNORED;
+      |                                            ^~~~~~~~~~~~~~~
+[56/229] Building C object libclamav/CMakeFiles/clamav.dir/regex_pcre.c.o
+[57/229] Building C object libclamav/CMakeFiles/clamav.dir/matcher.c.o
+[58/229] Building C object libclamav/CMakeFiles/clamav.dir/dconf.c.o
+[59/229] Building C object libclamav/CMakeFiles/clamav.dir/cvd.c.o
+[60/229] Building C object libclamav/CMakeFiles/clamav.dir/dsig.c.o
+[61/229] Building C object libclamav/CMakeFiles/clamav.dir/cache.c.o
+[62/229] Building C object libclamav/CMakeFiles/clamav.dir/crtmgr.c.o
+[63/229] Building C object libclamav/CMakeFiles/clamav.dir/crypto.c.o
+[64/229] Building C object libclamav/CMakeFiles/clamav.dir/filetypes.c.o
+[65/229] Building C object libclamav/CMakeFiles/clamav.dir/fmap.c.o
+[66/229] Building C object libclamav/CMakeFiles/clamav.dir/readdb.c.o
+[67/229] Building C object libclamav/CMakeFiles/clamav.dir/mpool.c.o
+[68/229] Building C object libclamav/CMakeFiles/clamav.dir/perflogging.c.o
+[69/229] Building C object libclamav/CMakeFiles/clamav.dir/scan_layer.c.o
+[70/229] Building C object libclamav/CMakeFiles/clamav.dir/others.c.o
+[71/229] Building C object libclamav/CMakeFiles/clamav.dir/textdet.c.o
+[72/229] Building C object libclamav/CMakeFiles/clamav.dir/version.c.o
+[73/229] Building C object libclamav/CMakeFiles/clamav.dir/scanners.c.o
+/workspace/clamav/libclamav/scanners.c: In function ‘scanraw’:
+/workspace/clamav/libclamav/scanners.c:3850:43: warning: comparison between ‘cl_error_t’ and ‘enum cli_file’ [-Wenum-compare]
+ 3850 |                                 if ((iret == CL_TYPE_GPT) && (DCONF_ARCH & ARCH_CONF_GPT)) {
+      |                                           ^~
+/workspace/clamav/libclamav/scanners.c:3688:24: warning: unused variable ‘i’ [-Wunused-variable]
+ 3688 |                 size_t i;
+      |                        ^
+/workspace/clamav/libclamav/scanners.c:3687:22: warning: unused variable ‘ancestor_was_embedded’ [-Wunused-variable]
+ 3687 |                 bool ancestor_was_embedded = false;
+      |                      ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/scanners.c:4151:29: warning: implicit conversion from ‘enum cli_file’ to ‘cl_error_t’ [-Wenum-conversion]
+ 4151 |                         ret = CL_TYPE_TEXT_ASCII;
+      |                             ^
+/workspace/clamav/libclamav/scanners.c: In function ‘scan_common’:
+/workspace/clamav/libclamav/scanners.c:6019:46: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+ 6019 |     ctx.recursion_stack      = calloc(sizeof(cli_scan_layer_t), ctx.recursion_stack_size);
+      |                                              ^~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/scanners.c:6019:46: note: earlier argument should specify number of elements, later size of each element
+/workspace/clamav/libclamav/scanners.c: In function ‘cli_magic_scan’:
+/workspace/clamav/libclamav/scanners.c:681:55: warning: ‘%u’ directive output may be truncated writing between 1 and 10 bytes into a region of size 5 [-Wformat-truncation=]
+  681 |                 snprintf(prefix, prefixLen, "comments_%u", i);
+      |                                                       ^~
+In function ‘cli_scanegg’,
+    inlined from ‘cli_magic_scan’ at /workspace/clamav/libclamav/scanners.c:5009:23:
+/workspace/clamav/libclamav/scanners.c:681:45: note: directive argument in the range [0, 4294967294]
+  681 |                 snprintf(prefix, prefixLen, "comments_%u", i);
+      |                                             ^~~~~~~~~~~~~
+/workspace/clamav/libclamav/scanners.c:681:17: note: ‘snprintf’ output between 11 and 20 bytes into a destination of size 14
+  681 |                 snprintf(prefix, prefixLen, "comments_%u", i);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[74/229] Building C object libclamav/CMakeFiles/clamav.dir/htmlnorm.c.o
+/workspace/clamav/libclamav/htmlnorm.c: In function ‘cli_html_normalise.constprop’:
+/workspace/clamav/libclamav/htmlnorm.c:2000:9: warning: argument 1 null where non-null expected [-Wnonnull]
+ 2000 |         fclose(stream_in);
+      |         ^~~~~~~~~~~~~~~~~
+In file included from /workspace/clamav/libclamav/htmlnorm.c:29:
+/usr/include/stdio.h:184:12: note: in a call to function ‘fclose’ declared ‘nonnull’
+  184 | extern int fclose (FILE *__stream) __nonnull ((1));
+      |            ^~~~~~
+[75/229] Building C object libclamav/CMakeFiles/clamav.dir/textnorm.c.o
+[76/229] Building C object libclamav/CMakeFiles/clamav.dir/jsparse/js-norm.c.o
+[77/229] Building C object libclamav/CMakeFiles/clamav.dir/partition_intersection.c.o
+[78/229] Building C object libclamav/CMakeFiles/clamav.dir/bytecode_api_decl.c.o
+[79/229] Building C object libclamav/CMakeFiles/clamav.dir/special.c.o
+[80/229] Building C object libclamav/CMakeFiles/clamav.dir/bytecode_detect.c.o
+[81/229] Building C object libclamav/CMakeFiles/clamav.dir/bytecode_api.c.o
+[82/229] Building C object libclamav/CMakeFiles/clamav.dir/bytecode.c.o
+[83/229] Building C object libclamav/CMakeFiles/clamav.dir/events.c.o
+[84/229] Building C object libclamav/CMakeFiles/clamav.dir/7z_iface.c.o
+[85/229] Building C object libclamav/CMakeFiles/clamav.dir/bytecode_vm.c.o
+[86/229] Building C object libclamav/CMakeFiles/clamav.dir/explode.c.o
+[87/229] Building C object libclamav/CMakeFiles/clamav.dir/lzma_iface.c.o
+[88/229] Building C object libclamav/CMakeFiles/clamav.dir/lzw/lzwdec.c.o
+[89/229] Building C object libclamav/CMakeFiles/clamav.dir/inflate64.c.o
+[90/229] Building C object libclamav/CMakeFiles/clamav.dir/arc4.c.o
+[91/229] Building C object libclamav/CMakeFiles/clamav.dir/xz_iface.c.o
+[92/229] Building C object libclamav/CMakeFiles/clamav.dir/dlp.c.o
+[93/229] Building C object libclamav/CMakeFiles/clamav.dir/entconv.c.o
+[94/229] Building C object libclamav/CMakeFiles/clamav.dir/binhex.c.o
+[95/229] Building C object libclamav/CMakeFiles/clamav.dir/cpio.c.o
+/workspace/clamav/libclamav/cpio.c: In function ‘cli_scancpio_old’:
+/workspace/clamav/libclamav/cpio.c:139:32: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  139 |             name[namesize - 1] = 0;
+      |             ~~~~~~~~~~~~~~~~~~~^~~
+/workspace/clamav/libclamav/cpio.c:103:10: note: at offset 4294967295 into destination object ‘name’ of size 513
+  103 |     char name[513];
+      |          ^~~~
+[96/229] Building C object libclamav/CMakeFiles/clamav.dir/autoit.c.o
+[97/229] Building C object libclamav/CMakeFiles/clamav.dir/libmspack.c.o
+[98/229] Building C object libclamav/CMakeFiles/clamav.dir/ishield.c.o
+[99/229] Building C object libclamav/CMakeFiles/clamav.dir/msexpand.c.o
+[100/229] Building C object libclamav/CMakeFiles/clamav.dir/nsis/nulsft.c.o
+[101/229] Building C object libclamav/CMakeFiles/clamav.dir/nsis/bzlib.c.o
+/workspace/clamav/libclamav/nsis/bzlib.c: In function ‘BZ2_decompress’:
+/workspace/clamav/libclamav/nsis/bzlib.c:538:10: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  538 |       if (s->smallDecompress) {
+      |          ^
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:80:4: note: in expansion of macro ‘GET_BITS’
+   80 |    GET_BITS(lll,uuu,8)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:549:7: note: in expansion of macro ‘GET_UCHAR’
+  549 |       GET_UCHAR(BZ_X_BLKHDR_1, uc);
+      |       ^~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:584:18: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  584 |       s->origPtr = 0;
+      |       ~~~~~~~~~~~^~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:80:4: note: in expansion of macro ‘GET_BITS’
+   80 |    GET_BITS(lll,uuu,8)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:585:7: note: in expansion of macro ‘GET_UCHAR’
+  585 |       GET_UCHAR(BZ_X_ORIGPTR_1, uc);
+      |       ^~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:586:18: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  586 |       s->origPtr = (s->origPtr << 8) | ((Int32)uc);
+      |       ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:80:4: note: in expansion of macro ‘GET_BITS’
+   80 |    GET_BITS(lll,uuu,8)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:587:7: note: in expansion of macro ‘GET_UCHAR’
+  587 |       GET_UCHAR(BZ_X_ORIGPTR_2, uc);
+      |       ^~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:588:18: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  588 |       s->origPtr = (s->origPtr << 8) | ((Int32)uc);
+      |       ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:80:4: note: in expansion of macro ‘GET_BITS’
+   80 |    GET_BITS(lll,uuu,8)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:589:7: note: in expansion of macro ‘GET_UCHAR’
+  589 |       GET_UCHAR(BZ_X_ORIGPTR_3, uc);
+      |       ^~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:615:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  615 |       alphaSize = s->nInUse+2;
+      |       ~~~~~~~~~~^~~~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:618:7: note: in expansion of macro ‘GET_BITS’
+  618 |       GET_BITS(BZ_X_SELECTOR_1, nGroups, 3);
+      |       ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:619:10: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  619 |       if (nGroups < 2 || nGroups > 6) RETURN(BZ_DATA_ERROR);
+      |          ^
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:620:7: note: in expansion of macro ‘GET_BITS’
+  620 |       GET_BITS(BZ_X_SELECTOR_2, nSelectors, 15);
+      |       ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:623:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  623 |          j = 0;
+      |          ~~^~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:83:4: note: in expansion of macro ‘GET_BITS’
+   83 |    GET_BITS(lll,uuu,1)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:625:13: note: in expansion of macro ‘GET_BIT’
+  625 |             GET_BIT(BZ_X_SELECTOR_3, uc);
+      |             ^~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:652:19: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  652 |                if (curr < 1 || curr > 20) RETURN(BZ_DATA_ERROR);
+      |                   ^
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:83:4: note: in expansion of macro ‘GET_BITS’
+   83 |    GET_BITS(lll,uuu,1)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:653:16: note: in expansion of macro ‘GET_BIT’
+  653 |                GET_BIT(BZ_X_CODING_2, uc);
+      |                ^~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:654:19: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  654 |                if (uc == 0) break;
+      |                   ^
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:83:4: note: in expansion of macro ‘GET_BITS’
+   83 |    GET_BITS(lll,uuu,1)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:655:16: note: in expansion of macro ‘GET_BIT’
+  655 |                GET_BIT(BZ_X_CODING_3, uc);
+      |                ^~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:100:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  100 |    zn = gMinlen;                                  \
+      |    ~~~^~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:704:7: note: in expansion of macro ‘GET_MTF_VAL’
+  704 |       GET_MTF_VAL(BZ_X_MTF_1, BZ_X_MTF_2, nextSym);
+      |       ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:101:4: note: in expansion of macro ‘GET_BITS’
+  101 |    GET_BITS(label1, zvec, zn);                    \
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:704:7: note: in expansion of macro ‘GET_MTF_VAL’
+  704 |       GET_MTF_VAL(BZ_X_MTF_1, BZ_X_MTF_2, nextSym);
+      |       ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:106:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  106 |       zn++;                                       \
+      |       ~~^~
+/workspace/clamav/libclamav/nsis/bzlib.c:704:7: note: in expansion of macro ‘GET_MTF_VAL’
+  704 |       GET_MTF_VAL(BZ_X_MTF_1, BZ_X_MTF_2, nextSym);
+      |       ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:83:4: note: in expansion of macro ‘GET_BITS’
+   83 |    GET_BITS(lll,uuu,1)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:107:7: note: in expansion of macro ‘GET_BIT’
+  107 |       GET_BIT(label2, zj);                        \
+      |       ^~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:704:7: note: in expansion of macro ‘GET_MTF_VAL’
+  704 |       GET_MTF_VAL(BZ_X_MTF_1, BZ_X_MTF_2, nextSym);
+      |       ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:100:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  100 |    zn = gMinlen;                                  \
+      |    ~~~^~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:814:13: note: in expansion of macro ‘GET_MTF_VAL’
+  814 |             GET_MTF_VAL(BZ_X_MTF_5, BZ_X_MTF_6, nextSym);
+      |             ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:101:4: note: in expansion of macro ‘GET_BITS’
+  101 |    GET_BITS(label1, zvec, zn);                    \
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:814:13: note: in expansion of macro ‘GET_MTF_VAL’
+  814 |             GET_MTF_VAL(BZ_X_MTF_5, BZ_X_MTF_6, nextSym);
+      |             ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:106:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  106 |       zn++;                                       \
+      |       ~~^~
+/workspace/clamav/libclamav/nsis/bzlib.c:814:13: note: in expansion of macro ‘GET_MTF_VAL’
+  814 |             GET_MTF_VAL(BZ_X_MTF_5, BZ_X_MTF_6, nextSym);
+      |             ^~~~~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:56:4: note: here
+   56 |    case lll: s->state = lll;                      \
+      |    ^~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:83:4: note: in expansion of macro ‘GET_BITS’
+   83 |    GET_BITS(lll,uuu,1)
+      |    ^~~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:107:7: note: in expansion of macro ‘GET_BIT’
+  107 |       GET_BIT(label2, zj);                        \
+      |       ^~~~~~~
+/workspace/clamav/libclamav/nsis/bzlib.c:814:13: note: in expansion of macro ‘GET_MTF_VAL’
+  814 |             GET_MTF_VAL(BZ_X_MTF_5, BZ_X_MTF_6, nextSym);
+      |             ^~~~~~~~~~~
+[102/229] Building C object libclamav/CMakeFiles/clamav.dir/hwp.c.o
+[103/229] Building C object libclamav/CMakeFiles/clamav.dir/msdoc.c.o
+[104/229] Building C object libclamav/CMakeFiles/clamav.dir/msxml_parser.c.o
+[105/229] Building C object libclamav/CMakeFiles/clamav.dir/msxml.c.o
+[106/229] Building C object libclamav/CMakeFiles/clamav.dir/xlm_extract.c.o
+[107/229] Building C object libclamav/CMakeFiles/clamav.dir/ooxml.c.o
+[108/229] Building C object libclamav/CMakeFiles/clamav.dir/ole2_extract.c.o
+[109/229] Building C object libclamav/CMakeFiles/clamav.dir/rtf.c.o
+[110/229] Building C object libclamav/CMakeFiles/clamav.dir/vba_extract.c.o
+[111/229] Building C object libclamav/CMakeFiles/clamav.dir/asn1.c.o
+[112/229] Building C object libclamav/CMakeFiles/clamav.dir/elf.c.o
+[113/229] Building C object libclamav/CMakeFiles/clamav.dir/execs.c.o
+[114/229] Building C object libclamav/CMakeFiles/clamav.dir/macho.c.o
+[115/229] Building C object libclamav/CMakeFiles/clamav.dir/pe_icons.c.o
+[116/229] Building C object libclamav/CMakeFiles/clamav.dir/rebuildpe.c.o
+[117/229] Building C object libclamav/CMakeFiles/clamav.dir/aspack.c.o
+[118/229] Building C object libclamav/CMakeFiles/clamav.dir/fsg.c.o
+[119/229] Building C object libclamav/CMakeFiles/clamav.dir/pe.c.o
+[120/229] Building C object libclamav/CMakeFiles/clamav.dir/mew.c.o
+[121/229] Building C object libclamav/CMakeFiles/clamav.dir/packlibs.c.o
+[122/229] Building C object libclamav/CMakeFiles/clamav.dir/petite.c.o
+[123/229] Building C object libclamav/CMakeFiles/clamav.dir/spin.c.o
+[124/229] Building C object libclamav/CMakeFiles/clamav.dir/unsp.c.o
+[125/229] Building C object libclamav/CMakeFiles/clamav.dir/upack.c.o
+[126/229] Building C object libclamav/CMakeFiles/clamav.dir/upx.c.o
+[127/229] Building C object libclamav/CMakeFiles/clamav.dir/yc.c.o
+[128/229] Building C object libclamav/CMakeFiles/clamav.dir/line.c.o
+[129/229] Building C object libclamav/CMakeFiles/clamav.dir/wwunpack.c.o
+[130/229] Building C object libclamav/CMakeFiles/clamav.dir/message.c.o
+[131/229] Building C object libclamav/CMakeFiles/clamav.dir/phish_domaincheck_db.c.o
+[132/229] Building C object libclamav/CMakeFiles/clamav.dir/phish_allow_list.c.o
+[133/229] Building C object libclamav/CMakeFiles/clamav.dir/mbox.c.o
+In function ‘parseEmailFile’,
+    inlined from ‘cli_parse_mbox’ at /workspace/clamav/libclamav/mbox.c:563:31:
+/workspace/clamav/libclamav/mbox.c:944:5: warning: ‘strncpy’ output may be truncated copying 1000 bytes from a string of length 1000 [-Wstringop-truncation]
+  944 |     strncpy(buffer, firstLine, sizeof(buffer) - 1);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[134/229] Building C object libclamav/CMakeFiles/clamav.dir/phishcheck.c.o
+[135/229] Building C object libclamav/CMakeFiles/clamav.dir/regex_list.c.o
+/workspace/clamav/libclamav/regex_list.c: In function ‘regex_list_match’:
+/workspace/clamav/libclamav/regex_list.c:217:9: warning: ‘strncpy’ output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]
+  217 |         strncpy(buffer, real_url, real_len);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/libclamav/regex_list.c:196:19: note: length computed here
+  196 |     real_len    = strlen(real_url);
+      |                   ^~~~~~~~~~~~~~~~
+[136/229] Building C object libclamav/CMakeFiles/clamav.dir/regex_suffix.c.o
+/workspace/clamav/libclamav/regex_suffix.c: In function ‘build_suffixtree_descend’:
+/workspace/clamav/libclamav/regex_suffix.c:460:16: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  460 |             if ((ret = cb(cbdata, buf->data, buf->pos - 1, regex)) != CL_SUCCESS) {
+      |                ^
+/workspace/clamav/libclamav/regex_suffix.c:463:9: note: here
+  463 |         case leaf:
+      |         ^~~~
+[137/229] Building C object libclamav/CMakeFiles/clamav.dir/tnef.c.o
+[138/229] Building C object libclamav/CMakeFiles/clamav.dir/uuencode.c.o
+[139/229] Building C object libclamav/CMakeFiles/clamav.dir/sis.c.o
+[140/229] Building C object libclamav/CMakeFiles/clamav.dir/swf.c.o
+[141/229] Building C object libclamav/CMakeFiles/clamav.dir/pdfng.c.o
+[142/229] Building C object libclamav/CMakeFiles/clamav.dir/pdfdecode.c.o
+[143/229] Building C object libclamav/CMakeFiles/clamav.dir/xdp.c.o
+[144/229] Building C object libclamav/CMakeFiles/clamav.dir/pdf.c.o
+/workspace/clamav/libclamav/pdf.c: In function ‘pdf_findobj_in_objstm’:
+/workspace/clamav/libclamav/pdf.c:342:25: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+  342 |     obj = calloc(sizeof(struct pdf_obj), 1);
+      |                         ^~~~~~
+/workspace/clamav/libclamav/pdf.c:342:25: note: earlier argument should specify number of elements, later size of each element
+[145/229] Building C object libclamav/CMakeFiles/clamav.dir/is_tar.c.o
+[146/229] Building C object libclamav/CMakeFiles/clamav.dir/untar.c.o
+[147/229] Building C object libclamav/CMakeFiles/clamav.dir/unarj.c.o
+[148/229] Building C object libclamav/CMakeFiles/clamav.dir/adc.c.o
+[149/229] Building C object libclamav/CMakeFiles/clamav.dir/unzip.c.o
+[150/229] Building C object libclamav/CMakeFiles/clamav.dir/dmg.c.o
+[151/229] Building C object libclamav/CMakeFiles/clamav.dir/xar.c.o
+[152/229] Building C object libclamav/CMakeFiles/clamav.dir/egg.c.o
+[153/229] Building C object libclamav/CMakeFiles/clamav.dir/mbr.c.o
+/workspace/clamav/libclamav/mbr.c: In function ‘cli_mbr_check’:
+/workspace/clamav/libclamav/mbr.c:85:16: warning: implicit conversion from ‘enum cli_file’ to ‘cl_error_t’ [-Wenum-conversion]
+   85 |         return CL_TYPE_GPT;
+      |                ^~~~~~~~~~~
+/workspace/clamav/libclamav/mbr.c: In function ‘cli_mbr_check2’:
+/workspace/clamav/libclamav/mbr.c:128:16: warning: implicit conversion from ‘enum cli_file’ to ‘cl_error_t’ [-Wenum-conversion]
+  128 |         return CL_TYPE_GPT;
+      |                ^~~~~~~~~~~
+[154/229] Building C object libclamav/CMakeFiles/clamav.dir/gpt.c.o
+[155/229] Building C object libclamav/CMakeFiles/clamav.dir/apm.c.o
+[156/229] Building C object libclamav/CMakeFiles/clamav.dir/iso9660.c.o
+[157/229] Building C object libclamav/CMakeFiles/clamav.dir/hfsplus.c.o
+/workspace/clamav/libclamav/hfsplus.c: In function ‘hfsplus_read_block_table’:
+/workspace/clamav/libclamav/hfsplus.c:1070:28: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+ 1070 |     if ((size_t)*numBlocks > (SIZE_MAX / sizeof(hfsPlusResourceBlockTable))) {
+      |                            ^
+[158/229] Building C object libclamav/CMakeFiles/clamav.dir/openioc.c.o
+[159/229] Building C object libclamav/CMakeFiles/clamav.dir/png.c.o
+[160/229] Building C object libclamav/CMakeFiles/clamav.dir/jpeg.c.o
+[161/229] Building C object libclamav/CMakeFiles/clamav.dir/tiff.c.o
+[162/229] Building C object libclamav/CMakeFiles/clamav.dir/gif.c.o
+[163/229] Building C object libclamav/CMakeFiles/clamav.dir/udf.c.o
+[164/229] Building C object common/CMakeFiles/common.dir/cert_util.c.o
+[165/229] Building C object common/CMakeFiles/common.dir/actions.c.o
+[166/229] Building C object common/CMakeFiles/common.dir/clamdcom.c.o
+[167/229] Linking C shared library libclamav/libclamav.so.14.0.0
+[168/229] Building C object common/CMakeFiles/common.dir/getopt.c.o
+[169/229] Creating library symlink libclamav/libclamav.so.14 libclamav/libclamav.so
+[170/229] Building C object common/CMakeFiles/common.dir/idmef_logging.c.o
+[171/229] Building C object common/CMakeFiles/common.dir/misc.c.o
+[172/229] Building C object common/CMakeFiles/common.dir/output.c.o
+[173/229] Building C object common/CMakeFiles/common.dir/optparser.c.o
+[174/229] Building C object common/CMakeFiles/common.dir/tar.c.o
+[175/229] Building C object common/CMakeFiles/common.dir/linux/cert_util_linux.c.o
+[176/229] Linking C static library common/libcommon.a
+[177/229] Building C object libfreshclam/CMakeFiles/freshclam.dir/libfreshclam.c.o
+[178/229] Building C object libfreshclam/CMakeFiles/freshclam.dir/dns.c.o
+[179/229] Building C object clamconf/CMakeFiles/clamconf.dir/clamconf.c.o
+/workspace/clamav/clamconf/clamconf.c: In function ‘main’:
+/workspace/clamav/clamconf/clamconf.c:472:13: warning: ‘strncpy’ specified bound 512 equals destination size [-Wstringop-truncation]
+  472 |             strncpy(dbdir, pt, sizeof(dbdir));
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[180/229] Building C object libfreshclam/CMakeFiles/freshclam.dir/libfreshclam_internal.c.o
+[181/229] Building C object clamd/CMakeFiles/clamd.dir/clamd.c.o
+[182/229] Building C object clamd/CMakeFiles/clamd.dir/clamd_others.c.o
+[183/229] Building C object clamd/CMakeFiles/clamd.dir/localserver.c.o
+[184/229] Linking C shared library libfreshclam/libfreshclam.so.4.0.0
+[185/229] Creating library symlink libfreshclam/libfreshclam.so.4 libfreshclam/libfreshclam.so
+[186/229] Building C object clamd/CMakeFiles/clamd.dir/scanner.c.o
+[187/229] Building C object clamd/CMakeFiles/clamd.dir/session.c.o
+[188/229] Building C object clamd/CMakeFiles/clamd.dir/tcpserver.c.o
+[189/229] Building C object clamd/CMakeFiles/clamd.dir/server-th.c.o
+[190/229] Building C object clamdscan/CMakeFiles/clamdscan.dir/clamdscan.c.o
+[191/229] Building C object clamd/CMakeFiles/clamd.dir/thrmgr.c.o
+/workspace/clamav/clamd/thrmgr.c: In function ‘stats_response_create’:
+/workspace/clamav/clamd/thrmgr.c:565:16: warning: ‘mallinfo’ is deprecated [-Wdeprecated-declarations]
+  565 |         struct mallinfo inf = mallinfo();
+      |                ^~~~~~~~
+In file included from /workspace/clamav/clamd/thrmgr.c:48:
+/usr/include/malloc.h:114:24: note: declared here
+  114 | extern struct mallinfo mallinfo (void) __THROW __MALLOC_DEPRECATED;
+      |                        ^~~~~~~~
+[192/229] Building C object clamdscan/CMakeFiles/clamdscan.dir/client.c.o
+[193/229] Building C object clamscan/CMakeFiles/clamscan.dir/clamscan.c.o
+[194/229] Building C object clamdscan/CMakeFiles/clamdscan.dir/proto.c.o
+[195/229] Building C object clamscan/CMakeFiles/clamscan.dir/manager.c.o
+In function ‘checkaccess’,
+    inlined from ‘scanfile’ at /workspace/clamav/clamscan/manager.c:424:13:
+/workspace/clamav/clamscan/manager.c:91:21: warning: argument 1 null where non-null expected [-Wnonnull]
+   91 |         if ((user = getpwnam(username)) == NULL) {
+      |                     ^~~~~~~~~~~~~~~~~~
+In file included from /workspace/clamav/clamscan/manager.c:34:
+/usr/include/pwd.h: In function ‘scanfile’:
+/usr/include/pwd.h:116:23: note: in a call to function ‘getpwnam’ declared ‘nonnull’
+  116 | extern struct passwd *getpwnam (const char *__name) __nonnull ((1));
+      |                       ^~~~~~~~
+[196/229] Building C object sigtool/CMakeFiles/sigtool.dir/vba.c.o
+[197/229] Building C object clambc/CMakeFiles/clambc.dir/bcrun.c.o
+/workspace/clamav/clambc/bcrun.c: In function ‘main’:
+/workspace/clamav/clambc/bcrun.c:405:51: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+  405 |         cctx.recursion_stack      = calloc(sizeof(cli_scan_layer_t), cctx.recursion_stack_size);
+      |                                                   ^~~~~~~~~~~~~~~~
+/workspace/clamav/clambc/bcrun.c:405:51: note: earlier argument should specify number of elements, later size of each element
+[198/229] Building C object sigtool/CMakeFiles/sigtool.dir/sigtool.c.o
+/workspace/clamav/sigtool/sigtool.c: In function ‘hashpe’:
+/workspace/clamav/sigtool/sigtool.c:224:46: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+  224 |     ctx.recursion_stack      = calloc(sizeof(cli_scan_layer_t), ctx.recursion_stack_size);
+      |                                              ^~~~~~~~~~~~~~~~
+/workspace/clamav/sigtool/sigtool.c:224:46: note: earlier argument should specify number of elements, later size of each element
+/workspace/clamav/sigtool/sigtool.c: In function ‘convenience_ctx’:
+/workspace/clamav/sigtool/sigtool.c:489:47: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+  489 |     ctx->recursion_stack      = calloc(sizeof(cli_scan_layer_t), ctx->recursion_stack_size);
+      |                                               ^~~~~~~~~~~~~~~~
+/workspace/clamav/sigtool/sigtool.c:489:47: note: earlier argument should specify number of elements, later size of each element
+/workspace/clamav/sigtool/sigtool.c: In function ‘matchsig’:
+/workspace/clamav/sigtool/sigtool.c:2776:46: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+ 2776 |     ctx.recursion_stack      = calloc(sizeof(cli_scan_layer_t), ctx.recursion_stack_size);
+      |                                              ^~~~~~~~~~~~~~~~
+/workspace/clamav/sigtool/sigtool.c:2776:46: note: earlier argument should specify number of elements, later size of each element
+/workspace/clamav/sigtool/sigtool.c: In function ‘dumpcerts’:
+/workspace/clamav/sigtool/sigtool.c:3981:46: warning: ‘calloc’ sizes specified with ‘sizeof’ in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
+ 3981 |     ctx.recursion_stack      = calloc(sizeof(cli_scan_layer_t), ctx.recursion_stack_size);
+      |                                              ^~~~~~~~~~~~~~~~
+/workspace/clamav/sigtool/sigtool.c:3981:46: note: earlier argument should specify number of elements, later size of each element
+/workspace/clamav/sigtool/sigtool.c: In function ‘makediff’:
+/workspace/clamav/sigtool/sigtool.c:3887:38: warning: ‘%u’ directive output may be truncated writing between 1 and 10 bytes into a region of size between 0 and 4095 [-Wformat-truncation=]
+ 3887 |     snprintf(name, sizeof(name), "%s-%u.script", getdbname(opts->filename[0], dbname, sizeof(dbname)), newver);
+      |                                      ^~
+/workspace/clamav/sigtool/sigtool.c:3887:5: note: ‘snprintf’ output between 10 and 4114 bytes into a destination of size 4096
+ 3887 |     snprintf(name, sizeof(name), "%s-%u.script", getdbname(opts->filename[0], dbname, sizeof(dbname)), newver);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[199/229] Building C object clamsubmit/CMakeFiles/clamsubmit.dir/clamsubmit.c.o
+/workspace/clamav/clamsubmit/clamsubmit.c: In function ‘form_add_string’:
+/workspace/clamav/clamsubmit/clamsubmit.c:261:5: warning: ‘curl_formadd’ is deprecated: since 7.56.0. Use curl_mime_init() [-Wdeprecated-declarations]
+  261 |     CURLFORMcode result = curl_formadd(post, last,
+      |     ^~~~~~~~~~~~
+In file included from /workspace/clamav/clamsubmit/clamsubmit.c:46:
+/usr/include/x86_64-linux-gnu/curl/curl.h:2637:1: note: declared here
+ 2637 | curl_formadd(struct curl_httppost **httppost,
+      | ^~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:262:40: warning: ‘CURLFORM_COPYNAME’ is deprecated: since 7.56.0. Use curl_mime_name() [-Wdeprecated-declarations]
+  262 |                                        CURLFORM_COPYNAME, name,
+      |                                        ^~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2562:3: note: declared here
+ 2562 |   CURLFORM_COPYNAME        CURL_DEPRECATED(7.56.0, "Use curl_mime_name()"),
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:263:40: warning: ‘CURLFORM_COPYCONTENTS’ is deprecated: since 7.56.0. Use curl_mime_data() [-Wdeprecated-declarations]
+  263 |                                        CURLFORM_COPYCONTENTS, value,
+      |                                        ^~~~~~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2565:3: note: declared here
+ 2565 |   CURLFORM_COPYCONTENTS    CURL_DEPRECATED(7.56.0, "Use curl_mime_data()"),
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:265:5: warning: ‘CURL_FORMADD_OK’ is deprecated: since 7.56.0.  [-Wdeprecated-declarations]
+  265 |     if (result != CURL_FORMADD_OK) {
+      |     ^~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2613:3: note: declared here
+ 2613 |   CURL_FORMADD_OK             CURL_DEPRECATED(7.56.0, ""), /* 1st, no error */
+      |   ^~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c: In function ‘form_add_file’:
+/workspace/clamav/clamsubmit/clamsubmit.c:275:5: warning: ‘curl_formadd’ is deprecated: since 7.56.0. Use curl_mime_init() [-Wdeprecated-declarations]
+  275 |     CURLFORMcode result = curl_formadd(post, last,
+      |     ^~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2637:1: note: declared here
+ 2637 | curl_formadd(struct curl_httppost **httppost,
+      | ^~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:276:40: warning: ‘CURLFORM_COPYNAME’ is deprecated: since 7.56.0. Use curl_mime_name() [-Wdeprecated-declarations]
+  276 |                                        CURLFORM_COPYNAME, "file",
+      |                                        ^~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2562:3: note: declared here
+ 2562 |   CURLFORM_COPYNAME        CURL_DEPRECATED(7.56.0, "Use curl_mime_name()"),
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:277:40: warning: ‘CURLFORM_FILE’ is deprecated: since 7.56.0. Use curl_mime_filedata() [-Wdeprecated-declarations]
+  277 |                                        CURLFORM_FILE, filename,
+      |                                        ^~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2571:3: note: declared here
+ 2571 |   CURLFORM_FILE            CURL_DEPRECATED(7.56.0, "Use curl_mime_filedata()"),
+      |   ^~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:279:5: warning: ‘CURL_FORMADD_OK’ is deprecated: since 7.56.0.  [-Wdeprecated-declarations]
+  279 |     if (result != CURL_FORMADD_OK) {
+      |     ^~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2613:3: note: declared here
+ 2613 |   CURL_FORMADD_OK             CURL_DEPRECATED(7.56.0, ""), /* 1st, no error */
+      |   ^~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c: In function ‘main’:
+/workspace/clamav/clamsubmit/clamsubmit.c:855:9: warning: ‘CURLOPT_HTTPPOST’ is deprecated: since 7.56.0. Use CURLOPT_MIMEPOST [-Wdeprecated-declarations]
+  855 |         !curl_option_ok(curl_easy_setopt(aws_curl, CURLOPT_HTTPPOST, post), "the S3 upload form")) {
+      |         ^
+/usr/include/x86_64-linux-gnu/curl/curl.h:1238:3: note: declared here
+ 1238 |   CURLOPTDEPRECATED(CURLOPT_HTTPPOST, CURLOPTTYPE_OBJECTPOINT, 24,
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:865:5: warning: ‘curl_formfree’ is deprecated: since 7.56.0. Use curl_mime_free() [-Wdeprecated-declarations]
+  865 |     curl_formfree(post);
+      |     ^~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2673:1: note: declared here
+ 2673 | curl_formfree(struct curl_httppost *form);
+      | ^~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:891:9: warning: ‘CURLOPT_HTTPPOST’ is deprecated: since 7.56.0. Use CURLOPT_MIMEPOST [-Wdeprecated-declarations]
+  891 |         !curl_option_ok(curl_easy_setopt(clam_curl, CURLOPT_HTTPPOST, post), "the report submission form") ||
+      |         ^
+/usr/include/x86_64-linux-gnu/curl/curl.h:1238:3: note: declared here
+ 1238 |   CURLOPTDEPRECATED(CURLOPT_HTTPPOST, CURLOPTTYPE_OBJECTPOINT, 24,
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:927:9: warning: ‘curl_formfree’ is deprecated: since 7.56.0. Use curl_mime_free() [-Wdeprecated-declarations]
+  927 |         curl_formfree(post);
+      |         ^~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2673:1: note: declared here
+ 2673 | curl_formfree(struct curl_httppost *form);
+      | ^~~~~~~~~~~~~
+[200/229] Building C object clamsubmit/CMakeFiles/clamsubmit_test.dir/clamsubmit.c.o
+/workspace/clamav/clamsubmit/clamsubmit.c: In function ‘form_add_string’:
+/workspace/clamav/clamsubmit/clamsubmit.c:261:5: warning: ‘curl_formadd’ is deprecated: since 7.56.0. Use curl_mime_init() [-Wdeprecated-declarations]
+  261 |     CURLFORMcode result = curl_formadd(post, last,
+      |     ^~~~~~~~~~~~
+In file included from /workspace/clamav/clamsubmit/clamsubmit.c:46:
+/usr/include/x86_64-linux-gnu/curl/curl.h:2637:1: note: declared here
+ 2637 | curl_formadd(struct curl_httppost **httppost,
+      | ^~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:262:40: warning: ‘CURLFORM_COPYNAME’ is deprecated: since 7.56.0. Use curl_mime_name() [-Wdeprecated-declarations]
+  262 |                                        CURLFORM_COPYNAME, name,
+      |                                        ^~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2562:3: note: declared here
+ 2562 |   CURLFORM_COPYNAME        CURL_DEPRECATED(7.56.0, "Use curl_mime_name()"),
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:263:40: warning: ‘CURLFORM_COPYCONTENTS’ is deprecated: since 7.56.0. Use curl_mime_data() [-Wdeprecated-declarations]
+  263 |                                        CURLFORM_COPYCONTENTS, value,
+      |                                        ^~~~~~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2565:3: note: declared here
+ 2565 |   CURLFORM_COPYCONTENTS    CURL_DEPRECATED(7.56.0, "Use curl_mime_data()"),
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:265:5: warning: ‘CURL_FORMADD_OK’ is deprecated: since 7.56.0.  [-Wdeprecated-declarations]
+  265 |     if (result != CURL_FORMADD_OK) {
+      |     ^~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2613:3: note: declared here
+ 2613 |   CURL_FORMADD_OK             CURL_DEPRECATED(7.56.0, ""), /* 1st, no error */
+      |   ^~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c: In function ‘form_add_file’:
+/workspace/clamav/clamsubmit/clamsubmit.c:275:5: warning: ‘curl_formadd’ is deprecated: since 7.56.0. Use curl_mime_init() [-Wdeprecated-declarations]
+  275 |     CURLFORMcode result = curl_formadd(post, last,
+      |     ^~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2637:1: note: declared here
+ 2637 | curl_formadd(struct curl_httppost **httppost,
+      | ^~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:276:40: warning: ‘CURLFORM_COPYNAME’ is deprecated: since 7.56.0. Use curl_mime_name() [-Wdeprecated-declarations]
+  276 |                                        CURLFORM_COPYNAME, "file",
+      |                                        ^~~~~~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2562:3: note: declared here
+ 2562 |   CURLFORM_COPYNAME        CURL_DEPRECATED(7.56.0, "Use curl_mime_name()"),
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:277:40: warning: ‘CURLFORM_FILE’ is deprecated: since 7.56.0. Use curl_mime_filedata() [-Wdeprecated-declarations]
+  277 |                                        CURLFORM_FILE, filename,
+      |                                        ^~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2571:3: note: declared here
+ 2571 |   CURLFORM_FILE            CURL_DEPRECATED(7.56.0, "Use curl_mime_filedata()"),
+      |   ^~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:279:5: warning: ‘CURL_FORMADD_OK’ is deprecated: since 7.56.0.  [-Wdeprecated-declarations]
+  279 |     if (result != CURL_FORMADD_OK) {
+      |     ^~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2613:3: note: declared here
+ 2613 |   CURL_FORMADD_OK             CURL_DEPRECATED(7.56.0, ""), /* 1st, no error */
+      |   ^~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c: In function ‘main’:
+/workspace/clamav/clamsubmit/clamsubmit.c:855:9: warning: ‘CURLOPT_HTTPPOST’ is deprecated: since 7.56.0. Use CURLOPT_MIMEPOST [-Wdeprecated-declarations]
+  855 |         !curl_option_ok(curl_easy_setopt(aws_curl, CURLOPT_HTTPPOST, post), "the S3 upload form")) {
+      |         ^
+/usr/include/x86_64-linux-gnu/curl/curl.h:1238:3: note: declared here
+ 1238 |   CURLOPTDEPRECATED(CURLOPT_HTTPPOST, CURLOPTTYPE_OBJECTPOINT, 24,
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:865:5: warning: ‘curl_formfree’ is deprecated: since 7.56.0. Use curl_mime_free() [-Wdeprecated-declarations]
+  865 |     curl_formfree(post);
+      |     ^~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2673:1: note: declared here
+ 2673 | curl_formfree(struct curl_httppost *form);
+      | ^~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:891:9: warning: ‘CURLOPT_HTTPPOST’ is deprecated: since 7.56.0. Use CURLOPT_MIMEPOST [-Wdeprecated-declarations]
+  891 |         !curl_option_ok(curl_easy_setopt(clam_curl, CURLOPT_HTTPPOST, post), "the report submission form") ||
+      |         ^
+/usr/include/x86_64-linux-gnu/curl/curl.h:1238:3: note: declared here
+ 1238 |   CURLOPTDEPRECATED(CURLOPT_HTTPPOST, CURLOPTTYPE_OBJECTPOINT, 24,
+      |   ^~~~~~~~~~~~~~~~~
+/workspace/clamav/clamsubmit/clamsubmit.c:927:9: warning: ‘curl_formfree’ is deprecated: since 7.56.0. Use curl_mime_free() [-Wdeprecated-declarations]
+  927 |         curl_formfree(post);
+      |         ^~~~~~~~~~~~~
+/usr/include/x86_64-linux-gnu/curl/curl.h:2673:1: note: declared here
+ 2673 | curl_formfree(struct curl_httppost *form);
+      | ^~~~~~~~~~~~~
+[201/229] Building C object freshclam/CMakeFiles/freshclam-bin.dir/execute.c.o
+[202/229] Building C object freshclam/CMakeFiles/freshclam-bin.dir/notify.c.o
+[203/229] Building C object freshclam/CMakeFiles/freshclam-bin.dir/freshclam.c.o
+[204/229] Building C object clamdtop/CMakeFiles/clamdtop.dir/clamdtop.c.o
+[205/229] Building C object unit_tests/CMakeFiles/check_clamd.dir/check_clamd.c.o
+[206/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_bytecode.c.o
+[207/229] Building C object unit_tests/CMakeFiles/check_clamd.dir/__/clamd/thrmgr.c.o
+/workspace/clamav/clamd/thrmgr.c: In function ‘stats_response_create’:
+/workspace/clamav/clamd/thrmgr.c:565:16: warning: ‘mallinfo’ is deprecated [-Wdeprecated-declarations]
+  565 |         struct mallinfo inf = mallinfo();
+      |                ^~~~~~~~
+In file included from /workspace/clamav/clamd/thrmgr.c:48:
+/usr/include/malloc.h:114:24: note: declared here
+  114 | extern struct mallinfo mallinfo (void) __THROW __MALLOC_DEPRECATED;
+      |                        ^~~~~~~~
+[208/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_disasm.c.o
+[209/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_htmlnorm.c.o
+[210/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_jsnorm.c.o
+[211/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_clamav.c.o
+[212/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_regex.c.o
+[213/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_matchers.c.o
+[214/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_str.c.o
+[215/229] Building C object unit_tests/CMakeFiles/check_clamav.dir/check_uniq.c.o
+[216/229] Linking C executable clamconf/clamconf
+[217/229] Linking C executable clamd/clamd
+[218/229] Linking C executable clamdscan/clamdscan
+[219/229] Linking C executable clamscan/clamscan
+[220/229] Linking C executable sigtool/sigtool
+[221/229] Linking C executable clambc/clambc
+[222/229] Linking C executable clamsubmit/clamsubmit
+[223/229] Linking C executable clamsubmit/clamsubmit_test
+[224/229] Linking C executable clamdtop/clamdtop
+[225/229] Linking C executable freshclam/freshclam
+[226/229] Linking C executable unit_tests/check_fpu_endian
+[227/229] Linking C executable unit_tests/check_clamd
+[228/229] Linking C executable unit_tests/check_xlm_scanmap
+[229/229] Linking C executable unit_tests/check_clamav

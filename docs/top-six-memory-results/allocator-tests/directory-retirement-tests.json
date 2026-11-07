@@ -1,0 +1,12 @@
+{
+  "command": "python3 -m unittest discover -s tools/compact-memory -p 'test_*directory_retirement.py' -q",
+  "result": "passed",
+  "tests": 6,
+  "scope": "Focused production-source pattern/candidate retirement tests, including retention and no-pool variants; not whole-engine qualification.",
+  "output_sha256": "085fb2d5eef8a20737f29f2f2b5f708fb63ab352700b0a86c0275e4e5d42a442",
+  "source_sha256": {
+    "CMakeOptions.cmake": "29e4a38ceee2822fbe765350a6e9ef06ecb36222efbccd920e78eafc77e4e4ab",
+    "libclamav/readdb.c": "98fee93f21515cbeb0380dd02293ba5e7fde3c0cf7c38cdc2ff90d718ee74efa",
+    "libclamav/matcher-ac.c": "32b5940ccda795f3bd1417e3a805933c93214128696c1c937d9a3a35f4721cf2"
+  }
+}

@@ -23,6 +23,11 @@ static struct sample sample(void) {
     s.minor=u.ru_minflt;s.major=u.ru_majflt;s.inblock=u.ru_inblock;s.outblock=u.ru_oublock;
     return s;
 }
+static double cpu_elapsed(struct sample a,struct sample b) {
+    /* Difference each monotonic counter before summing. Summing the absolute
+     * counters first can give a negative rounded result for a zero-CPU scan. */
+    return (b.user-a.user)+(b.system-a.system);
+}
 static void memory_fields(json_object *o) {
     long pss=0,uss=0,anon=0,file=0;
     FILE *f=fopen("/proc/self/smaps_rollup","r");CHECK(f);char line[256];long v;
@@ -38,8 +43,8 @@ static void memory_fields(json_object *o) {
 }
 static void measurements(json_object *o,struct sample a,struct sample b) {
     real(o,"wall_seconds",b.wall-a.wall);real(o,"user_cpu_seconds",b.user-a.user);real(o,"system_cpu_seconds",b.system-a.system);
-    real(o,"cpu_seconds",b.user+b.system-a.user-a.system);
-    real(o,"cpu_percent_one_core",100*(b.user+b.system-a.user-a.system)/(b.wall-a.wall));
+    real(o,"cpu_seconds",cpu_elapsed(a,b));
+    real(o,"cpu_percent_one_core",100*cpu_elapsed(a,b)/(b.wall-a.wall));
     num(o,"minor_faults",b.minor-a.minor);num(o,"major_faults",b.major-a.major);
     num(o,"block_read_bytes",512*(b.inblock-a.inblock));num(o,"block_write_bytes",512*(b.outblock-a.outblock));
 }
@@ -107,7 +112,7 @@ static void run_batch(struct cl_engine *e,char **paths,size_t count,int metadata
         add(o,"path",paths[i]);num(o,"allmatch",allmatch);num(o,"return_code",rc);num(o,"verdict",verdict);add(o,"final_name",name);add(o,"root_type",type);
         add(o,"sha256",hash);add(o,"after_sha256",after_hash);num(o,"hold_bits",c.holds);add(o,"candidate_outcome",outcome);num(o,"scanned_bytes",scanned);
         num(o,"input_bytes",before.st_size);num(o,"root_cache_hit",hit);num(o,"root_prescan_callbacks",pre);measurements(o,a,b);
-        real(o,"engine_scan_wall_seconds",core_end.wall-core_start.wall);real(o,"engine_scan_cpu_seconds",core_end.user+core_end.system-core_start.user-core_start.system);
+        real(o,"engine_scan_wall_seconds",core_end.wall-core_start.wall);real(o,"engine_scan_cpu_seconds",cpu_elapsed(core_start,core_end));
         json_object_object_add(o,"events",c.events);emit(o);free(type);
     }
     struct sample end=sample();json_object *o=json_object_new_object();add(o,"kind","batch");add(o,"phase",phase);num(o,"round",round);

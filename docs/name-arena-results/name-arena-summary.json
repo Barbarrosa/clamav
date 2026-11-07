@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "decision": "reject postcompile raw hash-name arena: no resident-memory saving",
+  "candidate_scope": "hash names copied only after matcher compilation; distinct occurrence identity retained; destructor not implemented in diagnostic",
+  "source_base_commit": "ca2e9561517aa5456b2dade6a7f33b3939e72461",
+  "source_sha256": {
+    "tools/compact-memory/probe_name_arena.c": "a7bb4a3a76653a9522c3a5562629ffe5f9ef5bacb29759549aeb61c9afe01cd0"
+  },
+  "library": {
+    "path": "/workspace/clamav-system-diagnostic/libclamav.so.14.0.0",
+    "sha256": "e1a91de31ce60b874f800cc8ab8b3e62f1a73f8ea8f38a3b0184f279270774c8",
+    "role": "preexisting private-export retained engine; no new runtime engine code compiled"
+  },
+  "probe_sha256": "bf2aaac6e73242c90cbe0ea64129a1275f7a416a4a1648784fede0e55264c7b3",
+  "database": [
+    {
+      "name": "bytecode.cvd",
+      "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+      "bytes": 281702
+    },
+    {
+      "name": "daily.cvd",
+      "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+      "bytes": 23443876
+    },
+    {
+      "name": "main.cvd",
+      "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365",
+      "bytes": 89072577
+    }
+  ],
+  "certificate_files": [
+    {
+      "name": "CMakeLists.txt",
+      "sha256": "d416b0bbe85b46e27efa1298ced4273bdfbded6b8f9410cdb5c51d96df88ff10"
+    },
+    {
+      "name": "clamav.crt",
+      "sha256": "60200e4b4b1b1b7257bb4550487aeb142034341f3300a8526e77a3134a940e9d"
+    }
+  ],
+  "platform": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "compiler": "cc (Debian 14.2.0-19) 14.2.0"
+  },
+  "limits": {
+    "as": 4294967296,
+    "cpu": 120,
+    "wall": 120
+  },
+  "snapshots": {
+    "compiled": {
+      "kind": "memory",
+      "phase": "compiled",
+      "rss_bytes": 829952000,
+      "hwm_bytes": 865128448,
+      "pool_carved_bytes": 870745500,
+      "pool_mapped_bytes": 870780096
+    },
+    "validated": {
+      "kind": "memory",
+      "phase": "validated",
+      "rss_bytes": 829976576,
+      "hwm_bytes": 881324032,
+      "pool_carved_bytes": 870745500,
+      "pool_mapped_bytes": 870780096
+    },
+    "packed": {
+      "kind": "memory",
+      "phase": "packed",
+      "rss_bytes": 907464704,
+      "hwm_bytes": 907419648,
+      "pool_carved_bytes": 870745500,
+      "pool_mapped_bytes": 870780096
+    }
+  },
+  "result": {
+    "kind": "result",
+    "mode": "pack",
+    "signatures": 3628192,
+    "name_records": 3213522,
+    "name_payload_bytes": 77488025,
+    "original_pointer_aliases": 0,
+    "distinct_occurrences_preserved": true,
+    "ordered_names_sha256": "c8f4b8cf1555d530fc315e5826bb2ff2fc43a8ec98263f127e78767c006e9f1d",
+    "every_name_exact": true,
+    "load_compile_seconds": 8.884226299,
+    "transfer_seconds": 0.231852196,
+    "engine_destructor_supported": false,
+    "scope": "postcompile hash-name allocation-residency experiment, not integrated scanner or performance qualification"
+  },
+  "resident_increase_bytes": 77488128,
+  "resident_increase_vs_compiled_bytes": 77512704,
+  "pool_carved_change_bytes": 0,
+  "pool_mapped_change_bytes": 0,
+  "hwm_increase_vs_compile_bytes": 42291200,
+  "raw_sha256": {
+    "pack.jsonl": "630ccf71284955728eb18f4ff2671f7235275c1558b7f1233f6e0adb5e44ab3c",
+    "pack.stderr": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+  },
+  "interpretation": [
+    "The new raw arena adds essentially its full payload to RSS. No old small-fragment interior pages were reclaimed by mpool_flush.",
+    "Pool free-page advice handles free interiors of individual fragments and preserves their intrusive free-list metadata. It does not coalesce small name fragments into removable whole pages.",
+    "This diagnostic deliberately never invokes the incompatible existing destructor after pointer relocation; it is not an integrated candidate.",
+    "Scan throughput, failure behavior, reload ownership and callback behavior after repacking were not qualified because the memory objective already fails."
+  ]
+}

@@ -1,0 +1,9 @@
+Test project /workspace/clamav-upstream-build
+    Start 1: libclamav
+    Start 4: clamscan
+1/2 Test #1: libclamav ........................   Passed   17.05 sec
+2/2 Test #4: clamscan .........................   Passed   24.20 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =  24.21 sec

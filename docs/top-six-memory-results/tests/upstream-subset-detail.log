@@ -1,0 +1,196 @@
+Start testing: Nov 06 17:10 UTC
+----------------------------------------------------------
+1/7 Testing: libclamav
+1/7 Test: libclamav
+Command: "/workspace/qualification-deps/venv/bin/pytest" "-v" "libclamav_test.py"
+Directory: /workspace/clamav-upstream-dd3/unit_tests
+"libclamav" start time: Nov 06 17:10 UTC
+Output:
+----------------------------------------------------------
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav-upstream-dd3/unit_tests
+collecting ... collected 1 item
+
+libclamav_test.py::TC::test_libclamav_00_unit_test PASSED                [100%]
+
+============================== 1 passed in 16.18s ==============================
+<end of output>
+Test time =  17.05 sec
+----------------------------------------------------------
+Test Passed.
+"libclamav" end time: Nov 06 17:10 UTC
+"libclamav" time elapsed: 00:00:17
+----------------------------------------------------------
+
+4/7 Testing: clamscan
+4/7 Test: clamscan
+Command: "/workspace/qualification-deps/venv/bin/pytest" "-v" "clamscan"
+Directory: /workspace/clamav-upstream-dd3/unit_tests
+"clamscan" start time: Nov 06 17:10 UTC
+Output:
+----------------------------------------------------------
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav-upstream-dd3/unit_tests
+collecting ... collected 146 items
+
+clamscan/_basic_test.py::TC::test_00_version PASSED                      [  0%]
+clamscan/_basic_test.py::TC::test_01_all_testfiles PASSED                [  1%]
+clamscan/_basic_test.py::TC::test_02_all_testfiles_ign2 PASSED           [  2%]
+clamscan/allmatch_test.py::TC::test_exe_imphash_plus_zipsfx PASSED       [  2%]
+clamscan/allmatch_test.py::TC::test_exe_pattern_plus_zipsfx PASSED       [  3%]
+clamscan/allmatch_test.py::TC::test_many_sigs PASSED                     [  4%]
+clamscan/allmatch_test.py::TC::test_many_sigs_no_allmatch PASSED         [  4%]
+clamscan/allmatch_test.py::TC::test_pe_allmatch PASSED                   [  5%]
+clamscan/allmatch_test.py::TC::test_regression_cbc_and_ndb PASSED        [  6%]
+clamscan/allmatch_test.py::TC::test_regression_imphash_nosize PASSED     [  6%]
+clamscan/allmatch_test.py::TC::test_txt_plus_clam_zipsfx PASSED          [  7%]
+clamscan/allmatch_test.py::TC::test_zip_all_files PASSED                 [  8%]
+clamscan/allmatch_test.py::TC::test_zip_missing_centrals PASSED          [  8%]
+clamscan/allmatch_test.py::TC::test_zip_no_central_directory PASSED      [  9%]
+clamscan/allmatch_test.py::TC::test_zip_plus_zip PASSED                  [ 10%]
+clamscan/alz_test.py::TC::test_bzip2 PASSED                              [ 10%]
+clamscan/alz_test.py::TC::test_bzip2_with_binary PASSED                  [ 11%]
+clamscan/alz_test.py::TC::test_deflate PASSED                            [ 12%]
+clamscan/alz_test.py::TC::test_deflate_limit_uses_decompressed_size PASSED [ 13%]
+clamscan/alz_test.py::TC::test_encrypted_metadata_matches_before_extraction_skip PASSED [ 13%]
+clamscan/alz_test.py::TC::test_extraction_error_does_not_abort_archive_scan PASSED [ 14%]
+clamscan/alz_test.py::TC::test_inflated_header_size_does_not_skip_extraction PASSED [ 15%]
+clamscan/alz_test.py::TC::test_later_parse_error_does_not_skip_earlier_member_scan PASSED [ 15%]
+clamscan/alz_test.py::TC::test_metadata_filepos_counts_skipped_entries_from_one PASSED [ 16%]
+clamscan/alz_test.py::TC::test_total_limit_does_not_report_max_file_size PASSED [ 17%]
+clamscan/alz_test.py::TC::test_uncompressed PASSED                       [ 17%]
+clamscan/alz_test.py::TC::test_uncompressed_with_binary PASSED           [ 18%]
+clamscan/assorted_test.py::TC::test_00_version PASSED                    [ 19%]
+clamscan/assorted_test.py::TC::test_cvdload_no_sign_fips_limits PASSED   [ 19%]
+clamscan/assorted_test.py::TC::test_iso_missing_joliet PASSED            [ 20%]
+clamscan/assorted_test.py::TC::test_onenote_disabled PASSED              [ 21%]
+clamscan/assorted_test.py::TC::test_pe_cert_block PASSED                 [ 21%]
+clamscan/assorted_test.py::TC::test_pe_cert_trust PASSED                 [ 22%]
+clamscan/assorted_test.py::TC::test_pe_cert_trust_archive PASSED         [ 23%]
+clamscan/assorted_test.py::TC::test_split_zip PASSED                     [ 23%]
+clamscan/assorted_test.py::TC::test_weak_indicator_icon PASSED           [ 24%]
+clamscan/bytecode_test.py::TC::test_pdf_hook PASSED                      [ 25%]
+clamscan/container_sigs_test.py::TC::test_clamscan_container_cache PASSED [ 26%]
+clamscan/container_sigs_test.py::TC::test_container PASSED               [ 26%]
+clamscan/container_sigs_test.py::TC::test_handler_type_does_not_alert_on_retyped_layer PASSED [ 27%]
+clamscan/container_sigs_test.py::TC::test_handler_type_retyped_layer_is_not_cached PASSED [ 28%]
+clamscan/container_sigs_test.py::TC::test_intermediates PASSED           [ 28%]
+clamscan/container_sigs_test.py::TC::test_intermediates_cache PASSED     [ 29%]
+clamscan/embedded_files_test.py::TC::test_embedded_arjs PASSED           [ 30%]
+clamscan/embedded_files_test.py::TC::test_embedded_cabs PASSED           [ 30%]
+clamscan/embedded_files_test.py::TC::test_embedded_exes PASSED           [ 31%]
+clamscan/embedded_files_test.py::TC::test_embedded_zips PASSED           [ 32%]
+clamscan/fp_check_test.py::TC::test_alerts_on_normalized PASSED          [ 32%]
+clamscan/fp_check_test.py::TC::test_alerts_on_zip PASSED                 [ 33%]
+clamscan/fp_check_test.py::TC::test_fp_for_nonnormalized PASSED          [ 34%]
+clamscan/fp_check_test.py::TC::test_fp_for_nonnormalized_wild PASSED     [ 34%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized PASSED             [ 35%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized_fips_md5 PASSED    [ 36%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized_fips_sha1 PASSED   [ 36%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized_wild PASSED        [ 37%]
+clamscan/fp_check_test.py::TC::test_fp_for_zipped_file PASSED            [ 38%]
+clamscan/fp_check_test.py::TC::test_fp_for_zipped_file_wild PASSED       [ 39%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_bad_algorithm PASSED      [ 39%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_bad_hamming PASSED        [ 40%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_bad_hash PASSED           [ 41%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_good_allmatch PASSED      [ 41%]
+clamscan/hash_and_file_type_test.py::TC::test_file_type_hint PASSED      [ 42%]
+clamscan/hash_and_file_type_test.py::TC::test_hash_hint PASSED           [ 43%]
+clamscan/hash_and_file_type_test.py::TC::test_html_file_type_tag_signatures_require_tag_boundary PASSED [ 43%]
+clamscan/hash_and_file_type_test.py::TC::test_log_hash PASSED            [ 44%]
+clamscan/heuristics_test.py::TC::test_allmatch PASSED                    [ 45%]
+clamscan/heuristics_test.py::TC::test_allmatch_precedence PASSED         [ 45%]
+clamscan/heuristics_test.py::TC::test_hidden_by_strong_indicator PASSED  [ 46%]
+clamscan/heuristics_test.py::TC::test_only_heur PASSED                   [ 47%]
+clamscan/heuristics_test.py::TC::test_precedence PASSED                  [ 47%]
+clamscan/image_extraction_test.py::TC::test_HTML_style_with_detection PASSED [ 48%]
+clamscan/image_extraction_test.py::TC::test_xls_jpeg_png PASSED          [ 49%]
+clamscan/image_extraction_test.py::TC::test_xls_with_detection PASSED    [ 50%]
+clamscan/lzh_lha_archive_test.py::TC::test_good_archives PASSED          [ 50%]
+clamscan/mail_test.py::TC::test_content_disposition_unquoted_escaped_semicolon PASSED [ 51%]
+clamscan/mail_test.py::TC::test_content_type_adjacent_extended_boundaries PASSED [ 52%]
+clamscan/mail_test.py::TC::test_content_type_argument_limit_alignment PASSED [ 52%]
+clamscan/mail_test.py::TC::test_content_type_legacy_colon_boundaries PASSED [ 53%]
+clamscan/mail_test.py::TC::test_content_type_long_whitespace_runs PASSED [ 54%]
+clamscan/mail_test.py::TC::test_content_type_malformed_extended_boundary_names PASSED [ 54%]
+clamscan/mail_test.py::TC::test_content_type_quote_state PASSED          [ 55%]
+clamscan/match_offsets_test.py::TC::test_LDB_VI PASSED                   [ 56%]
+clamscan/match_offsets_test.py::TC::test_yara_at_offset PASSED           [ 56%]
+clamscan/match_offsets_test.py::TC::test_yara_in_range PASSED            [ 57%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_doc PASSED                [ 58%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_doc_metadata PASSED       [ 58%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_docx PASSED               [ 59%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_docx_metadata PASSED      [ 60%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_dot PASSED                [ 60%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_dot_metadata PASSED       [ 61%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_ppsx PASSED               [ 62%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_ppsx_metadata PASSED      [ 63%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_pptx PASSED               [ 63%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_pptx_metadata PASSED      [ 64%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xls PASSED                [ 65%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xls_metadata PASSED       [ 65%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xlsx PASSED               [ 66%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xlsx_metadata PASSED      [ 67%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_doc PASSED         [ 67%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_doc_metadata PASSED [ 68%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_docx PASSED        [ 69%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_docx_metadata PASSED [ 69%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_dot PASSED         [ 70%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_dot_metadata PASSED [ 71%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_ppsx PASSED        [ 71%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_ppsx_metadata PASSED [ 72%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_pptx PASSED        [ 73%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_pptx_metadata PASSED [ 73%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xls PASSED         [ 74%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xls_metadata PASSED [ 75%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xlsx PASSED        [ 76%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xlsx_metadata PASSED [ 76%]
+clamscan/pdf_stats_test.py::TC::test_pdf_stats PASSED                    [ 77%]
+clamscan/phishing_test.py::TC::test_not_enabled PASSED                   [ 78%]
+clamscan/phishing_test.py::TC::test_ssl_and_cloak PASSED                 [ 78%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_allows_search_only_destination_dir PASSED [ 79%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_does_not_act_on_replaced_source_link PASSED [ 80%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_preserves_xattr SKIPPED [ 80%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_uses_real_source_path_for_symlink_source PASSED [ 81%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_directory_replacement_does_not_redirect_copy_target PASSED [ 82%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_directory_replacement_does_not_redirect_move_target PASSED [ 82%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_allows_search_only_destination_dir PASSED [ 83%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_does_not_act_on_replaced_source_link PASSED [ 84%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_unlinks_submitted_hardlink PASSED [ 84%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_uses_real_source_path_for_symlink_source PASSED [ 85%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_remove_does_not_act_on_replaced_source_link PASSED [ 86%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_remove_unlinks_submitted_hardlink PASSED [ 86%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_remove_uses_real_source_path_for_symlink_source PASSED [ 87%]
+clamscan/regex_test.py::TC::test_ldb_multi_pcre PASSED                   [ 88%]
+clamscan/regex_test.py::TC::test_ldb_offset_pcre PASSED                  [ 89%]
+clamscan/regex_test.py::TC::test_pcre_flag PASSED                        [ 89%]
+clamscan/regex_test.py::TC::test_slash_colon PASSED                      [ 90%]
+clamscan/regex_test.py::TC::test_yara PASSED                             [ 91%]
+clamscan/save_html_uris_test.py::TC::test_save_links PASSED              [ 91%]
+clamscan/save_pdf_uris_test.py::TC::test_out_of_order_links PASSED       [ 92%]
+clamscan/save_pdf_uris_test.py::TC::test_save_links PASSED               [ 93%]
+clamscan/xar_test.py::TC::test_declared_large_actual_small_toc_is_scanned PASSED [ 93%]
+clamscan/xar_test.py::TC::test_declared_small_actual_large_toc_obeys_scan_limits PASSED [ 94%]
+clamscan/xar_test.py::TC::test_incomplete_toc_stream_is_not_scanned PASSED [ 95%]
+clamscan/xlm_test.py::TC::test_formula_record_boundaries PASSED          [ 95%]
+clamscan/zip_test.py::TC::test_decompressed_member_exceeds_max_file_size PASSED [ 96%]
+clamscan/zip_test.py::TC::test_decompressed_member_limit_alert_is_optional PASSED [ 97%]
+clamscan/zip_test.py::TC::test_other_compression_methods_exceed_max_file_size PASSED [ 97%]
+clamscan/zstd_test.py::TC::test_zstd PASSED                              [ 98%]
+clamscan/zstd_test.py::TC::test_zstd_concatenated PASSED                 [ 99%]
+clamscan/zstd_test.py::TC::test_zstd_skippable_prefix PASSED             [100%]
+
+======================= 145 passed, 1 skipped in 23.34s ========================
+<end of output>
+Test time =  24.20 sec
+----------------------------------------------------------
+Test Passed.
+"clamscan" end time: Nov 06 17:10 UTC
+"clamscan" time elapsed: 00:00:24
+----------------------------------------------------------
+
+End testing: Nov 06 17:10 UTC

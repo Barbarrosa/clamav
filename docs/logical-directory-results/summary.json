@@ -1,0 +1,83 @@
+{
+  "scope": "Bounded smoke only; no complete 18-metric qualification or statistical non-inferiority proof.",
+  "correctness": {
+    "strict": "passed",
+    "strict_cases": 23,
+    "strict_scans": 92,
+    "active_packed": "passed",
+    "active_packed_cases": 5,
+    "active_packed_scans": 48
+  },
+  "variants": {
+    "directory": {
+      "reload_smoke_runs": 2,
+      "compiled_rss_kib": 780642.0,
+      "compiled_pss_kib": 779947.0,
+      "construction_hwm_kib": 844906.0,
+      "reload_rss_kib": 1557582.0,
+      "reload_hwm_kib": 1621998.0,
+      "startup_cpu_seconds": 7.652677499999999,
+      "reload_cpu_seconds": 7.2354635,
+      "all_engines_freed_rss_kib": 50022.0,
+      "scan_smoke_runs": 2,
+      "hydrated_batch_cpu_median_seconds": 1.3940389999999985,
+      "hydrated_engine_scan_cpu_median_per_run_seconds": 4.303753499999999,
+      "hydrated_rss_kib": 803328.0,
+      "hydrated_pss_kib": 802613.0,
+      "hydrated_latency_ms": {
+        "p50": 13.389560001087375,
+        "p95": 552.596628000174,
+        "p99": 643.8402050007426
+      },
+      "logical_directory_payload_bytes": 2376600,
+      "logical_directory_resident_pages": [
+        581
+      ]
+    },
+    "packed": {
+      "reload_smoke_runs": 2,
+      "compiled_rss_kib": 777056.0,
+      "compiled_pss_kib": 776361.0,
+      "construction_hwm_kib": 844264.0,
+      "reload_rss_kib": 1549912.0,
+      "reload_hwm_kib": 1618456.0,
+      "startup_cpu_seconds": 7.2363435,
+      "reload_cpu_seconds": 7.4508395,
+      "all_engines_freed_rss_kib": 50568.0,
+      "scan_smoke_runs": 2,
+      "hydrated_batch_cpu_median_seconds": 1.3094885,
+      "hydrated_engine_scan_cpu_median_per_run_seconds": 4.037728000000004,
+      "hydrated_rss_kib": 800636.0,
+      "hydrated_pss_kib": 799921.0,
+      "hydrated_latency_ms": {
+        "p50": 12.347309999313438,
+        "p95": 489.0015519995359,
+        "p99": 566.3582039996982
+      },
+      "logical_directory_payload_bytes": 1188308,
+      "logical_directory_resident_pages": [
+        291
+      ]
+    }
+  },
+  "deltas_packed_minus_directory": {
+    "reload_smoke_runs": 0,
+    "compiled_rss_kib": -3586.0,
+    "compiled_pss_kib": -3586.0,
+    "construction_hwm_kib": -642.0,
+    "reload_rss_kib": -7670.0,
+    "reload_hwm_kib": -3542.0,
+    "startup_cpu_seconds": -0.4163339999999991,
+    "reload_cpu_seconds": 0.215376,
+    "all_engines_freed_rss_kib": 546.0,
+    "scan_smoke_runs": 0,
+    "hydrated_batch_cpu_median_seconds": -0.08455049999999842,
+    "hydrated_engine_scan_cpu_median_per_run_seconds": -0.26602549999999514,
+    "hydrated_rss_kib": -2692.0,
+    "hydrated_pss_kib": -2692.0,
+    "logical_directory_payload_bytes": -1188292
+  },
+  "hydrated_scan_cpu_ratio": 0.9381875611602767,
+  "reload_cpu_ratio": 1.0297667177783427,
+  "decision": "Keep optional candidate OFF: bounded correctness/storage smoke passes; complete performance/complexity qualification remains incomplete, with reload CPU +2.98% in this small sample."
+}

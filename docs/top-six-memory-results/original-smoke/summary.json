@@ -1,0 +1,841 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "e570eaf5c47393517d7a51e70d942996b439285fb53057f294c2f584536f0281",
+  "cases": [
+    {
+      "ordinal": 0,
+      "variant": "candidate",
+      "operation": "scan",
+      "workload": "combined",
+      "database_cache": "hydrated",
+      "round": 0,
+      "command": [
+        "/workspace/top-six-candidate-perf-probe",
+        "/workspace/top-six-perf-smoke/private-inputs/database",
+        "/workspace/clamav/certs",
+        "/workspace/top-six-perf-smoke/private-inputs/combined.txt",
+        "scan",
+        "/workspace/top-six-perf-smoke/private-inputs/database-files.txt",
+        "hydrated",
+        "1",
+        "1",
+        "1"
+      ],
+      "status": "complete",
+      "timeout": false,
+      "returncode": 0,
+      "process_wall_seconds": 11.25483618400176,
+      "stdout": "000-candidate-scan-combined-r0.jsonl",
+      "stderr": "000-candidate-scan-combined-r0.stderr",
+      "stdout_sha256": "9d4189e1a10cec8b57380b67490897684a0327b6859934e5c1b4d3fe44804f8b",
+      "stderr_sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+      "semantic_sha256": "382702781603a54578332b0ef8507da50d95a70fec28be262903665cb91267ab",
+      "scan_records": 18,
+      "signatures": [
+        3628192
+      ],
+      "observations": [
+        {
+          "metric": "startup_cpu_seconds",
+          "subcase": "lifecycle",
+          "value": 7.643231,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "startup_wall_seconds",
+          "subcase": "lifecycle",
+          "value": 7.6438281839982665,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "construction_peak_bytes",
+          "subcase": "lifecycle",
+          "value": 865574912,
+          "eligible": true,
+          "provenance": {
+            "source": "process_resident_high_water_through_compile"
+          }
+        },
+        {
+          "metric": "resident_bytes_cold",
+          "subcase": "lifecycle",
+          "value": 799907840,
+          "eligible": true,
+          "provenance": {
+            "source": "compiled_engine_before_declared_fixture_scans",
+            "all_names_or_fields_touched": false
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "cold_file_scan",
+          "value": 1.4309049999999983,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "cold_file_scan",
+          "value": 1.4310911699940334,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "cold_file_scan",
+          "value": 531.8586289977247,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 20"
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "cold_file_scan",
+          "value": 531.8586289977247,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 100"
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "warm_file_scan",
+          "value": 1.8181529999999957,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "warm_file_scan",
+          "value": 1.818101103992376,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "warm_file_scan",
+          "value": 686.4266470001894,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 20"
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "warm_file_scan",
+          "value": 686.4266470001894,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 100"
+        },
+        {
+          "metric": "resident_bytes_hydrated",
+          "subcase": "lifecycle",
+          "value": 822693888,
+          "eligible": true,
+          "provenance": {
+            "source": "post_declared_warm_fixture_workload",
+            "all_names_or_fields_touched": false
+          }
+        }
+      ],
+      "page_cache_states_verified": true,
+      "observed_limits": {
+        "kind": "resource_limits",
+        "address_space_bytes": 6442450944,
+        "cpu_soft_seconds": 240,
+        "cpu_hard_seconds": 245,
+        "maximum_concurrency_claimed": 0,
+        "scope": "observed process limits; concurrency is a declared test value, not a supported deployment maximum"
+      },
+      "replacement_scanned": false
+    },
+    {
+      "ordinal": 1,
+      "variant": "retained",
+      "operation": "scan",
+      "workload": "combined",
+      "database_cache": "hydrated",
+      "round": 0,
+      "command": [
+        "/workspace/top-six-retained-perf-probe",
+        "/workspace/top-six-perf-smoke/private-inputs/database",
+        "/workspace/clamav/certs",
+        "/workspace/top-six-perf-smoke/private-inputs/combined.txt",
+        "scan",
+        "/workspace/top-six-perf-smoke/private-inputs/database-files.txt",
+        "hydrated",
+        "1",
+        "1",
+        "1"
+      ],
+      "status": "complete",
+      "timeout": false,
+      "returncode": 0,
+      "process_wall_seconds": 11.315350455002772,
+      "stdout": "001-retained-scan-combined-r0.jsonl",
+      "stderr": "001-retained-scan-combined-r0.stderr",
+      "stdout_sha256": "c423b72941fada1b7d51b94828de52cade83dd9e7a48bb40567cfe5976feaae5",
+      "stderr_sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb",
+      "semantic_sha256": "382702781603a54578332b0ef8507da50d95a70fec28be262903665cb91267ab",
+      "scan_records": 18,
+      "signatures": [
+        3628192
+      ],
+      "observations": [
+        {
+          "metric": "startup_cpu_seconds",
+          "subcase": "lifecycle",
+          "value": 8.086366,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "startup_wall_seconds",
+          "subcase": "lifecycle",
+          "value": 8.102358574000391,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "construction_peak_bytes",
+          "subcase": "lifecycle",
+          "value": 864980992,
+          "eligible": true,
+          "provenance": {
+            "source": "process_resident_high_water_through_compile"
+          }
+        },
+        {
+          "metric": "resident_bytes_cold",
+          "subcase": "lifecycle",
+          "value": 829726720,
+          "eligible": true,
+          "provenance": {
+            "source": "compiled_engine_before_declared_fixture_scans",
+            "all_names_or_fields_touched": false
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "cold_file_scan",
+          "value": 1.4355109999999973,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "cold_file_scan",
+          "value": 1.4356220720037527,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "cold_file_scan",
+          "value": 511.6491440021491,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 20"
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "cold_file_scan",
+          "value": 511.6491440021491,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 100"
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "warm_file_scan",
+          "value": 1.391813,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "warm_file_scan",
+          "value": 1.3920380609961285,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "warm_file_scan",
+          "value": 503.3562359967618,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 20"
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "warm_file_scan",
+          "value": 503.3562359967618,
+          "eligible": false,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 9
+          },
+          "ineligible_reason": "below contract sample minimum 100"
+        },
+        {
+          "metric": "resident_bytes_hydrated",
+          "subcase": "lifecycle",
+          "value": 853123072,
+          "eligible": true,
+          "provenance": {
+            "source": "post_declared_warm_fixture_workload",
+            "all_names_or_fields_touched": false
+          }
+        }
+      ],
+      "page_cache_states_verified": true,
+      "observed_limits": {
+        "kind": "resource_limits",
+        "address_space_bytes": 6442450944,
+        "cpu_soft_seconds": 240,
+        "cpu_hard_seconds": 245,
+        "maximum_concurrency_claimed": 0,
+        "scope": "observed process limits; concurrency is a declared test value, not a supported deployment maximum"
+      },
+      "replacement_scanned": false
+    }
+  ],
+  "complete": true,
+  "qualification": {
+    "schema_version": 1,
+    "comparisons": {
+      "retained": {
+        "metrics": {
+          "scan_cpu_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 1.4355109999999973,
+                "candidate": 1.4309049999999983,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 1.391813,
+                "candidate": 1.8181529999999957,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "scan_wall_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 1.4356220720037527,
+                "candidate": 1.4310911699940334,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 1.3920380609961285,
+                "candidate": 1.818101103992376,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "scan_latency_p95_ms": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 511.6491440021491,
+                "candidate": 531.8586289977247,
+                "status": "unknown",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 503.3562359967618,
+                "candidate": 686.4266470001894,
+                "status": "unknown",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "scan_latency_p99_ms": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 511.6491440021491,
+                "candidate": 531.8586289977247,
+                "status": "unknown",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 503.3562359967618,
+                "candidate": 686.4266470001894,
+                "status": "unknown",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 9
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "startup_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 8.086366,
+                "candidate": 7.643231,
+                "status": "passed_observed",
+                "baseline_provenance": {},
+                "candidate_provenance": {}
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "startup_wall_seconds": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 8.102358574000391,
+                "candidate": 7.6438281839982665,
+                "status": "passed_observed",
+                "baseline_provenance": {},
+                "candidate_provenance": {}
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "reload_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "reload_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "resident_bytes_cold": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 829726720,
+                "candidate": 799907840,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "compiled_engine_before_declared_fixture_scans",
+                  "all_names_or_fields_touched": false
+                },
+                "candidate_provenance": {
+                  "source": "compiled_engine_before_declared_fixture_scans",
+                  "all_names_or_fields_touched": false
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "resident_bytes_hydrated": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 853123072,
+                "candidate": 822693888,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "post_declared_warm_fixture_workload",
+                  "all_names_or_fields_touched": false
+                },
+                "candidate_provenance": {
+                  "source": "post_declared_warm_fixture_workload",
+                  "all_names_or_fields_touched": false
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "construction_peak_bytes": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 864980992,
+                "candidate": 865574912,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "process_resident_high_water_through_compile"
+                },
+                "candidate_provenance": {
+                  "source": "process_resident_high_water_through_compile"
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "reload_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "builder_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_overlap_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_context_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          }
+        },
+        "semantics": [
+          {
+            "case": [
+              "scan",
+              "combined",
+              "hydrated",
+              0
+            ],
+            "equal": true
+          }
+        ],
+        "case_issues": [],
+        "all_observed_semantics_equal": true
+      },
+      "upstream": {
+        "metrics": {
+          "scan_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_latency_p95_ms": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_latency_p99_ms": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "startup_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "startup_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "reload_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "reload_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "resident_bytes_cold": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "resident_bytes_hydrated": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "construction_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "reload_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "builder_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_overlap_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_context_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          }
+        },
+        "semantics": [],
+        "case_issues": [
+          {
+            "case": [
+              "scan",
+              "combined",
+              "hydrated",
+              0
+            ],
+            "status": "unknown",
+            "reason": "paired process missing, failed or incomplete"
+          }
+        ],
+        "all_observed_semantics_equal": false
+      }
+    },
+    "strict_qualification_status": "failed",
+    "promotion_authorized": false,
+    "unmeasured_required_dimensions": [
+      "scan_context_bytes",
+      "scan_scratch_bytes",
+      "builder_scratch_bytes"
+    ],
+    "required_independent_evidence": [
+      "all ten source-bound correctness properties",
+      "source-bound complexity/resource bounds",
+      "all-fields/names hydration coverage",
+      "declared maximum-concurrency coverage",
+      "changed-generation reload when required"
+    ],
+    "scope": "whole-engine paired observations only; unknown properties are never zero or passed; source-relative equality requires separate explicit adjudication"
+  }
+}

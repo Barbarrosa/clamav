@@ -1,0 +1,107 @@
+{
+  "status": "incomplete_before_fixture_restoration",
+  "candidate_first_attempt": {
+    "ctest_groups_passed": 1,
+    "ctest_groups_failed": 6,
+    "c_checks": 1652,
+    "c_failures": 2,
+    "c_failure_reason": "Missing daily.pdb; absent since initial branch import, present in pinned upstream",
+    "clamscan_passed": 141,
+    "clamscan_failed": 4,
+    "clamscan_skipped": 1,
+    "clamscan_failure_reason": "Three missing weak-sigs directory and one missing test.exe",
+    "clamsubmit_passed": 1,
+    "clamsubmit_failed": 11,
+    "clamsubmit_failure_reason": "Sandbox blocks socket creation",
+    "freshclam_passed": 2,
+    "freshclam_failed": 8,
+    "freshclam_skipped": 1,
+    "freshclam_failure_reason": "Sandbox blocks mock mirror socket creation",
+    "clamd_errors": 15,
+    "clamd_failure_reason": "Missing daily.pdb in setup; network limitations not reached",
+    "rust_failure_reason": "First attempt lacked writable RUSTUP_HOME"
+  },
+  "candidate_corrected_rust": {
+    "ctest_passed": true,
+    "rust_tests_passed": 67,
+    "failed": 0,
+    "elapsed_seconds": 17.13,
+    "env": {
+      "RUSTUP_HOME": "/workspace/clamav-rustup",
+      "CARGO_HOME": "/workspace/clamav-cargo",
+      "CARGO_NET_OFFLINE": "true"
+    }
+  },
+  "upstream_c_and_clamscan": {
+    "ctest_groups_passed": 2,
+    "ctest_groups_failed": 0,
+    "elapsed_seconds": 24.21,
+    "clamscan_passed": 145,
+    "clamscan_skipped": 1,
+    "source_commit": "dd3aa1907cf6e34286c86f8a24dd16e7a8d8810d"
+  },
+  "missing_fixture_provenance": [
+    {
+      "path": "unit_tests/input/other_sigs/daily.pdb",
+      "bytes": 3270,
+      "upstream_sha256": "c0f578276d8fac7d4e77f4aa81fdc6905cd2a49e885c18f95428678d0d63cb30",
+      "present_in_ca2e956_tree": false,
+      "present_in_initial_3ee1e5d_tree": false,
+      "ignore_rule": ".gitignore:141:*.pdb\tunit_tests/input/other_sigs/daily.pdb"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/test.exe",
+      "bytes": 1447992,
+      "upstream_sha256": "ecb52dac06daf876b6ed53063c5fdd5a3e05a0e70f7d326670f202f36ae66c95",
+      "present_in_ca2e956_tree": false,
+      "present_in_initial_3ee1e5d_tree": false,
+      "ignore_rule": ".gitignore:52:*.exe\tunit_tests/input/pe_allmatch/test.exe"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/weak-sigs/sig00.idb",
+      "bytes": 183,
+      "upstream_sha256": "9f3f2f86248d3a988a5cff1d36632e52394f784401c5db389f5b8817c4c541ce",
+      "present_in_ca2e956_tree": false,
+      "present_in_initial_3ee1e5d_tree": false,
+      "ignore_rule": ".gitignore:62:*.idb\tunit_tests/input/pe_allmatch/weak-sigs/sig00.idb"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/weak-sigs/sig01.idb",
+      "bytes": 183,
+      "upstream_sha256": "c43e25b5f0b6e3ec8d4e2d1903f1afca9697247e8ac7c40b11f7d3cb4916f8f4",
+      "present_in_ca2e956_tree": false,
+      "present_in_initial_3ee1e5d_tree": false,
+      "ignore_rule": ".gitignore:62:*.idb\tunit_tests/input/pe_allmatch/weak-sigs/sig01.idb"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/weak-sigs/sig02.idb",
+      "bytes": 183,
+      "upstream_sha256": "a6d8ed60fb68932b22bdb352396e36d1af40293e893954353fe990b8ef3637c0",
+      "present_in_ca2e956_tree": false,
+      "present_in_initial_3ee1e5d_tree": false,
+      "ignore_rule": ".gitignore:62:*.idb\tunit_tests/input/pe_allmatch/weak-sigs/sig02.idb"
+    },
+    {
+      "path": "unit_tests/input/pe_allmatch/weak-sigs/sig03.idb",
+      "bytes": 183,
+      "upstream_sha256": "92ed731e17e7b5e7ad14ecb420c28fc66608c66f1976923317ac40f9e98e4744",
+      "present_in_ca2e956_tree": false,
+      "present_in_initial_3ee1e5d_tree": false,
+      "ignore_rule": ".gitignore:62:*.idb\tunit_tests/input/pe_allmatch/weak-sigs/sig03.idb"
+    }
+  ],
+  "logs": [
+    {
+      "path": "/workspace/top-six-candidate-ctest.log",
+      "sha256": "6aeedb07ace2271aee91e92f3d765188a827e0e1216c679d3c3db3ec3e613b8f"
+    },
+    {
+      "path": "/workspace/top-six-candidate-rust-ctest.log",
+      "sha256": "54702946f8f84d4855d0d15262511a4365e16d3a104334b9b18f5873b039a131"
+    },
+    {
+      "path": "/workspace/top-six-upstream-subset-ctest.log",
+      "sha256": "1b673244d0c2fbab2b23cb9f1042966d9910ce88d73ee40e9658dc2d1617acf1"
+    }
+  ]
+}

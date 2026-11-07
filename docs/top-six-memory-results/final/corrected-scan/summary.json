@@ -1,0 +1,1267 @@
+{
+  "schema_version": 1,
+  "plan_sha256": "1a1e27c1fedc7f4ae4d6fc0953a6cab08e4fd773cac3ebfff1ca4c3fe31707b2",
+  "cases": [
+    {
+      "ordinal": 0,
+      "variant": "upstream",
+      "operation": "scan",
+      "workload": "combined",
+      "database_cache": "hydrated",
+      "round": 0,
+      "command": [
+        "/workspace/top-six-final-probes/upstream",
+        "/workspace/top-six-final-corrected-screen/private-inputs/database",
+        "/workspace/clamav/certs",
+        "/workspace/top-six-final-corrected-screen/private-inputs/combined.txt",
+        "scan",
+        "/workspace/top-six-final-corrected-screen/private-inputs/database-files.txt",
+        "hydrated",
+        "1",
+        "4",
+        "1"
+      ],
+      "status": "complete",
+      "timeout": false,
+      "returncode": 0,
+      "process_wall_seconds": 156.63238027099578,
+      "stdout": "000-upstream-scan-combined-r0.jsonl",
+      "stderr": "000-upstream-scan-combined-r0.stderr",
+      "stdout_sha256": "464d603aaf7338d6fde9dd7ceab4e8c15aa2ce5b07f18a700b090cd4f7c441d4",
+      "stderr_sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c",
+      "semantic_sha256": "2c15794b481ef90e0b3680abedba069f3c38532e763c8ba78716d59445310f30",
+      "scan_records": 326,
+      "signatures": [
+        3628192
+      ],
+      "observations": [
+        {
+          "metric": "startup_cpu_seconds",
+          "subcase": "lifecycle",
+          "value": 7.765408999999999,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "startup_wall_seconds",
+          "subcase": "lifecycle",
+          "value": 7.766459459002363,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "construction_peak_bytes",
+          "subcase": "lifecycle",
+          "value": 1005596672,
+          "eligible": true,
+          "provenance": {
+            "source": "process_resident_high_water_through_compile"
+          }
+        },
+        {
+          "metric": "resident_bytes_cold",
+          "subcase": "lifecycle",
+          "value": 1005846528,
+          "eligible": true,
+          "provenance": {
+            "source": "compiled_engine_before_declared_fixture_scans",
+            "all_names_or_fields_touched": false
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "cold_file_scan",
+          "value": 70.843312,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "cold_file_scan",
+          "value": 70.85733842594345,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "cold_file_scan",
+          "value": 946.5760509992833,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "cold_file_scan",
+          "value": 11685.397798995837,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "warm_file_scan",
+          "value": 77.214257,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "warm_file_scan",
+          "value": 77.23495462796564,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "warm_file_scan",
+          "value": 955.9359159975429,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "warm_file_scan",
+          "value": 11919.171440000355,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "resident_bytes_hydrated",
+          "subcase": "lifecycle",
+          "value": 1019457536,
+          "eligible": true,
+          "provenance": {
+            "source": "post_declared_warm_fixture_workload",
+            "all_names_or_fields_touched": false
+          }
+        }
+      ],
+      "page_cache_states_verified": true,
+      "observed_limits": {
+        "kind": "resource_limits",
+        "address_space_bytes": 6442450944,
+        "cpu_soft_seconds": 600,
+        "cpu_hard_seconds": 605,
+        "cpu_affinity": [
+          0
+        ],
+        "maximum_concurrency_claimed": 0,
+        "scope": "observed process limits; concurrency is a declared test value, not a supported deployment maximum"
+      },
+      "replacement_scanned": false,
+      "input_artifact_hashes_rechecked_after_process": true
+    },
+    {
+      "ordinal": 1,
+      "variant": "candidate",
+      "operation": "scan",
+      "workload": "combined",
+      "database_cache": "hydrated",
+      "round": 0,
+      "command": [
+        "/workspace/top-six-final-probes/candidate",
+        "/workspace/top-six-final-corrected-screen/private-inputs/database",
+        "/workspace/clamav/certs",
+        "/workspace/top-six-final-corrected-screen/private-inputs/combined.txt",
+        "scan",
+        "/workspace/top-six-final-corrected-screen/private-inputs/database-files.txt",
+        "hydrated",
+        "1",
+        "4",
+        "1"
+      ],
+      "status": "complete",
+      "timeout": false,
+      "returncode": 0,
+      "process_wall_seconds": 128.38674351399823,
+      "stdout": "001-candidate-scan-combined-r0.jsonl",
+      "stderr": "001-candidate-scan-combined-r0.stderr",
+      "stdout_sha256": "4988fb316c98cad8209546eeded1505d7d847f98cfdf4136849f7879a096e176",
+      "stderr_sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c",
+      "semantic_sha256": "2c15794b481ef90e0b3680abedba069f3c38532e763c8ba78716d59445310f30",
+      "scan_records": 326,
+      "signatures": [
+        3628192
+      ],
+      "observations": [
+        {
+          "metric": "startup_cpu_seconds",
+          "subcase": "lifecycle",
+          "value": 10.375307,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "startup_wall_seconds",
+          "subcase": "lifecycle",
+          "value": 10.380297595002048,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "construction_peak_bytes",
+          "subcase": "lifecycle",
+          "value": 865751040,
+          "eligible": true,
+          "provenance": {
+            "source": "process_resident_high_water_through_compile"
+          }
+        },
+        {
+          "metric": "resident_bytes_cold",
+          "subcase": "lifecycle",
+          "value": 800006144,
+          "eligible": true,
+          "provenance": {
+            "source": "compiled_engine_before_declared_fixture_scans",
+            "all_names_or_fields_touched": false
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "cold_file_scan",
+          "value": 62.02135899999999,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "cold_file_scan",
+          "value": 62.02746443999786,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "cold_file_scan",
+          "value": 736.4351040014299,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "cold_file_scan",
+          "value": 10356.715226000233,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "warm_file_scan",
+          "value": 55.48655500000001,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "warm_file_scan",
+          "value": 55.49164076396846,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "warm_file_scan",
+          "value": 606.1447940010112,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "warm_file_scan",
+          "value": 9818.930558001739,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "resident_bytes_hydrated",
+          "subcase": "lifecycle",
+          "value": 827764736,
+          "eligible": true,
+          "provenance": {
+            "source": "post_declared_warm_fixture_workload",
+            "all_names_or_fields_touched": false
+          }
+        }
+      ],
+      "page_cache_states_verified": true,
+      "observed_limits": {
+        "kind": "resource_limits",
+        "address_space_bytes": 6442450944,
+        "cpu_soft_seconds": 600,
+        "cpu_hard_seconds": 605,
+        "cpu_affinity": [
+          0
+        ],
+        "maximum_concurrency_claimed": 0,
+        "scope": "observed process limits; concurrency is a declared test value, not a supported deployment maximum"
+      },
+      "replacement_scanned": false,
+      "input_artifact_hashes_rechecked_after_process": true
+    },
+    {
+      "ordinal": 2,
+      "variant": "retained",
+      "operation": "scan",
+      "workload": "combined",
+      "database_cache": "hydrated",
+      "round": 0,
+      "command": [
+        "/workspace/top-six-final-probes/retained",
+        "/workspace/top-six-final-corrected-screen/private-inputs/database",
+        "/workspace/clamav/certs",
+        "/workspace/top-six-final-corrected-screen/private-inputs/combined.txt",
+        "scan",
+        "/workspace/top-six-final-corrected-screen/private-inputs/database-files.txt",
+        "hydrated",
+        "1",
+        "4",
+        "1"
+      ],
+      "status": "complete",
+      "timeout": false,
+      "returncode": 0,
+      "process_wall_seconds": 125.6995204860068,
+      "stdout": "002-retained-scan-combined-r0.jsonl",
+      "stderr": "002-retained-scan-combined-r0.stderr",
+      "stdout_sha256": "1765a922737a0daefb8098572c40295698d6d6af2ec3eda172a4ca29e155db45",
+      "stderr_sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c",
+      "semantic_sha256": "2c15794b481ef90e0b3680abedba069f3c38532e763c8ba78716d59445310f30",
+      "scan_records": 326,
+      "signatures": [
+        3628192
+      ],
+      "observations": [
+        {
+          "metric": "startup_cpu_seconds",
+          "subcase": "lifecycle",
+          "value": 7.826455999999999,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "startup_wall_seconds",
+          "subcase": "lifecycle",
+          "value": 7.82768430300348,
+          "eligible": true,
+          "provenance": {}
+        },
+        {
+          "metric": "construction_peak_bytes",
+          "subcase": "lifecycle",
+          "value": 865353728,
+          "eligible": true,
+          "provenance": {
+            "source": "process_resident_high_water_through_compile"
+          }
+        },
+        {
+          "metric": "resident_bytes_cold",
+          "subcase": "lifecycle",
+          "value": 830099456,
+          "eligible": true,
+          "provenance": {
+            "source": "compiled_engine_before_declared_fixture_scans",
+            "all_names_or_fields_touched": false
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "cold_file_scan",
+          "value": 59.56491199999997,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "cold_file_scan",
+          "value": 59.56981198898575,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "cold_file_scan",
+          "value": 639.4843160014716,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "cold_file_scan",
+          "value": 10235.047040005156,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_cpu_seconds",
+          "subcase": "warm_file_scan",
+          "value": 57.636871999999855,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+          }
+        },
+        {
+          "metric": "scan_wall_seconds",
+          "subcase": "warm_file_scan",
+          "value": 57.6420405239769,
+          "eligible": true,
+          "provenance": {
+            "source": "sum_of_scanner_API_wall_intervals"
+          }
+        },
+        {
+          "metric": "scan_latency_p95_ms",
+          "subcase": "warm_file_scan",
+          "value": 689.9064230019576,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "scan_latency_p99_ms",
+          "subcase": "warm_file_scan",
+          "value": 9938.788202001888,
+          "eligible": true,
+          "provenance": {
+            "source": "per_file_latency_distribution",
+            "quantile_method": "nearest_rank",
+            "samples": 163
+          }
+        },
+        {
+          "metric": "resident_bytes_hydrated",
+          "subcase": "lifecycle",
+          "value": 858234880,
+          "eligible": true,
+          "provenance": {
+            "source": "post_declared_warm_fixture_workload",
+            "all_names_or_fields_touched": false
+          }
+        }
+      ],
+      "page_cache_states_verified": true,
+      "observed_limits": {
+        "kind": "resource_limits",
+        "address_space_bytes": 6442450944,
+        "cpu_soft_seconds": 600,
+        "cpu_hard_seconds": 605,
+        "cpu_affinity": [
+          0
+        ],
+        "maximum_concurrency_claimed": 0,
+        "scope": "observed process limits; concurrency is a declared test value, not a supported deployment maximum"
+      },
+      "replacement_scanned": false,
+      "input_artifact_hashes_rechecked_after_process": true
+    }
+  ],
+  "complete": true,
+  "qualification": {
+    "schema_version": 1,
+    "comparisons": {
+      "retained": {
+        "metrics": {
+          "scan_cpu_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 59.56491199999997,
+                "candidate": 62.02135899999999,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 57.636871999999855,
+                "candidate": 55.48655500000001,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "scan_wall_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 59.56981198898575,
+                "candidate": 62.02746443999786,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 57.6420405239769,
+                "candidate": 55.49164076396846,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "scan_latency_p95_ms": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 639.4843160014716,
+                "candidate": 736.4351040014299,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 689.9064230019576,
+                "candidate": 606.1447940010112,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "scan_latency_p99_ms": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 10235.047040005156,
+                "candidate": 10356.715226000233,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 9938.788202001888,
+                "candidate": 9818.930558001739,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "startup_cpu_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 7.826455999999999,
+                "candidate": 10.375307,
+                "status": "failed",
+                "baseline_provenance": {},
+                "candidate_provenance": {}
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "startup_wall_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 7.82768430300348,
+                "candidate": 10.380297595002048,
+                "status": "failed",
+                "baseline_provenance": {},
+                "candidate_provenance": {}
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "reload_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "reload_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "resident_bytes_cold": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 830099456,
+                "candidate": 800006144,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "compiled_engine_before_declared_fixture_scans",
+                  "all_names_or_fields_touched": false
+                },
+                "candidate_provenance": {
+                  "source": "compiled_engine_before_declared_fixture_scans",
+                  "all_names_or_fields_touched": false
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "resident_bytes_hydrated": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 858234880,
+                "candidate": 827764736,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "post_declared_warm_fixture_workload",
+                  "all_names_or_fields_touched": false
+                },
+                "candidate_provenance": {
+                  "source": "post_declared_warm_fixture_workload",
+                  "all_names_or_fields_touched": false
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "construction_peak_bytes": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 865353728,
+                "candidate": 865751040,
+                "status": "failed",
+                "baseline_provenance": {
+                  "source": "process_resident_high_water_through_compile"
+                },
+                "candidate_provenance": {
+                  "source": "process_resident_high_water_through_compile"
+                }
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "reload_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "builder_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_overlap_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_context_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          }
+        },
+        "semantics": [
+          {
+            "case": [
+              "scan",
+              "combined",
+              "hydrated",
+              0
+            ],
+            "equal": true
+          }
+        ],
+        "case_issues": [],
+        "all_observed_semantics_equal": true
+      },
+      "upstream": {
+        "metrics": {
+          "scan_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 70.843312,
+                "candidate": 62.02135899999999,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 77.214257,
+                "candidate": 55.48655500000001,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_nonoverlapping_scanner_API_process_CPU_intervals"
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "scan_wall_seconds": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 70.85733842594345,
+                "candidate": 62.02746443999786,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 77.23495462796564,
+                "candidate": 55.49164076396846,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                },
+                "candidate_provenance": {
+                  "source": "sum_of_scanner_API_wall_intervals"
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "scan_latency_p95_ms": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 946.5760509992833,
+                "candidate": 736.4351040014299,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 955.9359159975429,
+                "candidate": 606.1447940010112,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "scan_latency_p99_ms": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "cold_file_scan",
+                "baseline": 11685.397798995837,
+                "candidate": 10356.715226000233,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              },
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "warm_file_scan",
+                "baseline": 11919.171440000355,
+                "candidate": 9818.930558001739,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                },
+                "candidate_provenance": {
+                  "source": "per_file_latency_distribution",
+                  "quantile_method": "nearest_rank",
+                  "samples": 163
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "startup_cpu_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 7.765408999999999,
+                "candidate": 10.375307,
+                "status": "failed",
+                "baseline_provenance": {},
+                "candidate_provenance": {}
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "startup_wall_seconds": {
+            "status": "failed",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 7.766459459002363,
+                "candidate": 10.380297595002048,
+                "status": "failed",
+                "baseline_provenance": {},
+                "candidate_provenance": {}
+              }
+            ],
+            "reason": "paired observed values, no all-input/statistical guarantee"
+          },
+          "reload_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "reload_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_cpu_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_wall_seconds": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "resident_bytes_cold": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 1005846528,
+                "candidate": 800006144,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "compiled_engine_before_declared_fixture_scans",
+                  "all_names_or_fields_touched": false
+                },
+                "candidate_provenance": {
+                  "source": "compiled_engine_before_declared_fixture_scans",
+                  "all_names_or_fields_touched": false
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "resident_bytes_hydrated": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 1019457536,
+                "candidate": 827764736,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "post_declared_warm_fixture_workload",
+                  "all_names_or_fields_touched": false
+                },
+                "candidate_provenance": {
+                  "source": "post_declared_warm_fixture_workload",
+                  "all_names_or_fields_touched": false
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "construction_peak_bytes": {
+            "status": "unknown",
+            "pairs": [
+              {
+                "case": [
+                  "scan",
+                  "combined",
+                  "hydrated",
+                  0
+                ],
+                "subcase": "lifecycle",
+                "baseline": 1005596672,
+                "candidate": 865751040,
+                "status": "passed_observed",
+                "baseline_provenance": {
+                  "source": "process_resident_high_water_through_compile"
+                },
+                "candidate_provenance": {
+                  "source": "process_resident_high_water_through_compile"
+                }
+              }
+            ],
+            "reason": "insufficient rounds or percentile samples"
+          },
+          "reload_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "builder_scratch_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "update_overlap_peak_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          },
+          "scan_context_bytes": {
+            "status": "unknown",
+            "pairs": [],
+            "reason": "no paired observation supplied"
+          }
+        },
+        "semantics": [
+          {
+            "case": [
+              "scan",
+              "combined",
+              "hydrated",
+              0
+            ],
+            "equal": true
+          }
+        ],
+        "case_issues": [],
+        "all_observed_semantics_equal": true
+      }
+    },
+    "strict_qualification_status": "failed",
+    "promotion_authorized": false,
+    "unmeasured_required_dimensions": [
+      "scan_context_bytes",
+      "scan_scratch_bytes",
+      "builder_scratch_bytes"
+    ],
+    "required_independent_evidence": [
+      "all ten source-bound correctness properties",
+      "source-bound complexity/resource bounds",
+      "all-fields/names hydration coverage",
+      "declared maximum-concurrency coverage",
+      "changed-generation reload when required"
+    ],
+    "scope": "whole-engine paired observations only; unknown properties are never zero or passed; source-relative equality requires separate explicit adjudication"
+  }
+}

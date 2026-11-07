@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "scope": "Final evidence supplement; preserve prior evidence-sha256.json unchanged.",
+  "qualification": "One scan round is a screening observation, not full qualification. The invalid CPU screen has no valid performance conclusion.",
+  "excluded": "No databases, signature-name tables, process-heap-address captures, fixtures or executable artifacts. ELF instruction/target addresses occur only in the bounded code audit.",
+  "copy_method": "Original bytes; deterministic gzip tar only for top-level observations/process metadata/stderr and runner logs.",
+  "files": [
+    {
+      "path": "corrected-scan/summary.json",
+      "source": "/workspace/top-six-final-corrected-screen/summary.json",
+      "bytes": 41498,
+      "sha256": "df35c8cce73190b60b54c0fbfe904c0fcf542afa38d3d0b6ea5572b40880fb41"
+    },
+    {
+      "path": "corrected-scan/plan.json",
+      "source": "/workspace/top-six-final-corrected-screen/plan.json",
+      "bytes": 358492,
+      "sha256": "1a1e27c1fedc7f4ae4d6fc0953a6cab08e4fd773cac3ebfff1ca4c3fe31707b2"
+    },
+    {
+      "path": "corrected-scan/command.json",
+      "source": "/workspace/top-six-final-corrected-screen-command.json",
+      "bytes": 2833,
+      "sha256": "0439f33689e046e6438b6d72ea2770f9f52cfe9256ec01a766b403f5bec2bf8a"
+    },
+    {
+      "path": "corrected-scan/run.sh",
+      "source": "/workspace/top-six-final-corrected-screen.sh",
+      "bytes": 1995,
+      "sha256": "18110d9f98a2ec563c751349528a51b94dc5a71a468ffe08c4a56e9af0b2ec85"
+    },
+    {
+      "path": "invalid-cpu-screen/aborted.json",
+      "source": "/workspace/top-six-final-scan-screen/aborted.json",
+      "bytes": 815,
+      "sha256": "56aa34ca4d3773924e1106651d9e1497966dbf08b436aa72c9a60d8707d05134"
+    },
+    {
+      "path": "invalid-cpu-screen/plan.json",
+      "source": "/workspace/top-six-final-scan-screen/plan.json",
+      "bytes": 357377,
+      "sha256": "224cce7efb9762d03e6a1f8fd461986d29fa3af5fde1190f15f75b8d7062b370"
+    },
+    {
+      "path": "source-audit/resource-audit.json",
+      "source": "/workspace/top-six-final-resource-audit.json",
+      "bytes": 16137,
+      "sha256": "e955642be54a8aa7ee946f54f42ba4fccf08318307a3a48d7f583d7856c7a23b"
+    },
+    {
+      "path": "source-audit/query-code-audit.json",
+      "source": "/workspace/top-six-research-query-code-audit.json",
+      "bytes": 46257,
+      "sha256": "d339c5ea98c15da88432ddc85b21306ab142a1f7f275db6398b7a7aab89e4099"
+    },
+    {
+      "path": "source-audit/historical-rip-target-check.json",
+      "source": "/workspace/top-six-final-rip-target-check.json",
+      "bytes": 26557,
+      "sha256": "4866e31acfe281ea092ca5eee8752a1f959a5f5771c7ecf778f4e88d1349b877"
+    },
+    {
+      "path": "source-audit/revalidate-resource-audit.py",
+      "source": "/workspace/top-six-resource-revalidation.py",
+      "bytes": 5230,
+      "sha256": "88a145cead5779dfbc4fb5c0749f5244252c62f95a4a0441280ecee179a1da86"
+    },
+    {
+      "path": "source-audit/historical-check-rip-targets.py",
+      "source": "/workspace/top-six-rip-target-check.py",
+      "bytes": 3383,
+      "sha256": "d8895205cdc84e12d8525856cfa86a578611660cf538243db0a74768646f97e8"
+    },
+    {
+      "path": "corrected-scan/screen-result.json",
+      "source": "/workspace/top-six-final-screen-evidence/screen-result.json",
+      "bytes": 3832,
+      "sha256": "5fd631d46cc6591dbb9342feacced0e5f6d5f9e47a42b94353dacba952a0376a"
+    },
+    {
+      "path": "correctness/summary.json",
+      "source": "/workspace/top-six-final-directory-correctness/summary.json",
+      "bytes": 46180,
+      "sha256": "3f1efc5543f8f9ec566de981dcfeb242744cafd3f16d32e0c39e23740ac907bb"
+    },
+    {
+      "path": "correctness/plan.json",
+      "source": "/workspace/top-six-final-directory-correctness/plan.json",
+      "bytes": 19503,
+      "sha256": "1a2330d24e984655892c286e437db0b233d2b1f5276bfe41a2401c8bf3609af8"
+    },
+    {
+      "path": "corrected-scan/research-library-preservation.json",
+      "source": "/workspace/top-six-directory-research-lib/preservation.json",
+      "bytes": 483,
+      "sha256": "acc2cb21351ca5afbb26a17559845bd626ee1bfb865bd667097840e0bc8b88c0"
+    },
+    {
+      "path": "corrected-scan/raw-observations.tar.gz",
+      "source": "/workspace/top-six-final-corrected-screen",
+      "bytes": 216033,
+      "sha256": "8c287c23bc5f05c4883c3e9156c8f62a5b18d890e813742f3c5756a8d27f01b5",
+      "members": [
+        {
+          "path": "000-upstream-scan-combined-r0-process.json",
+          "bytes": 4759,
+          "sha256": "7f5caa43d169e05424c40fc930d15ac92f8bb84a4769eb3a2ca2616d4b3bc10a"
+        },
+        {
+          "path": "000-upstream-scan-combined-r0.jsonl",
+          "bytes": 1032033,
+          "sha256": "464d603aaf7338d6fde9dd7ceab4e8c15aa2ce5b07f18a700b090cd4f7c441d4"
+        },
+        {
+          "path": "000-upstream-scan-combined-r0.stderr",
+          "bytes": 546,
+          "sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c"
+        },
+        {
+          "path": "001-candidate-scan-combined-r0-process.json",
+          "bytes": 4768,
+          "sha256": "4d7efbcf50d573003a25e274caf7b532fded362bed04295714edcfa94859eea3"
+        },
+        {
+          "path": "001-candidate-scan-combined-r0.jsonl",
+          "bytes": 1028365,
+          "sha256": "4988fb316c98cad8209546eeded1505d7d847f98cfdf4136849f7879a096e176"
+        },
+        {
+          "path": "001-candidate-scan-combined-r0.stderr",
+          "bytes": 546,
+          "sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c"
+        },
+        {
+          "path": "002-retained-scan-combined-r0-process.json",
+          "bytes": 4769,
+          "sha256": "8585e23359cedde25f3441ac0cab9351ee7ad268715698044f59df0b1bb6cb7f"
+        },
+        {
+          "path": "002-retained-scan-combined-r0.jsonl",
+          "bytes": 1028942,
+          "sha256": "1765a922737a0daefb8098572c40295698d6d6af2ec3eda172a4ca29e155db45"
+        },
+        {
+          "path": "002-retained-scan-combined-r0.stderr",
+          "bytes": 546,
+          "sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c"
+        }
+      ]
+    },
+    {
+      "path": "invalid-cpu-screen/raw-observations.tar.gz",
+      "source": "/workspace/top-six-final-scan-screen",
+      "bytes": 96886,
+      "sha256": "f598a3f597938fef265cdbce1ed85d6b71ce7f2b2b66d45be56f11f1441e94f5",
+      "members": [
+        {
+          "path": "000-candidate-scan-combined-r0-process.json",
+          "bytes": 966,
+          "sha256": "4613202c8adb6c75a572b12501a9b65ccf246fedd70a89af3bbb6d5e4d81db3c"
+        },
+        {
+          "path": "000-candidate-scan-combined-r0.jsonl",
+          "bytes": 1027826,
+          "sha256": "16173e9faf59d706506d7d9f9d7a757fea06b6a6e8a77c77be956894db111842"
+        },
+        {
+          "path": "000-candidate-scan-combined-r0.stderr",
+          "bytes": 546,
+          "sha256": "50a028cb71366874ae34ac5d66dbbc3482db6bae9e68a99c07df863a60c3f27c"
+        },
+        {
+          "path": "001-upstream-scan-combined-r0.jsonl",
+          "bytes": 353030,
+          "sha256": "3574dc8d0fd694fa361c70a78eaee03026c63593aad0b542edfc535df3c5d296"
+        },
+        {
+          "path": "001-upstream-scan-combined-r0.stderr",
+          "bytes": 413,
+          "sha256": "0f5e51abc04805e21152eb1651d61307c345dc966eca47811a63e68c19314935"
+        }
+      ]
+    },
+    {
+      "path": "screen-runner-logs.tar.gz",
+      "source": "/workspace",
+      "bytes": 690,
+      "sha256": "0f9069f3014f153a55d1a09adff40ef6d85ecb42e89779386520a8446d3ae8e5",
+      "members": [
+        {
+          "path": "top-six-final-corrected-screen.log",
+          "bytes": 467,
+          "sha256": "577eb96105b66ede4ee6364fa454395f7941b8b41914a880773d7b019713665d"
+        },
+        {
+          "path": "top-six-final-scan-screen.log",
+          "bytes": 1182,
+          "sha256": "65707dd62c669e004bd2692aef9b5c467913604b2d1dcde0287dcc8e8f327ea0"
+        }
+      ]
+    }
+  ]
+}

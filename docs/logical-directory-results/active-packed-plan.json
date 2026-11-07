@@ -1,0 +1,125 @@
+{
+  "cases": [
+    {
+      "name": "packed-duplicate-alias-order",
+      "database": "/workspace/top-six-logical-packed-correctness/packed-duplicate-alias-order",
+      "files": "/workspace/top-six-logical-packed-correctness/packed-duplicate-alias-order.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-logical-packed-correctness/marker.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "ordering",
+        "expected": 308
+      },
+      "action": 0,
+      "repeats": 2,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "653d06e7f93b3dae1d1e47b17df2d72a539636bb932f2b148a03703244c4c423"
+      }
+    },
+    {
+      "name": "packed-macro",
+      "database": "/workspace/top-six-logical-packed-correctness/packed-macro",
+      "files": "/workspace/top-six-logical-packed-correctness/packed-macro.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-logical-packed-correctness/macro-yes.bin",
+          "sha256": "73817aa1ef35d43e8fe46510f425cf5bbfc5add715d12b374636c531a9a92841"
+        },
+        {
+          "path": "/workspace/top-six-logical-packed-correctness/macro-no.bin",
+          "sha256": "d7cf753867d2190e0550572b1db48a77a0b16a5e87adaefa021095c3b01e7e8b"
+        }
+      ],
+      "predicate": {
+        "kind": "macro",
+        "expected": "Strong.Macro.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 2,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "3fc622675fb60fd1312606c70c40baae6569ff64901a270f9d659650ed61b080",
+        "macro.ndb": "df241563a1ca772753b8453e85312ad43b6b3168bae0d54d5c0dda8c1ed4fa73"
+      }
+    },
+    {
+      "name": "packed-callback-ignore",
+      "database": "/workspace/top-six-logical-packed-correctness/packed-callback-ignore",
+      "files": "/workspace/top-six-logical-packed-correctness/packed-callback-ignore.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-logical-packed-correctness/marker.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "ignore"
+      },
+      "action": 1,
+      "repeats": 2,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "653d06e7f93b3dae1d1e47b17df2d72a539636bb932f2b148a03703244c4c423"
+      }
+    },
+    {
+      "name": "packed-callback-stop",
+      "database": "/workspace/top-six-logical-packed-correctness/packed-callback-stop",
+      "files": "/workspace/top-six-logical-packed-correctness/packed-callback-stop.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-logical-packed-correctness/marker.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "stop"
+      },
+      "action": 2,
+      "repeats": 2,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "653d06e7f93b3dae1d1e47b17df2d72a539636bb932f2b148a03703244c4c423"
+      }
+    },
+    {
+      "name": "packed-callback-trust",
+      "database": "/workspace/top-six-logical-packed-correctness/packed-callback-trust",
+      "files": "/workspace/top-six-logical-packed-correctness/packed-callback-trust.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-logical-packed-correctness/marker.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "trust"
+      },
+      "action": 3,
+      "repeats": 2,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "653d06e7f93b3dae1d1e47b17df2d72a539636bb932f2b148a03703244c4c423"
+      }
+    }
+  ],
+  "sources": {
+    "baseline": "280ad6374f7339af1b4095866b17ffbf642ef74f802111df4e2606a8fa0d4fe5",
+    "candidate": "280ad6374f7339af1b4095866b17ffbf642ef74f802111df4e2606a8fa0d4fe5"
+  },
+  "libraries": {
+    "baseline": "5a8931a41b8c83c46c693476cbe1dfa690f6e2e64198299f67a6d8e4793c9ca1",
+    "candidate": "9b910cf90b5255324fb29613f0528631ab94c3c6c92d97182009f341f98ee502"
+  },
+  "scope": "Additional active-packed logical directory fixtures; uses frozen shared exact semantic comparison and predicates."
+}

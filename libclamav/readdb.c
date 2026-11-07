@@ -6086,6 +6086,19 @@ cl_error_t cl_engine_compile(struct cl_engine *engine)
     }
     TASK_COMPLETE();
 
+#if defined(USE_MPOOL) && !defined(ENABLE_AC_DIRECTORY_RETENTION)
+    /* All fallible compilation and all address-sensitive list ordering are
+     * finished. Only engine-owned matchers may omit individual candidate
+     * cleanup: their entire pool is destroyed after cl_engine_free(). */
+    for (i = 0; i < CLI_MTARGETS; i++) {
+        root = engine->root[i];
+        if (root && root->mempool == engine->mempool) {
+            cli_ac_retire_pattern_directory(root);
+            cli_ac_discard_listtable(root);
+        }
+    }
+#endif
+
     engine->dboptions |= CL_DB_COMPILED;
     return CL_SUCCESS;
 }

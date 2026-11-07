@@ -114,6 +114,22 @@ where small per-allocation costs grow into large RAM costs. It points to names,
 candidate lists and pattern records, and exposes spare space inside allocator
 slots. This is a diagnostic tool; it has not delivered another scanner saving.
 
+The [follow-up investigation of six promising areas](docs/top-six-memory-investigation.md)
+tested those opportunities in the real engine. Copying names or tokens into
+smaller storage left old pool pages resident and **increased** memory. Tighter
+allocation sizes changed duplicate reporting. Those implementations were
+rejected. A smaller logical-rule directory passed targeted correctness checks,
+but measured a reload CPU regression and remains archived.
+
+Releasing two construction-only directories used about **29 MiB less RAM** in
+the latest 163-file screen, with identical reported results. However, startup
+used **33.6% more CPU than original ClamAV**, and some first-pass scan measures
+were worse than the retained branch. One round cannot establish a stable timing
+cost or its cause, but these observations fail the required performance gate.
+Ordinary builds retain the directories. **No additional saving from this round
+is enabled by default.** These candidate results must not be added to the
+measured 17.5% improvement above.
+
 ## What changed under the hood
 
 | Area | Branch behavior | Implementation and evidence |
@@ -157,6 +173,7 @@ These branch-specific CMake options make the layouts easy to compare:
 | `ENABLE_AC_FLAT_NODES` | `ON` | Locate nodes by arena arithmetic when IDs are enabled; `OFF` uses indirect IDs. |
 | `ENABLE_FLAT_HASH_STORE` | `OFF` | Experimental contiguous hash storage; its higher construction peak remains a concern. |
 | `ENABLE_AC_DISPOSABLE_BUILD` | `OFF` | Experimental separate construction pool; it changes duplicate-alert ordering. |
+| `ENABLE_AC_DIRECTORY_RETENTION` | `ON` | Keep existing AC construction directories. `OFF` runs the unqualified postcompile reclamation experiment. |
 | `ENABLE_MEMORY_PERTURB` | `OFF` | Research probe that deliberately adds memory to selected allocations. |
 
 Use separate build directories with the same database, dependencies and scan

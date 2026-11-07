@@ -1,0 +1,51 @@
+{
+  "scope": "isolated destructive storage feasibility, not an optimized scanner; no scan after byte conversion",
+  "sources": {
+    "probe": {
+      "path": "/workspace/token-repack-probe",
+      "sha256": "71a71555ab2d06f45dc24f0d9b3f280a60d2d136694024f06bcc6958bfc3fc0e"
+    },
+    "source": {
+      "path": "/workspace/clamav-opt-tokens/tools/compact-memory/token-qualification/probe_token_repack.c",
+      "sha256": "2b2a25671813625154eadbfd62ba02ef96aee664476e1d6fd2f3509875cb2ecc"
+    },
+    "library": {
+      "path": "/workspace/clamav-system-diagnostic/libclamav.so.14.0.0",
+      "sha256": "e1a91de31ce60b874f800cc8ab8b3e62f1a73f8ea8f38a3b0184f279270774c8"
+    }
+  },
+  "database": {
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+    "daily.cvd": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365"
+  },
+  "limits": {
+    "address_space_bytes": 4294967296,
+    "cpu_seconds": 120,
+    "wall_seconds": 120,
+    "cpu": 0
+  },
+  "cases": [
+    {
+      "mode": "control",
+      "exit_code": 0,
+      "wall_seconds": 7.745151610999528,
+      "stdout_sha256": "c51928307178c0732473e8e6bba96aba99c64dafdcb33fd27c156635d0e24463",
+      "stderr_sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+    },
+    {
+      "mode": "pool-byte",
+      "exit_code": 0,
+      "wall_seconds": 7.788680436000504,
+      "stdout_sha256": "e8367794f7a3b5998c99f90ec3ebf9ae3131420d48c62b297e3cc964acf98d81",
+      "stderr_sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+    },
+    {
+      "mode": "heap-byte",
+      "exit_code": 0,
+      "wall_seconds": 7.991757470999801,
+      "stdout_sha256": "cb66d9ed0708fa279a280fc3735d83597a551b8e4ef9560c3b4c915bf3f49a1a",
+      "stderr_sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+    }
+  ]
+}

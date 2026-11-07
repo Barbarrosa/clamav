@@ -1,0 +1,15 @@
+{
+  "cmd": [
+    "/workspace/name-arena-probe",
+    "/workspace/clamav-system-database",
+    "/workspace/clamav/certs",
+    "pack"
+  ],
+  "returncode": 0,
+  "elapsed": 10.299884641000972,
+  "limits": {
+    "as": 4294967296,
+    "cpu": 120,
+    "wall": 120
+  }
+}

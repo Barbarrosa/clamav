@@ -1,0 +1,23 @@
+{
+  "scope": "production mpool_flush isolated regression",
+  "mpool_source_sha256": "c6b1a4f800309363a8405ac729dd97ec54f40ee4ad7da7dd097845f85d96c94c",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "compiler": "cc (Debian 14.2.0-19) 14.2.0",
+  "sanitized": true,
+  "advice_enabled": true,
+  "asan_options": "detect_leaks=0",
+  "runs": [
+    {
+      "page_bytes": 4096,
+      "fragments": 102,
+      "advice_calls": 36,
+      "advised_bytes": 33558528,
+      "advice_failures": 0,
+      "rss_before_kib": 37412,
+      "rss_after_kib": 4648,
+      "rss_reduction_kib": 32764,
+      "small_only_advice_calls": 0,
+      "checks": "passed"
+    }
+  ]
+}

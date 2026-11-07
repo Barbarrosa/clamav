@@ -1,0 +1,9 @@
+{
+  "library": "libclamav.so.14.0.0",
+  "sha256": "6856cc6200b5d211f92e96688d2e4867047c2541954adf5ee2108375cad57c17",
+  "bytes": 20230336,
+  "research_configuration": "ENABLE_AC_DIRECTORY_RETENTION=OFF",
+  "cmake_cache_sha256": "9ea4b5dc340c3dc1df32c4f2a1b2e046e1cd4d3d4d470f7b987fc2745ff36efd",
+  "correctness_report": "/workspace/top-six-final-directory-correctness/summary.json",
+  "correctness_report_sha256": "3f1efc5543f8f9ec566de981dcfeb242744cafd3f16d32e0c39e23740ac907bb"
+}

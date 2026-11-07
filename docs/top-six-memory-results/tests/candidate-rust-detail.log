@@ -1,0 +1,160 @@
+Start testing: Nov 06 17:15 UTC
+----------------------------------------------------------
+2/7 Testing: libclamav_rust
+2/7 Test: libclamav_rust
+Command: "/workspace/system-build-python/cmake/data/bin/cmake" "-E" "env" "CARGO_CMD=test" "CARGO_TARGET_DIR=/workspace/clamav-system-build" "RUSTFLAGS=" "/workspace/clamav-cargo/bin/cargo" "test" "--target" "x86_64-unknown-linux-gnu" "--release" "--target-dir" "/workspace/clamav-system-build" "--color" "always"
+Directory: /workspace/clamav/libclamav_rust
+"libclamav_rust" start time: Nov 06 17:15 UTC
+Output:
+----------------------------------------------------------
+[1m[33mwarning[0m[1m:[0m virtual workspace defaulting to `resolver = "1"` despite one or more workspace members being on edition 2021 which implies `resolver = "2"`
+[1m[36mnote[0m[1m:[0m to keep the current resolver, specify `workspace.resolver = "1"` in the workspace root's manifest
+[1m[36mnote[0m[1m:[0m to use the edition 2021 resolver, specify `workspace.resolver = "2"` in the workspace root's manifest
+[1m[36mnote[0m[1m:[0m for more details see https://doc.rust-lang.org/cargo/reference/resolver.html#resolver-versions
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:327:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m327[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m    [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: `#[warn(deprecated)]` on by default[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:352:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m352[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:378:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m378[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:392:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m392[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:420:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m420[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:434:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m434[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:462:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m462[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: use of deprecated method `sha2::digest::generic_array::GenericArray::<T, N>::as_slice`: please upgrade to generic-array 1.x[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/css_image_extract.rs:476:18[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m476[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m            hash.as_slice(),[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                  [0m[0m[1m[33m^^^^^^^^[0m
+
+[0m[1m[33mwarning[0m[0m[1m: calls to `std::str::from_utf8` with an invalid literal always return an error[0m
+[0m   [0m[0m[1m[38;5;12m--> [0m[0mlibclamav_rust/src/ffi_util.rs:294:25[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m294[0m[0m [0m[0m[1m[38;5;12m|[0m[0m [0m[0m        if let Err(e) = std::str::from_utf8(b"\x80") {[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                         [0m[0m[1m[33m^^^^^^^^^^^^^^^^^^^^[0m[0m[1m[38;5;12m-------[0m[0m[1m[33m^[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                                             [0m[0m[1m[38;5;12m|[0m
+[0m    [0m[0m[1m[38;5;12m|[0m[0m                                             [0m[0m[1m[38;5;12mthe literal was valid UTF-8 up to the 0 bytes[0m
+[0m    [0m[0m[1m[38;5;12m|[0m
+[0m    [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: `#[warn(invalid_from_utf8)]` on by default[0m
+
+[1m[33mwarning[0m[1m:[0m `clamav_rust` (lib test) generated 9 warnings
+[1m[32m    Finished[0m `release` profile [optimized] target(s) in 0.13s
+[1m[32m     Running[0m unittests src/lib.rs (/workspace/clamav-system-build/x86_64-unknown-linux-gnu/release/deps/clamav_rust-9adff43d6a463c13)
+
+running 67 tests
+test alz::tests::deflate_error_preserves_output_produced_before_error ... ok
+test alz::tests::bzip2_error_preserves_output_produced_before_error ... ok
+test alz::tests::deflate_limit_uses_decompressed_size_not_header ... ok
+test alz::tests::exhausted_total_limit_does_not_charge_empty_compressed_entry_by_declared_size ... ok
+test alz::tests::exhausted_total_limit_does_not_record_unsupported_method ... ok
+test alz::tests::exhausted_total_limit_skips_later_extraction ... ok
+test alz::tests::exhausted_total_limit_uses_stored_size_for_nocomp ... ok
+test alz::tests::invalid_payload_bounds_reports_metadata_before_parse_error ... ok
+test alz::tests::exhausted_total_limit_records_compressed_entry_with_zero_declared_size ... ok
+test alz::tests::later_parse_error_preserves_earlier_extracted_entries ... ok
+test alz::tests::metadata_file_positions_are_one_based_and_include_skipped_entries ... ok
+test alz::tests::queued_file_limit_allows_tiny_current_member ... ok
+test alz::tests::queued_file_limit_ignores_tiny_members ... ok
+test alz::tests::queued_file_limit_does_not_trust_compressed_tiny_hint ... ok
+test alz::tests::queued_file_limit_ignores_unsupported_entries ... ok
+test alz::tests::extraction_error_does_not_stop_later_entries ... ok
+test alz::tests::queued_file_limit_skips_later_extraction ... ok
+test alz::tests::queued_file_limit_stops_before_later_invalid_payload_bounds ... ok
+test alz::tests::stop_decision_runs_for_directory_entries ... ok
+test alz::tests::stop_decision_preserves_earlier_extracted_entries ... ok
+test alz::tests::stop_decision_stops_archive_traversal ... ok
+test alz::tests::tiny_stored_file_bypasses_partial_size_budget ... ok
+test alz::tests::total_limit_does_not_set_per_file_limit ... ok
+test alz::tests::total_limit_skips_extraction_when_remaining_budget_is_tiny ... ok
+test alz::tests::total_limit_ignores_tiny_members ... ok
+test alz::tests::unsupported_method_with_invalid_payload_bounds_reports_parse_error ... ok
+test alz::tests::total_limit_records_compressed_entry_when_remaining_budget_is_tiny ... ok
+test cdiff::tests::delete_line_not_match ... ok
+test cdiff::tests::delete_out_of_bounds ... ok
+test cdiff::tests::add_delete_exchange ... ok
+test cdiff::tests::delete_first_line ... ok
+test cdiff::tests::delete_last_line ... ok
+test cdiff::tests::delete_second_line ... ok
+test cdiff::tests::exchange_first_line ... ok
+test cdiff::tests::exchange_out_of_bounds ... ok
+test cdiff::tests::parse_move_fail_eof ... ok
+test cdiff::tests::parse_move_fail_int ... ok
+test cdiff::tests::exchange_last_line ... ok
+test cdiff::tests::parse_move_works ... ok
+test cdiff::tests::process_line_rejects_missing_add_signature ... ok
+test cdiff::tests::process_line_rejects_missing_command_args ... ok
+test cdiff::tests::script2cdiff_missing_hyphen ... ok
+test cdiff::tests::exchange_second_line ... ok
+test codesign::tests::clamsign_header_rejects_missing_separator ... ok
+test codesign::tests::clamsign_header_accepts_supported_version ... ok
+test cdiff::tests::move_db ... ok
+test codesign::tests::clamsign_header_rejects_unsupported_version ... ok
+test css_image_extract::tests::extract_data_image_gif ... ok
+test css_image_extract::tests::extract_data_image_gif_in_quotes ... ok
+test css_image_extract::tests::extract_data_image_gif_and_png_in_quotes ... ok
+test css_image_extract::tests::extract_data_image_gif_and_png_in_quotes_2 ... ok
+test evidence::tests::child_merge_retains_every_context_and_severity ... ok
+test evidence::tests::duplicate_names_preserve_pointer_history_and_insertion_order ... ok
+test ffi_util::tests::basic ... ok
+test ffi_util::tests::size ... ok
+test scanners::tests::alz_metadata_directory_limit_hard_failure_stops_with_terminal_status ... ok
+LibClamAV info: darkness
+LibClamAV Warning: my old
+LibClamAV Error: friend.
+test logging::tests::parse_move_works ... ok
+test scanners::tests::alz_metadata_limit_failure_stops_without_terminal_status ... ok
+test scanners::tests::alz_metadata_limit_hard_failure_stops_with_terminal_status ... ok
+test scanners::tests::alz_metadata_limit_success_continues ... ok
+test css_image_extract::tests::extract_data_image_gif_and_png_invalid_type ... ok
+test scanners::tests::alz_metadata_scan_format_error_continues ... ok
+test scanners::tests::alz_metadata_scan_hard_error_stops ... ok
+test scanners::tests::alz_metadata_scan_success_continues ... ok
+test scanners::tests::alz_metadata_scan_virus_stops ... ok
+test scanners::tests::alz_metadata_size_rejects_platform_overflow ... ok
+test scanners::tests::alz_metadata_directory_limit_success_continues ... ok
+
+test result: ok. 67 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+<end of output>
+Test time =   0.17 sec
+----------------------------------------------------------
+Test Passed.
+"libclamav_rust" end time: Nov 06 17:15 UTC
+"libclamav_rust" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 06 17:15 UTC

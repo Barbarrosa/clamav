@@ -1,0 +1,546 @@
+{
+  "schema_version": 1,
+  "binding": {
+    "libraries": {
+      "baseline": {
+        "library_sha256": "db8f951f672056638ac56a3860bb02315735aec26e25f29c7a3d52f680df9564",
+        "probe_sha256": "3bb0456459bb3580ba4800d680a777aa68d43f7beb83c537794155fc1e7ae2a8",
+        "wrapper_source_sha256": "a8739a0bf73ae4331dffbf94bba5a6721a770f316a3f333ee1fde44c0d330cf7"
+      },
+      "candidate": {
+        "library_sha256": "6856cc6200b5d211f92e96688d2e4867047c2541954adf5ee2108375cad57c17",
+        "probe_sha256": "ff8410b92f5bdab790061711c41f03346ccc4fe2201c3ab6a5e4f62bf9809840",
+        "wrapper_source_sha256": "a8739a0bf73ae4331dffbf94bba5a6721a770f316a3f333ee1fde44c0d330cf7"
+      }
+    },
+    "sources": {
+      "correctness.py": "629bfe72d5c98c82d74029cc99cd3c4a04e80e5ea24a079f597759facf1c8949",
+      "scan_probe.c": "1cd9b6a11629008f6ffab9d6baa5ca3489bf8f750ae280b041a37d9b0f5dda8c",
+      "check_alert_order.py": "c4e83d09f0037b4aca51f1e68750d140f1836a4e8cbf4641f2a1c35e6a3905f3",
+      "check_alert_severity.py": "1fc34dab9a044c5067e1a6c7179d4f5fbd0963de9b41c8533f791b7483f09e45"
+    },
+    "rules": 10000,
+    "hash_distractors": 10000,
+    "certificate_files": {
+      "CMakeLists.txt": "d416b0bbe85b46e27efa1298ced4273bdfbded6b8f9410cdb5c51d96df88ff10",
+      "clamav.crt": "60200e4b4b1b1b7257bb4550487aeb142034341f3300a8526e77a3134a940e9d"
+    },
+    "database_options": "CL_DB_STDOPT | CL_DB_PUA",
+    "same_library_smoke": false
+  },
+  "cases": [
+    {
+      "name": "duplicate-order",
+      "database": "/workspace/top-six-correctness-strict/fixtures/duplicate-order",
+      "files": "/workspace/top-six-correctness-strict/fixtures/duplicate-order.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "ordering",
+        "expected": 10000
+      },
+      "action": 0,
+      "repeats": 2,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "ordering.ndb": "8e1a7cc56c60ad70128fa70d7d376b226307b5bcb0b1eb8ff575cab72f3e940b",
+        "preload.hdb": "e15b1189b957bf077daef56e622cbcf9ebe2607c3482425d36fdaeb5572e9f25"
+      }
+    },
+    {
+      "name": "severity-weak-0",
+      "database": "/workspace/top-six-correctness-strict/fixtures/severity-weak-0",
+      "files": "/workspace/top-six-correctness-strict/fixtures/severity-weak-0.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Foundations.Order.00000.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "21befc97b29f3cf8896e6cd827be7ee2ad6f1544402cd0101189d98f3d67e9ab"
+      }
+    },
+    {
+      "name": "severity-weak-5000",
+      "database": "/workspace/top-six-correctness-strict/fixtures/severity-weak-5000",
+      "files": "/workspace/top-six-correctness-strict/fixtures/severity-weak-5000.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Foundations.Order.05000.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "7f5a82d8dcde470aaab04ab4c049c5128cb6582582206f4253a0eeb47f68eec5"
+      }
+    },
+    {
+      "name": "severity-weak-9999",
+      "database": "/workspace/top-six-correctness-strict/fixtures/severity-weak-9999",
+      "files": "/workspace/top-six-correctness-strict/fixtures/severity-weak-9999.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Foundations.Order.09999.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "8f4aacf9a22c757a8c269f6c0bc69f7e9543f5cf4d2598236028a66d4f45b910"
+      }
+    },
+    {
+      "name": "severity-pua-0",
+      "database": "/workspace/top-six-correctness-strict/fixtures/severity-pua-0",
+      "files": "/workspace/top-six-correctness-strict/fixtures/severity-pua-0.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Foundations.Order.00000.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "e600cb1bbd83b3c2a595fd16e0f4db874694308c5bb83f2fa275f42a5902b202"
+      }
+    },
+    {
+      "name": "severity-pua-5000",
+      "database": "/workspace/top-six-correctness-strict/fixtures/severity-pua-5000",
+      "files": "/workspace/top-six-correctness-strict/fixtures/severity-pua-5000.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Foundations.Order.05000.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "4153d0f76dbbe22d59c29166793f6430030da9b3e801eeac93ece9f38d7966db"
+      }
+    },
+    {
+      "name": "severity-pua-9999",
+      "database": "/workspace/top-six-correctness-strict/fixtures/severity-pua-9999",
+      "files": "/workspace/top-six-correctness-strict/fixtures/severity-pua-9999.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Foundations.Order.09999.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "58fe8f72db6be8f717ba3c68e062e7f526ba3acb0eccdfaf6da6653407011449"
+      }
+    },
+    {
+      "name": "nonterminal-weak",
+      "database": "/workspace/top-six-correctness-strict/fixtures/nonterminal-weak",
+      "files": "/workspace/top-six-correctness-strict/fixtures/nonterminal-weak.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/sequential.bin",
+          "sha256": "896493d3912c604b2d5e01de2ba048518e9ff9135778583f6e4d9331e00450cf"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Strong.Second.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "4e071d32609e06f9be352d8d58a49d0a9db6a93aff461d1fe0f3d73df47eb5fe"
+      }
+    },
+    {
+      "name": "nonterminal-pua",
+      "database": "/workspace/top-six-correctness-strict/fixtures/nonterminal-pua",
+      "files": "/workspace/top-six-correctness-strict/fixtures/nonterminal-pua.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/sequential.bin",
+          "sha256": "896493d3912c604b2d5e01de2ba048518e9ff9135778583f6e4d9331e00450cf"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Strong.Second.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "f0117bf8db646c66d62b201a3287e93724ccb6f063afe3a9609522bb1a16a67b"
+      }
+    },
+    {
+      "name": "nonterminal-heuristics",
+      "database": "/workspace/top-six-correctness-strict/fixtures/nonterminal-heuristics",
+      "files": "/workspace/top-six-correctness-strict/fixtures/nonterminal-heuristics.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/sequential.bin",
+          "sha256": "896493d3912c604b2d5e01de2ba048518e9ff9135778583f6e4d9331e00450cf"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Strong.Second.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "aec6dbf5993b5b624b9727ddaff3d541d54165ff0dba630997fcf6fc3baa891d"
+      }
+    },
+    {
+      "name": "only-weak",
+      "database": "/workspace/top-six-correctness-strict/fixtures/only-weak",
+      "files": "/workspace/top-six-correctness-strict/fixtures/only-weak.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/short.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "no_strong"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "b8b96af06bb746a0389daea2781a8a11dbaa0c2c8f368eab219b49b115393dfa"
+      }
+    },
+    {
+      "name": "only-pua",
+      "database": "/workspace/top-six-correctness-strict/fixtures/only-pua",
+      "files": "/workspace/top-six-correctness-strict/fixtures/only-pua.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/short.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "no_strong"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "4ec1659bffed82fe98ea3b7fe918266255e414575fb84ce7eb857f0c7bb220d7"
+      }
+    },
+    {
+      "name": "callback-ignore",
+      "database": "/workspace/top-six-correctness-strict/fixtures/callback-ignore",
+      "files": "/workspace/top-six-correctness-strict/fixtures/callback-ignore.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/sequential.bin",
+          "sha256": "896493d3912c604b2d5e01de2ba048518e9ff9135778583f6e4d9331e00450cf"
+        }
+      ],
+      "predicate": {
+        "kind": "ignore"
+      },
+      "action": 1,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "28148b859d479f18e784ba7b585c565d1c6b6ae34cf8e4762a4fce53397c4ed8"
+      }
+    },
+    {
+      "name": "callback-stop",
+      "database": "/workspace/top-six-correctness-strict/fixtures/callback-stop",
+      "files": "/workspace/top-six-correctness-strict/fixtures/callback-stop.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/sequential.bin",
+          "sha256": "896493d3912c604b2d5e01de2ba048518e9ff9135778583f6e4d9331e00450cf"
+        }
+      ],
+      "predicate": {
+        "kind": "stop"
+      },
+      "action": 2,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "28148b859d479f18e784ba7b585c565d1c6b6ae34cf8e4762a4fce53397c4ed8"
+      }
+    },
+    {
+      "name": "callback-trust",
+      "database": "/workspace/top-six-correctness-strict/fixtures/callback-trust",
+      "files": "/workspace/top-six-correctness-strict/fixtures/callback-trust.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/sequential.bin",
+          "sha256": "896493d3912c604b2d5e01de2ba048518e9ff9135778583f6e4d9331e00450cf"
+        }
+      ],
+      "predicate": {
+        "kind": "trust"
+      },
+      "action": 3,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "28148b859d479f18e784ba7b585c565d1c6b6ae34cf8e4762a4fce53397c4ed8"
+      }
+    },
+    {
+      "name": "false-positive-trust",
+      "database": "/workspace/top-six-correctness-strict/fixtures/false-positive-trust",
+      "files": "/workspace/top-six-correctness-strict/fixtures/false-positive-trust.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "trusted"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.fp": "69b31c7a879a393d8f300f8c964715c7540929e901bf730a543b2a7c9cdcc2a0",
+        "rules.hdb": "70ac1758a5b0618082d532a2b50f3d16ef090715136c05411ebe2aff306b65f2",
+        "rules.ndb": "ce6c3925a03b8d14bed6abd0248f62a8d97752c0037db00e5ea0c18829712243"
+      }
+    },
+    {
+      "name": "file-limit",
+      "database": "/workspace/top-six-correctness-strict/fixtures/file-limit",
+      "files": "/workspace/top-six-correctness-strict/fixtures/file-limit.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "limit"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {
+        "SUBSET_TEST_MAX_FILESIZE": "1024"
+      },
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "28148b859d479f18e784ba7b585c565d1c6b6ae34cf8e4762a4fce53397c4ed8"
+      }
+    },
+    {
+      "name": "missing-file",
+      "database": "/workspace/top-six-correctness-strict/fixtures/missing-file",
+      "files": "/workspace/top-six-correctness-strict/fixtures/missing-file.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/missing.bin",
+          "sha256": null
+        }
+      ],
+      "predicate": {
+        "kind": "missing"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "28148b859d479f18e784ba7b585c565d1c6b6ae34cf8e4762a4fce53397c4ed8"
+      }
+    },
+    {
+      "name": "invalid-database",
+      "database": "/workspace/top-six-correctness-strict/fixtures/invalid-database",
+      "files": "/workspace/top-six-correctness-strict/fixtures/invalid-database.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "rejected"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": true,
+      "database_sha256": {
+        "rules.ndb": "4a0e2eab04745c4daed30708ba6619f23e977e70fc04c970985d785eff932bd9"
+      }
+    },
+    {
+      "name": "macro-fallback",
+      "database": "/workspace/top-six-correctness-strict/fixtures/macro-fallback",
+      "files": "/workspace/top-six-correctness-strict/fixtures/macro-fallback.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/macro-yes.bin",
+          "sha256": "73817aa1ef35d43e8fe46510f425cf5bbfc5add715d12b374636c531a9a92841"
+        },
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/macro-no.bin",
+          "sha256": "d7cf753867d2190e0550572b1db48a77a0b16a5e87adaefa021095c3b01e7e8b"
+        }
+      ],
+      "predicate": {
+        "kind": "macro",
+        "expected": "Strong.Macro.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "3eb83041d65bbb2d920378a57f9bd08ede7181dbb561570803961e64ce7c7f29",
+        "rules.ndb": "df241563a1ca772753b8453e85312ad43b6b3168bae0d54d5c0dda8c1ed4fa73"
+      }
+    },
+    {
+      "name": "invalid-macro",
+      "database": "/workspace/top-six-correctness-strict/fixtures/invalid-macro",
+      "files": "/workspace/top-six-correctness-strict/fixtures/invalid-macro.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/marker.bin",
+          "sha256": "743ecc2c47b8c3310b140af65f0893784b12b6113e722e9b127c3bdd4c28ec6e"
+        }
+      ],
+      "predicate": {
+        "kind": "rejected"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": true,
+      "database_sha256": {
+        "rules.ldb": "ba2d5ed5ebc0a48401eb4c2e77108481282ee6db8ef0476dd74174ffafd7ec1b"
+      }
+    },
+    {
+      "name": "custom-logical",
+      "database": "/workspace/top-six-correctness-strict/fixtures/custom-logical",
+      "files": "/workspace/top-six-correctness-strict/fixtures/custom-logical.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/short.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "strong",
+        "expected": "Strong.Logical.UNOFFICIAL"
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ldb": "5a382e47c0eb60f036e07255d73272ad36ee9c5f1e671a5018b6f9ae102adc88"
+      }
+    },
+    {
+      "name": "custom-patterns",
+      "database": "/workspace/top-six-correctness-strict/fixtures/custom-patterns",
+      "files": "/workspace/top-six-correctness-strict/fixtures/custom-patterns.txt",
+      "inputs": [
+        {
+          "path": "/workspace/top-six-correctness-strict/fixtures/short.bin",
+          "sha256": "9ac2197d9258257b1ae8463e4214e4cd0a578bc1517f2415928b91be4283fc48"
+        }
+      ],
+      "predicate": {
+        "kind": "ordering",
+        "expected": 3
+      },
+      "action": 0,
+      "repeats": 1,
+      "environment": {},
+      "reject_load": false,
+      "database_sha256": {
+        "rules.ndb": "212a2befa4d553d0df4f8b3eb6c6727cb282f0485c473f892ed982f84dfc9b5e"
+      }
+    }
+  ],
+  "resource_limits": {
+    "address_space_bytes": 3221225472,
+    "cpu_seconds": 60,
+    "cpu_hard_seconds": 65,
+    "wall_seconds": 90,
+    "cpu": 0
+  }
+}

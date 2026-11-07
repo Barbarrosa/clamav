@@ -973,6 +973,32 @@ cl_error_t cli_ac_buildtrie(struct cli_matcher *root)
     return ac_pack_nodes(root);
 }
 
+void cli_ac_retire_pattern_directory(struct cli_matcher *root)
+{
+#if defined(USE_MPOOL) && !defined(ENABLE_AC_DIRECTORY_RETENTION)
+    uint32_t i;
+
+    if (!root || !root->mempool || !root->ac_pattable)
+        return;
+    /* Macro IDs are direct indexes into the original table. Do not change
+     * their representation or lookup work. Missing metadata is not evidence
+     * that a custom/private caller's root has no macros. */
+    if (root->ac_lsigs && !root->ac_lsigtable)
+        return;
+    for (i = 0; i < root->ac_lsigs; i++) {
+        if (!root->ac_lsigtable[i] || root->ac_lsigtable[i]->tdb.macro_ptids)
+            return;
+    }
+    /* Call only after successful engine compilation. At that point every
+     * matcher order is final and the containing engine pool outlives all
+     * references. The directory owns no non-pool resource. */
+    MPOOL_FREE_RECLAIM(root->mempool, root->ac_pattable);
+    root->ac_pattable = NULL;
+#else
+    UNUSEDPARAM(root);
+#endif
+}
+
 cl_error_t cli_ac_init(struct cli_matcher *root, uint8_t mindepth, uint8_t maxdepth, uint8_t dconf_prefiltering)
 {
 #ifdef USE_MPOOL
@@ -1073,12 +1099,37 @@ static void ac_free_ext(struct cli_ac_patt *p)
     }
 }
 
+/* ac_listtable builds the ordered chains and later supplies individual pool
+ * frees. A successfully compiled engine owns those chains until its entire
+ * pool is destroyed; their entries own no resources outside that pool. The
+ * public compilation boundary may therefore discard this directory without
+ * relocating or changing any list, pattern, node, or scan-time access.
+ *
+ * Do not call this for standalone/regex matchers or before the final successful
+ * compilation boundary: those callers may free/reuse a matcher while keeping
+ * its pool, and failed builds still need their original cleanup directory.
+ * Without a pool every candidate must still be individually freed. */
+void cli_ac_discard_listtable(struct cli_matcher *root)
+{
+#if defined(USE_MPOOL) && !defined(ENABLE_AC_DIRECTORY_RETENTION)
+    if (root && root->mempool && root->ac_listtable) {
+        MPOOL_FREE_RECLAIM(root->mempool, root->ac_listtable);
+        root->ac_listtable = NULL;
+    }
+#else
+    UNUSEDPARAM(root);
+#endif
+}
+
 void cli_ac_free(struct cli_matcher *root)
 {
     uint32_t i               = 0;
     struct cli_ac_patt *patt = NULL;
 
-    for (i = 0; i < root->ac_patterns; i++) {
+    /* Successful engine-owned pool roots can retire the cleanup directory.
+     * Their pattern, extension, token and name allocations are reclaimed by
+     * the containing pool's destruction. Other roots retain normal cleanup. */
+    for (i = 0; root->ac_pattable && i < root->ac_patterns; i++) {
         patt = root->ac_pattable[i];
         MPOOL_FREE(root->mempool, patt->prefix ? patt->prefix : patt->pattern);
         if (!(patt->lsigid[0] == 1)) {
@@ -1102,11 +1153,10 @@ void cli_ac_free(struct cli_matcher *root)
         MPOOL_FREE(root->mempool, root->ac_reloff);
     }
 
-    for (i = 0; i < root->ac_lists; i++) {
-        MPOOL_FREE(root->mempool, root->ac_listtable[i]);
-    }
-
     if (root->ac_listtable) {
+        for (i = 0; i < root->ac_lists; i++) {
+            MPOOL_FREE(root->mempool, root->ac_listtable[i]);
+        }
         MPOOL_FREE(root->mempool, root->ac_listtable);
     }
 

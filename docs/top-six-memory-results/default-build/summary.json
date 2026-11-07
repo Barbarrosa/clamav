@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "Default retained-directory build; separate from the retired-directory research artifact and its failed performance screen.",
+  "retention_default": "ON",
+  "observed_cache_retention": "ON",
+  "library_sha256": "e86191470a632ed7aa1981c6f9ef441fd0fa5117c47695b8e04d2cf6b1b5da57",
+  "cache_sha256": "373c4a138284cccc2d2d5856be6b1d049dba6b0ad63019118bad79da3d54798c",
+  "build_succeeded": true,
+  "ctest_groups": {
+    "libclamav": "passed",
+    "clamscan": "passed",
+    "sigtool": "passed",
+    "libclamav_rust": "passed"
+  },
+  "ctest_elapsed_seconds": 33.7,
+  "blocked_not_passed": [
+    "clamsubmit/freshclam mock-server tests: sandbox socket creation denied; initial daemon run stopped on previously missing fixture, not rerun with sockets."
+  ],
+  "logs_sha256": {
+    "configure.log": "a536b83b0579a5598bdbdf97c5a92118d49283484773f70814ddf8c778955611",
+    "build.log": "9758dff81737e43af35b8d8bada93b615fda24cec74b324e4a3441debfcd825f",
+    "ctest.log": "e8f225a63df4e518b0fb73df15990e602a6980acc6f5dc5d34960fc119a07ef2"
+  },
+  "limits": "This verifies the default build and named suites. It is not production qualification or a new accepted memory saving.",
+  "engine_source_revision": "989d3e25f669c1f7ad79f534f970a21bc6d5611d",
+  "configuration_note": "Built with the committed retention-ON default after clearing the earlier explicit retention-OFF cache entry."
+}

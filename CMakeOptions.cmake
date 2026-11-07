@@ -47,6 +47,9 @@ option(ENABLE_AC_FLAT_NODES
 option(ENABLE_AC_DISPOSABLE_BUILD
     "Experimental AC construction pool (can change duplicate alert ordering)."
     OFF)
+option(ENABLE_AC_DIRECTORY_RETENTION
+    "Retain AC construction directories (OFF enables unqualified retirement research)."
+    ON)
 
 set(BYTECODE_RUNTIME
     "interpreter" CACHE STRING

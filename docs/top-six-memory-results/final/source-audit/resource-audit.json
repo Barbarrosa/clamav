@@ -1,0 +1,301 @@
+{
+  "schema_version": 1,
+  "baseline_source_revision": "ca2e9561517aa5456b2dade6a7f33b3939e72461",
+  "scope": "Independent source audit of directory-only retirement; not full empirical performance qualification or a formal verification of every accepted input.",
+  "observed_matcher_ac_sha256": "32b5940ccda795f3bd1417e3a805933c93214128696c1c937d9a3a35f4721cf2",
+  "observed_readdb_sha256": "98fee93f21515cbeb0380dd02293ba5e7fde3c0cf7c38cdc2ff90d718ee74efa",
+  "scan_and_context_functions_unchanged": {
+    "ac_scan_node": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "2d19e1e8404f3991ca6d8c48265b5b8cd5ca24646aea326f7b54bf981979e690"
+    },
+    "cli_ac_chklsig": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "432970b452bca4807d81888f586c041fe7395edba49d0d0ca00e29b80676adb5"
+    },
+    "ac_findmatch_special": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "494e2224ec8ac343da116371205693c7690fb84d54c3830fed77a965dcb660a0"
+    },
+    "ac_backward_match_branch": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "63312f7fc61e1da56fae1597cefa2405bbdd4fdadbb934a68a17a8cfe261fa8c"
+    },
+    "ac_forward_match_branch": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "9b9c73bc95f65c06c54c2393ecf3aee8892b74e12eaa957a8a9f463343a726d2"
+    },
+    "ac_findmatch": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "2df69935b01ee809798767263fbe6626f7cf6ab80c43ecd3bf1bc3a5fe3704be"
+    },
+    "ac_initdata": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "d289f750fc12243575d94b4bf72f481d8f7123b986b01f87a07f09df310047af"
+    },
+    "cli_ac_initdata": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "579a52549f2f7081358a7ec9d5407484d2e02b117aabd55d01e58bc605872cc7"
+    },
+    "cli_ac_initdata_for_matcher": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "31bf140422c204e764291162f71d58300b6cda718d728167f7e5db4c12cad1b9"
+    },
+    "cli_ac_caloff": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "aef2c7a470bda5d6ae44bdfaca1d763e1d19f0aa3b4a6f764e0b817a734ccf1a"
+    },
+    "cli_ac_freedata": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "14b8edb5163ad5b13299e3f0063b3dfcecacfbb2df691e5879732b095b0754b7"
+    },
+    "ac_addtype": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "68e7278a72d5c2a9984d02ffba06980e9bc0368d5752a0de44122c80dadb8557"
+    },
+    "lsig_increment_subsig_match": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "d4e841b57589cd5f58fa6a377efb4f47780d2c20a783c4792f601e3bc5e41f12"
+    },
+    "lsig_sub_matched": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "be009aca96ef022559faa068edae04ce424484db752017702182420efcee40a5"
+    },
+    "cli_ac_chkmacro": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "2d66c2fced98379ef9389331798d27ca7817984fd06b7a664b94fb9cba79c7ec"
+    },
+    "cli_ac_scanbuff": {
+      "body_unchanged": true,
+      "normalized_body_sha256": "320853b1804677a89052d13fa14fd0bc31118b83f046936ba543aae2c05f8dfb"
+    }
+  },
+  "whole_files_unchanged": {
+    "libclamav/matcher.c": "2ea7bbfc1dc09cea1ed7f685d4a9b5473163fe97991f5e0f3911f626c6ad5e51",
+    "libclamav/matcher-bm.c": "bc8ea5ce217b78701b08019fbd9f0b3b8e1025af55660247580e637a4d76bcae",
+    "libclamav/matcher-pcre.c": "f002d6c1147da65e13e321296ffadd0e83b2e8a1944a83c5bfcd168554f45b07",
+    "libclamav/matcher-hash.c": "147ff3b6dfd0e7b5c38339cf85b1f840da8fee427b5b728cfc4156c37424d186",
+    "libclamav/matcher-byte-comp.c": "c9016e27d2303faab94e497b6367edf1c15742defa31ab26b5a42c5f1dbf8afd",
+    "libclamav/cache.c": "09978faf2efbfc7fdd4cefab1cece3998f4e2a94433399be62213d144bf2baa7",
+    "libclamav/scanners.c": "dbef3518b67cba700551f3d26e313aa8cb55c6210b97ffec2fcfc06b4ab3dcb5",
+    "libclamav/bytecode.c": "56435e2cdcfa1a12cfa156f681d69e7666be3f8e3c31b6cd64bd5bc0c88ff03b",
+    "libclamav/bytecode_api.c": "f351ae05a40f73e62c649b8a9a445046a380ab8069c1dc8ae7910b476fab0ab2",
+    "libclamav/others.c": "54acc30603c435c06b20f544815ad1de138a0654fead1ae39a24a9aaa78c04c0",
+    "libclamav/clamav.h": "b7fd76ea29958a396ff4d6a238501597e5300856b077c7dd9bd8af6ad88a89e2",
+    "libclamav/matcher.h": "a6ad38e72054c3ce63deff92919eb18e99df149f99e7fbe10bf4228610983ae0",
+    "libclamav_rust/src/sys.rs": "857de075421195474894635c872feb001d9dc437f2d29c9812c85f863bde96c1",
+    "libclamav/others.h": "4ed189ce560850ea3cd1f397b291eabefdfbba034d0695bc8759d3ce3976ee71",
+    "libclamav/others_common.c": "0ddb15f3e91c45b5d27c99a3e661dbf18c833a8b186751e2a3ab8b930dabc778",
+    "libclamav/bytecode_priv.h": "c37ba43763e28d62957329666aa3bc04616a3abda54026e39ecf77420bbf5215",
+    "libclamav/fmap.h": "dd77a267384a0c2a4c67e4d045429de097a612a0d56022a64bdb8795a86079ea"
+  },
+  "resource_deltas": {
+    "new_scan_time_allocations": 0,
+    "new_scan_time_allocated_cache_kinds": 0,
+    "new_persistent_decoded_cache_bytes": 0,
+    "new_scan_time_dependent_reads": 0,
+    "new_lookup_or_decoder_formats": 0,
+    "new_scan_time_syscalls": 0,
+    "new_per_worker_struct_fields": 0,
+    "new_serialized_formats": 0,
+    "new_build_heap_scratch_allocations": 0,
+    "new_build_variable_length_stack_buffers": 0,
+    "new_user_space_stack_state": "bounded O(1), compiler/ABI-dependent; not measured as zero bytes"
+  },
+  "construction_work": {
+    "root_iteration": "O(CLI_MTARGETS), a fixed existing target count",
+    "pattern_eligibility_check": "O(total logical rules) worst case, one pointer/null/macro-pointer test per visited rule; can return early",
+    "directory_reclaim": "constant user-space metadata work and at most one madvise per retired fragment; kernel work may depend on advised page count",
+    "old_whole_pool_flush": "unchanged location before bytecode preparation; no second full free-list traversal",
+    "allocation_or_relocation_before_order_freeze": "none"
+  },
+  "runtime_ownership_findings": [
+    "Candidate cleanup directory has no scanner reader; immutable linked candidate chains preserve their original object addresses/order.",
+    "The sole scanner pattern-directory access is in lsig_sub_matched macro handling; every root with any macro_ptids or unknown logical metadata retains that table.",
+    "cl_load rejects loading a DB once CL_DB_COMPILED is set.",
+    "Retirement is restricted to engine-owned pool roots after bytecode succeeds; cl_engine_free destroys that pool after resource cleanup.",
+    "No-pool and standalone/regex matchers retain their original cleanup behavior."
+  ],
+  "important_limits": [
+    "The engine pool is not globally read-only: existing clean-result cache entries are mutated under their existing locks.",
+    "Fixed-configuration scan bodies do not add engine-pool allocation sites, but public setting mutation can allocate engine-pool strings or initialize a cache after compilation; no blanket post-compile-allocation-free claim.",
+    "Bytecode execution can create/allocate its own context-owned pool, distinct from engine->mempool; that behavior is unchanged.",
+    "Source equality establishes zero new scan resource mechanisms, not absolute scan scratch/context size or latency on all machines.",
+    "Compile eligibility adds O(logical rules) work and reclaim advice has a page-dependent kernel cost; startup/reload/update CPU and wall time must be measured.",
+    "Concurrent scanning requires the existing lifecycle: compile and retire before publication, hold engine references while scanning, destroy only after workers finish.",
+    "The public API does not explicitly document compile-twice semantics; the existing compact ac_pack_nodes path already consumes its build index. Retrying a successfully compiled engine is not newly proven safe by this audit.",
+    "Future upstream code adding another runtime directory reader must update the retirement eligibility rule and tests.",
+    "These observed hashes must match the final implementation; rerun the audit after any relevant source change."
+  ],
+  "pool_class_and_private_layout_identity": {
+    "pool_tables_layouts_lookup_alignment_unchanged": true,
+    "scope": "both architecture size tables, pool/fragment structs, to_bits/from_bits and alignment functions before mpool_create",
+    "region_sha256": "261ab3a677affdd8cf514257c49f7d5532630d7df6f9cf1ffef061b9a678445d"
+  },
+  "observed_mpool_sha256": "617a4e153be5abfecc809e3baf1539a5f70cf11bbc85e3043f613dd9d0a4952f",
+  "revalidation": {
+    "prior_audit_sha256": "8b753bcfbffbf42cef545d3e42f91be149a6ef967220c338cdc8e8f48aff0c76",
+    "prior_source_revision": "8dcd2a4f26da420a404d6ad1d70519d1cb765131",
+    "current_head_at_revalidation": "607133ff6c744f70d214dd52ae4d4cccc7bf3774",
+    "current_worktree_source_bound": true,
+    "implementation_sha256": "88a145cead5779dfbc4fb5c0749f5244252c62f95a4a0441280ecee179a1da86",
+    "changed_files": {
+      "libclamav/readdb.c": {
+        "prior_sha256": "4a9bd35423710797057492e041dccf6f48ffe80f8f8ab48d9a0af645bce72ab9",
+        "current_sha256": "98fee93f21515cbeb0380dd02293ba5e7fde3c0cf7c38cdc2ff90d718ee74efa",
+        "exact_change": "Final retirement hook #ifdef USE_MPOOL becomes #if defined(USE_MPOOL) && !defined(ENABLE_AC_DIRECTORY_RETENTION); line count unchanged; all other bytes equal."
+      },
+      "CMakeOptions.cmake": {
+        "prior_sha256": "5008f78a18bf1aaee6a1fddca50aafb5b673e1d8e10a481847292d543efc759c",
+        "current_sha256": "29e4a38ceee2822fbe765350a6e9ef06ecb36222efbccd920e78eafc77e4e4ab",
+        "exact_change": "Retention option default OFF becomes ON, with explanatory research-only OFF description; all other bytes equal."
+      }
+    },
+    "research_explicit_retention_OFF": {
+      "old_gate": "defined(USE_MPOOL)",
+      "new_gate": "defined(USE_MPOOL) && !defined(ENABLE_AC_DIRECTORY_RETENTION)",
+      "equivalent_when_retention_undefined": true,
+      "no_engine_source_change_for_this_configuration": true,
+      "binary_rebuild_attested": false
+    },
+    "retention_ON_behavior": "The entire retirement root loop is now excluded; the original implementation called retirement helpers which were no-ops in this configuration.",
+    "raw_query_function_bodies": {
+      "ac_scan_node": {
+        "raw_body_sha256": "82fc4a4af8aa3260642b10d7c81c0ef2a42933d735c08ca3b0f66e19b2829ed5",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_chklsig": {
+        "raw_body_sha256": "c9c62ab18552f450cc4fd7bc027d0e298f51052bc06c9ce02e74ec21ecb41297",
+        "byte_equal_to_baseline": true
+      },
+      "ac_findmatch_special": {
+        "raw_body_sha256": "d923c149f3f1015c30193c8b67b64d9b6c5c419ffd4de82ce2ffb8e623417769",
+        "byte_equal_to_baseline": true
+      },
+      "ac_backward_match_branch": {
+        "raw_body_sha256": "2d404d832a5b45dd2dfe6254e18dbf95e6422991cf61d3538f80a4260bff04ef",
+        "byte_equal_to_baseline": true
+      },
+      "ac_forward_match_branch": {
+        "raw_body_sha256": "3845c8b67b5cf23feaedadc88b179bf999c4c0df5d8ffdd38235e4e7c2d37c25",
+        "byte_equal_to_baseline": true
+      },
+      "ac_findmatch": {
+        "raw_body_sha256": "de51fac0487b1fd8005b664f2ea9335ed115d09ae09cca44e160f08761bdb27e",
+        "byte_equal_to_baseline": true
+      },
+      "ac_initdata": {
+        "raw_body_sha256": "d3b0004706a27b3b0baaecf3a934610990aae4175b13a0967a08ee0e833dbd71",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_initdata": {
+        "raw_body_sha256": "260035628961bb92dde25360b6ff72737837e9d9d2e8e2cce1c2f970ed3a9def",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_initdata_for_matcher": {
+        "raw_body_sha256": "9450f9787de2f2b1e4327922d43f7a48cdd3262c6e8a73edf01d4f85d6c1da09",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_caloff": {
+        "raw_body_sha256": "b5a301a7d70eeca37a453634b6811351202f8a8ba1aa5b7186ad5f823e3dc5c5",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_freedata": {
+        "raw_body_sha256": "becc24706dfbc35e499b1e054ce4bc537793ee90fd9048b8649db358dce34412",
+        "byte_equal_to_baseline": true
+      },
+      "ac_addtype": {
+        "raw_body_sha256": "6b24f8709c59c7c14e8204b2d87ba070b6744b4fcc804e5b033b85426d41fb9f",
+        "byte_equal_to_baseline": true
+      },
+      "lsig_increment_subsig_match": {
+        "raw_body_sha256": "2428d81ef6eae24612263e829c36aa5fd0e3253311efa7aa1924874c91e4b31a",
+        "byte_equal_to_baseline": true
+      },
+      "lsig_sub_matched": {
+        "raw_body_sha256": "d70ad647dc558cc0ae68b0c8ba592896e1f68963997f5ecd4eec1b07ecaa88cc",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_chkmacro": {
+        "raw_body_sha256": "a40f8734a6b969b67ec84ee87f8df6b979fb780ce027d24b0372220402e48520",
+        "byte_equal_to_baseline": true
+      },
+      "cli_ac_scanbuff": {
+        "raw_body_sha256": "1dc38a07d8cb69d621cac9b831721ccd355cfed0998ab8c0845540eb4f4e5096",
+        "byte_equal_to_baseline": true
+      }
+    },
+    "whole_files_rechecked": {
+      "libclamav/matcher.c": {
+        "sha256": "2ea7bbfc1dc09cea1ed7f685d4a9b5473163fe97991f5e0f3911f626c6ad5e51",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/matcher-bm.c": {
+        "sha256": "bc8ea5ce217b78701b08019fbd9f0b3b8e1025af55660247580e637a4d76bcae",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/matcher-pcre.c": {
+        "sha256": "f002d6c1147da65e13e321296ffadd0e83b2e8a1944a83c5bfcd168554f45b07",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/matcher-hash.c": {
+        "sha256": "147ff3b6dfd0e7b5c38339cf85b1f840da8fee427b5b728cfc4156c37424d186",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/matcher-byte-comp.c": {
+        "sha256": "c9016e27d2303faab94e497b6367edf1c15742defa31ab26b5a42c5f1dbf8afd",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/cache.c": {
+        "sha256": "09978faf2efbfc7fdd4cefab1cece3998f4e2a94433399be62213d144bf2baa7",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/scanners.c": {
+        "sha256": "dbef3518b67cba700551f3d26e313aa8cb55c6210b97ffec2fcfc06b4ab3dcb5",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/bytecode.c": {
+        "sha256": "56435e2cdcfa1a12cfa156f681d69e7666be3f8e3c31b6cd64bd5bc0c88ff03b",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/bytecode_api.c": {
+        "sha256": "f351ae05a40f73e62c649b8a9a445046a380ab8069c1dc8ae7910b476fab0ab2",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/others.c": {
+        "sha256": "54acc30603c435c06b20f544815ad1de138a0654fead1ae39a24a9aaa78c04c0",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/clamav.h": {
+        "sha256": "b7fd76ea29958a396ff4d6a238501597e5300856b077c7dd9bd8af6ad88a89e2",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/matcher.h": {
+        "sha256": "a6ad38e72054c3ce63deff92919eb18e99df149f99e7fbe10bf4228610983ae0",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav_rust/src/sys.rs": {
+        "sha256": "857de075421195474894635c872feb001d9dc437f2d29c9812c85f863bde96c1",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/others.h": {
+        "sha256": "4ed189ce560850ea3cd1f397b291eabefdfbba034d0695bc8759d3ce3976ee71",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/others_common.c": {
+        "sha256": "0ddb15f3e91c45b5d27c99a3e661dbf18c833a8b186751e2a3ab8b930dabc778",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/bytecode_priv.h": {
+        "sha256": "c37ba43763e28d62957329666aa3bc04616a3abda54026e39ecf77420bbf5215",
+        "byte_equal_to_baseline": true
+      },
+      "libclamav/fmap.h": {
+        "sha256": "dd77a267384a0c2a4c67e4d045429de097a612a0d56022a64bdb8795a86079ea",
+        "byte_equal_to_baseline": true
+      }
+    },
+    "pool_prefix_before_mpool_create_byte_equal_to_baseline": true,
+    "limits": "This is source revalidation with exact asserted changes, not build attestation or performance qualification. Original normalized-body hashes are retained because the entire matcher-ac.c file is byte-identical to the earlier audited file."
+  }
+}

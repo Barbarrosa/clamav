@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "source_commit": "517334169dd2f3b42374fbd65d9a6af9818c3262",
+  "library": "/workspace/clamav-logical-build/libclamav/libclamav.so.14.0.0",
+  "library_sha256": "9b910cf90b5255324fb29613f0528631ab94c3c6c92d97182009f341f98ee502",
+  "library_bytes": 20234432,
+  "configured_source": "/workspace/clamav-opt-logical",
+  "LSIG_DIRECTORY_IDS": "ON",
+  "AC_DIRECTORY_RETENTION": "OFF",
+  "MEMORY_PERTURB": "OFF",
+  "pool_tight_classes": false,
+  "compile_jobs": 2,
+  "full_db_benchmark_executed": false
+}

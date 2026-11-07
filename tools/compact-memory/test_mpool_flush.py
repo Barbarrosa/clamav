@@ -183,6 +183,8 @@ def main():
         work = Path(temp)
         shutil.copy2(source, work / "mpool.c")
         shutil.copy2(source.with_name("mpool.h"), work / "mpool.h")
+        if source.with_name("memory_perturb.h").exists():
+            shutil.copy2(source.with_name("memory_perturb.h"), work / "memory_perturb.h")
         for name, content in HEADERS.items():
             (work / name).write_text(content)
         (work / "probe.c").write_text(HARNESS)

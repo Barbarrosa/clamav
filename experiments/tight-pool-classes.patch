@@ -1,0 +1,343 @@
+commit 8a1b2d967ee79b530fc46f6baa9388b0c4dfe0d8
+Author:     Timothy Bradley <fennasnogothrim@gmail.com>
+AuthorDate: Fri Nov 6 07:06:11 2026 +0000
+Commit:     Timothy Bradley <fennasnogothrim@gmail.com>
+CommitDate: Fri Nov 6 08:15:21 2026 +0000
+
+    Prototype tighter LP64 pool classes behind research option
+
+diff --git a/CMakeOptions.cmake b/CMakeOptions.cmake
+index 89e6ab1..3e7ad58 100644
+--- a/CMakeOptions.cmake
++++ b/CMakeOptions.cmake
+@@ -50,6 +50,9 @@ option(ENABLE_AC_DISPOSABLE_BUILD
+ option(ENABLE_AC_DIRECTORY_RETENTION
+     "Retain AC construction directories (OFF enables unqualified retirement research)."
+     ON)
++option(ENABLE_TIGHT_POOL_CLASSES
++    "Experimental LP64 pool classes for transition rows and logical records."
++    OFF)
+ 
+ set(BYTECODE_RUNTIME
+     "interpreter" CACHE STRING
+diff --git a/libclamav/CMakeLists.txt b/libclamav/CMakeLists.txt
+index 3b93e88..f8d0a16 100644
+--- a/libclamav/CMakeLists.txt
++++ b/libclamav/CMakeLists.txt
+@@ -407,6 +407,13 @@ set(LIBCLAMAV_SOURCES
+     udf.c               udf.h
+ )
+ 
++if(ENABLE_TIGHT_POOL_CLASSES)
++    # The allocator is private: do not force every scanner source to rebuild
++    # when comparing this research-only size table.
++    set_property(SOURCE mpool.c APPEND PROPERTY
++        COMPILE_DEFINITIONS ENABLE_TIGHT_POOL_CLASSES=1)
++endif()
++
+ if(ENABLE_MEMORY_PERTURB)
+     list(APPEND LIBCLAMAV_SOURCES memory_perturb.c memory_perturb.h)
+     add_definitions(-DCM_MEMORY_PERTURB=1)
+diff --git a/libclamav/mpool.c b/libclamav/mpool.c
+index 54fcbfb..53022e8 100644
+--- a/libclamav/mpool.c
++++ b/libclamav/mpool.c
+@@ -124,6 +124,10 @@ static const unsigned int fragsz[] = {
+     151,
+     152,
+     153,
++#ifdef ENABLE_TIGHT_POOL_CLASSES
++    /* 168-byte logical records, two-byte header and up to seven-byte alignment. */
++    184,
++#endif
+     196,
+     256,
+     360,
+@@ -140,6 +144,10 @@ static const unsigned int fragsz[] = {
+     743,
+     784,
+     839,
++#ifdef ENABLE_TIGHT_POOL_CLASSES
++    /* 256 four-byte transitions, header and conservative alignment allowance. */
++    1040,
++#endif
+     1176,
+     1536,
+     1666,
+diff --git a/tools/compact-memory/allocation-perturbation/pool_class_analysis.py b/tools/compact-memory/allocation-perturbation/pool_class_analysis.py
+index 6674c01..17415c5 100644
+--- a/tools/compact-memory/allocation-perturbation/pool_class_analysis.py
++++ b/tools/compact-memory/allocation-perturbation/pool_class_analysis.py
+@@ -22,12 +22,17 @@ def digest(path):
+     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+ 
+ 
+-def inspect_source(path):
++def inspect_source(path, *, tight_pool_classes=False):
+     text = Path(path).read_text()
+     match = re.search(r'#if SIZEOF_VOID_P == 8\s+static const unsigned int fragsz\[\] = \{(.*?)\};', text, re.S)
+     if not match:
+         raise ValueError('LP64 production size table not found')
+     body = re.sub(r'/\*.*?\*/', '', match.group(1), flags=re.S)
++    # Interpret only this explicitly supported research option. Reject other
++    # expressions below instead of pretending all conditional classes coexist.
++    body = re.sub(r'^#ifdef ENABLE_TIGHT_POOL_CLASSES\s*\n(.*?)^#endif\s*$',
++                  lambda m: m.group(1) if tight_pool_classes else '',
++                  body, flags=re.M | re.S)
+     if re.sub(r'[\d,\s]', '', body):
+         raise ValueError('unexpected expression in size table')
+     classes = [int(v) for v in re.findall(r'\d+', body)]
+@@ -73,9 +78,11 @@ def profile(size, classes):
+             'free_list_lookup_class': max(charges), 'by_alignment_padding': rows}
+ 
+ 
+-def analyze(source, capture_path):
+-    classes = inspect_source(source)
+-    if profile(1024, classes)['fresh_carve_possible_charges'] != [1176] or profile(168, classes)['fresh_carve_possible_charges'] != [196]:
++def analyze(source, capture_path, *, tight_pool_classes=False):
++    classes = inspect_source(source, tight_pool_classes=tight_pool_classes)
++    row_class = 1040 if tight_pool_classes else 1176
++    logical_class = 184 if tight_pool_classes else 196
++    if profile(1024, classes)['fresh_carve_possible_charges'] != [row_class] or profile(168, classes)['fresh_carve_possible_charges'] != [logical_class]:
+         raise ValueError('illustrative proposals must be updated for the changed baseline classes')
+     raw = json.loads(Path(capture_path).read_text())
+     capture = raw['capture']
+@@ -110,18 +117,19 @@ def analyze(source, capture_path):
+             'mpool_source_sha256': digest(source), 'capture_summary_sha256': digest(capture_path),
+             'capture_source_base_commit': raw['source_base_commit'],
+             'header_bytes': HEADER_BYTES,
++            'pool_class_configuration': 'tight' if tight_pool_classes else 'baseline',
+             'size_classes': classes, 'families': rows,
+             'builder_node_record_profile': profile(sizes['node'], classes),
+             'builder_node_scope': 'individual old builder nodes are freed after packing; retained flat-node arenas use libc calloc, so per-node pool charges do not apply to them',
+             'hypothetical_class_examples': [
+                 {'new_class_bytes': 1040, 'family': 'transition_rows',
+-                 'reason': '1024+2+maximum alignment padding 7 fits 1040; existing class is1176',
+-                 'fragment_charge_reduction_per_record': 136,
+-                 'historical_capture_charge_reduction_bytes': 136 * row_count},
++                 'reason': f'1024+2+maximum alignment padding 7 fits 1040; selected class is {row_class}',
++                 'fragment_charge_reduction_per_record': row_class - 1040,
++                 'historical_capture_charge_reduction_bytes': (row_class - 1040) * row_count},
+                 {'new_class_bytes': 184, 'family': 'logical_records',
+-                 'reason': '168+2+maximum alignment padding7 fits184; existing class is196',
+-                 'fragment_charge_reduction_per_record': 12,
+-                 'historical_capture_charge_reduction_bytes': 12 * logical_count}],
++                 'reason': f'168+2+maximum alignment padding7 fits184; selected class is {logical_class}',
++                 'fragment_charge_reduction_per_record': logical_class - 184,
++                 'historical_capture_charge_reduction_bytes': (logical_class - 184) * logical_count}],
+             'limitations': [
+                 'The counts come from the cited earlier full-engine capture, not the perturbation run counters.',
+                 'Charge above payload includes necessary metadata and alignment, not only potentially avoidable rounding.',
+@@ -137,8 +145,11 @@ def main():
+     parser.add_argument('--source', type=Path, required=True, help='libclamav/mpool.c')
+     parser.add_argument('--capture-summary', type=Path, required=True)
+     parser.add_argument('--report', type=Path, required=True)
++    parser.add_argument('--tight-pool-classes', action='store_true',
++                        help='analyze the experimental table; default analyzes the baseline table')
+     args = parser.parse_args()
+-    result = analyze(args.source, args.capture_summary)
++    result = analyze(args.source, args.capture_summary,
++                     tight_pool_classes=args.tight_pool_classes)
+     args.report.parent.mkdir(parents=True, exist_ok=True)
+     args.report.write_text(json.dumps(result, indent=2) + '\n')
+     print(json.dumps({'families': len(result['families']), 'header_bytes': HEADER_BYTES,
+diff --git a/tools/compact-memory/test_tight_pool_classes.py b/tools/compact-memory/test_tight_pool_classes.py
+new file mode 100644
+index 0000000..208c889
+--- /dev/null
++++ b/tools/compact-memory/test_tight_pool_classes.py
+@@ -0,0 +1,194 @@
++#!/usr/bin/env python3
++"""Exercise experimental classes in the actual pool allocator.
++
++Both modes compile the production mpool.c, with small external compatibility
++stubs. This checks allocator correctness and table arithmetic; it does not
++qualify scanner ordering, whole-engine RAM or performance.
++SPDX-License-Identifier: GPL-2.0-only
++"""
++import argparse
++import hashlib
++import importlib.util
++import json
++from pathlib import Path
++import shutil
++import subprocess
++import tempfile
++import unittest
++
++ROOT = Path(__file__).resolve().parents[2]
++
++HARNESS = r'''
++#include <assert.h>
++#include <inttypes.h>
++#include <stdio.h>
++#include <stdint.h>
++#include "mpool.c"
++
++static void check_table(void) {
++    assert(FRAGSBITS <= 255);
++    assert(from_bits(FRAGSBITS) == 0);
++    for (unsigned i=0; i<FRAGSBITS; ++i) {
++        assert(fragsz[i] >= 1);
++        assert(!i || fragsz[i] > fragsz[i-1]);
++        assert(to_bits(fragsz[i]) == i);
++        assert(to_bits(i ? fragsz[i-1]+1 : 0) == i);
++        assert(from_bits(i) == fragsz[i]);
++    }
++    assert(to_bits(fragsz[FRAGSBITS-1]+1) == FRAGSBITS);
++}
++
++static void bytes_equal(const unsigned char *p, size_t count, unsigned char byte) {
++    for (size_t i=0; i<count; ++i) assert(p[i] == byte);
++}
++
++int main(void) {
++    check_table();
++    printf("{\"pointer_table\":%u,\"classes\":[", SIZEOF_VOID_P);
++    for (unsigned i=0; i<FRAGSBITS; ++i) printf("%s%u", i ? "," : "", fragsz[i]);
++    printf("],\"pool_header_bytes\":%zu", sizeof(struct MP));
++#if SIZEOF_VOID_P == 8
++    assert(sizeof(void*) == 8);
++    const size_t sizes[] = {1,2,4,8,24,32,48,96,152,153,154,160,168,176,
++                            184,185,192,196,200,1016,1024,1032,1040,1041,1056,1176};
++    unsigned checked=0;
++    for (unsigned s=0; s<sizeof(sizes)/sizeof(sizes[0]); ++s) {
++        for (unsigned residue=0; residue<8; ++residue) {
++            mpool_t *mp=mpool_create(); assert(mp);
++            mp->u.mpm.usize += 16 + ((residue+8-mp->u.mpm.usize%8)%8);
++            size_t before=mp->u.mpm.usize;
++            unsigned char *p=mpool_calloc(mp,1,sizes[s]); assert(p);
++            assert((uintptr_t)p % alignof(sizes[s]) == 0);
++            bytes_equal(p,sizes[s],0); memset(p,0x6c,sizes[s]);
++            struct FRAG *f=(struct FRAG*)(p-FRAG_OVERHEAD);
++            size_t charge=from_bits(f->u.a.sbits);
++            assert(charge == mp->u.mpm.usize-before);
++            assert(charge >= sizes[s]+FRAG_OVERHEAD+f->u.a.padding);
++            unsigned bucket=f->u.a.sbits;
++            void *base=allocbase_fromfrag(f);
++            mpool_free(mp,p);
++            assert(mp->avail[bucket] == base);
++            /* Pop only the exact worst-case lookup class, as production does. */
++            unsigned lookup=to_bits(align_increase(sizes[s]+FRAG_OVERHEAD,alignof(sizes[s])));
++            unsigned char *q=mpool_malloc(mp,sizes[s]); assert(q);
++            assert((q==p) == (lookup==bucket));
++            memset(q,0x3d,sizes[s]); bytes_equal(q,sizes[s],0x3d);
++            mpool_destroy(mp); ++checked;
++        }
++    }
++
++    /* Exercise realloc growth, shrink, in-place reuse, zero and calloc through
++     * the new boundaries. Multiples of eight preserve each pointer's original
++     * alignment requirement, avoiding reliance on legacy realloc's size-based
++     * inference for a stronger alignment than the original allocation. */
++    mpool_t *mp=mpool_create(); assert(mp);
++    const size_t steps[]={160,168,176,184,192,200,1016,1024,1032,1040,1048,1176,1024,168};
++    unsigned char *p=NULL; size_t old=0;
++    for (unsigned i=0;i<sizeof(steps)/sizeof(steps[0]);++i) {
++        unsigned char *q=mpool_realloc(mp,p,steps[i]); assert(q);
++        bytes_equal(q,old<steps[i]?old:steps[i],0x5a);
++        assert((uintptr_t)q%8==0);
++        memset(q,0x5a,steps[i]); p=q;old=steps[i];
++    }
++    assert(mpool_realloc(mp,p,0)==NULL); bytes_equal(p,old,0x5a);
++    mpool_free(mp,p);
++    assert(mpool_calloc(mp,0,8)==NULL);
++    assert(mpool_calloc(mp,8,0)==NULL);
++    mpool_flush(mp);
++    mpool_destroy(mp);
++
++    /* Fixed rows have one class for every starting alignment. */
++    mp=mpool_create(); assert(mp);
++    p=mpool_malloc(mp,1024); assert(p);
++    unsigned row_charge=from_bits(((struct FRAG*)(p-FRAG_OVERHEAD))->u.a.sbits);
++    p=mpool_malloc(mp,168); assert(p);
++    unsigned logical_charge=from_bits(((struct FRAG*)(p-FRAG_OVERHEAD))->u.a.sbits);
++    printf(",\"alignment_cases\":%u,\"row_charge\":%u,\"logical_charge\":%u",
++           checked,row_charge,logical_charge);
++    mpool_destroy(mp);
++#endif
++    puts(",\"checks\":\"passed\"}");
++    return 0;
++}
++'''
++
++
++def compatibility_module():
++    spec = importlib.util.spec_from_file_location('mpool_flush', ROOT / 'tools/compact-memory/test_mpool_flush.py')
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    return module
++
++
++def run_harness(*, tight, pointer_table=8, sanitize=False, flush=False):
++    module = compatibility_module()
++    with tempfile.TemporaryDirectory() as name:
++        work = Path(name)
++        for file in ('mpool.c', 'mpool.h', 'memory_perturb.h'):
++            shutil.copy2(ROOT / 'libclamav' / file, work / file)
++        for file, content in module.HEADERS.items():
++            (work / file).write_text(content)
++        (work / 'probe.c').write_text(module.HARNESS if flush else HARNESS)
++        command = ['cc', '-std=c11', '-D_DEFAULT_SOURCE', '-DUSE_MPOOL',
++                   '-DHAVE_UNISTD_H=1', '-DHAVE_STRING_H=1', '-DHAVE_MMAP=1',
++                   '-DHAVE_SYS_MMAN_H=1', '-DHAVE_MADVISE=1', '-DC_LINUX=1',
++                   '-DANONYMOUS_MAP=MAP_ANONYMOUS', f'-DSIZEOF_VOID_P={pointer_table}',
++                   '-ffunction-sections', '-fdata-sections', '-Wl,--gc-sections',
++                   '-O2', 'probe.c', '-o', 'probe']
++        if tight: command.insert(1, '-DENABLE_TIGHT_POOL_CLASSES=1')
++        if sanitize: command[1:1] = ['-fsanitize=address,undefined', '-fno-omit-frame-pointer']
++        subprocess.run(command, cwd=work, check=True, capture_output=True)
++        import os
++        env = os.environ.copy()
++        if sanitize: env['ASAN_OPTIONS'] = 'detect_leaks=0'
++        result = subprocess.run([str(work/'probe')], check=True, capture_output=True, text=True, env=env)
++        return json.loads(result.stdout)
++
++
++@unittest.skipUnless(shutil.which('cc'), 'C compiler needed')
++class TightPoolClassTests(unittest.TestCase):
++    def test_lp64_table_boundaries_alignment_reuse_and_reallocation(self):
++        baseline=run_harness(tight=False)
++        trial=run_harness(tight=True)
++        self.assertEqual(trial['classes'], sorted(baseline['classes']+[184,1040]))
++        self.assertEqual(trial['pool_header_bytes']-baseline['pool_header_bytes'],16)
++        self.assertEqual((baseline['row_charge'],trial['row_charge']),(1176,1040))
++        self.assertEqual((baseline['logical_charge'],trial['logical_charge']),(196,184))
++        self.assertEqual(trial['alignment_cases'],208)
++
++        spec=importlib.util.spec_from_file_location('class_analysis',ROOT/'tools/compact-memory/allocation-perturbation/pool_class_analysis.py')
++        analysis=importlib.util.module_from_spec(spec);spec.loader.exec_module(analysis)
++        self.assertEqual(analysis.inspect_source(ROOT/'libclamav/mpool.c'),baseline['classes'])
++        self.assertEqual(analysis.inspect_source(ROOT/'libclamav/mpool.c',tight_pool_classes=True),trial['classes'])
++
++    def test_native_32bit_table_selection_is_unchanged(self):
++        # This selects and checks the production 32-bit table on the host. It
++        # does not claim to execute a 32-bit allocator or qualify its ABI.
++        baseline=run_harness(tight=False,pointer_table=4)
++        trial=run_harness(tight=True,pointer_table=4)
++        self.assertEqual(trial['classes'],baseline['classes'])
++        self.assertEqual(trial['pool_header_bytes'],baseline['pool_header_bytes'])
++
++    def test_production_free_page_reclamation_and_failure_preserve_reuse(self):
++        self.assertEqual(run_harness(tight=True,flush=True)['checks'],'passed')
++
++
++def main():
++    parser=argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--report',type=Path)
++    parser.add_argument('--sanitize',action='store_true')
++    args=parser.parse_args()
++    rows={}
++    for name,tight in (('baseline',False),('tight',True)):
++        rows[name]=run_harness(tight=tight,sanitize=args.sanitize)
++        rows[name+'_flush']=run_harness(tight=tight,sanitize=args.sanitize,flush=True)
++    rows['source_sha256']=hashlib.sha256((ROOT/'libclamav/mpool.c').read_bytes()).hexdigest()
++    rows['sanitizers']=args.sanitize
++    rows['scope']='Production allocator invariants only; scanner order, engine RSS and baseline performance unqualified.'
++    if args.report:
++        args.report.parent.mkdir(parents=True,exist_ok=True)
++        args.report.write_text(json.dumps(rows,indent=2)+'\n')
++    print(json.dumps({k:rows[k] for k in ('source_sha256','sanitizers','scope')}))
++
++
++if __name__=='__main__':main()

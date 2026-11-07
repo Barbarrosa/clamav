@@ -132,8 +132,13 @@ Use a matching Release/Ninja build of this source, default flat nodes, normal
 development dependencies, unrar enabled and signature verification enabled.
 The recorded run used GCC 14.2.0 and Rust 1.90.0. Build only the library if desired:
 
+The directory-retention option below is required for internal capture/export.
+Ordinary builds retire eligible construction indexes after compilation; those
+private exporters fail with a rebuild instruction rather than export partial data.
+
 ```sh
 cmake -S . -B ../clamav-system-build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+  -DENABLE_AC_DIRECTORY_RETENTION=ON \
   -DENABLE_LIBCLAMAV_ONLY=ON -DENABLE_TESTS=OFF -DENABLE_UNRAR=ON \
   -DCVD_CERTS_DIRECTORY="$PWD/certs"
 cmake --build ../clamav-system-build --parallel 3

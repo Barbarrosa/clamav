@@ -1,0 +1,2654 @@
+Test project /workspace/clamav-system-build
+    Start 1: libclamav
+    Start 2: libclamav_rust
+1/7 Test #2: libclamav_rust ...................***Failed    0.01 sec
+error: could not create home directory: '/home/agent/.rustup': Read-only file system (os error 30)
+
+    Start 3: clamsubmit
+2/7 Test #3: clamsubmit .......................***Failed    2.61 sec
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav/unit_tests
+collecting ... collected 12 items
+
+clamsubmit_test.py::ClamSubmitTest::test_bad_submission_redirects FAILED [  8%]
+clamsubmit_test.py::ClamSubmitTest::test_cli_validation PASSED           [ 16%]
+clamsubmit_test.py::ClamSubmitTest::test_debug_output_redacts_sensitive_values FAILED [ 25%]
+clamsubmit_test.py::ClamSubmitTest::test_empty_report_form_fails_cleanly FAILED [ 33%]
+clamsubmit_test.py::ClamSubmitTest::test_false_negative_workflow_with_acl FAILED [ 41%]
+clamsubmit_test.py::ClamSubmitTest::test_false_positive_workflow_without_acl FAILED [ 50%]
+clamsubmit_test.py::ClamSubmitTest::test_http_failures_stop_at_failing_stage FAILED [ 58%]
+clamsubmit_test.py::ClamSubmitTest::test_invalid_presigned_responses FAILED [ 66%]
+clamsubmit_test.py::ClamSubmitTest::test_missing_page_csrf_token_fails_cleanly FAILED [ 75%]
+clamsubmit_test.py::ClamSubmitTest::test_missing_token_fails_cleanly FAILED [ 83%]
+clamsubmit_test.py::ClamSubmitTest::test_oversized_presigned_response FAILED [ 91%]
+clamsubmit_test.py::ClamSubmitTest::test_stdin_sample FAILED             [100%]
+
+=================================== FAILURES ===================================
+_________________ ClamSubmitTest.test_bad_submission_redirects _________________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_bad_submission_redirects>
+
+    def test_bad_submission_redirects(self):
+        cases = [
+            (None, b"no redirect destination"),
+            ("/unexpected", b"Unknown report submission redirect"),
+            (
+                "http://attacker.invalid/reports/success",
+                b"Unknown report submission redirect",
+            ),
+            ("/reports/failure", b"rejected the submission"),
+        ]
+        for location, expected_error in cases:
+            with self.subTest(location=location):
+                scenario = Scenario(submit_location=location)
+>               result = self.run_client(scenario, self.standard_arguments())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:381: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+__________ ClamSubmitTest.test_debug_output_redacts_sensitive_values ___________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_debug_output_redacts_sensitive_values>
+
+    def test_debug_output_redacts_sensitive_values(self):
+        scenario = Scenario()
+>       result = self.run_client(scenario, self.standard_arguments() + ["-d"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:413: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_____________ ClamSubmitTest.test_empty_report_form_fails_cleanly ______________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_empty_report_form_fails_cleanly>
+
+    def test_empty_report_form_fails_cleanly(self):
+        scenario = Scenario(report_body=b"")
+>       result = self.run_client(scenario, self.standard_arguments())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:406: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_____________ ClamSubmitTest.test_false_negative_workflow_with_acl _____________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_false_negative_workflow_with_acl>
+
+    def test_false_negative_workflow_with_acl(self):
+        scenario = Scenario()
+>       result = self.run_client(scenario, self.standard_arguments())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:227: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+___________ ClamSubmitTest.test_false_positive_workflow_without_acl ____________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_false_positive_workflow_without_acl>
+
+    def test_false_positive_workflow_without_acl(self):
+        scenario = Scenario(presigned_body=valid_presigned_response(False))
+>       result = self.run_client(
+            scenario, self.standard_arguments(false_positive=True)
+        )
+
+clamsubmit_test.py:258: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+___________ ClamSubmitTest.test_http_failures_stop_at_failing_stage ____________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_http_failures_stop_at_failing_stage>
+
+    def test_http_failures_stop_at_failing_stage(self):
+        cases = [
+            (Scenario(report_status=500), "report form", 1),
+            (Scenario(presigned_status=404, presigned_body=b""), "presigned POST", 2),
+            (Scenario(upload_status=403), "S3 upload", 3),
+            (Scenario(submit_status=500), "report submission", 4),
+        ]
+        for scenario, expected_error, expected_requests in cases:
+            with self.subTest(expected_error=expected_error):
+>               result = self.run_client(scenario, self.standard_arguments())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:292: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_______________ ClamSubmitTest.test_invalid_presigned_responses ________________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_invalid_presigned_responses>
+
+    def test_invalid_presigned_responses(self):
+        missing_required_fields = []
+        for field in (
+            "key",
+            "policy",
+            "x-amz-meta-original-filename",
+            "x-amz-credential",
+            "x-amz-algorithm",
+            "x-amz-date",
+            "x-amz-signature",
+        ):
+            response = json.loads(valid_presigned_response())
+            del response[field]
+            missing_required_fields.append(
+                (
+                    json.dumps(response).encode(),
+                    ("missing required string field '{}'".format(field)).encode(),
+                )
+            )
+    
+        invalid_responses = [
+            (b"", b"response body is empty"),
+            (b"{not json", b"not valid JSON"),
+            (
+                b'{"x-amz-signature":"must-not-be-logged"} trailing',
+                b"not valid JSON",
+            ),
+            (b"[]", b"JSON is not an object"),
+            (
+                json.dumps(
+                    dict(
+                        json.loads(valid_presigned_response()),
+                        policy=123,
+                    )
+                ).encode(),
+                b"field 'policy' is not a string",
+            ),
+            (
+                json.dumps(
+                    dict(
+                        json.loads(valid_presigned_response()),
+                        policy="",
+                    )
+                ).encode(),
+                b"field 'policy' is empty",
+            ),
+            (
+                json.dumps(
+                    dict(
+                        json.loads(valid_presigned_response(False)),
+                        acl=123,
+                    )
+                ).encode(),
+                b"field 'acl' is not a string",
+            ),
+        ] + missing_required_fields
+        for response, expected_error in invalid_responses:
+            with self.subTest(expected_error=expected_error):
+                scenario = Scenario(presigned_body=response)
+>               result = self.run_client(scenario, self.standard_arguments())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:356: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+__________ ClamSubmitTest.test_missing_page_csrf_token_fails_cleanly ___________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_missing_page_csrf_token_fails_cleanly>
+
+    def test_missing_page_csrf_token_fails_cleanly(self):
+        scenario = Scenario(
+            report_body=(
+                '<html><form><input value="{}" name="authenticity_token" '
+                'type="hidden"></form></html>'.format(FORM_AUTHENTICITY_TOKEN)
+            ).encode("utf-8")
+        )
+>       result = self.run_client(scenario, self.standard_arguments())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:399: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_______________ ClamSubmitTest.test_missing_token_fails_cleanly ________________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_missing_token_fails_cleanly>
+
+    def test_missing_token_fails_cleanly(self):
+        scenario = Scenario(report_body=b"<html>no token</html>")
+>       result = self.run_client(scenario, self.standard_arguments())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:387: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_______________ ClamSubmitTest.test_oversized_presigned_response _______________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_oversized_presigned_response>
+
+    def test_oversized_presigned_response(self):
+        scenario = Scenario(presigned_body=b"x" * (1024 * 1024 + 1))
+>       result = self.run_client(scenario, self.standard_arguments())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+clamsubmit_test.py:364: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_______________________ ClamSubmitTest.test_stdin_sample _______________________
+
+self = <clamsubmit_test.ClamSubmitTest testMethod=test_stdin_sample>
+
+    def test_stdin_sample(self):
+        scenario = Scenario()
+>       result = self.run_client(
+            scenario,
+            self.standard_arguments(filename="-"),
+            input_data=b"sample from stdin",
+        )
+
+clamsubmit_test.py:274: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+clamsubmit_test.py:168: in run_client
+    server = HTTPServer(("127.0.0.1", 0), make_handler(scenario))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+=========================== short test summary info ============================
+FAILED clamsubmit_test.py::ClamSubmitTest::test_bad_submission_redirects - Pe...
+FAILED clamsubmit_test.py::ClamSubmitTest::test_debug_output_redacts_sensitive_values
+FAILED clamsubmit_test.py::ClamSubmitTest::test_empty_report_form_fails_cleanly
+FAILED clamsubmit_test.py::ClamSubmitTest::test_false_negative_workflow_with_acl
+FAILED clamsubmit_test.py::ClamSubmitTest::test_false_positive_workflow_without_acl
+FAILED clamsubmit_test.py::ClamSubmitTest::test_http_failures_stop_at_failing_stage
+FAILED clamsubmit_test.py::ClamSubmitTest::test_invalid_presigned_responses
+FAILED clamsubmit_test.py::ClamSubmitTest::test_missing_page_csrf_token_fails_cleanly
+FAILED clamsubmit_test.py::ClamSubmitTest::test_missing_token_fails_cleanly
+FAILED clamsubmit_test.py::ClamSubmitTest::test_oversized_presigned_response
+FAILED clamsubmit_test.py::ClamSubmitTest::test_stdin_sample - PermissionErro...
+========================= 11 failed, 1 passed in 1.64s =========================
+
+    Start 4: clamscan
+3/7 Test #1: libclamav ........................***Failed   18.36 sec
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav/unit_tests
+collecting ... collected 1 item
+
+libclamav_test.py::TC::test_libclamav_00_unit_test FAILED                [100%]
+
+=================================== FAILURES ===================================
+________________________ TC.test_libclamav_00_unit_test ________________________
+
+self = <libclamav_test.TC testMethod=test_libclamav_00_unit_test>
+
+    def test_libclamav_00_unit_test(self):
+        self.step_name('libclamav unit tests')
+    
+        # If no valgrind, valgrind nad valgrind args are empty strings
+        command = '{valgrind} {valgrind_args} {check_clamav}'.format(
+            valgrind=TC.valgrind, valgrind_args=TC.valgrind_args, check_clamav=TC.check_clamav
+        )
+        output = self.execute_command(command)
+    
+>       assert output.ec == 0  # success
+        ^^^^^^^^^^^^^^^^^^^^^
+E       assert 1 == 0
+E        +  where 1 = CmdResult(ec=1, out="Using default test timeout; alter by setting 'T' env var (in seconds)\nRunning suite(s): cl_suite\ntraverse_to: Failed open payload\n cli\n jsnorm\n str\n regex\n disasm\n unique\n matchers\n htmlnorm\n bytecode\n99%: Checks: 1652, Failures: 2, Errors: 0\n/workspace/clamav/unit_tests/check_clamav.c:2070:S:phishingScan:unchecked_setup:0: open() failed: /workspace/clamav/unit_tests/input/other_sigs/daily.pdb\n/workspace/clamav/unit_tests/check_clamav.c:2070:S:phishingScan with 2 dbs:unchecked_setup:0: open() failed: /workspace/clamav/unit_tests/input/other_sigs/daily.pdb\nNOTICE: Use the 'T' environment variable to adjust testcase timeout\n", err='').ec
+
+/workspace/clamav/unit_tests/libclamav_test.py:47: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]:                           libclamav unit tests                          
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[DEBUG]: Run command:   /workspace/clamav-system-build/unit_tests/check_clamav 
+[DEBUG]: Exit code: 1
+[DEBUG]: stdout: Using default test timeout; alter by setting 'T' env var (in seconds)
+Running suite(s): cl_suite
+traverse_to: Failed open payload
+ cli
+ jsnorm
+ str
+ regex
+ disasm
+ unique
+ matchers
+ htmlnorm
+ bytecode
+99%: Checks: 1652, Failures: 2, Errors: 0
+/workspace/clamav/unit_tests/check_clamav.c:2070:S:phishingScan:unchecked_setup:0: open() failed: /workspace/clamav/unit_tests/input/other_sigs/daily.pdb
+/workspace/clamav/unit_tests/check_clamav.c:2070:S:phishingScan with 2 dbs:unchecked_setup:0: open() failed: /workspace/clamav/unit_tests/input/other_sigs/daily.pdb
+NOTICE: Use the 'T' environment variable to adjust testcase timeout
+
+[DEBUG]: stderr: 
+
+--------------------------- Captured stdout teardown ---------------------------
+
+[INFO]: Removed tmp directory: /workspace/clamav-system-build/unit_tests/TC-xuacsi7o
+=========================== short test summary info ============================
+FAILED libclamav_test.py::TC::test_libclamav_00_unit_test - assert 1 == 0
+============================== 1 failed in 17.36s ==============================
+
+    Start 5: clamd
+4/7 Test #5: clamd ............................***Failed    3.49 sec
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav/unit_tests
+collecting ... collected 15 items
+
+clamd_test.py::TC::test_clamd_00_version ERROR                           [  6%]
+clamd_test.py::TC::test_clamd_01_ping_pong ERROR                         [ 13%]
+clamd_test.py::TC::test_clamd_02_clamdscan_version ERROR                 [ 20%]
+clamd_test.py::TC::test_clamd_03_reload ERROR                            [ 26%]
+clamd_test.py::TC::test_clamd_04_all_testfiles ERROR                     [ 33%]
+clamd_test.py::TC::test_clamd_05_check_clamd ERROR                       [ 40%]
+clamd_test.py::TC::test_clamd_05a_quarantine_copy_uses_real_source_path ERROR [ 46%]
+clamd_test.py::TC::test_clamd_05b_quarantine_copy_modes_use_real_source_path ERROR [ 53%]
+clamd_test.py::TC::test_clamd_06_HeuristicScanPrecedence_off ERROR       [ 60%]
+clamd_test.py::TC::test_clamd_07_HeuristicScanPrecedence_on ERROR        [ 66%]
+clamd_test.py::TC::test_clamd_08_VirusEvent ERROR                        [ 73%]
+clamd_test.py::TC::test_clamd_09_clamdscan_ExcludePath ERROR             [ 80%]
+clamd_test.py::TC::test_clamd_10_allmatch_not_sticky ERROR               [ 86%]
+clamd_test.py::TC::test_clamd_11_alertexceedsmax_maxfilesize ERROR       [ 93%]
+clamd_test.py::TC::test_clamd_12_onenote_disabled ERROR                  [100%]
+
+==================================== ERRORS ====================================
+__________________ ERROR at setup of TC.test_clamd_00_version __________________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+_________________ ERROR at setup of TC.test_clamd_01_ping_pong _________________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+_____________ ERROR at setup of TC.test_clamd_02_clamdscan_version _____________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+__________________ ERROR at setup of TC.test_clamd_03_reload ___________________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+_______________ ERROR at setup of TC.test_clamd_04_all_testfiles _______________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+________________ ERROR at setup of TC.test_clamd_05_check_clamd ________________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+__ ERROR at setup of TC.test_clamd_05a_quarantine_copy_uses_real_source_path ___
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+_ ERROR at setup of TC.test_clamd_05b_quarantine_copy_modes_use_real_source_path _
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+________ ERROR at setup of TC.test_clamd_06_HeuristicScanPrecedence_off ________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+________ ERROR at setup of TC.test_clamd_07_HeuristicScanPrecedence_on _________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+________________ ERROR at setup of TC.test_clamd_08_VirusEvent _________________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+___________ ERROR at setup of TC.test_clamd_09_clamdscan_ExcludePath ___________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+____________ ERROR at setup of TC.test_clamd_10_allmatch_not_sticky ____________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+________ ERROR at setup of TC.test_clamd_11_alertexceedsmax_maxfilesize ________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+_____________ ERROR at setup of TC.test_clamd_12_onenote_disabled ______________
+
+cls = <class 'clamd_test.TC'>
+
+    @classmethod
+    def setUpClass(cls):
+        super(TC, cls).setUpClass()
+    
+        TC.path_testfiles = (
+            TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles'
+        )
+        TC.testpaths = list(TC.path_testfiles.glob('clam*'))
+    
+        TC.clamd_pid = TC.path_tmp / 'clamd-test.pid'
+        TC.clamd_socket =   'clamd-test.socket'             # <-- A relative path here and in check_clamd to avoid-
+                                                            # test failures caused by (invalid) long socket filepaths.
+                                                            # The max length for a socket file path is _really_ short.
+        TC.clamd_port_num = 3319                            # <-- This is hard-coded into the `check_clamd` program on Windows.
+        TC.path_db = TC.path_tmp / 'database'
+        TC.path_db.mkdir(parents=True)
+        shutil.copy(
+            str(TC.path_build / 'unit_tests' / 'input' / 'clamav.hdb'),
+            str(TC.path_db),
+        )
+>       shutil.copy(
+            str(TC.path_source / 'unit_tests' / 'input' / 'other_sigs' / 'daily.pdb'),
+            str(TC.path_db),
+        )
+
+/workspace/clamav/unit_tests/clamd_test.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:435: in copy
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+src = '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+dst = '/workspace/clamav-system-build/unit_tests/TC-zmzago51/database/daily.pdb'
+
+    def copyfile(src, dst, *, follow_symlinks=True):
+        """Copy data from src to dst in the most efficient way possible.
+    
+        If follow_symlinks is not set and src is a symbolic link, a new
+        symlink will be created instead of copying the file it points to.
+    
+        """
+        sys.audit("shutil.copyfile", src, dst)
+    
+        if _samefile(src, dst):
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+    
+        file_size = 0
+        for i, fn in enumerate([src, dst]):
+            try:
+                st = _stat(fn)
+            except OSError:
+                # File most likely does not exist
+                pass
+            else:
+                # XXX What about other special files? (sockets, devices...)
+                if stat.S_ISFIFO(st.st_mode):
+                    fn = fn.path if isinstance(fn, os.DirEntry) else fn
+                    raise SpecialFileError("`%s` is a named pipe" % fn)
+                if _WINDOWS and i == 0:
+                    file_size = st.st_size
+    
+        if not follow_symlinks and _islink(src):
+            os.symlink(os.readlink(src), dst)
+        else:
+>           with open(src, 'rb') as fsrc:
+                 ^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/other_sigs/daily.pdb'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py:260: FileNotFoundError
+=========================== short test summary info ============================
+ERROR clamd_test.py::TC::test_clamd_00_version - FileNotFoundError: [Errno 2]...
+ERROR clamd_test.py::TC::test_clamd_01_ping_pong - FileNotFoundError: [Errno ...
+ERROR clamd_test.py::TC::test_clamd_02_clamdscan_version - FileNotFoundError:...
+ERROR clamd_test.py::TC::test_clamd_03_reload - FileNotFoundError: [Errno 2] ...
+ERROR clamd_test.py::TC::test_clamd_04_all_testfiles - FileNotFoundError: [Er...
+ERROR clamd_test.py::TC::test_clamd_05_check_clamd - FileNotFoundError: [Errn...
+ERROR clamd_test.py::TC::test_clamd_05a_quarantine_copy_uses_real_source_path
+ERROR clamd_test.py::TC::test_clamd_05b_quarantine_copy_modes_use_real_source_path
+ERROR clamd_test.py::TC::test_clamd_06_HeuristicScanPrecedence_off - FileNotF...
+ERROR clamd_test.py::TC::test_clamd_07_HeuristicScanPrecedence_on - FileNotFo...
+ERROR clamd_test.py::TC::test_clamd_08_VirusEvent - FileNotFoundError: [Errno...
+ERROR clamd_test.py::TC::test_clamd_09_clamdscan_ExcludePath - FileNotFoundEr...
+ERROR clamd_test.py::TC::test_clamd_10_allmatch_not_sticky - FileNotFoundErro...
+ERROR clamd_test.py::TC::test_clamd_11_alertexceedsmax_maxfilesize - FileNotF...
+ERROR clamd_test.py::TC::test_clamd_12_onenote_disabled - FileNotFoundError: ...
+============================== 15 errors in 2.63s ==============================
+
+    Start 6: freshclam
+5/7 Test #6: freshclam ........................***Failed    2.22 sec
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav/unit_tests
+collecting ... collected 11 items
+
+freshclam_test.py::TC::test_freshclam_00_version PASSED                  [  9%]
+freshclam_test.py::TC::test_freshclam_01_file_copy PASSED                [ 18%]
+freshclam_test.py::TC::test_freshclam_02_http_403 FAILED                 [ 27%]
+freshclam_test.py::TC::test_freshclam_03_http_403_daemonized FAILED      [ 36%]
+freshclam_test.py::TC::test_freshclam_04_http_429 FAILED                 [ 45%]
+freshclam_test.py::TC::test_freshclam_05_cdiff_update FAILED             [ 54%]
+freshclam_test.py::TC::test_freshclam_05_cdiff_update_UNC SKIPPED (T...) [ 63%]
+freshclam_test.py::TC::test_freshclam_06_cdiff_partial_minus_1 FAILED    [ 72%]
+freshclam_test.py::TC::test_freshclam_07_cdiff_partial_minus_2 FAILED    [ 81%]
+freshclam_test.py::TC::test_freshclam_07_no_cdiff_out_of_date_cvd FAILED [ 90%]
+freshclam_test.py::TC::test_freshclam_08_cdiff_update_twice FAILED       [100%]
+
+=================================== FAILURES ===================================
+________________________ TC.test_freshclam_02_http_403 _________________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_02_http_403>
+
+    def test_freshclam_02_http_403(self):
+        self.step_name('Verify correct behavior when receiving 403 (forbidden)')
+    
+>       self.start_mock_mirror(WebServerHandler_02)
+
+/workspace/clamav/unit_tests/freshclam_test.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = <class 'freshclam_test.WebServerHandler_02'>
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]:          Verify correct behavior when receiving 403 (forbidden)         
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+----------------------------- Captured stderr call -----------------------------
+Process Process-1:
+___________________ TC.test_freshclam_03_http_403_daemonized ___________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_03_http_403_daemonized>
+
+    def test_freshclam_03_http_403_daemonized(self):
+        self.step_name('Verify correct behavior when receiving 403 (forbidden) and daemonized')
+    
+>       self.start_mock_mirror(WebServerHandler_02)
+
+/workspace/clamav/unit_tests/freshclam_test.py:237: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = <class 'freshclam_test.WebServerHandler_02'>
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]:  Verify correct behavior when receiving 403 (forbidden) and daemonized  
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+________________________ TC.test_freshclam_04_http_429 _________________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_04_http_429>
+
+    def test_freshclam_04_http_429(self):
+        self.step_name('Verify correct behavior when receiving 429 (too-many-requests)')
+    
+>       self.start_mock_mirror(WebServerHandler_04)
+
+/workspace/clamav/unit_tests/freshclam_test.py:276: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = <class 'freshclam_test.WebServerHandler_04'>
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]:      Verify correct behavior when receiving 429 (too-many-requests)     
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+----------------------------- Captured stderr call -----------------------------
+Process Process-3:
+______________________ TC.test_freshclam_05_cdiff_update _______________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_05_cdiff_update>
+
+    def test_freshclam_05_cdiff_update(self):
+        self.step_name('Verify that freshclam can update from an older CVD to a newer with CDIFF patches')
+    
+        # start with this CVD
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-1.cvd'), str(TC.path_db / 'test.cvd'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-1.cvd.sign'), str(TC.path_db))
+    
+        # advertise this CVD (by sending the header response to Range requests)
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cvd'), str(TC.path_www / 'test.cvd.advertised'))
+    
+        # using these CDIFFs
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-2.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-2.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-4.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-4.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cdiff.sign'), str(TC.path_www))
+    
+        handler = partial(WebServerHandler_WWW, TC.path_www)
+>       self.start_mock_mirror(handler)
+
+/workspace/clamav/unit_tests/freshclam_test.py:335: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = functools.partial(<class 'freshclam_test.WebServerHandler_WWW'>, PosixPath('/workspace/clamav-system-build/unit_tests/TC-q234ecbw/www'))
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Verify that freshclam can update from an older CVD to a newer with CDIFF patches
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+__________________ TC.test_freshclam_06_cdiff_partial_minus_1 __________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_06_cdiff_partial_minus_1>
+
+    def test_freshclam_06_cdiff_partial_minus_1(self):
+        self.step_name('Verify that freshclam will accept a partial update with 1 missing cdiff')
+    
+        # start with this CVD
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cvd'), str(TC.path_db / 'test.cvd'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cvd.sign'), str(TC.path_db))
+    
+        # advertise this CVD (by sending the header response to Range requests)
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cvd'), str(TC.path_www / 'test.cvd.advertised'))
+    
+        # using these CDIFFs
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-4.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-4.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff.sign'), str(TC.path_www))
+        #shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cdiff'), str(TC.path_www))  # <-- don't give them the last CDIFF
+    
+        handler = partial(WebServerHandler_WWW, TC.path_www)
+>       self.start_mock_mirror(handler)
+
+/workspace/clamav/unit_tests/freshclam_test.py:462: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = functools.partial(<class 'freshclam_test.WebServerHandler_WWW'>, PosixPath('/workspace/clamav-system-build/unit_tests/TC-q234ecbw/www'))
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Verify that freshclam will accept a partial update with 1 missing cdiff 
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+----------------------------- Captured stderr call -----------------------------
+Process Process-5:
+__________________ TC.test_freshclam_07_cdiff_partial_minus_2 __________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_07_cdiff_partial_minus_2>
+
+    def test_freshclam_07_cdiff_partial_minus_2(self):
+        self.step_name('Verify that freshclam behavior with 2 missing cdiffs')
+    
+        # start with this CVD
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cvd'), str(TC.path_db / 'test.cvd'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cvd.sign'), str(TC.path_db))
+    
+        # advertise this CVD (by sending the header response to Range requests)
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cvd'), str(TC.path_www / 'test.cvd.advertised'))
+    
+        # serve this CVD when requested instead of the advertised one
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cvd'), str(TC.path_www / 'test.cvd.served'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cvd.sign'), str(TC.path_www))
+    
+        # using these CDIFFs
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-4.cdiff'), str(TC.path_www))
+        # shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff'), str(TC.path_www))  <--- don't give them the second to last, either!
+        # shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cdiff'), str(TC.path_www))  <--- don't give them the last CDIFF
+    
+        handler = partial(WebServerHandler_WWW, TC.path_www)
+>       self.start_mock_mirror(handler)
+
+/workspace/clamav/unit_tests/freshclam_test.py:550: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = functools.partial(<class 'freshclam_test.WebServerHandler_WWW'>, PosixPath('/workspace/clamav-system-build/unit_tests/TC-q234ecbw/www'))
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]:           Verify that freshclam behavior with 2 missing cdiffs          
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+----------------------------- Captured stderr call -----------------------------
+Process Process-6:
+________________ TC.test_freshclam_07_no_cdiff_out_of_date_cvd _________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_07_no_cdiff_out_of_date_cvd>
+
+    def test_freshclam_07_no_cdiff_out_of_date_cvd(self):
+        self.step_name('Verify that freshclam will properly handle an out-of-date CVD update after a zero-byte CDIFF')
+    
+        # start with CVD 1
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-1.cvd'), str(TC.path_db / 'test.cvd'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-1.cvd.sign'), str(TC.path_db))
+    
+        # advertise CVD 6 (by sending the header response to Range requests)
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cvd'), str(TC.path_www / 'test.cvd.advertised'))
+    
+        # Serve the patches 2.
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-2.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-2.cdiff.sign'), str(TC.path_www))
+    
+        # Serve a zero-byte file instead of test-3.cdiff. This should trigger a whole CVD download.
+        with (TC.path_www / 'test-3.cdiff').open('w') as fp:
+            pass
+    
+        # Serve CVD 5 when test.cvd is requested instead of 6 (the advertised one). This should trigger an incremental update, starting a test-4.cvd + patches 5-6.
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cvd'), str(TC.path_www / 'test.cvd.served'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cvd.sign'), str(TC.path_www))
+    
+        # Serve the patches 5 - 6. Patch 4 should never be requested.
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-5.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-6.cdiff.sign'), str(TC.path_www))
+    
+        handler = partial(WebServerHandler_WWW, TC.path_www)
+>       self.start_mock_mirror(handler)
+
+/workspace/clamav/unit_tests/freshclam_test.py:642: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = functools.partial(<class 'freshclam_test.WebServerHandler_WWW'>, PosixPath('/workspace/clamav-system-build/unit_tests/TC-q234ecbw/www'))
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Verify that freshclam will properly handle an out-of-date CVD update after a zero-byte CDIFF
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+___________________ TC.test_freshclam_08_cdiff_update_twice ____________________
+
+self = <freshclam_test.TC testMethod=test_freshclam_08_cdiff_update_twice>
+
+    def test_freshclam_08_cdiff_update_twice(self):
+        self.step_name('Verify that freshclam can update from an older CVD to a newer with CDIFF patches, and then update from an older CLD to the latest with more CDIFF patches')
+    
+        # start with this CVD
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-1.cvd'), str(TC.path_db / 'test.cvd'))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-1.cvd.sign'), str(TC.path_db))
+    
+        # advertise this CVD FIRST (by sending the header response to Range requests)
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cvd'), str(TC.path_www / 'test.cvd.advertised'))
+    
+        # using these CDIFFs
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-2.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-2.cdiff.sign'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cdiff'), str(TC.path_www))
+        shutil.copy(str(TC.path_source / 'unit_tests' / 'input' / 'freshclam_testfiles' / 'test-3.cdiff.sign'), str(TC.path_www))
+    
+        handler = partial(WebServerHandler_WWW, TC.path_www)
+>       self.start_mock_mirror(handler)
+
+/workspace/clamav/unit_tests/freshclam_test.py:752: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/workspace/clamav/unit_tests/freshclam_test.py:99: in start_mock_mirror
+    start_mock_database_mirror(handler)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+handler = functools.partial(<class 'freshclam_test.WebServerHandler_WWW'>, PosixPath('/workspace/clamav-system-build/unit_tests/TC-q234ecbw/www'))
+
+    def start_mock_database_mirror(handler):
+        '''
+        Start the mock mirror and wait until it is ready to accept connections.
+        '''
+        parent_conn, child_conn = Pipe(duplex=False)
+        server_process = Process(target=mock_database_mirror, args=(handler, child_conn))
+        server_process.start()
+        child_conn.close()
+    
+        try:
+            if not parent_conn.poll(MOCK_MIRROR_START_TIMEOUT):
+                raise RuntimeError("Timed out waiting for mock database mirror to start.")
+    
+            try:
+                message = parent_conn.recv()
+            except EOFError as e:
+                raise RuntimeError("Mock database mirror exited before reporting readiness.") from e
+    
+            if message[0] != 'ready':
+>               raise RuntimeError("Mock database mirror failed to start: {}".format(message[1]))
+E               RuntimeError: Mock database mirror failed to start: [Errno 1] Operation not permitted
+
+/workspace/clamav/unit_tests/freshclam_test.py:845: RuntimeError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Verify that freshclam can update from an older CVD to a newer with CDIFF patches, and then update from an older CLD to the latest with more CDIFF patches
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+----------------------------- Captured stderr call -----------------------------
+Process Process-8:
+--------------------------- Captured stdout teardown ---------------------------
+
+[INFO]: Removed tmp directory: /workspace/clamav-system-build/unit_tests/TC-q234ecbw
+=========================== short test summary info ============================
+FAILED freshclam_test.py::TC::test_freshclam_02_http_403 - RuntimeError: Mock...
+FAILED freshclam_test.py::TC::test_freshclam_03_http_403_daemonized - Runtime...
+FAILED freshclam_test.py::TC::test_freshclam_04_http_429 - RuntimeError: Mock...
+FAILED freshclam_test.py::TC::test_freshclam_05_cdiff_update - RuntimeError: ...
+FAILED freshclam_test.py::TC::test_freshclam_06_cdiff_partial_minus_1 - Runti...
+FAILED freshclam_test.py::TC::test_freshclam_07_cdiff_partial_minus_2 - Runti...
+FAILED freshclam_test.py::TC::test_freshclam_07_no_cdiff_out_of_date_cvd - Ru...
+FAILED freshclam_test.py::TC::test_freshclam_08_cdiff_update_twice - RuntimeE...
+==================== 8 failed, 2 passed, 1 skipped in 1.33s ====================
+
+    Start 7: sigtool
+6/7 Test #7: sigtool ..........................   Passed    1.49 sec
+7/7 Test #4: clamscan .........................***Failed   24.60 sec
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.2, pluggy-1.7.0 -- /workspace/qualification-deps/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/clamav/unit_tests
+collecting ... collected 146 items
+
+clamscan/_basic_test.py::TC::test_00_version PASSED                      [  0%]
+clamscan/_basic_test.py::TC::test_01_all_testfiles PASSED                [  1%]
+clamscan/_basic_test.py::TC::test_02_all_testfiles_ign2 PASSED           [  2%]
+clamscan/allmatch_test.py::TC::test_exe_imphash_plus_zipsfx PASSED       [  2%]
+clamscan/allmatch_test.py::TC::test_exe_pattern_plus_zipsfx PASSED       [  3%]
+clamscan/allmatch_test.py::TC::test_many_sigs PASSED                     [  4%]
+clamscan/allmatch_test.py::TC::test_many_sigs_no_allmatch PASSED         [  4%]
+clamscan/allmatch_test.py::TC::test_pe_allmatch FAILED                   [  5%]
+clamscan/allmatch_test.py::TC::test_regression_cbc_and_ndb PASSED        [  6%]
+clamscan/allmatch_test.py::TC::test_regression_imphash_nosize PASSED     [  6%]
+clamscan/allmatch_test.py::TC::test_txt_plus_clam_zipsfx PASSED          [  7%]
+clamscan/allmatch_test.py::TC::test_zip_all_files PASSED                 [  8%]
+clamscan/allmatch_test.py::TC::test_zip_missing_centrals PASSED          [  8%]
+clamscan/allmatch_test.py::TC::test_zip_no_central_directory PASSED      [  9%]
+clamscan/allmatch_test.py::TC::test_zip_plus_zip PASSED                  [ 10%]
+clamscan/alz_test.py::TC::test_bzip2 PASSED                              [ 10%]
+clamscan/alz_test.py::TC::test_bzip2_with_binary PASSED                  [ 11%]
+clamscan/alz_test.py::TC::test_deflate PASSED                            [ 12%]
+clamscan/alz_test.py::TC::test_deflate_limit_uses_decompressed_size PASSED [ 13%]
+clamscan/alz_test.py::TC::test_encrypted_metadata_matches_before_extraction_skip PASSED [ 13%]
+clamscan/alz_test.py::TC::test_extraction_error_does_not_abort_archive_scan PASSED [ 14%]
+clamscan/alz_test.py::TC::test_inflated_header_size_does_not_skip_extraction PASSED [ 15%]
+clamscan/alz_test.py::TC::test_later_parse_error_does_not_skip_earlier_member_scan PASSED [ 15%]
+clamscan/alz_test.py::TC::test_metadata_filepos_counts_skipped_entries_from_one PASSED [ 16%]
+clamscan/alz_test.py::TC::test_total_limit_does_not_report_max_file_size PASSED [ 17%]
+clamscan/alz_test.py::TC::test_uncompressed PASSED                       [ 17%]
+clamscan/alz_test.py::TC::test_uncompressed_with_binary PASSED           [ 18%]
+clamscan/assorted_test.py::TC::test_00_version PASSED                    [ 19%]
+clamscan/assorted_test.py::TC::test_cvdload_no_sign_fips_limits PASSED   [ 19%]
+clamscan/assorted_test.py::TC::test_iso_missing_joliet PASSED            [ 20%]
+clamscan/assorted_test.py::TC::test_onenote_disabled PASSED              [ 21%]
+clamscan/assorted_test.py::TC::test_pe_cert_block FAILED                 [ 21%]
+clamscan/assorted_test.py::TC::test_pe_cert_trust FAILED                 [ 22%]
+clamscan/assorted_test.py::TC::test_pe_cert_trust_archive FAILED         [ 23%]
+clamscan/assorted_test.py::TC::test_split_zip PASSED                     [ 23%]
+clamscan/assorted_test.py::TC::test_weak_indicator_icon PASSED           [ 24%]
+clamscan/bytecode_test.py::TC::test_pdf_hook PASSED                      [ 25%]
+clamscan/container_sigs_test.py::TC::test_clamscan_container_cache PASSED [ 26%]
+clamscan/container_sigs_test.py::TC::test_container PASSED               [ 26%]
+clamscan/container_sigs_test.py::TC::test_handler_type_does_not_alert_on_retyped_layer PASSED [ 27%]
+clamscan/container_sigs_test.py::TC::test_handler_type_retyped_layer_is_not_cached PASSED [ 28%]
+clamscan/container_sigs_test.py::TC::test_intermediates PASSED           [ 28%]
+clamscan/container_sigs_test.py::TC::test_intermediates_cache PASSED     [ 29%]
+clamscan/embedded_files_test.py::TC::test_embedded_arjs PASSED           [ 30%]
+clamscan/embedded_files_test.py::TC::test_embedded_cabs PASSED           [ 30%]
+clamscan/embedded_files_test.py::TC::test_embedded_exes PASSED           [ 31%]
+clamscan/embedded_files_test.py::TC::test_embedded_zips PASSED           [ 32%]
+clamscan/fp_check_test.py::TC::test_alerts_on_normalized PASSED          [ 32%]
+clamscan/fp_check_test.py::TC::test_alerts_on_zip PASSED                 [ 33%]
+clamscan/fp_check_test.py::TC::test_fp_for_nonnormalized PASSED          [ 34%]
+clamscan/fp_check_test.py::TC::test_fp_for_nonnormalized_wild PASSED     [ 34%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized PASSED             [ 35%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized_fips_md5 PASSED    [ 36%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized_fips_sha1 PASSED   [ 36%]
+clamscan/fp_check_test.py::TC::test_fp_for_normalized_wild PASSED        [ 37%]
+clamscan/fp_check_test.py::TC::test_fp_for_zipped_file PASSED            [ 38%]
+clamscan/fp_check_test.py::TC::test_fp_for_zipped_file_wild PASSED       [ 39%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_bad_algorithm PASSED      [ 39%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_bad_hamming PASSED        [ 40%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_bad_hash PASSED           [ 41%]
+clamscan/fuzzy_img_hash_test.py::TC::test_sigs_good_allmatch PASSED      [ 41%]
+clamscan/hash_and_file_type_test.py::TC::test_file_type_hint PASSED      [ 42%]
+clamscan/hash_and_file_type_test.py::TC::test_hash_hint PASSED           [ 43%]
+clamscan/hash_and_file_type_test.py::TC::test_html_file_type_tag_signatures_require_tag_boundary PASSED [ 43%]
+clamscan/hash_and_file_type_test.py::TC::test_log_hash PASSED            [ 44%]
+clamscan/heuristics_test.py::TC::test_allmatch PASSED                    [ 45%]
+clamscan/heuristics_test.py::TC::test_allmatch_precedence PASSED         [ 45%]
+clamscan/heuristics_test.py::TC::test_hidden_by_strong_indicator PASSED  [ 46%]
+clamscan/heuristics_test.py::TC::test_only_heur PASSED                   [ 47%]
+clamscan/heuristics_test.py::TC::test_precedence PASSED                  [ 47%]
+clamscan/image_extraction_test.py::TC::test_HTML_style_with_detection PASSED [ 48%]
+clamscan/image_extraction_test.py::TC::test_xls_jpeg_png PASSED          [ 49%]
+clamscan/image_extraction_test.py::TC::test_xls_with_detection PASSED    [ 50%]
+clamscan/lzh_lha_archive_test.py::TC::test_good_archives PASSED          [ 50%]
+clamscan/mail_test.py::TC::test_content_disposition_unquoted_escaped_semicolon PASSED [ 51%]
+clamscan/mail_test.py::TC::test_content_type_adjacent_extended_boundaries PASSED [ 52%]
+clamscan/mail_test.py::TC::test_content_type_argument_limit_alignment PASSED [ 52%]
+clamscan/mail_test.py::TC::test_content_type_legacy_colon_boundaries PASSED [ 53%]
+clamscan/mail_test.py::TC::test_content_type_long_whitespace_runs PASSED [ 54%]
+clamscan/mail_test.py::TC::test_content_type_malformed_extended_boundary_names PASSED [ 54%]
+clamscan/mail_test.py::TC::test_content_type_quote_state PASSED          [ 55%]
+clamscan/match_offsets_test.py::TC::test_LDB_VI PASSED                   [ 56%]
+clamscan/match_offsets_test.py::TC::test_yara_at_offset PASSED           [ 56%]
+clamscan/match_offsets_test.py::TC::test_yara_in_range PASSED            [ 57%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_doc PASSED                [ 58%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_doc_metadata PASSED       [ 58%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_docx PASSED               [ 59%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_docx_metadata PASSED      [ 60%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_dot PASSED                [ 60%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_dot_metadata PASSED       [ 61%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_ppsx PASSED               [ 62%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_ppsx_metadata PASSED      [ 63%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_pptx PASSED               [ 63%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_pptx_metadata PASSED      [ 64%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xls PASSED                [ 65%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xls_metadata PASSED       [ 65%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xlsx PASSED               [ 66%]
+clamscan/ole2_encryption_test.py::TC::test_FAT_xlsx_metadata PASSED      [ 67%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_doc PASSED         [ 67%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_doc_metadata PASSED [ 68%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_docx PASSED        [ 69%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_docx_metadata PASSED [ 69%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_dot PASSED         [ 70%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_dot_metadata PASSED [ 71%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_ppsx PASSED        [ 71%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_ppsx_metadata PASSED [ 72%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_pptx PASSED        [ 73%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_pptx_metadata PASSED [ 73%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xls PASSED         [ 74%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xls_metadata PASSED [ 75%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xlsx PASSED        [ 76%]
+clamscan/ole2_encryption_test.py::TC::test_ministream_xlsx_metadata PASSED [ 76%]
+clamscan/pdf_stats_test.py::TC::test_pdf_stats PASSED                    [ 77%]
+clamscan/phishing_test.py::TC::test_not_enabled PASSED                   [ 78%]
+clamscan/phishing_test.py::TC::test_ssl_and_cloak PASSED                 [ 78%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_allows_search_only_destination_dir PASSED [ 79%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_does_not_act_on_replaced_source_link PASSED [ 80%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_preserves_xattr SKIPPED [ 80%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_copy_uses_real_source_path_for_symlink_source PASSED [ 81%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_directory_replacement_does_not_redirect_copy_target PASSED [ 82%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_directory_replacement_does_not_redirect_move_target PASSED [ 82%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_allows_search_only_destination_dir PASSED [ 83%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_does_not_act_on_replaced_source_link PASSED [ 84%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_unlinks_submitted_hardlink PASSED [ 84%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_move_uses_real_source_path_for_symlink_source PASSED [ 85%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_remove_does_not_act_on_replaced_source_link PASSED [ 86%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_remove_unlinks_submitted_hardlink PASSED [ 86%]
+clamscan/quarantine_toctou_test.py::TC::test_quarantine_remove_uses_real_source_path_for_symlink_source PASSED [ 87%]
+clamscan/regex_test.py::TC::test_ldb_multi_pcre PASSED                   [ 88%]
+clamscan/regex_test.py::TC::test_ldb_offset_pcre PASSED                  [ 89%]
+clamscan/regex_test.py::TC::test_pcre_flag PASSED                        [ 89%]
+clamscan/regex_test.py::TC::test_slash_colon PASSED                      [ 90%]
+clamscan/regex_test.py::TC::test_yara PASSED                             [ 91%]
+clamscan/save_html_uris_test.py::TC::test_save_links PASSED              [ 91%]
+clamscan/save_pdf_uris_test.py::TC::test_out_of_order_links PASSED       [ 92%]
+clamscan/save_pdf_uris_test.py::TC::test_save_links PASSED               [ 93%]
+clamscan/xar_test.py::TC::test_declared_large_actual_small_toc_is_scanned PASSED [ 93%]
+clamscan/xar_test.py::TC::test_declared_small_actual_large_toc_obeys_scan_limits PASSED [ 94%]
+clamscan/xar_test.py::TC::test_incomplete_toc_stream_is_not_scanned PASSED [ 95%]
+clamscan/xlm_test.py::TC::test_formula_record_boundaries PASSED          [ 95%]
+clamscan/zip_test.py::TC::test_decompressed_member_exceeds_max_file_size PASSED [ 96%]
+clamscan/zip_test.py::TC::test_decompressed_member_limit_alert_is_optional PASSED [ 97%]
+clamscan/zip_test.py::TC::test_other_compression_methods_exceed_max_file_size PASSED [ 97%]
+clamscan/zstd_test.py::TC::test_zstd PASSED                              [ 98%]
+clamscan/zstd_test.py::TC::test_zstd_concatenated PASSED                 [ 99%]
+clamscan/zstd_test.py::TC::test_zstd_skippable_prefix PASSED             [100%]
+
+=================================== FAILURES ===================================
+_____________________________ TC.test_pe_allmatch ______________________________
+
+self = <allmatch_test.TC testMethod=test_pe_allmatch>
+
+    def test_pe_allmatch(self):
+        self.step_name('Test that clam will detect a string in test.exe with a wide variety of signatures written or generated for the file.')
+    
+        # The sig set and test.exe for test set was written by one of our threat researchers to test the allmatch option.
+        # Overall, it's much more thorough than previous tests, but some of the tests are duplicates of the previous tests.
+    
+        # TODO: The section signatures are not working as written, hence the "broken_dbs" directory.
+        #       There is a known issue with relative offset signatures when using the Boyer-Moore matcher. The sigs work if using the Aho-Corasick matcher.
+        #       When we fix section signatures, we can move them to the alerting sigs directory and update this test.
+    
+        test_path = TC.path_source / 'unit_tests' / 'input' / 'pe_allmatch'
+        test_exe = test_path / 'test.exe'
+    
+        command = '{valgrind} {valgrind_args} {clamscan} \
+             -d {alerting_dbs} \
+             -d {weak_dbs} \
+             -d {broken_dbs} \
+             -d {block_cert_dbs} \
+             --allmatch --bytecode-unsigned {testfiles}'.format(
+            valgrind=TC.valgrind, valgrind_args=TC.valgrind_args, clamscan=TC.clamscan,
+            alerting_dbs=test_path / 'alert-sigs',
+            block_cert_dbs=test_path / 'block-cert-sigs',
+            weak_dbs=test_path / 'weak-sigs',
+            broken_dbs=test_path / 'broken-sigs',
+            testfiles=test_exe,
+        )
+        output = self.execute_command(command)
+    
+>       assert output.ec == 1
+E       assert 2 == 1
+E        +  where 2 = CmdResult(ec=2, out='\n----------- SCAN SUMMARY -----------\nKnown viruses: 84\nEngine version: 1.6.0-devel-20261106\nScanned directories: 0\nScanned files: 0\nInfected files: 0\nData scanned: 0 B\nData read: 0 B (ratio 0.00:1)\nTime: 0.009 sec (0 m 0 s)\nStart Date: 2026:11:06 17:08:56\nEnd Date:   2026:11:06 17:08:56\n', err="LibClamAV Error: cl_load: No such file or directory: /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs\nERROR: Can't get file status\n").ec
+
+/workspace/clamav/unit_tests/clamscan/allmatch_test.py:492: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Test that clam will detect a string in test.exe with a wide variety of signatures written or generated for the file.
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[DEBUG]: Run command:   /workspace/clamav-system-build/clamscan/clamscan              -d /workspace/clamav/unit_tests/input/pe_allmatch/alert-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/broken-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/block-cert-sigs              --allmatch --bytecode-unsigned /workspace/clamav/unit_tests/input/pe_allmatch/test.exe 
+[DEBUG]: Exit code: 2
+[DEBUG]: stdout: 
+----------- SCAN SUMMARY -----------
+Known viruses: 84
+Engine version: 1.6.0-devel-20261106
+Scanned directories: 0
+Scanned files: 0
+Infected files: 0
+Data scanned: 0 B
+Data read: 0 B (ratio 0.00:1)
+Time: 0.009 sec (0 m 0 s)
+Start Date: 2026:11:06 17:08:56
+End Date:   2026:11:06 17:08:56
+
+[DEBUG]: stderr: LibClamAV Error: cl_load: No such file or directory: /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs
+ERROR: Can't get file status
+
+
+____________________________ TC.test_pe_cert_block _____________________________
+
+self = <assorted_test.TC testMethod=test_pe_cert_block>
+
+    def test_pe_cert_block(self):
+        self.step_name('Test that clam will disregard a certificate trust signature if a block certificate rule is used.')
+    
+        # The sig set and test.exe for test set was written by one of our threat researchers to test the allmatch option.
+        # Overall, it's much more thorough than previous tests, but some of the tests are duplicates of the previous tests.
+    
+        # TODO: The section signatures are not working as written, hence the "broken_dbs" directory.
+        #       There is a known issue with relative offset signatures when using the Boyer-Moore matcher. The sigs work if using the Aho-Corasick matcher.
+        #       When we fix section signatures, we can move them to the alerting sigs directory and update this test.
+    
+        test_path = TC.path_source / 'unit_tests' / 'input' / 'pe_allmatch'
+        test_exe = test_path / 'test.exe'
+    
+        command = '{valgrind} {valgrind_args} {clamscan} \
+             -d {alerting_dbs} \
+             -d {weak_dbs} \
+             -d {broken_dbs} \
+             -d {block_cert_dbs} \
+             --allmatch --bytecode-unsigned {testfiles}'.format(
+            valgrind=TC.valgrind, valgrind_args=TC.valgrind_args, clamscan=TC.clamscan,
+            alerting_dbs=test_path / 'alert-sigs',
+            block_cert_dbs=test_path / 'block-cert-sigs',
+            weak_dbs=test_path / 'weak-sigs',
+            broken_dbs=test_path / 'broken-sigs',
+            trust_dbs=test_path / 'trust-sigs',
+            testfiles=test_exe,
+        )
+        output = self.execute_command(command)
+    
+>       assert output.ec == 1
+E       assert 2 == 1
+E        +  where 2 = CmdResult(ec=2, out='\n----------- SCAN SUMMARY -----------\nKnown viruses: 84\nEngine version: 1.6.0-devel-20261106\nScanned directories: 0\nScanned files: 0\nInfected files: 0\nData scanned: 0 B\nData read: 0 B (ratio 0.00:1)\nTime: 0.008 sec (0 m 0 s)\nStart Date: 2026:11:06 17:08:57\nEnd Date:   2026:11:06 17:08:57\n', err="LibClamAV Error: cl_load: No such file or directory: /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs\nERROR: Can't get file status\n").ec
+
+/workspace/clamav/unit_tests/clamscan/assorted_test.py:154: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Test that clam will disregard a certificate trust signature if a block certificate rule is used.
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[DEBUG]: Run command:   /workspace/clamav-system-build/clamscan/clamscan              -d /workspace/clamav/unit_tests/input/pe_allmatch/alert-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/broken-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/block-cert-sigs              --allmatch --bytecode-unsigned /workspace/clamav/unit_tests/input/pe_allmatch/test.exe 
+[DEBUG]: Exit code: 2
+[DEBUG]: stdout: 
+----------- SCAN SUMMARY -----------
+Known viruses: 84
+Engine version: 1.6.0-devel-20261106
+Scanned directories: 0
+Scanned files: 0
+Infected files: 0
+Data scanned: 0 B
+Data read: 0 B (ratio 0.00:1)
+Time: 0.008 sec (0 m 0 s)
+Start Date: 2026:11:06 17:08:57
+End Date:   2026:11:06 17:08:57
+
+[DEBUG]: stderr: LibClamAV Error: cl_load: No such file or directory: /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs
+ERROR: Can't get file status
+
+
+____________________________ TC.test_pe_cert_trust _____________________________
+
+self = <assorted_test.TC testMethod=test_pe_cert_trust>
+
+    def test_pe_cert_trust(self):
+        self.step_name('Test that clam can trust an EXE based on an authenticode certificate check.')
+    
+        test_path = TC.path_source / 'unit_tests' / 'input' / 'pe_allmatch'
+        test_exe = test_path / 'test.exe'
+    
+        command = '{valgrind} {valgrind_args} {clamscan} \
+             -d {alerting_dbs} \
+             -d {weak_dbs} \
+             -d {broken_dbs} \
+             -d {trust_dbs} \
+             --allmatch --bytecode-unsigned {testfiles}'.format(
+            valgrind=TC.valgrind, valgrind_args=TC.valgrind_args, clamscan=TC.clamscan,
+            alerting_dbs=test_path / 'alert-sigs',
+            weak_dbs=test_path / 'weak-sigs',
+            broken_dbs=test_path / 'broken-sigs',
+            trust_dbs=test_path / 'trust-sigs',
+            testfiles=test_exe,
+        )
+        output = self.execute_command(command)
+    
+>       assert output.ec == 0
+E       assert 2 == 0
+E        +  where 2 = CmdResult(ec=2, out='\n----------- SCAN SUMMARY -----------\nKnown viruses: 84\nEngine version: 1.6.0-devel-20261106\nScanned directories: 0\nScanned files: 0\nInfected files: 0\nData scanned: 0 B\nData read: 0 B (ratio 0.00:1)\nTime: 0.010 sec (0 m 0 s)\nStart Date: 2026:11:06 17:08:57\nEnd Date:   2026:11:06 17:08:57\n', err="LibClamAV Error: cl_load: No such file or directory: /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs\nERROR: Can't get file status\n").ec
+
+/workspace/clamav/unit_tests/clamscan/assorted_test.py:113: AssertionError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Test that clam can trust an EXE based on an authenticode certificate check.
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[DEBUG]: Run command:   /workspace/clamav-system-build/clamscan/clamscan              -d /workspace/clamav/unit_tests/input/pe_allmatch/alert-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/broken-sigs              -d /workspace/clamav/unit_tests/input/pe_allmatch/trust-sigs              --allmatch --bytecode-unsigned /workspace/clamav/unit_tests/input/pe_allmatch/test.exe 
+[DEBUG]: Exit code: 2
+[DEBUG]: stdout: 
+----------- SCAN SUMMARY -----------
+Known viruses: 84
+Engine version: 1.6.0-devel-20261106
+Scanned directories: 0
+Scanned files: 0
+Infected files: 0
+Data scanned: 0 B
+Data read: 0 B (ratio 0.00:1)
+Time: 0.010 sec (0 m 0 s)
+Start Date: 2026:11:06 17:08:57
+End Date:   2026:11:06 17:08:57
+
+[DEBUG]: stderr: LibClamAV Error: cl_load: No such file or directory: /workspace/clamav/unit_tests/input/pe_allmatch/weak-sigs
+ERROR: Can't get file status
+
+
+________________________ TC.test_pe_cert_trust_archive _________________________
+
+self = <assorted_test.TC testMethod=test_pe_cert_trust_archive>
+
+    def test_pe_cert_trust_archive(self):
+        self.step_name('Test that clam\'s trust of an EXE based on a cert check doesn\'t trust a whole archive.')
+    
+        test_path = TC.path_source / 'unit_tests' / 'input' / 'pe_allmatch'
+    
+        # This file we'll trust.
+        test_exe = test_path / 'test.exe'
+    
+        # This file we'll match on for an alert
+        clam_exe = TC.path_build / 'unit_tests' / 'input' / 'clamav_hdb_scanfiles' / 'clam.exe'
+    
+        # Build a ZIP that first has file that we trust, followed by a file we would alert on.
+        trusted_plus_mal_zip = TC.path_tmp / 'trust_plus_mal.zip'
+        with ZipFile(str(trusted_plus_mal_zip), 'w', ZIP_DEFLATED) as zf:
+>           zf.writestr('test.exe', test_exe.read_bytes())
+                                    ^^^^^^^^^^^^^^^^^^^^^
+
+/workspace/clamav/unit_tests/clamscan/assorted_test.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1019: in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/workspace/clamav/unit_tests/input/pe_allmatch/test.exe')
+mode = 'rb', buffering = -1, encoding = None, errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/workspace/clamav/unit_tests/input/pe_allmatch/test.exe'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1013: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[INFO]: Test that clam's trust of an EXE based on a cert check doesn't trust a whole archive.
+[INFO]: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+=========================== short test summary info ============================
+FAILED clamscan/allmatch_test.py::TC::test_pe_allmatch - assert 2 == 1
+FAILED clamscan/assorted_test.py::TC::test_pe_cert_block - assert 2 == 1
+FAILED clamscan/assorted_test.py::TC::test_pe_cert_trust - assert 2 == 0
+FAILED clamscan/assorted_test.py::TC::test_pe_cert_trust_archive - FileNotFou...
+================== 4 failed, 141 passed, 1 skipped in 23.77s ===================
+
+
+14% tests passed, 6 tests failed out of 7
+
+Total Test time (real) =  27.23 sec
+
+The following tests FAILED:
+	  1 - libclamav (Failed)
+	  2 - libclamav_rust (Failed)
+	  3 - clamsubmit (Failed)
+	  4 - clamscan (Failed)
+	  5 - clamd (Failed)
+	  6 - freshclam (Failed)
+Errors while running CTest

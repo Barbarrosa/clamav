@@ -1,0 +1,919 @@
+{
+  "schema_version": 1,
+  "implementation_sha256": "bd8909b0c8fb7ea2b1163a4054b5be0aba811454d3911b9354f8e4afa48a19eb",
+  "objdump_version": "GNU objdump (GNU Binutils for Debian) 2.44",
+  "binaries": {
+    "baseline": {
+      "sha256": "db8f951f672056638ac56a3860bb02315735aec26e25f29c7a3d52f680df9564",
+      "bytes": 20230184
+    },
+    "candidate": {
+      "sha256": "6856cc6200b5d211f92e96688d2e4867047c2541954adf5ee2108375cad57c17",
+      "bytes": 20230336
+    }
+  },
+  "source": {
+    "git_refs": {
+      "baseline": "ca2e9561517aa5456b2dade6a7f33b3939e72461",
+      "candidate": "5b0f64cd26ee8e2b0bcc3ad9012d1b2d3ff620e2"
+    },
+    "source_files": {
+      "libclamav/cache.c": {
+        "baseline": "09978faf2efbfc7fdd4cefab1cece3998f4e2a94433399be62213d144bf2baa7",
+        "candidate": "09978faf2efbfc7fdd4cefab1cece3998f4e2a94433399be62213d144bf2baa7"
+      },
+      "libclamav/matcher-ac.c": {
+        "baseline": "274cc01e11add1e150b00d030e51ecd36b9ff1fdf181c64f5b3210709f26193d",
+        "candidate": "32b5940ccda795f3bd1417e3a805933c93214128696c1c937d9a3a35f4721cf2"
+      },
+      "libclamav/matcher-ac.h": {
+        "baseline": "75a4e708399688a85fc70e13fcd60fd98f12b855570605e368d3151f5387aa19",
+        "candidate": "192a8fd852282f4fc8a30fbfb1322fa5710c98e1ea8e6dd4991c578328153d66"
+      },
+      "libclamav/matcher-bm.c": {
+        "baseline": "bc8ea5ce217b78701b08019fbd9f0b3b8e1025af55660247580e637a4d76bcae",
+        "candidate": "bc8ea5ce217b78701b08019fbd9f0b3b8e1025af55660247580e637a4d76bcae"
+      },
+      "libclamav/matcher-hash.c": {
+        "baseline": "147ff3b6dfd0e7b5c38339cf85b1f840da8fee427b5b728cfc4156c37424d186",
+        "candidate": "147ff3b6dfd0e7b5c38339cf85b1f840da8fee427b5b728cfc4156c37424d186"
+      },
+      "libclamav/matcher.h": {
+        "baseline": "a6ad38e72054c3ce63deff92919eb18e99df149f99e7fbe10bf4228610983ae0",
+        "candidate": "a6ad38e72054c3ce63deff92919eb18e99df149f99e7fbe10bf4228610983ae0"
+      }
+    },
+    "bodies": [
+      {
+        "path": "libclamav/cache.c",
+        "name": "clean_cache_check",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "2cc1813c723391c2a9a6417bf5118605a5917818db9d3ac6fc39c4d1fb0ac29f",
+          "candidate": "2cc1813c723391c2a9a6417bf5118605a5917818db9d3ac6fc39c4d1fb0ac29f"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/cache.c",
+        "name": "clean_cache_add",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "7403ede43f5652c506fe61c4fa0c1d46e460b58633fc067c203ddfaa4d6ee8d8",
+          "candidate": "7403ede43f5652c506fe61c4fa0c1d46e460b58633fc067c203ddfaa4d6ee8d8"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_scanbuff",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "1dc38a07d8cb69d621cac9b831721ccd355cfed0998ab8c0845540eb4f4e5096",
+          "candidate": "1dc38a07d8cb69d621cac9b831721ccd355cfed0998ab8c0845540eb4f4e5096"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "ac_forward_match_branch",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "3845c8b67b5cf23feaedadc88b179bf999c4c0df5d8ffdd38235e4e7c2d37c25",
+          "candidate": "3845c8b67b5cf23feaedadc88b179bf999c4c0df5d8ffdd38235e4e7c2d37c25"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "ac_backward_match_branch",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "2d404d832a5b45dd2dfe6254e18dbf95e6422991cf61d3538f80a4260bff04ef",
+          "candidate": "2d404d832a5b45dd2dfe6254e18dbf95e6422991cf61d3538f80a4260bff04ef"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_caloff",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "b5a301a7d70eeca37a453634b6811351202f8a8ba1aa5b7186ad5f823e3dc5c5",
+          "candidate": "b5a301a7d70eeca37a453634b6811351202f8a8ba1aa5b7186ad5f823e3dc5c5"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "lsig_sub_matched",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "d70ad647dc558cc0ae68b0c8ba592896e1f68963997f5ecd4eec1b07ecaa88cc",
+          "candidate": "d70ad647dc558cc0ae68b0c8ba592896e1f68963997f5ecd4eec1b07ecaa88cc"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "lsig_increment_subsig_match",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "2428d81ef6eae24612263e829c36aa5fd0e3253311efa7aa1924874c91e4b31a",
+          "candidate": "2428d81ef6eae24612263e829c36aa5fd0e3253311efa7aa1924874c91e4b31a"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_chkmacro",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "a40f8734a6b969b67ec84ee87f8df6b979fb780ce027d24b0372220402e48520",
+          "candidate": "a40f8734a6b969b67ec84ee87f8df6b979fb780ce027d24b0372220402e48520"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_chklsig",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "c9c62ab18552f450cc4fd7bc027d0e298f51052bc06c9ce02e74ec21ecb41297",
+          "candidate": "c9c62ab18552f450cc4fd7bc027d0e298f51052bc06c9ce02e74ec21ecb41297"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_initdata",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "260035628961bb92dde25360b6ff72737837e9d9d2e8e2cce1c2f970ed3a9def",
+          "candidate": "260035628961bb92dde25360b6ff72737837e9d9d2e8e2cce1c2f970ed3a9def"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_initdata_for_matcher",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "9450f9787de2f2b1e4327922d43f7a48cdd3262c6e8a73edf01d4f85d6c1da09",
+          "candidate": "9450f9787de2f2b1e4327922d43f7a48cdd3262c6e8a73edf01d4f85d6c1da09"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.c",
+        "name": "cli_ac_freedata",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "becc24706dfbc35e499b1e054ce4bc537793ee90fd9048b8649db358dce34412",
+          "candidate": "becc24706dfbc35e499b1e054ce4bc537793ee90fd9048b8649db358dce34412"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_patt",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "1e90bde3aab8fb855d41ad72e046a48a060d8ac1d39016401c52713c0ae0446a",
+          "candidate": "1e90bde3aab8fb855d41ad72e046a48a060d8ac1d39016401c52713c0ae0446a"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_patt_ext",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "414bc2abbac709691c51ebc082ed055231e23c8c750498d2374e2b6e9e732b15",
+          "candidate": "414bc2abbac709691c51ebc082ed055231e23c8c750498d2374e2b6e9e732b15"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_list",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "7b6494558eb2b290ffbd8c0ed96cde03dfa2152ff93ccd8b0ae5bf91d8fe7bf1",
+          "candidate": "7b6494558eb2b290ffbd8c0ed96cde03dfa2152ff93ccd8b0ae5bf91d8fe7bf1"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_node",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "171a532cc2591941ba6b829b75f3f084ccf08343b0e840e63bac785a8c9637c1",
+          "candidate": "171a532cc2591941ba6b829b75f3f084ccf08343b0e840e63bac785a8c9637c1"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_data",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "97afb200c2b445bd10602b843ffb317ea99e3ea79511985cf6a4433293c8b9e2",
+          "candidate": "97afb200c2b445bd10602b843ffb317ea99e3ea79511985cf6a4433293c8b9e2"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_lsig_row",
+        "kind": "inline_accessor",
+        "body_sha256": {
+          "baseline": "5bb3effdc19277ac1107abe8072b22d3b93a8122a467bdc604d957b210d12cbb",
+          "candidate": "5bb3effdc19277ac1107abe8072b22d3b93a8122a467bdc604d957b210d12cbb"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_lsig_counts",
+        "kind": "inline_accessor",
+        "body_sha256": {
+          "baseline": "668ff2f53dda3d8b10eec5244fe4cceb2628e8f482f0f7acc3ce4abd66fbb59d",
+          "candidate": "668ff2f53dda3d8b10eec5244fe4cceb2628e8f482f0f7acc3ce4abd66fbb59d"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_lsig_first",
+        "kind": "inline_accessor",
+        "body_sha256": {
+          "baseline": "d64daedfb83a0fd50805278ae9988df470681228c8a07a9c5257152ca6a35e82",
+          "candidate": "d64daedfb83a0fd50805278ae9988df470681228c8a07a9c5257152ca6a35e82"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-ac.h",
+        "name": "cli_ac_lsig_last",
+        "kind": "inline_accessor",
+        "body_sha256": {
+          "baseline": "f0c7750f957a9eb5efeaccf565afb8f43355974808c337fbd1d2d6bb273d5df5",
+          "candidate": "f0c7750f957a9eb5efeaccf565afb8f43355974808c337fbd1d2d6bb273d5df5"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-bm.c",
+        "name": "cli_bm_scanbuff",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "3452526307bfa19ccd7bb3c29f47e78ceddcb4cd9c1c99ec096dee3183399a06",
+          "candidate": "3452526307bfa19ccd7bb3c29f47e78ceddcb4cd9c1c99ec096dee3183399a06"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-hash.c",
+        "name": "cli_hm_scan",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "3635409022838b91ce67d713d0bb4692165d988a4a2c5e3fc1b33c487fa70e24",
+          "candidate": "3635409022838b91ce67d713d0bb4692165d988a4a2c5e3fc1b33c487fa70e24"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher-hash.c",
+        "name": "cli_hm_scan_wild",
+        "kind": "query_function",
+        "body_sha256": {
+          "baseline": "aee8dc94816c47ae1ef592b0e4b87b1868a3a63e3c9a6d8e829e6e99ed0afe43",
+          "candidate": "aee8dc94816c47ae1ef592b0e4b87b1868a3a63e3c9a6d8e829e6e99ed0afe43"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher.h",
+        "name": "cli_matcher",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "790ca7c320873d1f111e6c32564bc6f087836d0850a465267f72ed6971ca77f3",
+          "candidate": "790ca7c320873d1f111e6c32564bc6f087836d0850a465267f72ed6971ca77f3"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher.h",
+        "name": "cli_ac_lsig",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "f95a6c74524a5ecf14a10cdb4a1e6a86405c421d05fa099407f0f40630fb8366",
+          "candidate": "f95a6c74524a5ecf14a10cdb4a1e6a86405c421d05fa099407f0f40630fb8366"
+        },
+        "body_bytes_unchanged": true
+      },
+      {
+        "path": "libclamav/matcher.h",
+        "name": "cli_lsig_tdb",
+        "kind": "struct",
+        "body_sha256": {
+          "baseline": "3c3c42765af554792e5ed6390cf8501ec12b65975f25513d9fa9c6d5b1222e7f",
+          "candidate": "3c3c42765af554792e5ed6390cf8501ec12b65975f25513d9fa9c6d5b1222e7f"
+        },
+        "body_bytes_unchanged": true
+      }
+    ],
+    "all_selected_bodies_unchanged": true,
+    "scope": "Exact source-body text and selected private structs/accessors; not binary build attestation or a whole-engine proof."
+  },
+  "functions": [
+    {
+      "name": "cli_ac_scanbuff",
+      "strict_normalized_equal": false,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_scanbuff",
+          "symbol_address": 1479712,
+          "instruction_count": 1280,
+          "padding_instructions": 41,
+          "nonpadding_instructions": 1239,
+          "local_direct_branches": 272,
+          "strict_sha256": "2d79040b6606bbc4ffa5d7a2ca24dd8bb4f4c03d7e539d75d5428e59da11e445",
+          "nonpadding_cfg_sha256": "faa875b1bdaa69e958e0c2fae7be154b6b11dc5d94e63c0e8fca89b8802be764",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "f738149b15927f0cab35b33ed1f65ee54e03a4f92b0c6ab2709b23e40fe8d010"
+        },
+        "candidate": {
+          "label": "cli_ac_scanbuff",
+          "symbol_address": 1480000,
+          "instruction_count": 1283,
+          "padding_instructions": 44,
+          "nonpadding_instructions": 1239,
+          "local_direct_branches": 272,
+          "strict_sha256": "4e563e2d94f7978ffa305c767e8fdd04c0fd415aaf9aeba9281ce0f9acf98da1",
+          "nonpadding_cfg_sha256": "faa875b1bdaa69e958e0c2fae7be154b6b11dc5d94e63c0e8fca89b8802be764",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "76165f5ad969c8f30813bcfc63f563fbdbd118e05e33dd30401d355ce80b8123"
+        }
+      },
+      "first_strict_differences": [
+        "--- \n",
+        "+++ \n",
+        "@@ -14,3 +14,3 @@\n",
+        " 33: test %r14,%r14",
+        "-36: je <cli_ac_scanbuff+0x1010>",
+        "+36: je <cli_ac_scanbuff+0x1030>",
+        " 3c: mov %rdi,%r11",
+        "@@ -18,6 +18,6 @@\n",
+        " 42: test %r15,%r15",
+        "-45: je <cli_ac_scanbuff+0xe18>",
+        "+45: je <cli_ac_scanbuff+0xe38>",
+        " 4b: mov 0x28(%rsp),%eax",
+        " 4f: test %eax,%eax",
+        "-51: je <cli_ac_scanbuff+0x131f>",
+        "+51: je <cli_ac_scanbuff+0x133f>",
+        " 57: mov 0x28(%rsp),%eax",
+        "@@ -34,1247 +34,1250 @@\n",
+        " 85: mov %eax,0x88(%rsp)",
+        "-8c: jmp <cli_ac_scanbuff+0xaf>",
+        "+8c: jmp <cli_ac_scanbuff+0xcf>"
+      ]
+    },
+    {
+      "name": "ac_forward_match_branch",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "ac_forward_match_branch",
+          "symbol_address": 1466336,
+          "instruction_count": 872,
+          "padding_instructions": 39,
+          "nonpadding_instructions": 833,
+          "local_direct_branches": 202,
+          "strict_sha256": "d43e1a6abd5bee9828df3260ca94c71d8696f3ad4e91d7c5d320531f55314dda",
+          "nonpadding_cfg_sha256": "3d98371ad9fa80be7e5fb1f767d31e52520e7a9c5a703f71978ed03ebd0bad44",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "8d58416ff149b0e7474c13f7b43c4130da24060fad533809243ce54cca8e1b5e"
+        },
+        "candidate": {
+          "label": "ac_forward_match_branch",
+          "symbol_address": 1466400,
+          "instruction_count": 872,
+          "padding_instructions": 39,
+          "nonpadding_instructions": 833,
+          "local_direct_branches": 202,
+          "strict_sha256": "d43e1a6abd5bee9828df3260ca94c71d8696f3ad4e91d7c5d320531f55314dda",
+          "nonpadding_cfg_sha256": "3d98371ad9fa80be7e5fb1f767d31e52520e7a9c5a703f71978ed03ebd0bad44",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "f5a8aeacbd7d821107d24249a9f3aa9e7b1f1cd5b7c207dd7b86dfbad5b74cb2"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "ac_backward_match_branch",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "ac_backward_match_branch",
+          "symbol_address": 1462720,
+          "instruction_count": 884,
+          "padding_instructions": 59,
+          "nonpadding_instructions": 825,
+          "local_direct_branches": 206,
+          "strict_sha256": "c45db9d7836d04f70194756e5c278335645b96a56df0bf504901cf28e3197216",
+          "nonpadding_cfg_sha256": "6d1fdfb91c98c2b73d1226289af3b111192598534ba4b6f26edba7242388c8d1",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "2b813261669082bbe31aadc1d68b034576e709d611955561f373c82f8dedc933"
+        },
+        "candidate": {
+          "label": "ac_backward_match_branch",
+          "symbol_address": 1462784,
+          "instruction_count": 884,
+          "padding_instructions": 59,
+          "nonpadding_instructions": 825,
+          "local_direct_branches": 206,
+          "strict_sha256": "c45db9d7836d04f70194756e5c278335645b96a56df0bf504901cf28e3197216",
+          "nonpadding_cfg_sha256": "6d1fdfb91c98c2b73d1226289af3b111192598534ba4b6f26edba7242388c8d1",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "0a77b6d4c24f9350ca11901b4922d56dd91afd326b5753cdafe5f68d8646d0cc"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_ac_caloff",
+      "strict_normalized_equal": false,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_caloff",
+          "symbol_address": 1475568,
+          "instruction_count": 82,
+          "padding_instructions": 3,
+          "nonpadding_instructions": 79,
+          "local_direct_branches": 10,
+          "strict_sha256": "c385bac742eb6e521b65477970276ca72ed9e45a61a7581611ddbf49b4e31ee3",
+          "nonpadding_cfg_sha256": "d4e324a68e5da92bd3d1e83450a07a93e0410ae07a232af1fd14e1951d790b73",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "03053d46a0ffd3671c46404cf7dfd94c86aca4f10086d411ff4e39b877e184c2"
+        },
+        "candidate": {
+          "label": "cli_ac_caloff",
+          "symbol_address": 1475840,
+          "instruction_count": 83,
+          "padding_instructions": 4,
+          "nonpadding_instructions": 79,
+          "local_direct_branches": 10,
+          "strict_sha256": "d938754562caa7f46e10f8e835c1dda46f029a4445445247e28d136900dd8f34",
+          "nonpadding_cfg_sha256": "d4e324a68e5da92bd3d1e83450a07a93e0410ae07a232af1fd14e1951d790b73",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "4d9b9e9f212f0be0aec794d76df0a6cac54ab9594976365fc05e7b506d4c0cdb"
+        }
+      },
+      "first_strict_differences": [
+        "--- \n",
+        "+++ \n",
+        "@@ -16,3 +16,3 @@\n",
+        " 31: test %eax,%eax",
+        "-33: je <cli_ac_caloff+0x10a>",
+        "+33: je <cli_ac_caloff+0x11a>",
+        " 39: mov 0x48(%rsi),%rax",
+        "@@ -35,3 +35,3 @@\n",
+        " 72: cmp 0x140(%rbp),%r15d",
+        "-79: jae <cli_ac_caloff+0x10a>",
+        "+79: jae <cli_ac_caloff+0x11a>",
+        " 7f: mov 0x138(%rbp),%rdx",
+        "@@ -57,3 +57,3 @@\n",
+        " cb: call <cli_errmsg@plt>",
+        "-d0: jmp <cli_ac_caloff+0x10d>",
+        "+d0: jmp <cli_ac_caloff+0x11d>",
+        " d2: nopw 0x0(%rax,%rax,1)",
+        "@@ -61,3 +61,3 @@\n",
+        " de: test %edx,%edx",
+        "-e0: je <cli_ac_caloff+0x10a>"
+      ]
+    },
+    {
+      "name": "lsig_sub_matched",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "lsig_sub_matched",
+          "symbol_address": 1478272,
+          "instruction_count": 340,
+          "padding_instructions": 12,
+          "nonpadding_instructions": 328,
+          "local_direct_branches": 67,
+          "strict_sha256": "c91fb000a296c942fc3303248673e60d21c397dfbc4fdc0cb2a64182df66c85c",
+          "nonpadding_cfg_sha256": "6077f4b0c6f41a970bac814fe408979075be4e567c4c886add15691248113bfa",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "457875f9ec23b8c699db3dd928a3ab879a44848bdb23a79043939c53d8952e58"
+        },
+        "candidate": {
+          "label": "lsig_sub_matched",
+          "symbol_address": 1478560,
+          "instruction_count": 340,
+          "padding_instructions": 12,
+          "nonpadding_instructions": 328,
+          "local_direct_branches": 67,
+          "strict_sha256": "c91fb000a296c942fc3303248673e60d21c397dfbc4fdc0cb2a64182df66c85c",
+          "nonpadding_cfg_sha256": "6077f4b0c6f41a970bac814fe408979075be4e567c4c886add15691248113bfa",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "aedffe0195f1ec60fc876192be08f76129c64e68b2f9ae0214633fec11f798b0"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "lsig_increment_subsig_match",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "lsig_increment_subsig_match",
+          "symbol_address": 1478224,
+          "instruction_count": 14,
+          "padding_instructions": 0,
+          "nonpadding_instructions": 14,
+          "local_direct_branches": 2,
+          "strict_sha256": "ec8bdb336e1b95bbe1e6bb995c8f0a6d6114488a96824a7771ab37cca1d2d99d",
+          "nonpadding_cfg_sha256": "f8bfa88e26b33615e5e1a769f47a72a1406f33922d39c59204e600787a8f654c",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "bc4aef441d08612ee5579d519184ab1e523b1d88dea1349fcda9ea300c6f7b61"
+        },
+        "candidate": {
+          "label": "lsig_increment_subsig_match",
+          "symbol_address": 1478512,
+          "instruction_count": 14,
+          "padding_instructions": 0,
+          "nonpadding_instructions": 14,
+          "local_direct_branches": 2,
+          "strict_sha256": "ec8bdb336e1b95bbe1e6bb995c8f0a6d6114488a96824a7771ab37cca1d2d99d",
+          "nonpadding_cfg_sha256": "f8bfa88e26b33615e5e1a769f47a72a1406f33922d39c59204e600787a8f654c",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "d9df5dded22f35bd708924e65de95eeee4e7877dfa609db9114f0be14a0065fd"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_ac_chkmacro",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_chkmacro",
+          "symbol_address": 1479600,
+          "instruction_count": 42,
+          "padding_instructions": 1,
+          "nonpadding_instructions": 41,
+          "local_direct_branches": 4,
+          "strict_sha256": "5197ad4ca254c65b7accd097c3b24c5efa8310be056dc368fe827b33c422218f",
+          "nonpadding_cfg_sha256": "2f953b6787387cce5d4db34af50c8af987101a5ec0f46c08c8c90ca646b6dcc2",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "8dc043b81326c35173d06cd153e1a53e1a918ab12746f2ef62f7bb91c57fc511"
+        },
+        "candidate": {
+          "label": "cli_ac_chkmacro",
+          "symbol_address": 1479888,
+          "instruction_count": 42,
+          "padding_instructions": 1,
+          "nonpadding_instructions": 41,
+          "local_direct_branches": 4,
+          "strict_sha256": "5197ad4ca254c65b7accd097c3b24c5efa8310be056dc368fe827b33c422218f",
+          "nonpadding_cfg_sha256": "2f953b6787387cce5d4db34af50c8af987101a5ec0f46c08c8c90ca646b6dcc2",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "cac60e1ba686eb87d866df28dc4841aca6ea66cbe791f8ba2f5bae489f90c2b1"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_ac_chklsig",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_chklsig",
+          "symbol_address": 1473536,
+          "instruction_count": 490,
+          "padding_instructions": 20,
+          "nonpadding_instructions": 470,
+          "local_direct_branches": 107,
+          "strict_sha256": "e1ca7135cf5d9b18ea5f2b26ac3ff562bab9fb8441174c220c8a360c3f21b2f9",
+          "nonpadding_cfg_sha256": "fb730d36696cb853d73ce48c4a9253d93d269f49e93e3cb0251f0702f1a16fa3",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "c18d334fdfe29a3648912726b5d668fc86dc1f680dfc18b063102a314dac19a6"
+        },
+        "candidate": {
+          "label": "cli_ac_chklsig",
+          "symbol_address": 1473808,
+          "instruction_count": 490,
+          "padding_instructions": 20,
+          "nonpadding_instructions": 470,
+          "local_direct_branches": 107,
+          "strict_sha256": "e1ca7135cf5d9b18ea5f2b26ac3ff562bab9fb8441174c220c8a360c3f21b2f9",
+          "nonpadding_cfg_sha256": "fb730d36696cb853d73ce48c4a9253d93d269f49e93e3cb0251f0702f1a16fa3",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "d87df53e3ded09426dfb305ca8141ee52228ff9ca15fc8a875083bcb14ef60ff"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_ac_initdata",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_initdata",
+          "symbol_address": 1476352,
+          "instruction_count": 182,
+          "padding_instructions": 9,
+          "nonpadding_instructions": 173,
+          "local_direct_branches": 24,
+          "strict_sha256": "4d29379efbe37a1e79aac5e04e51bebedf14d3ed1e518afafea6cc335a6b0f14",
+          "nonpadding_cfg_sha256": "adf68d92628fd794a3c269fabc8a3dad0c30a62a632335859837076721769a35",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "f3c2c79fa1ea602819c77893a612673739d5825cc35bce66d0d3cadfbbdcee8c"
+        },
+        "candidate": {
+          "label": "cli_ac_initdata",
+          "symbol_address": 1476640,
+          "instruction_count": 182,
+          "padding_instructions": 9,
+          "nonpadding_instructions": 173,
+          "local_direct_branches": 24,
+          "strict_sha256": "4d29379efbe37a1e79aac5e04e51bebedf14d3ed1e518afafea6cc335a6b0f14",
+          "nonpadding_cfg_sha256": "adf68d92628fd794a3c269fabc8a3dad0c30a62a632335859837076721769a35",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "8a6e0cf657619772eec04399caa7615c8e7ea4c8b999b01bf3696c95f8ad5b5a"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_ac_initdata_for_matcher",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_initdata_for_matcher",
+          "symbol_address": 1477088,
+          "instruction_count": 283,
+          "padding_instructions": 11,
+          "nonpadding_instructions": 272,
+          "local_direct_branches": 38,
+          "strict_sha256": "14bb4b22ee2b492b450569bbe62b7f4e79b72918878f05a265adbe3268094075",
+          "nonpadding_cfg_sha256": "43bf5c60f7aa8ac0454bb23cbd16b243c84ecc8d0f032c4db494ffd66d6baf6b",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "26190d83b668dc422e846729d91674546a833bcffff0c33ac7da6493e6ee677c"
+        },
+        "candidate": {
+          "label": "cli_ac_initdata_for_matcher",
+          "symbol_address": 1477376,
+          "instruction_count": 283,
+          "padding_instructions": 11,
+          "nonpadding_instructions": 272,
+          "local_direct_branches": 38,
+          "strict_sha256": "14bb4b22ee2b492b450569bbe62b7f4e79b72918878f05a265adbe3268094075",
+          "nonpadding_cfg_sha256": "43bf5c60f7aa8ac0454bb23cbd16b243c84ecc8d0f032c4db494ffd66d6baf6b",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "3966d5364921918ceee81c81766fe1d6bc69d7278c7d9ad00b7a1d64ccad27e8"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_ac_freedata",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_ac_freedata",
+          "symbol_address": 1475856,
+          "instruction_count": 123,
+          "padding_instructions": 10,
+          "nonpadding_instructions": 113,
+          "local_direct_branches": 20,
+          "strict_sha256": "814571676bcc9cd4e6a9228520f8d41ee8240726a06eccabe8e3bf7b1aa937a3",
+          "nonpadding_cfg_sha256": "8eaae9b9f2e9fbfe144cf58c4dbf287497e5b51bcccb36acafa7c273a112c921",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "c4344b8dc634ba388d30f243830ec880240af662a558fa84b6cf91c539c4f101"
+        },
+        "candidate": {
+          "label": "cli_ac_freedata",
+          "symbol_address": 1476144,
+          "instruction_count": 123,
+          "padding_instructions": 10,
+          "nonpadding_instructions": 113,
+          "local_direct_branches": 20,
+          "strict_sha256": "814571676bcc9cd4e6a9228520f8d41ee8240726a06eccabe8e3bf7b1aa937a3",
+          "nonpadding_cfg_sha256": "8eaae9b9f2e9fbfe144cf58c4dbf287497e5b51bcccb36acafa7c273a112c921",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "d88b27fd1b0234cc3c560a510084be6d6f680292631d4b8a00428c78341ef75c"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_bm_scanbuff",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_bm_scanbuff",
+          "symbol_address": 1498144,
+          "instruction_count": 387,
+          "padding_instructions": 13,
+          "nonpadding_instructions": 374,
+          "local_direct_branches": 97,
+          "strict_sha256": "144b9e5a2c9cddf75df57bf638932efe821bdacdea0ed1b0f0eb3d032ab7b860",
+          "nonpadding_cfg_sha256": "cc95bb23daef3857f5330037a27072dfae9e2c222180abe078896625d5c1611d",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "b1b4e3cab9abbbbe2371f47e642d9668d278778fd2802ddf00b5bc1517b48b75"
+        },
+        "candidate": {
+          "label": "cli_bm_scanbuff",
+          "symbol_address": 1498464,
+          "instruction_count": 387,
+          "padding_instructions": 13,
+          "nonpadding_instructions": 374,
+          "local_direct_branches": 97,
+          "strict_sha256": "144b9e5a2c9cddf75df57bf638932efe821bdacdea0ed1b0f0eb3d032ab7b860",
+          "nonpadding_cfg_sha256": "cc95bb23daef3857f5330037a27072dfae9e2c222180abe078896625d5c1611d",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "4151c947bd8df03d6adca4f547db50377708580e17951594fcbfd7dff355222c"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_hm_scan",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_hm_scan",
+          "symbol_address": 1509056,
+          "instruction_count": 104,
+          "padding_instructions": 4,
+          "nonpadding_instructions": 100,
+          "local_direct_branches": 17,
+          "strict_sha256": "a6ff95ead1efb2de0d4ce0d0cd7fe399d6848969733dd0f41514e6b26409918b",
+          "nonpadding_cfg_sha256": "a436d41ba59841c0c8369b1cd3928002727bbda1d98db8c6ed253c20761e2e9b",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "a43bb689e5c097f3d4cc4c1b042b69262a0c57ea973e653f06de86b3cc91a8ee"
+        },
+        "candidate": {
+          "label": "cli_hm_scan",
+          "symbol_address": 1509376,
+          "instruction_count": 104,
+          "padding_instructions": 4,
+          "nonpadding_instructions": 100,
+          "local_direct_branches": 17,
+          "strict_sha256": "a6ff95ead1efb2de0d4ce0d0cd7fe399d6848969733dd0f41514e6b26409918b",
+          "nonpadding_cfg_sha256": "a436d41ba59841c0c8369b1cd3928002727bbda1d98db8c6ed253c20761e2e9b",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "a6866b535987d65d360ea9f92a958cfcd45dcbf0eb509825cf456f646cfb684e"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "cli_hm_scan_wild",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "cli_hm_scan_wild",
+          "symbol_address": 1509440,
+          "instruction_count": 92,
+          "padding_instructions": 3,
+          "nonpadding_instructions": 89,
+          "local_direct_branches": 10,
+          "strict_sha256": "ca2653df191e3bb1e82375ce3819b4b1a9ec7114ee99b7c73381e05b353ad588",
+          "nonpadding_cfg_sha256": "8cd35fec5670bbf4496ad6175f7ba76e9b450b0554c377f5501aea73d00b4800",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "305b7044c03896b03e19d4519f84f4321bdcad800e9638598423e77fa8db2d26"
+        },
+        "candidate": {
+          "label": "cli_hm_scan_wild",
+          "symbol_address": 1509760,
+          "instruction_count": 92,
+          "padding_instructions": 3,
+          "nonpadding_instructions": 89,
+          "local_direct_branches": 10,
+          "strict_sha256": "ca2653df191e3bb1e82375ce3819b4b1a9ec7114ee99b7c73381e05b353ad588",
+          "nonpadding_cfg_sha256": "8cd35fec5670bbf4496ad6175f7ba76e9b450b0554c377f5501aea73d00b4800",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "853b97752777b04d8d840b1e7b7860ba07076fd8d0a4e64b41fd4cace46b127b"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "clean_cache_check",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "clean_cache_check",
+          "symbol_address": 1617088,
+          "instruction_count": 196,
+          "padding_instructions": 8,
+          "nonpadding_instructions": 188,
+          "local_direct_branches": 21,
+          "strict_sha256": "a17323e98ecf4a46f67011a4db176596679d9535b9122158871f1addbca927e7",
+          "nonpadding_cfg_sha256": "615c558e299a844bf3f74bb6b8609bcee2e20087c5b91bc1ee3aacabad0399bb",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "dd96b7ce7c23b49d7c03af771b10ecf21d94e6eac3989de2ec1ed869833b4bfe"
+        },
+        "candidate": {
+          "label": "clean_cache_check",
+          "symbol_address": 1618336,
+          "instruction_count": 196,
+          "padding_instructions": 8,
+          "nonpadding_instructions": 188,
+          "local_direct_branches": 21,
+          "strict_sha256": "a17323e98ecf4a46f67011a4db176596679d9535b9122158871f1addbca927e7",
+          "nonpadding_cfg_sha256": "615c558e299a844bf3f74bb6b8609bcee2e20087c5b91bc1ee3aacabad0399bb",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "7ffcdf9c7e1fbdad764caab25bfda6aaae20cfe52c8f0db65d89736a87daf833"
+        }
+      },
+      "first_strict_differences": []
+    },
+    {
+      "name": "clean_cache_add",
+      "strict_normalized_equal": true,
+      "nonpadding_instruction_and_direct_target_equal": true,
+      "normalization_complete_for_selected_operands": true,
+      "versions": {
+        "baseline": {
+          "label": "clean_cache_add",
+          "symbol_address": 1615296,
+          "instruction_count": 286,
+          "padding_instructions": 8,
+          "nonpadding_instructions": 278,
+          "local_direct_branches": 46,
+          "strict_sha256": "9c7822d23bc9fbb2daa7787687c82ed3fb64f1efd3273b24f7130087e5d7d9c5",
+          "nonpadding_cfg_sha256": "a5d495e9b6f0887b5365661779be8806f3b26a5aeadff31660e2c6b21b41cb95",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "50b6fdf195ebe66c9eab9afab1c135ef7592324705411632c820a35ed16b11c2"
+        },
+        "candidate": {
+          "label": "clean_cache_add",
+          "symbol_address": 1616544,
+          "instruction_count": 286,
+          "padding_instructions": 8,
+          "nonpadding_instructions": 278,
+          "local_direct_branches": 46,
+          "strict_sha256": "9c7822d23bc9fbb2daa7787687c82ed3fb64f1efd3273b24f7130087e5d7d9c5",
+          "nonpadding_cfg_sha256": "a5d495e9b6f0887b5365661779be8806f3b26a5aeadff31660e2c6b21b41cb95",
+          "normalization_unknowns": [],
+          "disassembled_instruction_sha256": "4931de18fbdb453791d0aca3f49c4d95c08f5ca6723b5f6a88cde4a981290a5c"
+        }
+      },
+      "first_strict_differences": []
+    }
+  ],
+  "summary": {
+    "functions_checked": 16,
+    "strict_normalized_matches": 14,
+    "nonpadding_instruction_and_direct_target_matches": 16,
+    "all_selected_source_bodies_unchanged": true,
+    "all_operand_normalizations_complete": true
+  },
+  "limitations": [
+    "Strict normalization retains immediate values, register choices, memory operands and symbol-relative offsets.",
+    "The secondary equality check deliberately excludes architectural NOPs and encoding offsets; it is not machine-step equality.",
+    "Local direct destinations are checked by decoded non-padding instruction index, preserving control-flow distinctions.",
+    "Indirect branch data, all callees, Rust, parsers and unselected scanner functions are not independently audited.",
+    "Identical code does not imply identical hardware time, instruction-cache alignment, page faults, residency or allocator/cache state.",
+    "Provided Git source identities are compared separately; this tool does not attest that a binary was built from those identities.",
+    "This does not replace paired performance, cold/warm, concurrency, update/reload or memory measurements."
+  ]
+}

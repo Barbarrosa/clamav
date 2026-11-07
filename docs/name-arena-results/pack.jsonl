@@ -1,0 +1,4 @@
+{"kind":"memory","phase":"compiled","rss_bytes":829952000,"hwm_bytes":865128448,"pool_carved_bytes":870745500,"pool_mapped_bytes":870780096}
+{"kind":"memory","phase":"validated","rss_bytes":829976576,"hwm_bytes":881324032,"pool_carved_bytes":870745500,"pool_mapped_bytes":870780096}
+{"kind":"memory","phase":"packed","rss_bytes":907464704,"hwm_bytes":907419648,"pool_carved_bytes":870745500,"pool_mapped_bytes":870780096}
+{"kind":"result","mode":"pack","signatures":3628192,"name_records":3213522,"name_payload_bytes":77488025,"original_pointer_aliases":0,"distinct_occurrences_preserved":true,"ordered_names_sha256":"c8f4b8cf1555d530fc315e5826bb2ff2fc43a8ec98263f127e78767c006e9f1d","every_name_exact":true,"load_compile_seconds":8.884226299,"transfer_seconds":0.231852196,"engine_destructor_supported":false,"scope":"postcompile hash-name allocation-residency experiment, not integrated scanner or performance qualification"}

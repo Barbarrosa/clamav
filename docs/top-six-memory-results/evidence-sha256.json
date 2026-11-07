@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "scope": "Selected evidence; no database contents, native-address capture or fixture files included.",
+  "copy_method": "Original JSON bytes; unmodified top-level observations/logs in deterministic gzip tar files.",
+  "qualification": "Read each report separately. Completed runs, source equality and sanitizer success are not whole-engine promotion.",
+  "files": [
+    {
+      "path": "directory-correctness/summary.json",
+      "source": "/workspace/top-six-correctness-strict/summary.json",
+      "bytes": 46180,
+      "sha256": "948bf1842964b7a802f868baec4539e90026d39d6b23959aae44385b1b3f48d7"
+    },
+    {
+      "path": "directory-correctness/plan.json",
+      "source": "/workspace/top-six-correctness-strict/plan.json",
+      "bytes": 18873,
+      "sha256": "f18d798e5c4ee832a98657c30d2d1b1298a9ff4b287b5e44d0cc24849f1b407e"
+    },
+    {
+      "path": "rejected-tight-classes/summary.json",
+      "source": "/workspace/top-six-tight-correctness/summary.json",
+      "bytes": 46185,
+      "sha256": "9e576d152e12790b6d02dd58c40b880942b09e83cbc60f88feef4f4671533707"
+    },
+    {
+      "path": "rejected-tight-classes/plan.json",
+      "source": "/workspace/top-six-tight-correctness/plan.json",
+      "bytes": 18803,
+      "sha256": "adea29629ee4e4f305d943a112414a13b2acc264ec6abb1753126f098836730e"
+    },
+    {
+      "path": "source-audit/directory-resource-audit.json",
+      "source": "/workspace/qualify-pool-classes/directory-resource-audit.json",
+      "bytes": 8430,
+      "sha256": "8b753bcfbffbf42cef545d3e42f91be149a6ef967220c338cdc8e8f48aff0c76"
+    },
+    {
+      "path": "source-audit/query-code-audit.json",
+      "source": "/workspace/top-six-query-code-audit.json",
+      "bytes": 39457,
+      "sha256": "c8a924178c53b67343cb7a46903dc7065fdd4fab3fe28e76c7e1e93c563a93e9"
+    },
+    {
+      "path": "allocator-tests/reclaim-one-sanitizers.json",
+      "source": "/workspace/qualify-pool-classes/reclaim-one-sanitizers.json",
+      "bytes": 561,
+      "sha256": "6b1c051682438ab015c301e3d48f11fb0919a4832ff02e273d4141f4fbe9527b"
+    },
+    {
+      "path": "allocator-tests/whole-flush-sanitizers.json",
+      "source": "/workspace/qualify-pool-classes/whole-flush-sanitizers.json",
+      "bytes": 656,
+      "sha256": "6cd84fd25673fbe3d156f0ddbf6f93053f7c2b480d7d6ad1c0e11d5e86933af1"
+    },
+    {
+      "path": "allocator-tests/rejected-tight-class-sanitizers.json",
+      "source": "/workspace/qualify-pool-classes/allocator-sanitizers.json",
+      "bytes": 3541,
+      "sha256": "2705dd8ee57d2dd586dce9bec7eb9750a066572f76ddb0095e59487b22ac8f04"
+    },
+    {
+      "path": "test-audit.json",
+      "source": "/workspace/top-six-test-audit.json",
+      "bytes": 4202,
+      "sha256": "81ff0f61709230098d6520431a41c8106d35c42b1df082b32bc490e23b1e6c94"
+    },
+    {
+      "path": "original-smoke/summary.json",
+      "source": "/workspace/top-six-perf-smoke/summary.json",
+      "bytes": 27405,
+      "sha256": "821733e5768dbf272c24f9fdff3aec276794aa9493da22779515f2aef4eaaa8e"
+    },
+    {
+      "path": "original-smoke/plan.json",
+      "source": "/workspace/top-six-perf-smoke/plan.json",
+      "bytes": 187596,
+      "sha256": "e570eaf5c47393517d7a51e70d942996b439285fb53057f294c2f584536f0281"
+    },
+    {
+      "path": "original-smoke/raw-observations.tar.gz",
+      "source": "/workspace/top-six-perf-smoke",
+      "bytes": 8656,
+      "sha256": "8c2c78729014d691284f5ee5f60e5445752bf1c11dbec231a6cb746e011be6e8",
+      "members": [
+        {
+          "path": "000-candidate-scan-combined-r0-process.json",
+          "bytes": 4885,
+          "sha256": "d5b49bd63a8dec849f26c8b45d6cce09dbfcfa103d3ecf08a754aa5fa596edce"
+        },
+        {
+          "path": "000-candidate-scan-combined-r0.jsonl",
+          "bytes": 33317,
+          "sha256": "9d4189e1a10cec8b57380b67490897684a0327b6859934e5c1b4d3fe44804f8b"
+        },
+        {
+          "path": "000-candidate-scan-combined-r0.stderr",
+          "bytes": 280,
+          "sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+        },
+        {
+          "path": "001-retained-scan-combined-r0-process.json",
+          "bytes": 4872,
+          "sha256": "f43ef191f472f7801b4118baf55681f18013984124b03406e7dbde5f97db5232"
+        },
+        {
+          "path": "001-retained-scan-combined-r0.jsonl",
+          "bytes": 33256,
+          "sha256": "c423b72941fada1b7d51b94828de52cade83dd9e7a48bb40567cfe5976feaae5"
+        },
+        {
+          "path": "001-retained-scan-combined-r0.stderr",
+          "bytes": 280,
+          "sha256": "1b906833832058ce0345bafe51b854942c53e81fed22a06fdd8608cbf1350dfb"
+        }
+      ]
+    },
+    {
+      "path": "test-run-logs.tar.gz",
+      "source": "/workspace",
+      "bytes": 12668,
+      "sha256": "0973e378d04df6e1344e843a12c2e28f9e13f79733fee50c66636397b9d61e3b",
+      "members": [
+        {
+          "path": "top-six-candidate-ctest.log",
+          "bytes": 136237,
+          "sha256": "6aeedb07ace2271aee91e92f3d765188a827e0e1216c679d3c3db3ec3e613b8f"
+        },
+        {
+          "path": "top-six-candidate-restored-ctest.log",
+          "bytes": 382,
+          "sha256": "3c131094c1eb91215679576c357e6cca991216dd472e4fafa800d7400664e389"
+        },
+        {
+          "path": "top-six-candidate-rust-ctest.log",
+          "bytes": 206,
+          "sha256": "54702946f8f84d4855d0d15262511a4365e16d3a104334b9b18f5873b039a131"
+        },
+        {
+          "path": "top-six-final-scan-screen.log",
+          "bytes": 1182,
+          "sha256": "65707dd62c669e004bd2692aef9b5c467913604b2d1dcde0287dcc8e8f327ea0"
+        },
+        {
+          "path": "top-six-tooling-tests.log",
+          "bytes": 98,
+          "sha256": "05c21c384b3e060042a4881abc1285c4b07c7672978f110aae7f8bef1b24f1b9"
+        },
+        {
+          "path": "top-six-upstream-subset-ctest.log",
+          "bytes": 294,
+          "sha256": "1b673244d0c2fbab2b23cb9f1042966d9910ce88d73ee40e9658dc2d1617acf1"
+        }
+      ]
+    },
+    {
+      "path": "allocator-tests/directory-retirement-tests.log",
+      "source": "/workspace/top-six-final-evidence-prep/default-guard-focused-tests.log",
+      "bytes": 97,
+      "sha256": "085fb2d5eef8a20737f29f2f2b5f708fb63ab352700b0a86c0275e4e5d42a442"
+    },
+    {
+      "path": "allocator-tests/directory-retirement-tests.json",
+      "source": "generated component-test record",
+      "bytes": 694,
+      "sha256": "d77dc38fce659b31d2d2f1c0c17001552c602d19843220c56d830fb3ea2ba088"
+    },
+    {
+      "path": "tests/README.md",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 2464,
+      "sha256": "325a265a3a455ab5153eea47d27aadb8e2b27321b4c9daa856a304d1681d0beb"
+    },
+    {
+      "path": "tests/candidate-initial-ctest.log",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 136237,
+      "sha256": "6aeedb07ace2271aee91e92f3d765188a827e0e1216c679d3c3db3ec3e613b8f"
+    },
+    {
+      "path": "tests/candidate-restored-ctest.log",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 382,
+      "sha256": "3c131094c1eb91215679576c357e6cca991216dd472e4fafa800d7400664e389"
+    },
+    {
+      "path": "tests/candidate-rust-ctest.log",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 206,
+      "sha256": "4eda655221c9d498f17280eb9f4a8cfb07f9651ec5d415f143c34a5b8127e6fe"
+    },
+    {
+      "path": "tests/candidate-rust-detail.log",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 11329,
+      "sha256": "2158663fa8fa44dc68a322982b0d0b37216ee37102b577e818483301ad9b623c"
+    },
+    {
+      "path": "tests/summary.json",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 5735,
+      "sha256": "c8b0170a73f0647779e65a3ce7bc584cf740d2f34f353ac0df71fa5da9fa1f9c"
+    },
+    {
+      "path": "tests/upstream-subset-ctest.log",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 294,
+      "sha256": "1b673244d0c2fbab2b23cb9f1042966d9910ce88d73ee40e9658dc2d1617acf1"
+    },
+    {
+      "path": "tests/upstream-subset-detail.log",
+      "source": "restored-fixture test audit, committed eebe7e7",
+      "bytes": 14359,
+      "sha256": "118fa2f0b6ccd2c43003b3383ab78e5a7ee6ef9f5c36242daebe98cb8d1d2b53"
+    }
+  ],
+  "missing_sources": []
+}

@@ -1,0 +1,687 @@
+diff --git a/CMakeOptions.cmake b/CMakeOptions.cmake
+--- a/CMakeOptions.cmake
++++ b/CMakeOptions.cmake
+@@ -50,6 +50,10 @@
+ option(ENABLE_AC_DIRECTORY_RETENTION
+     "Retain AC construction directories (OFF enables unqualified retirement research)."
+     ON)
++
++option(ENABLE_LSIG_DIRECTORY_IDS
++    "Experimental post-build 32-bit relative logical-directory references"
++    OFF)
+ 
+ set(BYTECODE_RUNTIME
+     "interpreter" CACHE STRING
+diff --git a/clamav-config.h.cmake.in b/clamav-config.h.cmake.in
+index ab5a755..cf79755 100644
+--- a/clamav-config.h.cmake.in
++++ b/clamav-config.h.cmake.in
+@@ -475,6 +475,7 @@
+ #cmakedefine ENABLE_COMPACT_LSIG_STATE 1
+ #cmakedefine ENABLE_AC_NODE_IDS 1
+ #cmakedefine ENABLE_AC_FLAT_NODES 1
++#cmakedefine ENABLE_LSIG_DIRECTORY_IDS 1
+ #cmakedefine ENABLE_AC_DISPOSABLE_BUILD 1
+ #cmakedefine ENABLE_AC_DIRECTORY_RETENTION 1
+ #cmakedefine ENABLE_FLAT_HASH_STORE 1
+diff --git a/libclamav/CMakeLists.txt b/libclamav/CMakeLists.txt
+index 3b93e88..be44b81 100644
+--- a/libclamav/CMakeLists.txt
++++ b/libclamav/CMakeLists.txt
+@@ -227,7 +227,7 @@ set(LIBCLAMAV_SOURCES
+     matcher-byte-comp.c matcher-byte-comp.h
+     matcher-hash.c      matcher-hash.h      matcher-hash-types.h
+     matcher-pcre.c      matcher-pcre.h
+-    matcher.c           matcher.h
++    matcher.c           matcher.h lsig-directory.h
+     regex_pcre.c        regex_pcre.h
+     # Database
+     cvd.c               cvd.h
+diff --git a/libclamav/lsig-directory.h b/libclamav/lsig-directory.h
+new file mode 100644
+index 0000000..c7871ac
+--- /dev/null
++++ b/libclamav/lsig-directory.h
+@@ -0,0 +1,54 @@
++/* SPDX-License-Identifier: GPL-2.0-only
++ * Optional post-build directory packing. The logical records do not move.
++ */
++#ifndef CLAMAV_LSIG_DIRECTORY_H
++#define CLAMAV_LSIG_DIRECTORY_H
++#include <stdint.h>
++#include <stddef.h>
++#include <stdlib.h>
++
++struct cli_ac_lsig;
++struct cli_lsig_directory {
++    uintptr_t base;
++    uint32_t offsets[];
++};
++
++#ifndef CLI_LSIG_DIRECTORY_ALLOC
++#define CLI_LSIG_DIRECTORY_ALLOC malloc
++#endif
++
++/* NULL is an optional-optimization refusal: input ownership remains unchanged.
++ * UINT32_MAX encodes a NULL entry, rather than a record at that offset. */
++static inline struct cli_lsig_directory *cli_lsig_directory_pack(
++    struct cli_ac_lsig *const *table, size_t count)
++{
++    uintptr_t low = UINTPTR_MAX, high = 0;
++    size_t i;
++    struct cli_lsig_directory *out;
++    if (!table || !count || sizeof(void *) != 8 ||
++        count > (SIZE_MAX - sizeof(*out)) / sizeof(uint32_t) ||
++        count * (sizeof(void *) - sizeof(uint32_t)) <= sizeof(*out))
++        return NULL;
++    for (i = 0; i < count; i++) {
++        uintptr_t value = (uintptr_t)table[i];
++        if (!value) continue;
++        if (value < low) low = value;
++        if (value > high) high = value;
++    }
++    if (!high) low = 0;
++    if (high - low >= UINT32_MAX) return NULL;
++    out = (struct cli_lsig_directory *)CLI_LSIG_DIRECTORY_ALLOC(sizeof(*out) + count * sizeof(uint32_t));
++    if (!out) return NULL;
++    out->base = low;
++    for (i = 0; i < count; i++)
++        out->offsets[i] = table[i] ? (uint32_t)((uintptr_t)table[i] - low) : UINT32_MAX;
++    return out;
++}
++
++static inline struct cli_ac_lsig *cli_lsig_directory_at(
++    const struct cli_lsig_directory *directory, size_t index)
++{
++    uint32_t offset = directory->offsets[index];
++    return offset == UINT32_MAX ? NULL : (struct cli_ac_lsig *)(directory->base + offset);
++}
++#endif
+diff --git a/libclamav/matcher-ac.c b/libclamav/matcher-ac.c
+index 5bd0c2d..bb947ce 100644
+--- a/libclamav/matcher-ac.c
++++ b/libclamav/matcher-ac.c
+@@ -909,7 +909,7 @@ static cl_error_t ac_build_lsig_layout(struct cli_matcher *root)
+         return CL_EMEM;
+ 
+     for (i = 0; i < root->ac_lsigs; i++) {
+-        const struct cli_ac_lsig *lsig = root->ac_lsigtable[i];
++        const struct cli_ac_lsig *lsig = cli_ac_lsig_at(root, i);
+         unsigned int width             = 64;
+ 
+         /* Bytecode can read a complete 64-element row. YARA and macro
+@@ -986,7 +986,7 @@ void cli_ac_retire_pattern_directory(struct cli_matcher *root)
+     if (root->ac_lsigs && !root->ac_lsigtable)
+         return;
+     for (i = 0; i < root->ac_lsigs; i++) {
+-        if (!root->ac_lsigtable[i] || root->ac_lsigtable[i]->tdb.macro_ptids)
++        if (!cli_ac_lsig_at(root, i) || cli_ac_lsig_at(root, i)->tdb.macro_ptids)
+             return;
+     }
+     /* Call only after successful engine compilation. At that point every
+@@ -2031,7 +2031,7 @@ void lsig_increment_subsig_match(struct cli_ac_data *mdata, uint32_t lsig_id, ui
+ 
+ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *mdata, uint32_t lsig_id, uint32_t subsig_id, uint32_t realoff, int partial)
+ {
+-    const struct cli_ac_lsig *ac_lsig = root->ac_lsigtable[lsig_id];
++    const struct cli_ac_lsig *ac_lsig = cli_ac_lsig_at(root, lsig_id);
+     const struct cli_lsig_tdb *tdb    = &ac_lsig->tdb;
+ 
+     if (realoff != CLI_OFF_NONE) {
+@@ -2154,7 +2154,7 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
+ 
+ cl_error_t cli_ac_chkmacro(struct cli_matcher *root, struct cli_ac_data *data, unsigned lsig_id)
+ {
+-    const struct cli_lsig_tdb *tdb = &root->ac_lsigtable[lsig_id]->tdb;
++    const struct cli_lsig_tdb *tdb = &cli_ac_lsig_at(root, lsig_id)->tdb;
+     unsigned i;
+     cl_error_t rc;
+ 
+diff --git a/libclamav/matcher.c b/libclamav/matcher.c
+index c7701e6..bcf9e16 100644
+--- a/libclamav/matcher.c
++++ b/libclamav/matcher.c
+@@ -832,7 +832,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+     unsigned evalcnt            = 0;
+     uint64_t evalids            = 0;
+     fmap_t *new_map             = NULL;
+-    struct cli_ac_lsig *ac_lsig = root->ac_lsigtable[lsid];
++    struct cli_ac_lsig *ac_lsig = cli_ac_lsig_at(root, lsid);
+     char *exp                   = ac_lsig->u.logic;
+     char *exp_end               = exp + strlen(exp);
+ 
+@@ -980,7 +980,7 @@ done:
+ #ifdef HAVE_YARA
+ static cl_error_t yara_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_ac_data *acdata, struct cli_target_info *target_info, uint32_t lsid)
+ {
+-    struct cli_ac_lsig *ac_lsig = root->ac_lsigtable[lsid];
++    struct cli_ac_lsig *ac_lsig = cli_ac_lsig_at(root, lsid);
+     cl_error_t rc;
+     YR_SCAN_CONTEXT context;
+ 
+@@ -1011,11 +1011,12 @@ cl_error_t cli_exp_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_ac_da
+     cl_error_t status = CL_SUCCESS;
+ 
+     for (i = 0; i < root->ac_lsigs; i++) {
+-        if (root->ac_lsigtable[i]->type == CLI_LSIG_NORMAL) {
++        const struct cli_ac_lsig *lsig = cli_ac_lsig_at(root, i);
++        if (lsig->type == CLI_LSIG_NORMAL) {
+             status = lsig_eval(ctx, root, acdata, target_info, i);
+         }
+ #ifdef HAVE_YARA
+-        else if (root->ac_lsigtable[i]->type == CLI_YARA_NORMAL || root->ac_lsigtable[i]->type == CLI_YARA_OFFSET) {
++        else if (lsig->type == CLI_YARA_NORMAL || lsig->type == CLI_YARA_OFFSET) {
+             status = yara_eval(ctx, root, acdata, target_info, i);
+         }
+ #endif
+diff --git a/libclamav/matcher.h b/libclamav/matcher.h
+index ae5818d..be556c0 100644
+--- a/libclamav/matcher.h
++++ b/libclamav/matcher.h
+@@ -132,6 +132,10 @@ typedef void *fuzzyhashmap_t;
+ 
+ struct cli_matcher {
+     unsigned int type;
++#if SIZEOF_VOID_P == 8
++    /* Uses existing LP64 alignment padding; record size and offsets stay fixed. */
++    uint8_t ac_heap_tables;
++#endif
+ 
+     /* Extended Boyer-Moore */
+     uint8_t *bm_shift;
+@@ -195,6 +199,42 @@ struct cli_matcher {
+     void *ac_buildpool;
+ };
+ 
++#define CLI_AC_LSIG_DIRECTORY_PACKED 0x01
++#if defined(ENABLE_LSIG_DIRECTORY_IDS) && SIZEOF_VOID_P == 8
++#include "lsig-directory.h"
++#endif
++
++static inline struct cli_ac_lsig *cli_ac_lsig_at(const struct cli_matcher *root, uint32_t id)
++{
++#if defined(ENABLE_LSIG_DIRECTORY_IDS) && SIZEOF_VOID_P == 8
++    if (root->ac_heap_tables & CLI_AC_LSIG_DIRECTORY_PACKED)
++        return cli_lsig_directory_at((const struct cli_lsig_directory *)root->ac_lsigtable, id);
++#endif
++    return root->ac_lsigtable[id];
++}
++
++static inline void cli_ac_lsigtable_free(struct cli_matcher *root)
++{
++#if defined(ENABLE_LSIG_DIRECTORY_IDS) && SIZEOF_VOID_P == 8
++    if (root->ac_heap_tables & CLI_AC_LSIG_DIRECTORY_PACKED) {
++        free(root->ac_lsigtable);
++        root->ac_heap_tables &= (uint8_t)~CLI_AC_LSIG_DIRECTORY_PACKED;
++    } else
++#endif
++        MPOOL_FREE(root->mempool, root->ac_lsigtable);
++    root->ac_lsigtable = NULL;
++}
++
++static inline size_t cli_ac_lsig_directory_bytes(const struct cli_matcher *root)
++{
++    if (!root->ac_lsigtable) return 0;
++#if defined(ENABLE_LSIG_DIRECTORY_IDS) && SIZEOF_VOID_P == 8
++    if (root->ac_heap_tables & CLI_AC_LSIG_DIRECTORY_PACKED)
++        return sizeof(struct cli_lsig_directory) + (size_t)root->ac_lsigs * sizeof(uint32_t);
++#endif
++    return (size_t)root->ac_lsigs * sizeof(*root->ac_lsigtable);
++}
++
+ struct cli_cdb {
+     char *virname;           /* virus name */
+     cli_file_t ctype;        /* container type */
+diff --git a/libclamav/readdb.c b/libclamav/readdb.c
+--- a/libclamav/readdb.c
++++ b/libclamav/readdb.c
+@@ -5713,17 +5713,17 @@
+ 
+                 if (root->ac_lsigtable) {
+                     for (j = 0; j < root->ac_lsigs; j++) {
+-                        if (root->ac_lsigtable[j]->type == CLI_LSIG_NORMAL) {
+-                            MPOOL_FREE(engine->mempool, root->ac_lsigtable[j]->u.logic);
++                        if (cli_ac_lsig_at(root, j)->type == CLI_LSIG_NORMAL) {
++                            MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, j)->u.logic);
+                         }
+-                        MPOOL_FREE(engine->mempool, root->ac_lsigtable[j]->virname);
+-                        FREE_TDB(root->ac_lsigtable[j]->tdb);
+-                        MPOOL_FREE(engine->mempool, root->ac_lsigtable[j]);
++                        MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, j)->virname);
++                        FREE_TDB(cli_ac_lsig_at(root, j)->tdb);
++                        MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, j));
+ 
+                         TASK_COMPLETE();
+                     }
+ 
+-                    MPOOL_FREE(engine->mempool, root->ac_lsigtable);
++                    cli_ac_lsigtable_free(root);
+                     TASK_COMPLETE();
+                 }
+ 
+@@ -5890,16 +5890,16 @@
+ 
+         if (root->ac_lsigtable) {
+             for (i = 0; i < root->ac_lsigs; i++) {
+-                if (root->ac_lsigtable[i]->type == CLI_LSIG_NORMAL) {
+-                    MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->u.logic);
++                if (cli_ac_lsig_at(root, i)->type == CLI_LSIG_NORMAL) {
++                    MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, i)->u.logic);
+                 }
+-                MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->virname);
+-                FREE_TDB(root->ac_lsigtable[i]->tdb);
+-                MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]);
++                MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, i)->virname);
++                FREE_TDB(cli_ac_lsig_at(root, i)->tdb);
++                MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, i));
+ 
+                 TASK_COMPLETE();
+             }
+-            MPOOL_FREE(engine->mempool, root->ac_lsigtable);
++            cli_ac_lsigtable_free(root);
+             TASK_COMPLETE();
+         }
+         cli_pcre_freetable(root);
+@@ -6059,14 +6059,14 @@
+         cli_ac_free(root);
+         if (root->ac_lsigtable) {
+             for (i = 0; i < root->ac_lsigs; i++) {
+-                if (root->ac_lsigtable[i]->type == CLI_LSIG_NORMAL) {
+-                    MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->u.logic);
++                if (cli_ac_lsig_at(root, i)->type == CLI_LSIG_NORMAL) {
++                    MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, i)->u.logic);
+                 }
+-                MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]->virname);
+-                FREE_TDB(root->ac_lsigtable[i]->tdb);
+-                MPOOL_FREE(engine->mempool, root->ac_lsigtable[i]);
+-            }
+-            MPOOL_FREE(engine->mempool, root->ac_lsigtable);
++                MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, i)->virname);
++                FREE_TDB(cli_ac_lsig_at(root, i)->tdb);
++                MPOOL_FREE(engine->mempool, cli_ac_lsig_at(root, i));
++            }
++            cli_ac_lsigtable_free(root);
+         }
+ 
+         cli_pcre_freetable(root);
+@@ -6096,6 +6096,25 @@
+             cli_ac_retire_pattern_directory(root);
+             cli_ac_discard_listtable(root);
+         }
++    }
++#endif
++
++#if defined(ENABLE_LSIG_DIRECTORY_IDS) && defined(USE_MPOOL) && SIZEOF_VOID_P == 8
++    /* Only the logical index changes: record addresses and order do not move.
++     * Optional allocation failure leaves the original directory in place. */
++    for (i = 0; i < CLI_MTARGETS; i++) {
++        struct cli_lsig_directory *directory;
++        struct cli_ac_lsig **old;
++        root = engine->root[i];
++        if (!root || !root->ac_lsigtable || root->ac_lsigs < 16384 ||
++            (root->ac_heap_tables & CLI_AC_LSIG_DIRECTORY_PACKED))
++            continue;
++        directory = cli_lsig_directory_pack(root->ac_lsigtable, root->ac_lsigs);
++        if (!directory) continue;
++        old = root->ac_lsigtable;
++        root->ac_lsigtable = (struct cli_ac_lsig **)directory;
++        root->ac_heap_tables |= CLI_AC_LSIG_DIRECTORY_PACKED;
++        MPOOL_FREE_RECLAIM(root->mempool, old);
+     }
+ #endif
+ 
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index bc7b5bb..8666c4e 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -1139,6 +1139,8 @@ pub type fuzzyhashmap_t = *mut ::std::os::raw::c_void;
+ #[derive(Debug, Copy, Clone)]
+ pub struct cli_matcher {
+     pub type_: ::std::os::raw::c_uint,
++    #[cfg(target_pointer_width = "64")]
++    pub ac_heap_tables: u8,
+     pub bm_shift: *mut u8,
+     pub bm_suffix: *mut *mut cli_bm_patt,
+     pub bm_pattab: *mut *mut cli_bm_patt,
+diff --git a/tools/compact-memory/engine_census.c b/tools/compact-memory/engine_census.c
+index 3abf02d..ac728cb 100644
+--- a/tools/compact-memory/engine_census.c
++++ b/tools/compact-memory/engine_census.c
+@@ -123,9 +123,9 @@ static void census(struct cl_engine *e)
+                 record_name(p->virname);
+             }
+         }
+-        logical_bytes += (uint64_t)r->ac_lsigs * (sizeof(struct cli_ac_lsig) + sizeof(void *));
++        logical_bytes += (uint64_t)r->ac_lsigs * sizeof(struct cli_ac_lsig) + cli_ac_lsig_directory_bytes(r);
+         for (uint32_t j = 0; j < r->ac_lsigs; j++) {
+-            const struct cli_ac_lsig *l = r->ac_lsigtable[j];
++            const struct cli_ac_lsig *l = cli_ac_lsig_at(r, j);
+             if (l->virname) {
+                 names += strlen(l->virname) + 1;
+                 record_name(l->virname);
+diff --git a/tools/compact-memory/export_exact_layouts.c b/tools/compact-memory/export_exact_layouts.c
+index 6c0fe0c..0416c57 100644
+--- a/tools/compact-memory/export_exact_layouts.c
++++ b/tools/compact-memory/export_exact_layouts.c
+@@ -112,13 +112,14 @@ int main(int argc,char **argv) {
+     if(!e || cl_engine_set_str(e,CL_ENGINE_CVDCERTSDIR,argv[2]) ||
+        cl_engine_set_num(e,CL_ENGINE_DISABLE_CACHE,1) || cl_load(argv[1],e,&sigs,CL_DB_STDOPT) || cl_engine_compile(e)) return 2;
+     if (!cm_require_ac_directories(e)) return 8;
+-    size_t np=0,nl=0,ne=0,nn=0,nlogic=0;
++    size_t np=0,nl=0,ne=0,nn=0,nlogic=0,logical_directory_bytes=0;
+     for(unsigned t=0;t<CLI_MTARGETS;t++) {
+         struct cli_matcher *r=e->root[t]; if(!r) continue;
+         np+=r->ac_patterns; nl+=r->ac_lists;nlogic+=r->ac_lsigs;
++        logical_directory_bytes+=cli_ac_lsig_directory_bytes(r);
+         if(r->ac_root) nn+=(size_t)r->ac_nodes+1;
+         for(uint32_t j=0;j<r->ac_patterns;j++) {addname(r->ac_pattable[j]->virname); if(r->ac_pattable[j]->ext) ne++;}
+-        for(uint32_t j=0;j<r->ac_lsigs;j++) addname(r->ac_lsigtable[j]->virname);
++        for(uint32_t j=0;j<r->ac_lsigs;j++) addname(cli_ac_lsig_at(r, j)->virname);
+     }
+     hash_names(e->hm_hdb);hash_names(e->hm_mdb);hash_names(e->hm_imp);hash_names(e->hm_fp);
+     qsort(names,name_count,sizeof(*names),namecmp);
+@@ -144,7 +145,7 @@ int main(int argc,char **argv) {
+     for(unsigned t=0;t<CLI_MTARGETS;t++) {
+         struct cli_matcher *r=e->root[t];if(!r) continue;
+         for(uint32_t j=0;j<r->ac_lsigs;j++,logicid++) {
+-            const struct cli_ac_lsig *l=r->ac_lsigtable[j];uint32_t program=logicid;
++            const struct cli_ac_lsig *l=cli_ac_lsig_at(r, j);uint32_t program=logicid;
+             size_t aux=((size_t)l->tdb.cnt[CLI_TDB_UINT]+(size_t)l->tdb.cnt[CLI_TDB_RANGE])*4;
+             logical_aux+=aux;
+             if(l->type==CLI_LSIG_NORMAL && l->u.logic) {
+@@ -185,7 +186,10 @@ int main(int argc,char **argv) {
+         }
+     }
+     if(fclose(pf)||fclose(lf)||fclose(nf)||fclose(tf)||fclose(namesf)||fclose(lg)||fclose(td)||fclose(pg)) abort();
+-    printf("{\"kind\":\"logical_export\",\"records\":%zu,\"original_record_and_directory_bytes\":%zu,\"target_template_escapes\":%u,\"conservative_escape_record_bytes\":%zu,\"code_pointer_escapes\":%u,\"code_pointer_directory_bytes\":%zu,\"all_template_coordinates_verified\":true}\n",nlogic,nlogic*(sizeof(struct cli_ac_lsig)+sizeof(void *)),td_escapes,(size_t)td_escapes*(sizeof(struct cli_ac_lsig)+sizeof(void *)),code_escapes,(size_t)code_escapes*sizeof(void *));
++    /* Source directory extent follows its actual native/relative format. The
++       escape estimates still describe an independent conservative fallback
++       image using ordinary pointers, rather than a read of the source table. */
++    printf("{\"kind\":\"logical_export\",\"records\":%zu,\"original_record_and_directory_bytes\":%zu,\"target_template_escapes\":%u,\"conservative_escape_record_bytes\":%zu,\"code_pointer_escapes\":%u,\"code_pointer_directory_bytes\":%zu,\"all_template_coordinates_verified\":true}\n",nlogic,nlogic*sizeof(struct cli_ac_lsig)+logical_directory_bytes,td_escapes,(size_t)td_escapes*(sizeof(struct cli_ac_lsig)+sizeof(void *)),code_escapes,(size_t)code_escapes*sizeof(void *));
+     printf("{\"kind\":\"logical_auxiliary\",\"original_known_auxiliary_bytes\":%llu,\"retained_escape_value_bytes\":%llu}\n",(unsigned long long)logical_aux,(unsigned long long)escape_aux);
+     printf("{\"signatures\":%u,\"patterns\":%zu,\"links\":%zu,\"nodes\":%zu,\"names\":%zu,\"extensions\":%zu,\"raw_name_bytes\":%llu,\"token_bytes\":%llu,\"pattern_record_bytes\":74,\"original_pattern_and_directory_bytes\":%zu,\"original_link_and_directory_bytes\":%zu,\"extension_pointer_directory_bytes\":%zu,\"all_references_checked\":true}\n",sigs,np,nl,nn,name_count,ne,(unsigned long long)namebytes,(unsigned long long)tokenbytes,np*(sizeof(struct cli_ac_patt)+sizeof(void *)),nl*(sizeof(struct cli_ac_list)+sizeof(void *)),ne*sizeof(void *));
+     free(pr);free(lr);free(er);free(names);cl_engine_free(e);return 0;
+diff --git a/tools/compact-memory/logical_directory_residency.py b/tools/compact-memory/logical_directory_residency.py
+new file mode 100644
+index 0000000..afbe0cd
+--- /dev/null
++++ b/tools/compact-memory/logical_directory_residency.py
+@@ -0,0 +1,144 @@
++#!/usr/bin/env python3
++"""Test whether exact-size logical-directory copies actually reduce RSS.
++
++This copies the production pool allocator into a temporary isolated C harness.
++Only its unrelated logging/hex dependencies are stubbed. No scanner or runtime
++representation is changed. Linux/LP64 experiment, not a scanner performance test.
++SPDX-License-Identifier: GPL-2.0-only
++"""
++import argparse
++import hashlib
++import importlib.util
++import json
++import os
++from pathlib import Path
++import resource
++import shutil
++import subprocess
++import tempfile
++
++
++ROOT = Path(__file__).resolve().parents[2]
++HARNESS = r'''
++#include <assert.h>
++#include <inttypes.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <sys/mman.h>
++#include "mpool.c"
++
++static size_t rss_kib(void) {
++    FILE *f = fopen("/proc/self/smaps_rollup", "r"); assert(f);
++    char line[256]; size_t value = 0;
++    while (fgets(line,sizeof line,f)) if (sscanf(line,"Rss: %zu kB",&value)==1) break;
++    fclose(f); assert(value); return value;
++}
++static size_t resident_pages(const void *ptr,size_t bytes) {
++    const size_t page=(size_t)sysconf(_SC_PAGESIZE);
++    uintptr_t low=(uintptr_t)ptr & ~(uintptr_t)(page-1);
++    uintptr_t high=((uintptr_t)ptr+bytes+page-1)&~(uintptr_t)(page-1);
++    size_t n=(high-low)/page,total=0;
++    unsigned char *vec=malloc(n); assert(vec);
++    assert(!mincore((void *)low,high-low,vec));
++    for (size_t i=0;i<n;i++) total+=!!(vec[i]&1);
++    free(vec); return total;
++}
++static uint64_t value(size_t i) { return UINT64_C(0xf1e2d3c4a5b60000) ^ (uint64_t)i; }
++int main(int argc,char **argv) {
++    assert(argc==3);
++    size_t count=(size_t)strtoull(argv[1],NULL,10);
++    int force_touch=atoi(argv[2]);
++    assert(count>0 && count<=1000000 && (force_touch==0 || force_touch==1));
++    const size_t page=(size_t)sysconf(_SC_PAGESIZE);
++    (void)rss_kib();
++    mpool_t *mp=mpool_create(); assert(mp);
++    uint64_t *table=NULL;
++    for (size_t i=0;i<count;i++) {
++        uint64_t *next=mpool_realloc(mp,table,(i+1)*sizeof(*table)); assert(next);
++        table=next; table[i]=value(i);
++    }
++    struct FRAG *fragment=(struct FRAG *)((char *)table-FRAG_OVERHEAD);
++    size_t charge=from_bits(fragment->u.a.sbits);
++    size_t capacity=charge-FRAG_OVERHEAD-fragment->u.a.padding;
++    size_t payload=count*sizeof(*table);
++    if (force_touch) memset((char *)table+payload,0x75,capacity-payload);
++    mpool_flush(mp);
++    size_t before_pages=resident_pages(table,capacity);
++    size_t before_rss=rss_kib();
++    uint64_t *copy=malloc(payload); assert(copy);
++    memcpy(copy,table,payload);
++    for (size_t i=0;i<count;i++) assert(copy[i]==value(i));
++    mpool_free(mp,table);
++    mpool_flush(mp);
++    size_t after_rss=rss_kib();
++    size_t copy_pages=resident_pages(copy,payload);
++    printf("{\"rows\":%zu,\"pointer_bytes\":%zu,\"page_bytes\":%zu,"
++           "\"payload_bytes\":%zu,\"old_fragment_charge_bytes\":%zu,"
++           "\"old_usable_capacity_bytes\":%zu,\"spare_capacity_bytes\":%zu,"
++           "\"old_fragment_resident_pages_before_copy\":%zu,"
++           "\"new_copy_resident_pages\":%zu,\"before_rss_kib\":%zu,"
++           "\"after_rss_kib\":%zu,\"rss_saving_bytes\":%" PRId64 ","
++           "\"entire_old_capacity_forced_resident\":%s,"
++           "\"all_values_and_order_equal\":true}\n",
++           count,sizeof(void *),page,payload,charge,capacity,capacity-payload,
++           before_pages,copy_pages,before_rss,after_rss,
++           ((int64_t)before_rss-(int64_t)after_rss)*1024,force_touch?"true":"false");
++    free(copy);mpool_destroy(mp);return 0;
++}
++'''
++
++
++def limit_child():
++    resource.setrlimit(resource.RLIMIT_AS, (2 * 1024**3, 2 * 1024**3))
++    resource.setrlimit(resource.RLIMIT_CPU, (30, 35))
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--source', type=Path, default=ROOT / 'libclamav')
++    parser.add_argument('--rows', type=int, nargs='+', default=[297075])
++    parser.add_argument('--report', type=Path, required=True)
++    args = parser.parse_args()
++    if any(n < 1 or n > 1000000 for n in args.rows):
++        parser.error('rows must be within 1..1000000')
++    spec = importlib.util.spec_from_file_location('mpool_headers', ROOT / 'tools/compact-memory/test_mpool_flush.py')
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    sources = {name: hashlib.sha256((args.source / name).read_bytes()).hexdigest()
++               for name in ('mpool.c', 'mpool.h', 'memory_perturb.h')}
++    with tempfile.TemporaryDirectory() as name:
++        work = Path(name)
++        for path in sources:
++            shutil.copy2(args.source / path, work / path)
++        for name, content in module.HEADERS.items():
++            (work / name).write_text(content)
++        (work / 'probe.c').write_text(HARNESS)
++        flags = ['-std=c11', '-D_DEFAULT_SOURCE', '-DUSE_MPOOL', '-DHAVE_UNISTD_H=1',
++                 '-DHAVE_STRING_H=1', '-DHAVE_MMAP=1', '-DHAVE_SYS_MMAN_H=1',
++                 '-DHAVE_MADVISE=1', '-DSIZEOF_VOID_P=8', '-DC_LINUX=1',
++                 '-DANONYMOUS_MAP=MAP_ANONYMOUS', '-ffunction-sections',
++                 '-fdata-sections', '-Wl,--gc-sections', '-O2']
++        subprocess.run(['cc', *flags, 'probe.c', '-o', 'probe'], cwd=work, check=True, capture_output=True)
++        cases = []
++        for rows in args.rows:
++            for touch in (0, 1):
++                raw = subprocess.check_output([str(work / 'probe'), str(rows), str(touch)],
++                                              text=True, timeout=60, preexec_fn=limit_child)
++                cases.append(json.loads(raw))
++    result = {'schema_version': 1,
++              'scope': 'Isolated production-pool directory growth/copy experiment; not a scanner integration or performance qualification.',
++              'implementation_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
++              'allocator_source_sha256': sources,
++              'harness_sha256': hashlib.sha256(HARNESS.encode()).hexdigest(),
++              'cases': cases,
++              'limitations': ['The directory alone does not reproduce full-engine interleaving or allocator reuse.',
++                              'Forced-resident spare capacity is an artificial sensitivity case, not observed engine residency.',
++                              'RSS observations include small libc/page-accounting variation.',
++                              'Logical record/descriptor sharing is not implemented or validated here.']}
++    args.report.parent.mkdir(parents=True, exist_ok=True)
++    args.report.write_text(json.dumps(result, indent=2) + '\n')
++    print(json.dumps(result, indent=2))
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/compact-memory/system-model/export_system_graph.c b/tools/compact-memory/system-model/export_system_graph.c
+index a9dbe20..c6b596f 100644
+--- a/tools/compact-memory/system-model/export_system_graph.c
++++ b/tools/compact-memory/system-model/export_system_graph.c
+@@ -272,7 +272,7 @@ static void system_graph_finish(struct cl_engine *engine)
+             }
+         }
+         for (uint32_t j = 0; j < root->ac_lsigs; j++) {
+-            gather_logical(root->ac_lsigtable[j]); addname(root->ac_lsigtable[j]->virname);
++            gather_logical(cli_ac_lsig_at(root, j)); addname(cli_ac_lsig_at(root, j)->virname);
+         }
+     }
+     hash_names(engine->hm_hdb); hash_names(engine->hm_mdb);
+@@ -381,7 +381,7 @@ static void system_graph_finish(struct cl_engine *engine)
+             for (size_t k = 0; k < 4; k++) put(pf, values[k], 4);
+         }
+         for (uint32_t j = 0; j < root->ac_lsigs; j++) {
+-            const struct cli_ac_lsig *logic = root->ac_lsigtable[j];
++            const struct cli_ac_lsig *logic = cli_ac_lsig_at(root, j);
+             native_bytes(native_logical, logic, sizeof(*logic));
+             put64(logical_addresses, (uint64_t)(uintptr_t)logic);
+             const struct cli_lsig_tdb *d = &logic->tdb;
+@@ -523,7 +523,7 @@ static void system_graph_finish(struct cl_engine *engine)
+                 (unsigned long long)root->ac_lists * sizeof(struct cli_ac_list),
+                 (unsigned long long)root->ac_lists * sizeof(void *),
+                 (unsigned long long)root->ac_lsigs * sizeof(struct cli_ac_lsig),
+-                (unsigned long long)root->ac_lsigs * sizeof(void *),
++                (unsigned long long)cli_ac_lsig_directory_bytes(root),
+                 root->ac_flatnodes ? ((unsigned long long)root->ac_nodes + 2) * sizeof(struct cli_ac_node) : root->ac_root ? sizeof(struct cli_ac_node) : 0,
+                 root->ac_root ? (unsigned long long)root->trans_cnt + 1 : 0,
+                 root->ac_root ? ((unsigned long long)root->trans_cnt + 1) * 256 * sizeof(cli_ac_transition_t) : 0,
+diff --git a/tools/compact-memory/test_lsig_directory.py b/tools/compact-memory/test_lsig_directory.py
+new file mode 100644
+index 0000000..e577139
+--- /dev/null
++++ b/tools/compact-memory/test_lsig_directory.py
+@@ -0,0 +1,97 @@
++#!/usr/bin/env python3
++"""Exact pointer/order/null and fallback tests of the private directory format.
++SPDX-License-Identifier: GPL-2.0-only
++"""
++from pathlib import Path
++import os
++import shutil
++import subprocess
++import tempfile
++import unittest
++
++ROOT = Path(__file__).resolve().parents[2]
++PROBE = r'''
++#include <assert.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++static int fail_alloc;
++static void *allocate(size_t n) { return fail_alloc ? NULL : malloc(n); }
++#define CLI_LSIG_DIRECTORY_ALLOC allocate
++#include "lsig-directory.h"
++static void check(struct cli_ac_lsig **table,size_t n) {
++    struct cli_lsig_directory *out=cli_lsig_directory_pack(table,n);assert(out);
++    for (size_t i=0;i<n;i++) assert(cli_lsig_directory_at(out,i)==table[i]);
++    free(out);
++}
++int main(int argc,char **argv) {
++    assert(argc==2);
++    struct cli_ac_lsig *mixed[]={ (void *)(uintptr_t)0x10000,NULL,(void *)(uintptr_t)0x10010,(void *)(uintptr_t)0x10000 };
++    struct cli_ac_lsig *nulls[]={ NULL,NULL,NULL,NULL };
++    if (!strcmp(argv[1],"roundtrip")) {
++        check(mixed,4);check(nulls,4);
++        struct cli_ac_lsig **large=malloc(32768*sizeof(*large));assert(large);
++        for (size_t i=0;i<32768;i++) large[i]=i%7?(void *)(uintptr_t)(0x100000+24*(32767-i)):NULL;
++        check(large,32768);free(large);
++    } else if (!strcmp(argv[1],"bounds")) {
++        struct cli_ac_lsig *edge[]={ (void *)(uintptr_t)1,(void *)(uintptr_t)UINT32_MAX,NULL,(void *)(uintptr_t)8 };
++        check(edge,4);
++        edge[1]=(void *)(uintptr_t)((uint64_t)UINT32_MAX+1);assert(!cli_lsig_directory_pack(edge,4));
++        struct cli_ac_lsig *high[]={ (void *)(uintptr_t)UINTPTR_MAX,NULL,NULL,NULL };
++        check(high,4);
++        assert(!cli_lsig_directory_pack(mixed,0));
++        assert(!cli_lsig_directory_pack(NULL,4));
++        assert(!cli_lsig_directory_pack(mixed,SIZE_MAX));
++        assert(!cli_lsig_directory_pack(mixed,2));
++    } else if (!strcmp(argv[1],"failure")) {
++        struct cli_ac_lsig *before[4];memcpy(before,mixed,sizeof mixed);
++        fail_alloc=1;assert(!cli_lsig_directory_pack(mixed,4));
++        assert(!memcmp(before,mixed,sizeof mixed));
++        fail_alloc=0;check(mixed,4);
++    } else abort();
++    return 0;
++}
++'''
++
++
++@unittest.skipUnless(shutil.which('cc'), 'C compiler required')
++class LogicalDirectoryTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.directory = tempfile.TemporaryDirectory()
++        cls.path = Path(cls.directory.name)
++        (cls.path / 'probe.c').write_text(PROBE)
++        cls.binary = cls.path / 'probe'
++        subprocess.run(['cc', '-std=c11', '-O2', '-Wall', '-Wextra', '-Werror',
++                        '-I' + str(ROOT / 'libclamav'), str(cls.path / 'probe.c'),
++                        '-o', str(cls.binary)], check=True, capture_output=True)
++
++    @classmethod
++    def tearDownClass(cls):
++        cls.directory.cleanup()
++
++    def run_mode(self, mode):
++        subprocess.run([str(self.binary), mode], check=True, timeout=5, capture_output=True)
++
++    def test_duplicate_identity_nulls_and_exact_order(self):
++        self.run_mode('roundtrip')
++
++    def test_offset_and_integer_boundaries(self):
++        self.run_mode('bounds')
++
++    def test_failed_optional_allocation_keeps_input(self):
++        self.run_mode('failure')
++
++    def test_sanitized_pointer_directory(self):
++        binary = self.path / 'sanitized'
++        subprocess.run(['cc', '-std=c11', '-O1', '-g', '-fsanitize=address,undefined',
++                        '-I' + str(ROOT / 'libclamav'), str(self.path / 'probe.c'),
++                        '-o', str(binary)], check=True, capture_output=True)
++        env = os.environ.copy()
++        env['ASAN_OPTIONS'] = 'detect_leaks=0'
++        for mode in ('roundtrip', 'bounds', 'failure'):
++            subprocess.run([str(binary), mode], check=True, timeout=5, env=env, capture_output=True)
++
++
++if __name__ == '__main__':
++    unittest.main()

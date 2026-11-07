@@ -1,0 +1,10 @@
+{
+  "status": "aborted_measurement_error",
+  "engine_failure": false,
+  "reason": "The former CPU collector summed absolute user/system counters before subtraction; cancellation produced -6.8833827526759706e-15 seconds on an empty warm scan. All 326 candidate scan observations completed; the runner rejected the negative numerical value. Upstream control was interrupted rather than completing a matrix known to contain invalid timing arithmetic. No performance pass/fail conclusion is drawn from this aborted screen.",
+  "candidate_completed_scans": 326,
+  "runner_exit": 130,
+  "raw_files_preserved": true,
+  "corrected_helper": "cpu_elapsed sums per-counter deltas without clamping; invalid negative deltas remain invalid.",
+  "plan_sha256": "224cce7efb9762d03e6a1f8fd461986d29fa3af5fde1190f15f75b8d7062b370"
+}

@@ -1,0 +1,13 @@
+Test project /workspace/clamav-system-build
+    Start 4: clamscan
+    Start 1: libclamav
+1/4 Test #1: libclamav ........................   Passed   16.79 sec
+    Start 7: sigtool
+2/4 Test #7: sigtool ..........................   Passed    1.23 sec
+    Start 2: libclamav_rust
+3/4 Test #4: clamscan .........................   Passed   23.69 sec
+4/4 Test #2: libclamav_rust ...................   Passed   15.67 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =  33.70 sec

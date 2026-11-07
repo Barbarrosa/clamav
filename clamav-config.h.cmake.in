@@ -476,6 +476,7 @@
 #cmakedefine ENABLE_AC_NODE_IDS 1
 #cmakedefine ENABLE_AC_FLAT_NODES 1
 #cmakedefine ENABLE_AC_DISPOSABLE_BUILD 1
+#cmakedefine ENABLE_AC_DIRECTORY_RETENTION 1
 #cmakedefine ENABLE_FLAT_HASH_STORE 1
 
 /* use syslog */

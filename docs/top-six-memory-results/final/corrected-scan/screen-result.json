@@ -1,0 +1,77 @@
+{
+  "scope": "One-round fail-fast full-163 public-fixture screen; hydrated database pages, cold and warm file passes, no filtering or result cache; not 18-metric qualification or a statistical/all-input guarantee.",
+  "complete": true,
+  "exact_ordered_semantics_equal_retained": true,
+  "exact_ordered_semantics_equal_upstream": true,
+  "signed_signature_count": 3628192,
+  "scan_observations": 978,
+  "rounds": 1,
+  "roles": {
+    "upstream": {
+      "startup_cpu_seconds/lifecycle": 7.765408999999999,
+      "startup_wall_seconds/lifecycle": 7.766459459002363,
+      "construction_peak_bytes/lifecycle": 1005596672,
+      "resident_bytes_cold/lifecycle": 1005846528,
+      "scan_cpu_seconds/cold_file_scan": 70.843312,
+      "scan_wall_seconds/cold_file_scan": 70.85733842594345,
+      "scan_latency_p95_ms/cold_file_scan": 946.5760509992833,
+      "scan_latency_p99_ms/cold_file_scan": 11685.397798995837,
+      "scan_cpu_seconds/warm_file_scan": 77.214257,
+      "scan_wall_seconds/warm_file_scan": 77.23495462796564,
+      "scan_latency_p95_ms/warm_file_scan": 955.9359159975429,
+      "scan_latency_p99_ms/warm_file_scan": 11919.171440000355,
+      "resident_bytes_hydrated/lifecycle": 1019457536
+    },
+    "candidate": {
+      "startup_cpu_seconds/lifecycle": 10.375307,
+      "startup_wall_seconds/lifecycle": 10.380297595002048,
+      "construction_peak_bytes/lifecycle": 865751040,
+      "resident_bytes_cold/lifecycle": 800006144,
+      "scan_cpu_seconds/cold_file_scan": 62.02135899999999,
+      "scan_wall_seconds/cold_file_scan": 62.02746443999786,
+      "scan_latency_p95_ms/cold_file_scan": 736.4351040014299,
+      "scan_latency_p99_ms/cold_file_scan": 10356.715226000233,
+      "scan_cpu_seconds/warm_file_scan": 55.48655500000001,
+      "scan_wall_seconds/warm_file_scan": 55.49164076396846,
+      "scan_latency_p95_ms/warm_file_scan": 606.1447940010112,
+      "scan_latency_p99_ms/warm_file_scan": 9818.930558001739,
+      "resident_bytes_hydrated/lifecycle": 827764736
+    },
+    "retained": {
+      "startup_cpu_seconds/lifecycle": 7.826455999999999,
+      "startup_wall_seconds/lifecycle": 7.82768430300348,
+      "construction_peak_bytes/lifecycle": 865353728,
+      "resident_bytes_cold/lifecycle": 830099456,
+      "scan_cpu_seconds/cold_file_scan": 59.56491199999997,
+      "scan_wall_seconds/cold_file_scan": 59.56981198898575,
+      "scan_latency_p95_ms/cold_file_scan": 639.4843160014716,
+      "scan_latency_p99_ms/cold_file_scan": 10235.047040005156,
+      "scan_cpu_seconds/warm_file_scan": 57.636871999999855,
+      "scan_wall_seconds/warm_file_scan": 57.6420405239769,
+      "scan_latency_p95_ms/warm_file_scan": 689.9064230019576,
+      "scan_latency_p99_ms/warm_file_scan": 9938.788202001888,
+      "resident_bytes_hydrated/lifecycle": 858234880
+    }
+  },
+  "new_directory_savings_mib": {
+    "compiled": 28.69921875,
+    "post_workload": 29.05859375
+  },
+  "strict_status": "failed",
+  "promotion_authorized": false,
+  "interpretation": "All selected ordered scan transcripts match, but observed startup and cold scan costs exceed one or both controls. One pair does not determine causality or a true regression distribution. These measurements do not satisfy the strict no-slowdown criteria. The research option stays opt-in; no n3/full lifecycle promotion matrix was run.",
+  "source_frozen_revision": "989d3e25f669c1f7ad79f534f970a21bc6d5611d",
+  "plan_sha256": "1a1e27c1fedc7f4ae4d6fc0953a6cab08e4fd773cac3ebfff1ca4c3fe31707b2",
+  "summary_sha256": "df35c8cce73190b60b54c0fbfe904c0fcf542afa38d3d0b6ea5572b40880fb41",
+  "unmeasured_required_dimensions": [
+    "scan_context_bytes",
+    "scan_scratch_bytes",
+    "builder_scratch_bytes"
+  ],
+  "lifecycle_cases_not_in_screen": [
+    "reload",
+    "update",
+    "concurrency"
+  ],
+  "raw_callback_logs_gzipped_without_modification": true
+}

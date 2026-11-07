@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "require_ac_directories.h"
 
 #ifndef CLI_AC_FLAT_NODES
 #error "Requires the matching flat-node engine"
@@ -110,6 +111,7 @@ int main(int argc,char **argv) {
     struct cl_engine *e=cl_engine_new(); unsigned sigs=0;
     if(!e || cl_engine_set_str(e,CL_ENGINE_CVDCERTSDIR,argv[2]) ||
        cl_engine_set_num(e,CL_ENGINE_DISABLE_CACHE,1) || cl_load(argv[1],e,&sigs,CL_DB_STDOPT) || cl_engine_compile(e)) return 2;
+    if (!cm_require_ac_directories(e)) return 8;
     size_t np=0,nl=0,ne=0,nn=0,nlogic=0;
     for(unsigned t=0;t<CLI_MTARGETS;t++) {
         struct cli_matcher *r=e->root[t]; if(!r) continue;

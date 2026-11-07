@@ -1,0 +1,5 @@
+{"kind":"memory","phase":"compiled","rss_kib":810532,"hwm_kib":844832,"pool_carved_bytes":870745500,"pool_mapped_bytes":870780096}
+{"kind":"memory","phase":"after_conversion_before_flush","rss_kib":835228,"hwm_kib":844832,"pool_carved_bytes":896026842,"pool_mapped_bytes":896208064}
+{"kind":"memory","phase":"after_conversion_and_flush","rss_kib":835112,"hwm_kib":844832,"pool_carved_bytes":896026842,"pool_mapped_bytes":896052416}
+{"kind":"result","mode":"pool-byte","signatures":3628192,"patterns":1508210,"eligible_patterns":1280869,"tagged_patterns_kept_wide":227341,"eligible_tokens":35840740,"original_eligible_token_payload_bytes":71681480,"new_eligible_request_bytes":38056332,"heap_owner_directory_bytes":0,"reconstruction_hash":"ea6cd3e1920f5963","load_seconds":5.319017243,"compile_seconds":1.894133743,"conversion_seconds":0.233586105,"every_repacked_token_exact":true,"scanner_compatible_after_conversion":false,"scope":"isolated destructive storage feasibility probe; no optimized scanner or performance qualification"}
+{"kind":"memory","phase":"all_freed","rss_kib":26880,"hwm_kib":844832,"pool_carved_bytes":0,"pool_mapped_bytes":0}

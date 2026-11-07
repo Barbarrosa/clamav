@@ -38,6 +38,9 @@ void mpool_destroy(mpool_t *mpool);
 
 void *mpool_malloc(mpool_t *mpool, size_t size);
 void mpool_free(mpool_t *mpool, void *ptr);
+/* Explicitly retire a large allocation and reclaim complete free interior
+ * pages where supported. The pool retains ownership and its normal reuse. */
+void mpool_free_reclaim(mpool_t *mpool, void *ptr);
 void *mpool_calloc(mpool_t *mpool, size_t nmemb, size_t size);
 void *mpool_realloc(mpool_t *mpool, void *ptr, size_t size);
 void *mpool_realloc2(mpool_t *mpool, void *ptr, size_t size);
@@ -58,6 +61,7 @@ int mpool_getstats(const struct cl_engine *engine, size_t *used, size_t *total);
 
 #define MPOOL_MALLOC(a, b) mpool_malloc(a, b)
 #define MPOOL_FREE(a, b) mpool_free(a, b)
+#define MPOOL_FREE_RECLAIM(a, b) mpool_free_reclaim(a, b)
 #define MPOOL_CALLOC(a, b, c) mpool_calloc(a, b, c)
 #define MPOOL_REALLOC(a, b, c) mpool_realloc(a, b, c)
 #define MPOOL_REALLOC2(a, b, c) mpool_realloc2(a, b, c)
@@ -75,6 +79,7 @@ typedef void mpool_t;
 
 #define MPOOL_MALLOC(a, b) malloc(b)
 #define MPOOL_FREE(a, b) free(b)
+#define MPOOL_FREE_RECLAIM(a, b) free(b)
 #define MPOOL_CALLOC(a, b, c) calloc(b, c)
 #define MPOOL_REALLOC(a, b, c) cli_safer_realloc(b, c)
 #define MPOOL_REALLOC2(a, b, c) cli_safer_realloc_or_free(b, c)
