@@ -10,7 +10,7 @@
     },
     {
       "file": "patches/020-streaming-updates.patch",
-      "sha256": "a348ef0f0f663a17c6adb9041c83d3801c93343a7f3d613cd902908d3026010d"
+      "sha256": "f2c1ce5b8ca7f2ceb85d28ab7b11f4add0aef3d8ae1d273f063626570b25e8df"
     },
     {
       "file": "patches/030-subset-guards.patch",

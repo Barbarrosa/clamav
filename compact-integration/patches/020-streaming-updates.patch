@@ -882,17 +882,92 @@ index 467fc4bc..45b17c81 100644
      }
      logg(LOGG_DEBUG, "Properly loaded %u signatures from %s\n", newsigs, dbFilename);
 diff --git a/libfreshclam/libfreshclam_internal.c b/libfreshclam/libfreshclam_internal.c
-index 65e3353a..4160bfa3 100644
+index 65e3353a..7e4e19f7 100644
 --- a/libfreshclam/libfreshclam_internal.c
 +++ b/libfreshclam/libfreshclam_internal.c
-@@ -780,6 +780,10 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
+@@ -769,28 +769,36 @@ done:
+ struct MemoryStruct {
+     char *buffer;
+     size_t size;
++    int prefix_complete; /* Intentional bounded-prefix abort, not a receive error. */
+ };
+ 
+ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
+ {
+-    size_t real_size                  = size * nmemb;
+     struct MemoryStruct *receivedData = (struct MemoryStruct *)userp;
+-
+-    if ((NULL == contents) || (NULL == userp)) {
++    if (NULL == contents || NULL == userp || (size && nmemb > SIZE_MAX / size)) {
          return 0;
      }
+-
+-    char *newBuffer = realloc(receivedData->buffer, receivedData->size + real_size + 1);
+-    if (NULL == newBuffer) {
+-        logg(LOGG_ERROR, "remote_cvdhead - recv callback: Failed to allocate memory CVD header data.\n");
++    size_t real_size = size * nmemb;
++    if (receivedData->size > CVD_HEADER_SIZE) return 0;
++    size_t kept = CVD_HEADER_SIZE - receivedData->size;
++    if (real_size < kept) kept = real_size;
++    if (kept) {
++        char *newBuffer = realloc(receivedData->buffer, receivedData->size + kept + 1);
++        if (NULL == newBuffer) {
++            logg(LOGG_ERROR, "remote_cvdhead - recv callback: Failed to allocate memory CVD header data.\n");
++            return 0;
++        }
++        receivedData->buffer = newBuffer;
++        memcpy(receivedData->buffer + receivedData->size, contents, kept);
++        receivedData->size += kept;
++        receivedData->buffer[receivedData->size] = 0;
++    }
++    if (real_size > kept) {
++        /* Servers may ignore Range or include a trailing byte. Retain only the
++         * complete header and stop transfer; HTTP and CVD checks still apply. */
++        receivedData->prefix_complete = 1;
+         return 0;
+     }
+-
+-    receivedData->buffer = newBuffer;
+-    memcpy(&(receivedData->buffer[receivedData->size]), contents, real_size);
+-    receivedData->size += real_size;
+-    receivedData->buffer[receivedData->size] = 0;
+-
+     return real_size;
+ }
  
-+    /* A Range-ignoring server must not turn a 512-byte metadata request into
-+     * an unbounded allocation. Fail this probe; the full download path streams. */
-+    if (real_size > CVD_HEADER_SIZE || receivedData->size > CVD_HEADER_SIZE - real_size)
-+        return 0;
-     char *newBuffer = realloc(receivedData->buffer, receivedData->size + real_size + 1);
-     if (NULL == newBuffer) {
-         logg(LOGG_ERROR, "remote_cvdhead - recv callback: Failed to allocate memory CVD header data.\n");
+@@ -1004,6 +1012,7 @@ static fc_error_t remote_cvdhead(
+ 
+     receivedData.buffer = malloc(1); /* will be grown as needed by the realloc above */
+     receivedData.size   = 0;         /* no data at this point */
++    if (NULL == receivedData.buffer) { status = FC_EMEM; goto done; }
+ 
+     /* Send all data to this function  */
+     if (CURLE_OK != curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback)) {
+@@ -1020,7 +1029,8 @@ static fc_error_t remote_cvdhead(
+      */
+     memset(errbuf, 0, sizeof(errbuf));
+     curl_ret = curl_easy_perform(curl);
+-    if (curl_ret != CURLE_OK) {
++    if (curl_ret != CURLE_OK &&
++        !(curl_ret == CURLE_WRITE_ERROR && receivedData.prefix_complete && receivedData.size == CVD_HEADER_SIZE)) {
+         /*
+          * Show the error information.
+          * If no detailed error information was written to errbuf
+@@ -1056,7 +1066,7 @@ static fc_error_t remote_cvdhead(
+ 
+             (void)save_freshclam_dat();
+ 
+-            break;
++            goto done;
+         }
+         case 429: {
+             status = FC_ERETRYLATER;
+@@ -1080,7 +1090,7 @@ static fc_error_t remote_cvdhead(
+             }
+             (void)save_freshclam_dat();
+ 
+-            break;
++            goto done;
+         }
+         case 404: {
+             if (g_proxyServer)

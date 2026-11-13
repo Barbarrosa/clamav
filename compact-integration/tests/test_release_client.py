@@ -279,7 +279,7 @@ class TupleTests(ReleaseFixture):
             as_bytes=128*1024*1024,cpu_seconds=10,wall_seconds=3,file_bytes=1024*1024,output_bytes=8192,
             max_requests=5,max_age_seconds=86400,line_bytes=4096,connect_seconds=1,low_speed_seconds=1,max_attempts=1,
             programs=self.programs,release_public_key=self.public,release_channel='preview',code_staging_bytes=8*1024*1024,
-            code_update_seconds=5,code_check_seconds=7200)
+            code_update_seconds=5,code_check_seconds=7200,max_state_bytes=16*1024*1024,max_state_inodes=1000)
         return cfg,candidate
 
     async def test_atomic_candidate_tuple_and_next_worker_use_new_program(self):

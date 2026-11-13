@@ -30,7 +30,12 @@ resource policy; the service supplies no site quota or memory guesses.
   COMPACT_MAX_REQUESTS and COMPACT_MAX_AGE_SECONDS.
 - Automatic database updates additionally require absolute COMPACT_UPDATER and
   positive COMPACT_LINE_BYTES, COMPACT_CONNECT_SECONDS,
-  COMPACT_LOW_SPEED_SECONDS and COMPACT_MAX_ATTEMPTS. Missing update settings
+  COMPACT_LOW_SPEED_SECONDS, COMPACT_MAX_ATTEMPTS, COMPACT_MAX_STATE_BYTES
+  and COMPACT_MAX_STATE_INODES. The latter two are absolute allocations for the
+  whole persistent state, including all old generations, not free-space reserves.
+  The native monitor stops at 80% and requires COMPACT_FILE_BYTES to fit the
+  remaining 20%; multiple writes between samples can still overshoot, so these
+  checks do not replace a kernel/provider quota. Missing update settings
   leave scanning available and make database update attempts fail closed.
 - Automatic native code updates additionally use COMPACT_PROGRAMS, an absolute
   private directory; COMPACT_RELEASE_PUBLIC_KEY, the canonical base64 32-byte

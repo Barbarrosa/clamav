@@ -83,6 +83,17 @@ fc_error_t fc_update_databases(char**db,uint32_t n,char**servers,uint32_t ns,int
  (void)dns;(void)ctx;if(n!=3||ns!=1||priv||!inc||strcmp(servers[0],"https://database.clamav.net"))abort();
  audit("fetch","official");
  if(getenv("TEST_FETCH_SLEEP"))sleep(3);
+ if(getenv("TEST_FETCH_GROW")) {
+  for(unsigned i=0;i<100;i++) {
+   char growing[4096];snprintf(growing,sizeof(growing),"%s/grow-%u",cache,i);
+   FILE*out=fopen(growing,"wb");if(!out)abort();
+   char block[65536]={0};
+   unsigned chunks=!strcmp(getenv("TEST_FETCH_GROW"),"bytes")?16:0;
+   if(chunks)for(unsigned j=0;j<chunks;j++){if(fwrite(block,sizeof(block),1,out)!=1)abort();}
+   else fputc('x',out);
+   fclose(out);usleep(50000);
+  }
+ }
  if(getenv("TEST_RETRY_AFTER"))return FC_ERETRYLATER;
  for(unsigned i=0;i<n;i++){char path[4096];
  if(snprintf(path,sizeof(path),"%s/%s.cvd",cache,db[i])>=(int)sizeof(path))abort();
@@ -167,7 +178,8 @@ class UpdaterTests(unittest.TestCase):
                    '--as-bytes',str(256*1024*1024),'--cpu-seconds','10','--wall-seconds','10',
                    '--file-bytes',str(16*1024*1024),'--max-line-bytes',str(1024*1024),
                    '--connect-seconds','1','--low-speed-seconds','2','--max-attempts','1',
-                   '--max-age-seconds','86400','--disk-reserve-bytes','1048576']
+                   '--max-age-seconds','86400','--disk-reserve-bytes','1048576',
+                   '--max-state-bytes',str(512*1024*1024),'--max-state-inodes','10000']
 
     def call(self,args=None):
         command=list(self.args if args is None else args)
@@ -335,6 +347,60 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(row['status'],'deferred')
         self.assertEqual(row['reason'],'disk_reserve')
         self.assertFalse(self.audit.exists())
+
+    def test_full_state_byte_or_inode_allocation_defers_before_fetch(self):
+        self.call()
+        before=(self.state/'current.json').read_bytes();audit=self.audit.read_bytes()
+        padding=self.state/'padding'
+        with padding.open('wb') as output:output.truncate(65*1024*1024)
+        self.args[self.args.index('--max-state-bytes')+1]=str(80*1024*1024)
+        result,row=self.call()
+        self.assertEqual((row['status'],row['reason']),('deferred','state_byte_limit'))
+        self.assertEqual(self.audit.read_bytes(),audit)
+        padding.unlink()
+        self.args[self.args.index('--max-state-bytes')+1]=str(512*1024*1024)
+        self.args[self.args.index('--max-state-inodes')+1]='40'
+        for number in range(40):(self.state/('inode-'+str(number))).write_bytes(b'x')
+        result,row=self.call()
+        self.assertEqual((row['status'],row['reason']),('deferred','state_inode_limit'))
+        self.assertEqual(self.audit.read_bytes(),audit)
+        self.assertEqual((self.state/'current.json').read_bytes(),before)
+
+    def test_state_growth_during_child_stops_without_activation_or_pruning(self):
+        self.call()
+        before=(self.state/'current.json').read_bytes()
+        generation=self.state/'generations'/json.loads(before)['generation']
+        self.args[self.args.index('--file-bytes')+1]=str(1024*1024)
+        self.args[self.args.index('--max-state-bytes')+1]=str(5*1024*1024)
+        self.env['TEST_FETCH_GROW']='bytes'
+        result,row=self.call()
+        self.assertEqual((row['status'],row['reason']),('deferred','state_byte_limit'))
+        self.assertEqual((self.state/'current.json').read_bytes(),before)
+        self.assertTrue(generation.is_dir())
+        self.assertLess(len(list((self.state/'cache').glob('grow-*'))),100)
+        for file in (self.state/'cache').glob('grow-*'):file.unlink()
+        self.args[self.args.index('--max-state-bytes')+1]=str(512*1024*1024)
+        self.args[self.args.index('--max-state-inodes')+1]='50'
+        self.env['TEST_FETCH_GROW']='inodes'
+        result,row=self.call()
+        self.assertEqual((row['status'],row['reason']),('deferred','state_inode_limit'))
+        self.assertEqual((self.state/'current.json').read_bytes(),before)
+        self.assertTrue(generation.is_dir())
+
+    def test_state_symlink_is_rejected_without_following_it(self):
+        self.call();audit=self.audit.read_bytes()
+        target=self.root/'outside';target.write_bytes(b'outside state')
+        (self.state/'unsafe-link').symlink_to(target)
+        _,row=self.call()
+        self.assertEqual(row['reason'],'state_member_invalid')
+        self.assertEqual(self.audit.read_bytes(),audit)
+        self.assertEqual(target.read_bytes(),b'outside state')
+
+    def test_file_cap_must_fit_explicit_monitor_headroom(self):
+        self.args[self.args.index('--max-state-bytes')+1]=str(16*1024*1024)
+        _,row=self.call()
+        self.assertEqual(row['reason'],'required_policy_missing')
+        self.assertFalse(self.state.exists())
 
     def test_internal_subcommand_cannot_skip_lock(self):
         result,row=self.call(['fetch','--state',str(self.state),'--certs',str(self.root)])

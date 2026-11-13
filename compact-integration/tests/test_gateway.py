@@ -121,7 +121,7 @@ class GatewayTests(unittest.IsolatedAsyncioTestCase):
             max_input_bytes=4096,disk_reserve_bytes=1,as_bytes=128*1024*1024,cpu_seconds=10,
             wall_seconds=2,file_bytes=1024*1024,output_bytes=8192,max_requests=2,max_age_seconds=86400,
             admin_token=ADMIN,updater=self.updater,certs=self.certs,line_bytes=4096,
-            connect_seconds=1,low_speed_seconds=1,max_attempts=1)
+            connect_seconds=1,low_speed_seconds=1,max_attempts=1,max_state_bytes=16*1024*1024,max_state_inodes=1000)
         self.worker=FakeWorker()
         self.gateway=app.Gateway(self.config,self.worker)
         self.native=[]
@@ -228,6 +228,13 @@ class GatewayTests(unittest.IsolatedAsyncioTestCase):
                 with self.assertRaises(Exception):
                     await asyncio.wait_for(worker.scan(path,'full',hashlib.sha256(b'original').hexdigest(),8),2)
                 self.assertIsNone(worker.process)
+
+    async def test_missing_state_policy_disables_updates_but_keeps_scanning(self):
+        gateway=app.Gateway(replace(self.config,max_state_bytes=0,max_state_inodes=0),self.worker)
+        status,row=await request(gateway,path='/v1/update',token=ADMIN)
+        self.assertEqual((status,row['error']),(503,'update-state-policy-not-configured'))
+        self.assertEqual((await request(gateway))[0],200)
+        self.assertEqual(len(self.worker.calls),1)
 
     async def test_pid_fallback_kills_child_without_session(self):
         process=await asyncio.create_subprocess_exec(sys.executable,'-c','import time; time.sleep(30)')

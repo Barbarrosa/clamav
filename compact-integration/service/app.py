@@ -64,6 +64,8 @@ class Config:
     code_staging_bytes: int = 0
     code_update_seconds: int = 0
     code_check_seconds: int = 0
+    max_state_bytes: int = 0
+    max_state_inodes: int = 0
 
     @classmethod
     def environment(cls):
@@ -88,7 +90,9 @@ class Config:
                      release_channel=os.environ.get('COMPACT_RELEASE_CHANNEL', 'stable'),
                      code_staging_bytes=int(os.environ.get('COMPACT_CODE_STAGING_BYTES', '0')),
                      code_update_seconds=int(os.environ.get('COMPACT_CODE_UPDATE_SECONDS', '0')),
-                     code_check_seconds=int(os.environ.get('COMPACT_CODE_CHECK_SECONDS', '0')))
+                     code_check_seconds=int(os.environ.get('COMPACT_CODE_CHECK_SECONDS', '0')),
+                     max_state_bytes=int(os.environ.get('COMPACT_MAX_STATE_BYTES', '0')),
+                     max_state_inodes=int(os.environ.get('COMPACT_MAX_STATE_INODES', '0')))
         if len(config.token) < 32 or (config.admin_token and (len(config.admin_token) < 32 or config.admin_token == config.token)):
             raise ValueError('Use distinct random scan/admin credentials, at least 32 characters')
         if any(not path.is_absolute() for path in (config.scanner, config.state, config.scratch, config.certs)):
@@ -503,7 +507,8 @@ class Gateway:
         for key in ('engine_sha256', 'scan_options_sha256'):
             if not isinstance(info.get(key), str) or not re.fullmatch('[0-9a-f]{64}', info[key]):
                 raise ValueError('runtime identity')
-        if min(self.config.line_bytes, self.config.connect_seconds, self.config.low_speed_seconds, self.config.max_attempts) <= 0:
+        if min(self.config.line_bytes, self.config.connect_seconds, self.config.low_speed_seconds, self.config.max_attempts,
+               self.config.max_state_bytes, self.config.max_state_inodes) <= 0:
             raise ValueError('update budgets not configured')
         command = [str(updater), 'update', '--state', str(self.config.state),
                    '--scanner', str(scanner), '--certs', str(certs),
@@ -512,7 +517,9 @@ class Gateway:
                    '--max-line-bytes', str(self.config.line_bytes), '--connect-seconds', str(self.config.connect_seconds),
                    '--low-speed-seconds', str(self.config.low_speed_seconds), '--max-attempts', str(self.config.max_attempts),
                    '--max-age-seconds', str(self.config.max_age_seconds),
-                   '--disk-reserve-bytes', str(self.config.disk_reserve_bytes), *self.config.limits()]
+                   '--disk-reserve-bytes', str(self.config.disk_reserve_bytes),
+                   '--max-state-bytes', str(self.config.max_state_bytes),
+                   '--max-state-inodes', str(self.config.max_state_inodes), *self.config.limits()]
         if program is not None:
             command += ['--program-id', program]
         stdout, _ = await self.command(command, deadline)
@@ -538,6 +545,10 @@ class Gateway:
             return await self.respond(send, 400, {'error': 'update-arguments-not-accepted'})
         if self.lock.locked():
             return await self.respond(send, 503, {'error': 'scanner-busy'})
+        if min(self.config.max_state_bytes, self.config.max_state_inodes) <= 0:
+            return await self.respond(send, 503, {'error': 'update-state-policy-not-configured'})
+        if self.config.file_bytes > self.config.max_state_bytes // 5:
+            return await self.respond(send, 503, {'error': 'update-file-cap-exceeds-state-headroom'})
         async with self.lock:
             await self.worker.stop()
             try:

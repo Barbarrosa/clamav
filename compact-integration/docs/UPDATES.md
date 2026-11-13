@@ -16,6 +16,7 @@ The entry point is:
       --as-bytes POLICY_VALUE --cpu-seconds POLICY_VALUE \
       --wall-seconds POLICY_VALUE --file-bytes POLICY_VALUE \
       --max-line-bytes POLICY_VALUE --disk-reserve-bytes POLICY_VALUE \
+      --max-state-bytes POLICY_VALUE --max-state-inodes POLICY_VALUE \
       --connect-seconds POLICY_VALUE --low-speed-seconds POLICY_VALUE \
       --max-attempts POLICY_VALUE --max-age-seconds POLICY_VALUE
 
@@ -26,6 +27,25 @@ budgets apply to the update operation; children also receive CPU/address-space/
 file limits. A monotonic supervisor and whole-job alarm prevent a child or blocked
 orchestration step from outliving its lease. A killed parent kills its child on
 Linux. Resource failures never promote a generation.
+
+The state ceilings are absolute allocations for the whole STATE tree, including
+cache, temporary work, logs, pointers and every retained generation. They are not
+additional free space. Native accounting charges both files and directories,
+using the greater of logical size and allocated blocks, and counts entries as
+inodes. An owned directory walk has a depth bound and stops at the configured
+inode budget. Links are never traversed: persistent/unexpected links fail;
+prepare's exact, owned temporary /proc/self/fd/N pins are counted themselves.
+
+Checks stop at 80% of either allocation, reserving 20% for writes between monitor
+samples. The per-file write cap must fit within one fifth of the state byte
+allocation. Checks run before fetching and known copies, while children run
+(approximately every 100 ms), after children exit and before activation. Exceeding
+either watermark defers and preserves the old pointer; no published generation
+is deleted. This is a conservative application monitor, not a kernel quota:
+multiple writes or filesystem allocation between samples can overshoot it. A
+confirmed filesystem/account quota remains the final enforcement boundary.
+The disk-reserve argument independently means minimum available filesystem space;
+it must not be filled with the updater's own working-state allocation.
 
 An optional --program-id pkg-<64 lowercase hex> binds a staged, authenticated
 native code package. The website installer supplies it only after authenticating
@@ -119,7 +139,13 @@ semantics. Additions spill in arrival order. Only the current bounded line and a
 fixed implementation window remain in memory; the policy supplies the maximum
 line size. Hashing rejects unexpected EOF instead of looping forever. A server
 ignoring the 512-byte header Range request cannot allocate an unlimited metadata
-buffer.
+buffer. The callback retains at most the first 512 bytes and deliberately stops
+an excessive body. Only that explicit complete-prefix write abort is accepted;
+allocation/overflow/other transfer failures remain failures, and HTTP/header
+validation still runs. HTTP 403/429 responses retain their upstream cooldowns.
+The seven metadata regressions cover callback bounds, fragmented/513-byte/large
+bodies, bad headers and CVD-looking error bodies; the upstream FreshClam mirror
+suite also passes, including its forbidden-response daemon case.
 
 Six added Rust tests exercise trusted/tampered/untrusted detached verification,
 duplicate/truncated extraction and CDIFF spill/order/EOF behavior. The complete

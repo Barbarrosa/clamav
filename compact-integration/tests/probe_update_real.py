@@ -39,7 +39,7 @@ def main():
     for name in ('binary','scanner','database','certs','output'):
         parser.add_argument('--'+name,type=Path,required=True)
     limits=('as-bytes','cpu-seconds','wall-seconds','file-bytes','max-line-bytes',
-            'disk-reserve-bytes','connect-seconds','low-speed-seconds','max-attempts','max-age-seconds')
+            'disk-reserve-bytes','max-state-bytes','max-state-inodes','connect-seconds','low-speed-seconds','max-attempts','max-age-seconds')
     for name in limits:parser.add_argument('--'+name,type=int,required=True)
     args=parser.parse_args()
     if args.output.exists():parser.error('output must be absent')

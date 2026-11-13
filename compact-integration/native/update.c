@@ -34,6 +34,7 @@ struct options {
     const char *state, *scanner, *certs, *runtime_id, *options_id, *database, *lock_fd, *program_id, *expected_current;
     uint64_t as_bytes, cpu_seconds, wall_seconds, file_bytes, line_bytes;
     uint64_t connect_seconds, low_speed_seconds, attempts, age_seconds, reserve_bytes;
+    uint64_t max_state_bytes, max_state_inodes;
 };
 static struct options opt;
 static char executable[PATH_MAX];
@@ -49,6 +50,7 @@ static const char *last_stage = "preflight";
 static char inherited_program[69];
 static char last_log[PATH_MAX];
 static int hash_text(const char *value);
+static int valid_sign_name(const char *name);
 static void stop(int sig) { (void)sig; interrupted = 1; }
 static void expired(int sig) {
     (void)sig;
@@ -85,6 +87,97 @@ static int space(const char *root, uint64_t extra) {
         return error("disk_reserve");
     return 0;
 }
+/* STATE is an updater-owned format with shallow directory nesting. Work is
+ * bounded by the explicit inode ceiling, a fixed stack depth and no link traversal.
+ * The monitor is deliberately below the allocation: its 20% headroom absorbs a
+ * bounded individual write, but is not a kernel/filesystem quota. */
+struct state_usage { uint64_t bytes, inodes; };
+static uint64_t state_watermark(uint64_t maximum) {
+    return (maximum/5)*4 + ((maximum%5)*4)/5;
+}
+static int state_charge(struct state_usage *used,const struct stat *st,int fd_pin) {
+    if(st->st_uid!=geteuid() || (!S_ISDIR(st->st_mode) && !S_ISREG(st->st_mode) && !(fd_pin && S_ISLNK(st->st_mode))) ||
+       (!S_ISDIR(st->st_mode) && st->st_nlink!=1) || st->st_size<0 || st->st_blocks<0)
+        return error("state_member_invalid");
+    if((uint64_t)st->st_blocks>UINT64_MAX/512)return error("state_usage_overflow");
+    uint64_t bytes=(uint64_t)st->st_blocks*512;
+    if((uint64_t)st->st_size>bytes)bytes=(uint64_t)st->st_size;
+    if(used->inodes>=state_watermark(opt.max_state_inodes))return error("state_inode_limit");
+    used->inodes++;
+    uint64_t ceiling=state_watermark(opt.max_state_bytes);
+    if(bytes>ceiling || used->bytes>ceiling-bytes)return error("state_byte_limit");
+    used->bytes+=bytes;
+    return 0;
+}
+static int scratch_component(const char *name,const char *prefix) {
+    size_t n=strlen(prefix);
+    if(strncmp(name,prefix,n) || strlen(name+n)!=6)return 0;
+    for(const char *p=name+n;*p;p++)
+        if(!((*p>='0'&&*p<='9')||(*p>='a'&&*p<='z')||(*p>='A'&&*p<='Z')))return 0;
+    return 1;
+}
+static int verification_pin(int directory,const char *name) {
+    const char *names[]={"main.cvd","main.cld","daily.cvd","daily.cld","bytecode.cvd","bytecode.cld"};
+    int official=valid_sign_name(name);
+    for(size_t i=0;i<sizeof(names)/sizeof(names[0]);i++)if(!strcmp(name,names[i]))official=1;
+    if(!official)return 0;
+    char target[64];ssize_t n=readlinkat(directory,name,target,sizeof(target));
+    const char prefix[]="/proc/self/fd/";
+    if(n<0 && errno==ENOENT)return -1;
+    if(n<=(ssize_t)(sizeof(prefix)-1) || n>=(ssize_t)sizeof(target))return 0;
+    target[n]=0;
+    if(strncmp(target,prefix,sizeof(prefix)-1))return 0;
+    for(const char *p=target+sizeof(prefix)-1;*p;p++)if(*p<'0'||*p>'9')return 0;
+    return 1;
+}
+static int state_walk(int fd,struct state_usage *used,unsigned depth,unsigned layout) {
+    if(depth>32){close(fd);return error("state_depth_limit");}
+    struct stat directory;
+    if(fstat(fd,&directory) || !S_ISDIR(directory.st_mode)) {close(fd);return error("state_directory_invalid");}
+    if(state_charge(used,&directory,0)){close(fd);return -1;}
+    DIR *stream=fdopendir(fd);
+    if(!stream){close(fd);return error("state_directory_open");}
+    struct dirent *entry;int rc=0;
+    for(;;) {
+        if(interrupted){rc=error("interrupted");break;}
+        errno=0;entry=readdir(stream);
+        if(!entry){if(errno)rc=error("state_directory_read");break;}
+        if(!strcmp(entry->d_name,".") || !strcmp(entry->d_name,".."))continue;
+        struct stat st;
+        if(fstatat(dirfd(stream),entry->d_name,&st,AT_SYMLINK_NOFOLLOW)) {
+            if(errno==ENOENT)continue; /* A monitored child removed its temporary file. */
+            rc=error("state_member_stat");break;
+        }
+        if(S_ISDIR(st.st_mode)) {
+            int child=openat(dirfd(stream),entry->d_name,O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+            if(child<0) {
+                if(errno==ENOENT)continue;
+                rc=error("state_directory_open");break;
+            }
+            unsigned next=depth==0&&!strcmp(entry->d_name,"generations") ? 1 :
+                          depth==1&&layout==1&&scratch_component(entry->d_name,".stage-") ? 2 :
+                          depth==2&&layout==2&&scratch_component(entry->d_name,".profile-") ? 3 : 0;
+            if(state_walk(child,used,depth+1,next)){rc=-1;break;}
+        } else {
+            /* Prepare's owned temporary descriptor pins are charged as links,
+             * never followed. All other symlinks are invalid STATE members. */
+            int pin=layout==3 && S_ISLNK(st.st_mode) ? verification_pin(dirfd(stream),entry->d_name) : 0;
+            if(pin<0)continue;
+            if(state_charge(used,&st,pin)){rc=-1;break;}
+        }
+    }
+    closedir(stream);return rc;
+}
+static int state_capacity(uint64_t extra_bytes,uint64_t extra_inodes) {
+    struct state_usage used={0,0};
+    int fd=open(opt.state,O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
+    if(fd<0)return error("state_directory_open");
+    if(state_walk(fd,&used,0,0))return -1;
+    uint64_t bytes=state_watermark(opt.max_state_bytes),inodes=state_watermark(opt.max_state_inodes);
+    if(extra_bytes>bytes-used.bytes)return error("state_byte_limit");
+    if(extra_inodes>inodes-used.inodes)return error("state_inode_limit");
+    return 0;
+}
 static int write_all(int fd, const void *data, size_t size) {
     const unsigned char *p = data;
     while (size) {
@@ -101,7 +194,7 @@ static int copy_file(const char *source, const char *destination, const char *ro
     in = open(source, O_RDONLY | O_NOFOLLOW | O_CLOEXEC);
     if (in < 0 || fstat(in, &st) || !S_ISREG(st.st_mode) || st.st_uid != geteuid() || st.st_nlink != 1 ||
         st.st_size < 0 || (uint64_t)st.st_size > opt.file_bytes) { error("copy_source_invalid"); goto done; }
-    if (space(root, (uint64_t)st.st_size)) goto done;
+    if (space(root, (uint64_t)st.st_size) || state_capacity((uint64_t)st.st_size,1)) goto done;
     out = open(destination, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0400);
     if (out < 0) { error("copy_destination"); goto done; }
     uint64_t copied = 0;
@@ -114,6 +207,7 @@ static int copy_file(const char *source, const char *destination, const char *ro
         if (copied > (uint64_t)st.st_size || interrupted || space(root, 0)) goto done;
     }
     if (copied != (uint64_t)st.st_size || fsync(out)) { error("copy_integrity"); goto done; }
+    if(state_capacity(0,0))goto done;
     rc = 0;
 done:
     if (in >= 0) close(in);
@@ -183,7 +277,7 @@ static int run(char *const argv[], const char *log, const char *root, int share_
     if(child_cpu_used+driver_cpu()>=(double)opt.cpu_seconds)return error("job_cpu_limit");
     uint64_t remaining_cpu=(uint64_t)((double)opt.cpu_seconds-child_cpu_used-driver_cpu());
     if(!remaining_cpu)return error("job_cpu_limit");
-    if (space(root, 0)) return -1;
+    if (space(root, 0) || state_capacity(0,1)) return -1;
     int fd = open(log, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0600);
     if (fd < 0) return error("stage_log");
     double start = monotonic();
@@ -207,13 +301,19 @@ static int run(char *const argv[], const char *log, const char *root, int share_
         if (finished == child) break;
         if (finished < 0 && errno != EINTR) return error("wait_child");
         double now = monotonic();
-        if (interrupted || now < 0 || (now - start >= (double)opt.wall_seconds || (job_deadline > 0 && now >= job_deadline)) || space(root, 0)) {
+        int capacity=state_capacity(0,0);
+        if(!capacity)capacity=space(root,0);
+        if (interrupted || now < 0 || (now - start >= (double)opt.wall_seconds || (job_deadline > 0 && now >= job_deadline)) || capacity) {
             kill(-child, SIGKILL); kill(child, SIGKILL);
             while (waitpid(child, &status, 0) < 0 && errno == EINTR) {}
-            return error(interrupted ? "interrupted" : (now - start >= (double)opt.wall_seconds || (job_deadline > 0 && now >= job_deadline)) ? "stage_wall_limit" : "disk_reserve");
+            if(interrupted)return error("interrupted");
+            if(now<0)return error("monotonic_clock");
+            if(now-start>=(double)opt.wall_seconds || (job_deadline>0 && now>=job_deadline))return error("stage_wall_limit");
+            return -1; /* Preserve the precise state/free-space failure. */
         }
         struct timespec pause = {0, 100000000}; nanosleep(&pause, NULL);
     }
+    if(state_capacity(0,0))return -1;
     child_cpu_used+=(double)usage.ru_utime.tv_sec+(double)usage.ru_stime.tv_sec+
                     ((double)usage.ru_utime.tv_usec+(double)usage.ru_stime.tv_usec)/1e6;
     if(child_cpu_used+driver_cpu()>(double)opt.cpu_seconds)return error("job_cpu_limit");
@@ -578,7 +678,7 @@ static int update(void) {
         return error("job_lock_invalid");
     if (flock(job_lock, LOCK_EX | LOCK_NB)) { close(job_lock); return error("job_busy"); }
     int rc = -1;
-    if(expected_pointer()){close(job_lock);return -1;}
+    if(expected_pointer() || state_capacity(0,0)){close(job_lock);return -1;}
     if(recover_scratch(generations,".stage-") || recover_scratch(opt.state,".pointer-next-")) {
         close(job_lock);return -1;
     }
@@ -589,7 +689,7 @@ static int update(void) {
     if(inherit_program()){close(job_lock);return -1;}
     int cooldown=cached_cooldown();
     if(cooldown){close(job_lock);return cooldown>0 ? deferred_cooldown() : -1;}
-    if (space(opt.state, 0) || path(stage, generations, ".stage-XXXXXX") || !mkdtemp(stage) ||
+    if (space(opt.state, 0) || state_capacity(0,4) || path(stage, generations, ".stage-XXXXXX") || !mkdtemp(stage) ||
         path(dbdir, stage, "databases") || private_dir(dbdir) || path(log, stage, "fetch.log")) goto done;
     char lock_string[32]; snprintf(lock_string, sizeof(lock_string), "%d", job_lock);
     char *fetch_argv[] = {executable, "fetch", "--state", (char *)opt.state, "--certs", (char *)opt.certs,
@@ -676,7 +776,7 @@ static int update(void) {
         if(run(existing,log,opt.state,1))goto done;
     } else if(errno!=ENOENT || freeze(stage) || rename(stage,destination)){error("generation_publish");goto done;}
     if(child_cpu_used+driver_cpu()>(double)opt.cpu_seconds){error("job_cpu_limit");goto done;}
-    if(sync_dir(generations) || pointer_write(opt.state,id))goto done;
+    if(state_capacity(0,2) || sync_dir(generations) || pointer_write(opt.state,id))goto done;
     if(existed)(void)remove_scratch(stage);
     printf("{\"protocol\":1,\"status\":\"%s\",\"generation\":\"%s\",\"next_attempt_after\":null,\"child_cpu_seconds\":%.6f}\n",existed?"up_to_date":"updated",id,child_cpu_used);
     rc = 0;
@@ -715,7 +815,7 @@ static int parse(int argc, char **argv) {
         NUM("--as-bytes", as_bytes) NUM("--cpu-seconds", cpu_seconds) NUM("--wall-seconds", wall_seconds)
         NUM("--file-bytes", file_bytes) NUM("--max-line-bytes", line_bytes) NUM("--connect-seconds", connect_seconds)
         NUM("--low-speed-seconds", low_speed_seconds) NUM("--max-attempts", attempts) NUM("--max-age-seconds", age_seconds)
-        NUM("--disk-reserve-bytes", reserve_bytes)
+        NUM("--disk-reserve-bytes", reserve_bytes) NUM("--max-state-bytes", max_state_bytes) NUM("--max-state-inodes", max_state_inodes)
 #undef STR
 #undef NUM
         return error("unknown_option");
@@ -725,15 +825,15 @@ static int parse(int argc, char **argv) {
 static int import_internal(void) {
 #define ENV(field) opt.field=number(getenv("COMPACT_UPDATE_" #field));
     ENV(as_bytes) ENV(cpu_seconds) ENV(wall_seconds) ENV(file_bytes) ENV(line_bytes)
-    ENV(connect_seconds) ENV(low_speed_seconds) ENV(attempts) ENV(age_seconds) ENV(reserve_bytes)
+    ENV(connect_seconds) ENV(low_speed_seconds) ENV(attempts) ENV(age_seconds) ENV(reserve_bytes) ENV(max_state_bytes) ENV(max_state_inodes)
 #undef ENV
-    return opt.as_bytes && opt.cpu_seconds && opt.wall_seconds && opt.file_bytes && opt.line_bytes && opt.connect_seconds && opt.low_speed_seconds && opt.attempts && opt.age_seconds && opt.reserve_bytes ? 0 : error("internal_policy_missing");
+    return opt.as_bytes && opt.cpu_seconds && opt.wall_seconds && opt.file_bytes && opt.line_bytes && opt.connect_seconds && opt.low_speed_seconds && opt.attempts && opt.age_seconds && opt.reserve_bytes && opt.max_state_bytes && opt.max_state_inodes ? 0 : error("internal_policy_missing");
 }
 static int export_internal(void) {
     char value[32];
 #define ENV(field) snprintf(value,sizeof(value),"%" PRIu64,opt.field); if(setenv("COMPACT_UPDATE_" #field,value,1))return -1;
     ENV(as_bytes) ENV(cpu_seconds) ENV(wall_seconds) ENV(file_bytes) ENV(line_bytes)
-    ENV(connect_seconds) ENV(low_speed_seconds) ENV(attempts) ENV(age_seconds) ENV(reserve_bytes)
+    ENV(connect_seconds) ENV(low_speed_seconds) ENV(attempts) ENV(age_seconds) ENV(reserve_bytes) ENV(max_state_bytes) ENV(max_state_inodes)
 #undef ENV
     return 0;
 }
@@ -748,7 +848,8 @@ int main(int argc, char **argv) {
     }
     if (strcmp(argv[1], "update") || !opt.state || !opt.scanner || !opt.runtime_id || !opt.options_id || opt.state[0] != '/' || opt.scanner[0] != '/' ||
         !opt.as_bytes || !opt.cpu_seconds || !opt.wall_seconds || !opt.file_bytes || !opt.line_bytes || !opt.connect_seconds ||
-        !opt.low_speed_seconds || !opt.attempts || !opt.age_seconds || !opt.reserve_bytes ||
+        !opt.low_speed_seconds || !opt.attempts || !opt.age_seconds || !opt.reserve_bytes || !opt.max_state_bytes || !opt.max_state_inodes ||
+        opt.file_bytes>opt.max_state_bytes/5 ||
         opt.wall_seconds > UINT_MAX || opt.connect_seconds > UINT32_MAX || opt.low_speed_seconds > UINT32_MAX || opt.attempts > UINT32_MAX ||
         !hash_text(opt.runtime_id) || !hash_text(opt.options_id) ||
         !opt.expected_current || (strcmp(opt.expected_current,"absent") && !hash_text(opt.expected_current)) ||
@@ -760,6 +861,6 @@ int main(int argc, char **argv) {
     return 0;
 failed:
     fprintf(stdout, "{\"protocol\":1,\"status\":\"%s\",\"reason\":\"%s\",\"phase\":\"%s\",\"next_attempt_after\":null}\n",
-            !strcmp(failure,"job_busy") || !strcmp(failure,"disk_reserve") || !strcmp(failure,"current_pointer_changed") ? "deferred" : "failed",failure,last_stage);
+            !strcmp(failure,"job_busy") || !strcmp(failure,"disk_reserve") || !strcmp(failure,"current_pointer_changed") || !strcmp(failure,"state_byte_limit") || !strcmp(failure,"state_inode_limit") ? "deferred" : "failed",failure,last_stage);
     return 2;
 }
