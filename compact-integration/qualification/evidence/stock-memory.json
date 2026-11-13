@@ -1,0 +1,40 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "scope": "isolated stock per-CVD cl_load and bytecode preparation, no full AC compile; historical signed snapshot",
+  "policy": {
+    "as_bytes": 671088640,
+    "cpu_seconds": 110,
+    "wall_seconds": 150,
+    "file_bytes": 536870912,
+    "line_bytes": 131072,
+    "connect_seconds": 30,
+    "low_speed_seconds": 30,
+    "attempts": 3,
+    "age_seconds": 2592000,
+    "reserve_bytes": 67108864
+  },
+  "results": [
+    {
+      "database": "main.cvd",
+      "return_code": 0,
+      "wall_seconds": 4.422865883000213,
+      "sampled_highwater_rss_kib": 350872,
+      "sampled_peak_address_space_kib": 432144
+    },
+    {
+      "database": "daily.cvd",
+      "return_code": 0,
+      "wall_seconds": 4.622615389999737,
+      "sampled_highwater_rss_kib": 555224,
+      "sampled_peak_address_space_kib": 625820
+    },
+    {
+      "database": "bytecode.cvd",
+      "return_code": 0,
+      "wall_seconds": 0.08274168900015866,
+      "sampled_highwater_rss_kib": 23072,
+      "sampled_peak_address_space_kib": 86164
+    }
+  ]
+}

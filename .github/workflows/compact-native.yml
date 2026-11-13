@@ -1,0 +1,136 @@
+name: Compact native qualification
+on:
+  push:
+    branches: [upstream-optimized, main]
+    paths: ['compact-integration/**', '.github/workflows/compact-*.yml']
+  pull_request:
+    paths: ['compact-integration/**', '.github/workflows/compact-*.yml']
+  workflow_dispatch:
+    inputs:
+      channel:
+        type: choice
+        options: [preview, stable]
+        default: preview
+permissions:
+  contents: read
+concurrency:
+  group: compact-native-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  qualification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Fetch the exact upstream object named by the manifest
+        run: |
+          upstream=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["upstream_commit"])')
+          git fetch --no-tags https://github.com/Cisco-Talos/clamav.git "$upstream"
+          git show "$upstream:Cargo.lock" > "$RUNNER_TEMP/upstream-Cargo.lock"
+      - name: Build the pinned Linux x86-64 toolchain
+        run: |
+          docker build --platform linux/amd64 -t compact-builder -f compact-integration/release/Dockerfile compact-integration/release
+          docker run --platform linux/amd64 --name compact-native --memory=4g --memory-swap=4g -d \
+            -v "$PWD:/workspace/repo:ro" -v "$RUNNER_TEMP:/work" compact-builder sleep infinity
+          docker exec compact-native git config --global --add safe.directory /workspace/repo
+          docker exec compact-native sh -c 'getconf GNU_LIBC_VERSION; rustc --version; cc --version | head -1'
+      - name: Materialize exact patches and compile
+        id: build
+        run: |
+          mkdir -p "$RUNNER_TEMP/logs"
+          if docker exec compact-native python3 /workspace/repo/compact-integration/build.py \
+            --output /work/source --build-dir /work/build --configure --build \
+            --cmake-option MAINTAINER_MODE=ON --cmake-option ENABLE_MILTER=OFF --cmake-option ENABLE_CLAMONACC=OFF \
+            > "$RUNNER_TEMP/logs/build.log" 2>&1; then
+            cmp "$RUNNER_TEMP/source/Cargo.lock" "$RUNNER_TEMP/upstream-Cargo.lock"
+            echo 'variant=optimized' >> "$GITHUB_OUTPUT"
+          else
+            # A separate unmodified tree preserves upstream validation on drift.
+            docker exec compact-native python3 /workspace/repo/compact-integration/build.py \
+              --pristine --output /work/fallback --build-dir /work/fallback-build --configure --build \
+              --cmake-option MAINTAINER_MODE=ON --cmake-option ENABLE_MILTER=OFF --cmake-option ENABLE_CLAMONACC=OFF \
+              > "$RUNNER_TEMP/logs/fallback-build.log" 2>&1
+            docker exec compact-native ctest --test-dir /work/fallback-build -R '^(libclamav|clamscan|sigtool|freshclam)$' --output-on-failure
+            echo 'variant=upstream-fallback' >> "$GITHUB_OUTPUT"
+            echo 'Optimization drift/build failure: upstream fallback passed; optimized releases remain blocked.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Native, Rust, guard and scanner qualification
+        if: steps.build.outputs.variant == 'optimized'
+        run: |
+          docker exec compact-native python3 /workspace/repo/compact-integration/release/qualify.py \
+            --source /work/source --build /work/build --integration /workspace/repo/compact-integration \
+            --commit "$GITHUB_SHA" --output /work/qualification.json > "$RUNNER_TEMP/logs/qualification.log" 2>&1
+      - name: Offline updater checks under an enforced 512 MiB container limit
+        if: steps.build.outputs.variant == 'optimized'
+        run: |
+          docker network disconnect bridge compact-native
+          docker update --memory=512m --memory-swap=512m compact-native
+          docker exec compact-native sh -c 'cat /sys/fs/cgroup/memory.max; python3 -m unittest discover -s /workspace/repo/compact-integration/tests -p test_update.py -v' \
+            > "$RUNNER_TEMP/logs/bounded-updater.log" 2>&1
+          docker exec compact-native ctest --test-dir /work/build -R '^freshclam$' --output-on-failure \
+            >> "$RUNNER_TEMP/logs/bounded-updater.log" 2>&1
+          docker exec compact-native sh -c 'find /work/build/x86_64-unknown-linux-gnu/release/deps -maxdepth 1 -type f -name "clamav_rust-*" -executable -exec {} streaming --test-threads=1 \;' \
+            >> "$RUNNER_TEMP/logs/bounded-updater.log" 2>&1
+          docker update --memory=4g --memory-swap=4g compact-native
+          docker network connect bridge compact-native
+      - name: Build the paired pristine upstream control
+        if: steps.build.outputs.variant == 'optimized'
+        run: |
+          docker exec compact-native python3 /workspace/repo/compact-integration/build.py \
+            --pristine --output /work/upstream --build-dir /work/upstream-build --configure --build \
+            --cmake-option MAINTAINER_MODE=ON --cmake-option ENABLE_MILTER=OFF --cmake-option ENABLE_CLAMONACC=OFF \
+            > "$RUNNER_TEMP/logs/upstream-build.log" 2>&1
+          docker exec compact-native ctest --test-dir /work/upstream-build -R '^(libclamav|clamscan|sigtool)$' --output-on-failure \
+            > "$RUNNER_TEMP/logs/upstream-tests.log" 2>&1
+      - name: Collect complete matching source and pending artifacts
+        if: steps.build.outputs.variant == 'optimized' && github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+        env:
+          RELEASE_CHANNEL: ${{ inputs.channel || 'preview' }}
+        run: |
+          docker exec compact-native python3 /workspace/repo/compact-integration/release/collect_dependencies.py --enable-deb-src
+          version=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["integration_version"])')
+          upstream=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["upstream_commit"])')
+          expires=$(( $(date +%s) + 2592000 ))
+          docker exec -e GITHUB_RUN_ID compact-native python3 /workspace/repo/compact-integration/release/package.py \
+            --source /work/source --build /work/build --output /work/release/candidate --qualification /work/qualification.json \
+            --upstream-sha "$upstream" --integration-sha "$GITHUB_SHA" --version "$version" \
+            --repository "$GITHUB_REPOSITORY" --sequence "$GITHUB_RUN_NUMBER" --expires-at "$expires" --channel "$RELEASE_CHANNEL" \
+            > "$RUNNER_TEMP/logs/package.log" 2>&1
+          sha256sum "$RUNNER_TEMP/release/compact-v$version-candidate.tar.gz" | tee "$RUNNER_TEMP/release/candidate.sha256" >> "$GITHUB_STEP_SUMMARY"
+          echo 'Pending signature: no installable release has been published.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Attest the tested build before transport
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
+        if: steps.build.outputs.variant == 'optimized' && github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+        with:
+          subject-path: |
+            ${{ runner.temp }}/release/*candidate.tar.gz
+            ${{ runner.temp }}/release/candidate/manifest.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: success() && steps.build.outputs.variant == 'optimized' && github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+        with:
+          name: compact-native-pending
+          path: |
+            ${{ runner.temp }}/release/*candidate.tar.gz
+            ${{ runner.temp }}/release/candidate.sha256
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: compact-native-test-evidence
+          path: |
+            ${{ runner.temp }}/logs/
+            ${{ runner.temp }}/qualification.json
+            ${{ runner.temp }}/build/Testing/Temporary/
+            ${{ runner.temp }}/build/unit_tests/test*.log
+      - name: Clean up the isolated builder
+        if: always()
+        run: docker rm -f compact-native || true

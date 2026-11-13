@@ -1,0 +1,8 @@
+{$COMPACT_PUBLIC_HOST} {
+    request_body {
+        max_size {$COMPACT_PROXY_BODY_LIMIT}
+    }
+    reverse_proxy 127.0.0.1:8080
+    header Referrer-Policy no-referrer
+    header X-Content-Type-Options nosniff
+}

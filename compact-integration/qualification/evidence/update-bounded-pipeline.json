@@ -1,0 +1,39 @@
+{
+  "protocol": 1,
+  "scope": "real native pipeline with transport-only no-network test shim",
+  "transport_mocked": true,
+  "official_download_tested": false,
+  "exit_code": 0,
+  "wall_seconds": 77.1450968930003,
+  "result": {
+    "protocol": 1,
+    "status": "updated",
+    "generation": "gen-c2f0f1c7d8825b9eea77336bb92be650a2ad4b2d6ea02ae534762a9651add5a9",
+    "next_attempt_after": null,
+    "child_cpu_seconds": 73.58667
+  },
+  "probe_limits": {
+    "as-bytes": 536870912,
+    "cpu-seconds": 180,
+    "wall-seconds": 240,
+    "file-bytes": 1073741824,
+    "max-line-bytes": 1048576,
+    "disk-reserve-bytes": 16777216,
+    "connect-seconds": 30,
+    "low-speed-seconds": 60,
+    "max-attempts": 1,
+    "max-age-seconds": 4000000
+  },
+  "binary_sha256": "33ef2bf4921c0887b75dcdd811809260fca3a25e0dc3201d2cfb8725549a6416",
+  "scanner_sha256": "9f7e8f801ff3274d71f78a53f5decca07e2893c2b2ab707748e3ee798aaaad54",
+  "source_database_sha256": {
+    "daily.cvd": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+    "main.cvd": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365",
+    "bytecode.cvd": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb"
+  },
+  "all_manifest_hashes_match": true,
+  "stock_validation_passed": false,
+  "validation_mode": "bounded-native-records",
+  "validation_passed": true,
+  "pointer_matches": true
+}

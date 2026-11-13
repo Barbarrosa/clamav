@@ -1,0 +1,28 @@
+name: Track upstream for compact integration
+on:
+  schedule:
+    - cron: '23 6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: compact-upstream-tracking
+  cancel-in-progress: false
+jobs:
+  propose:
+    if: github.repository == 'Barbarrosa/clamav'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve upstream and propose a pinned adaptation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 compact-integration/release/track_upstream.py

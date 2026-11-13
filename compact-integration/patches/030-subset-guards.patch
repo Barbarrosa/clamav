@@ -1,0 +1,284 @@
+diff --git a/libclamav/clamav.h b/libclamav/clamav.h
+index fa75677ad7b44e4875f76e0b78ed7586773b43bc..38284081872614e753691fb201bbdddbe9ffa894 100644
+--- a/libclamav/clamav.h
++++ b/libclamav/clamav.h
+@@ -245,6 +245,25 @@
+ // clang-format on
+ 
+ struct cl_engine;
++
++/* Compact integration guard v1. Enabling it is a load-time engine option.
++ * The notification is diagnostic; scan_common independently prevents a successful
++ * result whenever an omitted PE consumer was reached. A callback cannot clear it.
++ */
++#define CL_SUBSET_GUARD_PE 1U
++#define CL_SUBSET_GUARD_VERSION "pe-consumers-v1"
++typedef void (*clcb_subset_guard)(uint32_t reasons, void *scan_context);
++extern const char *cl_subset_guard_version(void);
++/* Bit 0: the configured UnRAR parser successfully loaded its complete interface. */
++extern uint32_t cl_subset_runtime_capabilities(void);
++extern cl_error_t cl_engine_enable_subset_guard(struct cl_engine *engine,
++                                                clcb_subset_guard notify);
++/* Bounded native validation v1 diagnostic counters for aggregate overflow
++ * qualification. Not a serialization of the engine or a compile substitute. */
++#define CL_SUBSET_VALIDATION_COUNTERS 20U
++extern cl_error_t cl_subset_validation_stats(const struct cl_engine *engine,
++                                            uint64_t counters[CL_SUBSET_VALIDATION_COUNTERS]);
++
+ struct cl_settings;
+ 
+ /* ----------------------------------------------------------------------------
+diff --git a/libclamav/others.h b/libclamav/others.h
+index 92addfb75141b92baf8f4d700f331f9e3763bf91..240cc43c408d402f35e7b1a1cfc69b134db2a4e0 100644
+--- a/libclamav/others.h
++++ b/libclamav/others.h
+@@ -199,6 +199,7 @@
+     struct timeval time_limit;
+     bool limit_exceeded; /* To guard against alerting on limits exceeded more than once, or storing that in the JSON metadata more than once. */
+     bool abort_scan;     /* So we can guarantee a scan is aborted, even if CL_ETIMEOUT/etc. status is lost in the scan recursion stack. */
++    uint32_t subset_guard_flags; /* Sticky for the complete original, across recursion. */
+ } cli_ctx;
+ 
+ typedef struct {
+@@ -409,7 +410,13 @@
+     /* YARA */
+     struct _yara_global *yara_global;
+ #endif
++    /* Private opt-in integration state; not copied from ordinary engine settings. */
++    bool subset_guard_enabled;
++    clcb_subset_guard cb_subset_guard;
++
+ };
++
++void cli_subset_guard(cli_ctx *ctx, uint32_t reasons);
+ 
+ struct cl_settings {
+     /* don't store dboptions here; it needs to be provided to cl_load() and
+diff --git a/libclamav/others.c b/libclamav/others.c
+index 9208eef7409b61dd18c0159e1bd80d7000ba41b3..c1fe90489c3c8215318344a8846ceac862ea4218 100644
+--- a/libclamav/others.c
++++ b/libclamav/others.c
+@@ -625,6 +625,68 @@
+     }
+ 
+     return new;
++}
++
++uint32_t cl_subset_runtime_capabilities(void)
++{
++    return have_rar ? 1U : 0U;
++}
++
++const char *cl_subset_guard_version(void)
++{
++    return CL_SUBSET_GUARD_VERSION;
++}
++
++cl_error_t cl_engine_enable_subset_guard(struct cl_engine *engine, clcb_subset_guard notify)
++{
++    if (!engine) return CL_ENULLARG;
++    if (engine->dboptions & CL_DB_COMPILED) return CL_ESTATE;
++    engine->subset_guard_enabled = true;
++    engine->cb_subset_guard = notify;
++    engine->engine_options |= ENGINE_OPTIONS_DISABLE_CACHE;
++    return CL_SUCCESS;
++}
++
++cl_error_t cl_subset_validation_stats(const struct cl_engine *engine,
++                                     uint64_t counters[CL_SUBSET_VALIDATION_COUNTERS])
++{
++    const struct cli_matcher *r;
++    unsigned purpose, type;
++    if (!engine || !counters) return CL_ENULLARG;
++    memset(counters, 0, CL_SUBSET_VALIDATION_COUNTERS * sizeof(*counters));
++    r = engine->root ? engine->root[TARGET_PE] : NULL;
++    if (r) {
++        const uint64_t values[] = {r->bm_patterns, r->bm_reloff_num, r->bm_absoff_num,
++            r->ac_partsigs, r->ac_nodes, r->ac_lists, r->ac_patterns, r->ac_lsigs,
++            r->ac_reloff_num, r->ac_absoff_num, r->pcre_metas, r->pcre_reloff_num,
++            r->pcre_absoff_num, r->bcomp_metas, r->linked_bcs, r->soff_len,
++            r->ac_lsig_slots};
++        memcpy(counters, values, sizeof(values));
++    }
++    for (purpose = 0; purpose < 2; purpose++) {
++        uint64_t items = 0;
++        r = purpose ? engine->hm_imp : engine->hm_mdb;
++        if (!r) continue;
++        for (type = 0; type < CLI_HASH_AVAIL_TYPES; type++) {
++            const struct cli_htu32_element *element = NULL;
++            items += r->hwild.hashes[type].items;
++            while ((element = cli_htu32_next(&r->hm.sizehashes[type], element)))
++                items += ((const struct cli_sz_hash *)element->data.as_ptr)->items;
++        }
++        counters[17 + purpose] = items;
++    }
++    return CL_SUCCESS;
++}
++
++void cli_subset_guard(cli_ctx *ctx, uint32_t reasons)
++{
++    if (ctx && ctx->engine && ctx->engine->subset_guard_enabled) {
++        uint32_t newly_reached = reasons & ~ctx->subset_guard_flags;
++        ctx->subset_guard_flags |= reasons;
++        if (ctx->fmap) ctx->fmap->dont_cache_flag = true;
++        if (newly_reached && ctx->engine->cb_subset_guard)
++            ctx->engine->cb_subset_guard(ctx->subset_guard_flags, ctx->cb_ctx);
++    }
+ }
+ 
+ cl_error_t cl_engine_set_num(struct cl_engine *engine, enum cl_engine_field field, long long num)
+diff --git a/libclamav/matcher.c b/libclamav/matcher.c
+index c7701e644e4444c0e13ee4d2d2ee66e043419a85..776504343e1224999e92bc79d0b96b752743f8ca 100644
+--- a/libclamav/matcher.c
++++ b/libclamav/matcher.c
+@@ -246,6 +246,8 @@
+ 
+ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t offset, cli_ctx *ctx, cli_file_t ftype, struct cli_ac_data **acdata)
+ {
++    /* Before root existence, metadata and signature-dependent work. */
++    if (ftype == CL_TYPE_MSEXE) cli_subset_guard(ctx, CL_SUBSET_GUARD_PE);
+     cl_error_t ret = CL_CLEAN;
+     unsigned int i = 0, j = 0;
+     struct cli_ac_data matcher_data;
+@@ -1007,6 +1009,8 @@
+ 
+ cl_error_t cli_exp_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_ac_data *acdata, struct cli_target_info *target_info)
+ {
++    /* Before root existence, metadata and signature-dependent work. */
++    if (root && root->type == TARGET_PE) cli_subset_guard(ctx, CL_SUBSET_GUARD_PE);
+     uint32_t i;
+     cl_error_t status = CL_SUCCESS;
+ 
+@@ -1041,6 +1045,8 @@
+ 
+ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, struct cli_matched_type **ftoffset, unsigned int acmode, struct cli_ac_result **acres)
+ {
++    /* Before root existence, metadata and signature-dependent work. */
++    if (ftype == CL_TYPE_MSEXE) cli_subset_guard(ctx, CL_SUBSET_GUARD_PE);
+     const unsigned char *buff;
+     cl_error_t ret = CL_CLEAN, type = CL_CLEAN;
+ 
+diff --git a/libclamav/scanners.c b/libclamav/scanners.c
+index 93607391e6c55fddb8bcbf02b10bba4db9ca81ea..442cb9b668d80f779f26ac1f1066afdf873ec3f8 100644
+--- a/libclamav/scanners.c
++++ b/libclamav/scanners.c
+@@ -6393,6 +6393,11 @@
+         free(ctx.options);
+     }
+ 
++    /* Never let a trusted/clean callback or swallowed recursive status clear
++     * the complete-original coverage hold. Errors remain errors. */
++    if (ctx.subset_guard_flags &&
++        (status == CL_SUCCESS || status == CL_VIRUS || status == CL_VERIFIED))
++        status = CL_ESTATE;
+     return status;
+ }
+ 
+diff --git a/libclamav/pe.c b/libclamav/pe.c
+index c02d306b8fe3f53df5679fb097881e2736f6d1ac..48bad0009985e1350235effcd01cc28e3de6fc7c 100644
+--- a/libclamav/pe.c
++++ b/libclamav/pe.c
+@@ -535,6 +535,7 @@
+ /* check hash section sigs */
+ static cl_error_t scan_pe_mdb(cli_ctx *ctx, struct cli_exe_section *exe_section)
+ {
++    cli_subset_guard(ctx, CL_SUBSET_GUARD_PE);
+     struct cli_matcher *mdb_sect = ctx->engine->hm_mdb;
+     uint8_t *hashset[CLI_HASH_AVAIL_TYPES];
+     const char *virname = NULL;
+@@ -2536,6 +2537,7 @@
+ 
+ static cl_error_t scan_pe_imp(cli_ctx *ctx, struct cli_exe_info *peinfo)
+ {
++    cli_subset_guard(ctx, CL_SUBSET_GUARD_PE);
+     struct cli_matcher *imp                = ctx->engine->hm_imp;
+     uint8_t *hashset[CLI_HASH_AVAIL_TYPES] = {NULL};
+     bool genhash[CLI_HASH_AVAIL_TYPES]     = {false};
+@@ -2730,6 +2732,7 @@
+ 
+ int cli_scanpe(cli_ctx *ctx)
+ {
++    cli_subset_guard(ctx, CL_SUBSET_GUARD_PE);
+     uint8_t polipos = 0;
+     char epbuff[4096], *tempfile;
+     size_t epsize;
+diff --git a/libclamav/cache.c b/libclamav/cache.c
+index 4048272c85b911c34c095aacc62b09cad15f3866..242a8db47a309e0a14ae57d7741aac227a2ac5dd 100644
+--- a/libclamav/cache.c
++++ b/libclamav/cache.c
+@@ -575,7 +575,7 @@
+         goto done;
+     }
+ 
+-    if (engine->engine_options & ENGINE_OPTIONS_DISABLE_CACHE) {
++    if (engine->subset_guard_enabled || (engine->engine_options & ENGINE_OPTIONS_DISABLE_CACHE)) {
+         cli_dbgmsg("clean_cache_init: Caching disabled.\n");
+         status = CL_SUCCESS;
+         goto done;
+@@ -666,7 +666,7 @@
+         goto done;
+     }
+ 
+-    if (ctx->engine->engine_options & ENGINE_OPTIONS_DISABLE_CACHE) {
++    if (ctx->engine->subset_guard_enabled || (ctx->engine->engine_options & ENGINE_OPTIONS_DISABLE_CACHE)) {
+         cli_dbgmsg("clean_cache_add: Caching disabled. Not adding sample to cache.\n");
+         goto done;
+     }
+@@ -790,8 +790,10 @@
+         goto done;
+     }
+ 
++    if (ctx->engine->subset_guard_enabled) goto done;
++
+     if (!ctx->engine->cache) {
+-        if (ctx->engine->engine_options & ENGINE_OPTIONS_DISABLE_CACHE) {
++        if (ctx->engine->subset_guard_enabled || (ctx->engine->engine_options & ENGINE_OPTIONS_DISABLE_CACHE)) {
+             cli_dbgmsg("clean_cache_check: Caching is disabled.\n");
+             status = CL_VIRUS;
+         } else {
+diff --git a/libclamav/libclamav.map b/libclamav/libclamav.map
+index 67d4e06948b75a0f0bf0e4864d52dfef6dc7761e..d86ef26676b89c895ecc4c547562ca05c82263a2 100644
+--- a/libclamav/libclamav.map
++++ b/libclamav/libclamav.map
+@@ -7,6 +7,10 @@
+     cl_debug;
+     cl_init;
+     cl_engine_new;
++    cl_subset_guard_version;
++    cl_subset_runtime_capabilities;
++    cl_subset_validation_stats;
++    cl_engine_enable_subset_guard;
+     cl_engine_set_num;
+     cl_engine_get_num;
+     cl_engine_set_str;
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index 491110abe4da6e0c36e97e64ad6aa23d5c5947da..f4a44f13905b87af844d075a7bb74eb0f7dfb395 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -85,6 +85,9 @@
+     pub mail: u32,
+     pub dev: u32,
+ }
++pub type clcb_subset_guard = ::std::option::Option<
++    unsafe extern "C" fn(reasons: u32, scan_context: *mut ::std::os::raw::c_void),
++>;
+ pub const bytecode_security_CL_BYTECODE_TRUST_ALL: bytecode_security = 0;
+ #[doc = " @deprecated obsolete"]
+ pub const bytecode_security_CL_BYTECODE_TRUST_SIGNED: bytecode_security = 1;
+@@ -648,6 +651,7 @@
+     pub time_limit: timeval,
+     pub limit_exceeded: bool,
+     pub abort_scan: bool,
++    pub subset_guard_flags: u32,
+ }
+ pub type cli_ctx = cli_ctx_tag;
+ #[repr(C)]
+@@ -788,6 +792,8 @@
+     pub pcre_recmatch_limit: u64,
+     pub pcre_max_filesize: u64,
+     pub yara_global: *mut _yara_global,
++    pub subset_guard_enabled: bool,
++    pub cb_subset_guard: clcb_subset_guard,
+ }
+ extern "C" {
+     #[doc = " @brief Append an alert.\n\n An FP-check will verify that the file is not allowed.\n The allow list check does not happen before the scan because allowing files\n is so infrequent that such action would be detrimental to performance.\n\n TODO: Replace implementation with severity scale, and severity threshold\n wherein signatures that do not meet the threshold are documented in JSON\n metadata but do not halt the scan.\n\n @param ctx       The scan context.\n @param virname   The alert name.\n @return cl_error_t CL_VIRUS if scan should be halted due to an alert, CL_CLEAN if scan should continue."]

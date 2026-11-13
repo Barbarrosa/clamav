@@ -1,0 +1,33 @@
+{
+  "protocol": 1,
+  "integration_version": "0.1.0",
+  "upstream_repository": "https://github.com/Cisco-Talos/clamav.git",
+  "upstream_commit": "14915a94cf00ca3a3b7d93b4da050b4dc7f7b76a",
+  "patches": [
+    {
+      "file": "patches/010-compact-runtime.patch",
+      "sha256": "7360f8a6bf4442c36bbdc0c0b0b7e650609b1e8a8954c0d2f58462ba58e5db8d"
+    },
+    {
+      "file": "patches/020-streaming-updates.patch",
+      "sha256": "a348ef0f0f663a17c6adb9041c83d3801c93343a7f3d613cd902908d3026010d"
+    },
+    {
+      "file": "patches/030-subset-guards.patch",
+      "sha256": "8187e7342e8a34ab69c920a5a4439ed82214b18ff70dac2460bfb3ae15dc6abe"
+    }
+  ],
+  "rust_toolchain": "1.90.0",
+  "default_options": {
+    "ENABLE_AC_NODE_IDS": "ON",
+    "ENABLE_AC_FLAT_NODES": "ON",
+    "ENABLE_COMPACT_LSIG_STATE": "ON",
+    "BYTECODE_RUNTIME": "interpreter"
+  },
+  "profile": "pdf-jpeg-png-pe-exclusions",
+  "qualification": {
+    "status": "relative-qualified-experimental",
+    "coverage_qualified": true,
+    "siteground_qualified": false
+  }
+}

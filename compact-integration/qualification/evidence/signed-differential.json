@@ -1,0 +1,514 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "engine_sha256": "359b79e9d2037926d43822492a6a8d938079bfa1b99357d79b8cd3963dcc3f07",
+  "cases": 100,
+  "guard_free_exact_comparisons": 7,
+  "guarded_nonclean_cases": 93,
+  "accepted": [
+    {
+      "input": "eicar.txt",
+      "detected": true,
+      "sha256": "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f"
+    },
+    {
+      "input": "eicar.pdf",
+      "detected": true,
+      "sha256": "8aed2477ecf4588feb31f1de88fccc9cc300bf08f743891ccaa88d058d96225c"
+    },
+    {
+      "input": "clean.png",
+      "detected": false,
+      "sha256": "04046dbddb50237194f636be6c161ce718755434cc42a00ff53d6c9453c725fa"
+    },
+    {
+      "input": "clean.jpg",
+      "detected": false,
+      "sha256": "908a1cb588c169305584bf1b5c6c02c8968bc12cf2ec37a42c3634cae689d69e"
+    },
+    {
+      "input": "appended-pe.jpg",
+      "detected": false,
+      "sha256": "8260b66c3740061b335ae6b3b224093c073e3d98c67a2ec58dd9315e60500e02"
+    },
+    {
+      "input": "clean.pdf",
+      "detected": false,
+      "sha256": "fe2c099fe63d10e5d699940a156cc13daa67b9955d6c04d6822323635fbb5a97"
+    },
+    {
+      "input": "clean.txt",
+      "detected": false,
+      "sha256": "7118ca6e073e8945cab7573c5e6a181c48bd95135403320fdd2cb52b98ef7cbb"
+    }
+  ],
+  "held": [
+    {
+      "input": "clam-aspack.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-fsg.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-mew.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-nsis.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-pespin.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-petite.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-upack.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-upx.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-v2.rar",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-v3.rar",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-wwpack.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam-yc.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.7z",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.arj",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.bin-be.cpio",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.bin-le.cpio",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.bz2.zip",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.cab",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.chm",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.d64.zip",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.ea05.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.ea06.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.2007.one",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.2010.one",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.binhex",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.bz2",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.html",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.mbox.base64",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.mbox.uu",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.rtf",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.szdd",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe.webapp-export.one",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.exe_and_mail.tar.gz",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.impl.zip",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.iso",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-backslash.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-comment-quote.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-comment-quoted-pair.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-comment-unquoted-pair.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-comment-unquoted-semicolon.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-comment-unquoted-whitespace.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-content-disposition.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-escaped-quote.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-escaped-semicolon-spaced-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-escaped-whitespace-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-intervening-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-invalid-continuation.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-leading-whitespace.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-lone-escaped-semicolon.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-malformed-spaced-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-ordinary-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-continuation.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-duplicate-canonical.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-encoded-first.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-literal-quotes.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-literal-syntax-continuation.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-nonascii-continuation.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-rfc2231-repeated-section-zero.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-space-delimiter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-spaced-continuation.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-spaced-escaped-semicolon-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-spaced-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-spaced-rfc2231-parameter.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-boundary-unquoted-escaped-semicolon.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-comment-header-name.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-content-disposition-escaped-semicolon.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-disposition-rfc2231-boundary.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-multiple-boundaries.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-multiple-content-type.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-nested-comment-header-name.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.mail-semicolon-boundary.eml",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.newc.cpio",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.odc.cpio",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.ole.doc",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.pdf",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.ppt",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.sis",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.split.oneseg.zip",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.tar.gz",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.tnef",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam.zip",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam_IScab_ext.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam_IScab_int.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam_ISmsi_ext.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam_ISmsi_int.exe",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clam_cache_emax.tgz",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "clamjol.iso",
+      "full_verdict": 2,
+      "reduced_status": 32
+    },
+    {
+      "input": "appended-pe.png",
+      "full_verdict": 0,
+      "reduced_status": 32
+    },
+    {
+      "input": "embedded-pe.pdf",
+      "full_verdict": 0,
+      "reduced_status": 32
+    },
+    {
+      "input": "nested-pe.zip",
+      "full_verdict": 0,
+      "reduced_status": 32
+    },
+    {
+      "input": "renamed-pe.pdf",
+      "full_verdict": 0,
+      "reduced_status": 32
+    }
+  ],
+  "scope": "exact observed full/reduced comparisons with production options; finite corpus, not all-input proof",
+  "timing_qualification": false
+}

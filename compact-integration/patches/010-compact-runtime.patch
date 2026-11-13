@@ -1,0 +1,3723 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ff60833fab8a9a8e9c9a31d9e71668c4cca0429b..a9c0017136e1fa46e349c3321ae3654dca1395c3 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -868,6 +868,7 @@ else()
+     check_symbol_exists(fseeko          "stdio.h"       HAVE_FSEEKO)
+     check_symbol_exists(getaddrinfo     "netdb.h"       HAVE_GETADDRINFO)
+     check_symbol_exists(getpagesize     "unistd.h"      HAVE_GETPAGESIZE)
++    check_symbol_exists(madvise         "sys/mman.h"    HAVE_MADVISE)
+     check_symbol_exists(mkstemp         "unistd.h"      HAVE_MKSTEMP)
+     check_symbol_exists(poll            "poll.h"        HAVE_POLL)
+     check_symbol_exists(setgroups       "unistd.h"      HAVE_SETGROUPS)
+diff --git a/CMakeOptions.cmake b/CMakeOptions.cmake
+index dbdf696ac65fcdf3d924f23067aa6aff40fbb859..a950bc8ebd1fc94edfff7e1df6c4ff54ebfe0ca6 100644
+--- a/CMakeOptions.cmake
++++ b/CMakeOptions.cmake
+@@ -32,6 +32,15 @@ set(DISABLE_MPOOL
+     0 CACHE STRING
+     "Disable mpool support entirely.")
+ 
++option(ENABLE_COMPACT_LSIG_STATE
++    "Size logical match-state rows to validated signature requirements."
++    ON)
++option(ENABLE_AC_NODE_IDS
++    "Use 32-bit AC transition IDs on 64-bit targets (OFF uses native pointers)."
++    ON)
++option(ENABLE_AC_FLAT_NODES
++    "Pack compiled AC nodes contiguously when compact transition IDs are enabled."
++    ON)
+ set(BYTECODE_RUNTIME
+     "interpreter" CACHE STRING
+     "Bytecode Runtime, may be: 'llvm', 'interpreter', 'none'.")
+diff --git a/clamav-config.h.cmake.in b/clamav-config.h.cmake.in
+index ee44a74a2a42d813cd92c18738802e25047a3183..a8f65b790689e219262af6eca2b6512215de992b 100644
+--- a/clamav-config.h.cmake.in
++++ b/clamav-config.h.cmake.in
+@@ -471,6 +471,11 @@
+ /* enable memory pools */
+ #cmakedefine USE_MPOOL 1
+ 
++/* Compact resident matcher build policies. */
++#cmakedefine ENABLE_COMPACT_LSIG_STATE 1
++#cmakedefine ENABLE_AC_NODE_IDS 1
++#cmakedefine ENABLE_AC_FLAT_NODES 1
++
+ /* use syslog */
+ #cmakedefine USE_SYSLOG 1
+ 
+diff --git a/cmake/FindRust.cmake b/cmake/FindRust.cmake
+index 7a309b03e179e0fae1ef95793e734a4cf8d2ad2a..bd9875f08f1c47d9b60ec0471d0019d3826b99b3 100644
+--- a/cmake/FindRust.cmake
++++ b/cmake/FindRust.cmake
+@@ -279,7 +279,7 @@ endfunction()
+ function(add_rust_library)
+     set(options)
+     set(oneValueArgs TARGET SOURCE_DIRECTORY BINARY_DIRECTORY PRECOMPILE_TESTS INCLUDE_DIRECTORIES)
+-    set(multiValueArgs ENVIRONMENT)
++    set(multiValueArgs ENVIRONMENT DEPENDS)
+     cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+ 
+     if(WIN32)
+@@ -308,14 +308,14 @@ function(add_rust_library)
+             COMMAND ${CMAKE_COMMAND} -E make_directory "${ARGS_BINARY_DIRECTORY}/${RUST_COMPILER_TARGET}/${CARGO_BUILD_TYPE}"
+             COMMAND lipo -create ${ARGS_BINARY_DIRECTORY}/x86_64-apple-darwin/${CARGO_BUILD_TYPE}/lib${ARGS_TARGET}.a ${ARGS_BINARY_DIRECTORY}/aarch64-apple-darwin/${CARGO_BUILD_TYPE}/lib${ARGS_TARGET}.a -output "${OUTPUT}"
+             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
+-            DEPENDS ${LIB_SOURCES}
++            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
+             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
+     elseif("${CMAKE_OSX_ARCHITECTURES}" MATCHES "^(arm64)$")
+         add_custom_command(
+             OUTPUT "${OUTPUT}"
+             COMMAND ${CMAKE_COMMAND} -E env ${ARGS_ENVIRONMENT} ${cargo_EXECUTABLE} ${MY_CARGO_ARGS} --target=aarch64-apple-darwin
+             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
+-            DEPENDS ${LIB_SOURCES}
++            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
+             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
+             elseif("${CMAKE_OSX_ARCHITECTURES}" MATCHES "^(x86_64)$")
+         add_custom_command(
+@@ -323,14 +323,14 @@ function(add_rust_library)
+             COMMAND ${CMAKE_COMMAND} -E env ${ARGS_ENVIRONMENT} ${cargo_EXECUTABLE} ${MY_CARGO_ARGS} --target=x86_64-apple-darwin
+             COMMAND ${CMAKE_COMMAND} -E make_directory "${ARGS_BINARY_DIRECTORY}/${RUST_COMPILER_TARGET}/${CARGO_BUILD_TYPE}"
+             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
+-            DEPENDS ${LIB_SOURCES}
++            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
+             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
+     else()
+         add_custom_command(
+             OUTPUT "${OUTPUT}"
+             COMMAND ${CMAKE_COMMAND} -E env ${ARGS_ENVIRONMENT} ${cargo_EXECUTABLE} ${MY_CARGO_ARGS}
+             WORKING_DIRECTORY "${ARGS_SOURCE_DIRECTORY}"
+-            DEPENDS ${LIB_SOURCES}
++            DEPENDS ${LIB_SOURCES} ${ARGS_DEPENDS}
+             COMMENT "Building ${ARGS_TARGET} in ${ARGS_BINARY_DIRECTORY} with:  ${cargo_EXECUTABLE} ${MY_CARGO_ARGS_STRING}\n  Environment:  ${ARGS_ENVIRONMENT}")
+     endif()
+ 
+diff --git a/libclamav/filetypes.c b/libclamav/filetypes.c
+index 8ec51d81290cccda43eaac99ebeed5e7a5b9e865..f4f5fc13f833ab1c5c2555dfa5a9efdaf9e3d32b 100644
+--- a/libclamav/filetypes.c
++++ b/libclamav/filetypes.c
+@@ -466,7 +466,7 @@ cli_file_t cli_determine_fmap_type(cli_ctx_t ctx_t, cli_file_t basetype)
+         if (!root)
+             return ret;
+ 
+-        if (cli_ac_initdata(&mdata, root->ac_partsigs, root->ac_lsigs, root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN))
++        if (cli_ac_initdata_for_matcher(&mdata, root))
+             return ret;
+ 
+         scan_ret = (cli_file_t)cli_ac_scanbuff(buff, bread, NULL, NULL, NULL, ctx->engine->root[0], &mdata, 0, ret, NULL, AC_SCAN_FT, NULL);
+@@ -483,7 +483,7 @@ cli_file_t cli_determine_fmap_type(cli_ctx_t ctx_t, cli_file_t basetype)
+              (scan_ret != CL_TYPE_7ZSFX))) {
+             ret = scan_ret;
+         } else {
+-            if (cli_ac_initdata(&mdata, root->ac_partsigs, root->ac_lsigs, root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN))
++            if (cli_ac_initdata_for_matcher(&mdata, root))
+                 return ret;
+ 
+             decoded = (unsigned char *)cli_utf16toascii((char *)buff, bread);
+@@ -519,7 +519,7 @@ cli_file_t cli_determine_fmap_type(cli_ctx_t ctx_t, cli_file_t basetype)
+                      * However when detecting whether a file is HTML or not, we need exact conversion.
+                      * (just eliminating zeros and matching would introduce false positives */
+                     if (encoding_normalize_toascii(&in_area, encoding, &out_area) >= 0 && out_area.length > 0) {
+-                        if (cli_ac_initdata(&mdata, root->ac_partsigs, root->ac_lsigs, root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN))
++                        if (cli_ac_initdata_for_matcher(&mdata, root))
+                             return ret;
+ 
+                         if (out_area.length > 0) {
+diff --git a/libclamav/filtering.c b/libclamav/filtering.c
+index f929f55d7e9eec9d6eed80a9492de21eefeff2c2..9ab1ef8748d9fe15efc1f0d7aa756147b31c53a3 100644
+--- a/libclamav/filtering.c
++++ b/libclamav/filtering.c
+@@ -461,7 +461,7 @@ int filter_add_acpatt(struct filter *m, const struct cli_ac_patt *pat)
+     if (!prefix_len) {
+         while ((pat->pattern[i] & CLI_MATCH_METADATA) == CLI_MATCH_SPECIAL) {
+             /* we support only ALT_CHAR, skip the rest */
+-            if (pat->special_table[altcnt]->type == 1)
++            if (AC_EXT_SPECIAL_TABLE(pat)[altcnt]->type == 1)
+                 break;
+             altcnt++;
+             i++;
+@@ -498,16 +498,16 @@ int filter_add_acpatt(struct filter *m, const struct cli_ac_patt *pat)
+                 spec->step  = 1;
+                 break;
+             case CLI_MATCH_SPECIAL:
+-                assert(pat->special_table);
++                assert(AC_EXT_SPECIAL_TABLE(pat));
+                 /* assert(altcnt < pat->alt); */
+-                assert(pat->special_table[altcnt]);
+-                spec->negative = pat->special_table[altcnt]->negative;
+-                switch (pat->special_table[altcnt++]->type) {
++                assert(AC_EXT_SPECIAL_TABLE(pat)[altcnt]);
++                spec->negative = AC_EXT_SPECIAL_TABLE(pat)[altcnt]->negative;
++                switch (AC_EXT_SPECIAL_TABLE(pat)[altcnt++]->type) {
+                     case 1: /* ALT_CHAR */
+                         spec->start = 0;
+-                        spec->end   = pat->special_table[altcnt - 1]->num - 1;
++                        spec->end   = AC_EXT_SPECIAL_TABLE(pat)[altcnt - 1]->num - 1;
+                         spec->step  = 1;
+-                        spec->alt   = pat->special_table[altcnt - 1];
++                        spec->alt   = AC_EXT_SPECIAL_TABLE(pat)[altcnt - 1];
+                         break;
+                     default:
+                         stop = 1;
+diff --git a/libclamav/libclamav.map b/libclamav/libclamav.map
+index f3efe1a3386c9d3550d882b80f82fef9a47b412f..67d4e06948b75a0f0bf0e4864d52dfef6dc7761e 100644
+--- a/libclamav/libclamav.map
++++ b/libclamav/libclamav.map
+@@ -179,6 +179,7 @@ CLAMAV_PRIVATE {
+     cli_hex2str;
+     cli_ac_init;
+     cli_ac_initdata;
++    cli_ac_initdata_for_matcher;
+     cli_ac_buildtrie;
+     cli_ac_scanbuff;
+     cli_ac_freedata;
+diff --git a/libclamav/matcher-ac.c b/libclamav/matcher-ac.c
+index ad3fbfbb5694697969f2e1ec83f87d3201dd80e2..0d0c0fd18827d43f8951d2b9f977ebdd298cc8d4 100644
+--- a/libclamav/matcher-ac.c
++++ b/libclamav/matcher-ac.c
+@@ -89,6 +89,11 @@ static char boundary[256] = {
+ 
+ // clang-format on
+ 
++static inline bool ac_array_fits(size_t count, size_t extra, size_t element_size)
++{
++    return extra <= SIZE_MAX / element_size && count <= SIZE_MAX / element_size - extra;
++}
++
+ static inline int insert_list(struct cli_matcher *root, struct cli_ac_patt *pattern, struct cli_ac_node *pt)
+ {
+     struct cli_ac_list *new;
+@@ -101,9 +106,19 @@ static inline int insert_list(struct cli_matcher *root, struct cli_ac_patt *patt
+     }
+     new->me   = pattern;
+     new->node = pt;
+-
++    /* Each successful pattern insertion represents one source occurrence.
++     * Names are not identifiers: identical names/patterns keep distinct ranks.
++     * Only relative order within a retained root matters. The selector may
++     * omit Target:1 records; attempting that altered root is guarded. */
++    new->source_order = root->ac_patterns;
++
++    if (root->ac_lists == UINT32_MAX ||
++        !ac_array_fits(root->ac_lists, 1, sizeof(*newtable))) {
++        MPOOL_FREE(root->mempool, new);
++        return CL_EMEM;
++    }
+     root->ac_lists++;
+-    newtable = MPOOL_REALLOC(root->mempool, root->ac_listtable, root->ac_lists * sizeof(struct cli_ac_list *));
++    newtable = MPOOL_REALLOC(root->mempool, root->ac_listtable, (size_t)root->ac_lists * sizeof(*newtable));
+     if (!newtable) {
+         root->ac_lists--;
+         cli_errmsg("cli_ac_addpatt: Can't realloc ac_listtable\n");
+@@ -116,6 +131,43 @@ static inline int insert_list(struct cli_matcher *root, struct cli_ac_patt *patt
+     return CL_SUCCESS;
+ }
+ 
++#define AC_EXT_CH(p, i) ((p)->ext ? (p)->ext->ch[i] : (uint16_t)CLI_MATCH_IGNORE)
++
++/**
++ * @brief Attach a zeroed extension to a pattern.
++ *
++ * @param root  The matcher root.
++ * @param p     The pattern.
++ * @return struct cli_ac_patt_ext*  The extension, or NULL on failure.
++ */
++struct cli_ac_patt_ext *cli_ac_patt_ext_new(struct cli_matcher *root, struct cli_ac_patt *p)
++{
++    if (p->ext)
++        return p->ext;
++    p->ext = MPOOL_CALLOC(root->mempool, 1, sizeof(*p->ext));
++    if (p->ext) {
++        p->ext->ch[0] = CLI_MATCH_IGNORE;
++        p->ext->ch[1] = CLI_MATCH_IGNORE;
++    }
++    return p->ext;
++}
++
++/**
++ * @brief Is every field still at the value its inline predecessor held
++ *        when the feature was unused?
++ *
++ * @param e  The extension.
++ * @return int  Non-zero when the extension carries nothing.
++ */
++static int ac_patt_ext_is_default(const struct cli_ac_patt_ext *e)
++{
++    return !e->customdata && !e->special_table && !e->mindist && !e->maxdist &&
++           !e->boundary && !e->special && !e->special_pattern &&
++           e->ch[0] == CLI_MATCH_IGNORE && e->ch[1] == CLI_MATCH_IGNORE &&
++           !e->ch_mindist[0] && !e->ch_mindist[1] &&
++           !e->ch_maxdist[0] && !e->ch_maxdist[1];
++}
++
+ #define RETURN_RES_IF_NE(uia, uib) \
+     do {                           \
+         if (uia < uib) return -1;  \
+@@ -128,9 +180,9 @@ static int patt_cmp_fn(const struct cli_ac_patt *a, const struct cli_ac_patt *b)
+     int res;
+     RETURN_RES_IF_NE(a->length[0], b->length[0]);
+     RETURN_RES_IF_NE(a->prefix_length[0], b->prefix_length[0]);
+-    RETURN_RES_IF_NE(a->ch[0], b->ch[0]);
+-    RETURN_RES_IF_NE(a->ch[1], b->ch[1]);
+-    RETURN_RES_IF_NE(a->boundary, b->boundary);
++    RETURN_RES_IF_NE(AC_EXT_CH(a, 0), AC_EXT_CH(b, 0));
++    RETURN_RES_IF_NE(AC_EXT_CH(a, 1), AC_EXT_CH(b, 1));
++    RETURN_RES_IF_NE(AC_EXT_BOUNDARY(a), AC_EXT_BOUNDARY(b));
+ 
+     /*
+      * If the first two arguments to memcmp are NULL, clangs
+@@ -150,12 +202,12 @@ static int patt_cmp_fn(const struct cli_ac_patt *a, const struct cli_ac_patt *b)
+         }
+     }
+ 
+-    RETURN_RES_IF_NE(a->special, b->special);
+-    if (!a->special && !b->special)
++    RETURN_RES_IF_NE(AC_EXT_SPECIAL(a), AC_EXT_SPECIAL(b));
++    if (!AC_EXT_SPECIAL(a) && !AC_EXT_SPECIAL(b))
+         return 0;
+ 
+-    for (i = 0; i < a->special; i++) {
+-        struct cli_ac_special *spcl_a = a->special_table[i], *spcl_b = b->special_table[i];
++    for (i = 0; i < AC_EXT_SPECIAL(a); i++) {
++        struct cli_ac_special *spcl_a = AC_EXT_SPECIAL_TABLE(a)[i], *spcl_b = AC_EXT_SPECIAL_TABLE(b)[i];
+ 
+         RETURN_RES_IF_NE(spcl_a->num, spcl_b->num);
+         RETURN_RES_IF_NE(spcl_a->negative, spcl_b->negative);
+@@ -196,7 +248,8 @@ static int sort_list_fn(const void *a, const void *b)
+ 
+     /* 1. Group by owning node
+      * (this is for assigning entries to nodes) */
+-    RETURN_RES_IF_NE(node_a, node_b);
++    /* Addresses group nodes only; they never break a candidate-order tie. */
++    RETURN_RES_IF_NE((uintptr_t)node_a, (uintptr_t)node_b);
+ 
+     /* 2. Group together equal pattern in a node
+      * (this is for building the next_same list) */
+@@ -208,9 +261,9 @@ static int sort_list_fn(const void *a, const void *b)
+      * (this is required by the matcher) */
+     RETURN_RES_IF_NE(patt_a->partno, patt_b->partno);
+ 
+-    /* 4. Keep close patterns close
+-     * (this is for performance) */
+-    RETURN_RES_IF_NE(patt_a, patt_b);
++    /* 4. Keep source order independent of allocation addresses. */
++    RETURN_RES_IF_NE((*(const struct cli_ac_list **)a)->source_order,
++                     (*(const struct cli_ac_list **)b)->source_order);
+ 
+     return 0;
+ }
+@@ -221,6 +274,8 @@ static int sort_heads_by_partno_fn(const void *a, const void *b)
+     const struct cli_ac_list *list_b = *(const struct cli_ac_list **)b;
+     const struct cli_ac_patt *patt_a = list_a->me;
+     const struct cli_ac_patt *patt_b = list_b->me;
++    const uintptr_t order_a = list_a->head_order;
++    const uintptr_t order_b = list_b->head_order;
+ 
+     /* 1. Sort heads by partno
+      * (this is required by the matcher) */
+@@ -241,9 +296,8 @@ static int sort_heads_by_partno_fn(const void *a, const void *b)
+         list_b = list_b->next_same;
+     }
+ 
+-    /* 3. Keep close patterns close
+-     * (this is for performance) */
+-    RETURN_RES_IF_NE(patt_a, patt_b);
++    /* 3. Preserve source occurrence order for equally sized heads. */
++    RETURN_RES_IF_NE(order_a, order_b);
+ 
+     return 0;
+ }
+@@ -270,7 +324,7 @@ static bool ac_select_repeated_prefix_exact_window(const uint16_t *pattern, uint
+     size_t best_start       = 0;
+     unsigned int best_repeated_count;
+     unsigned int best_distinct_count = 0;
+-    bool found                        = false;
++    bool found                       = false;
+     size_t start;
+ 
+     if (!pattern || !ppos || 0 == depth || length <= depth) {
+@@ -296,10 +350,10 @@ static bool ac_select_repeated_prefix_exact_window(const uint16_t *pattern, uint
+     best_repeated_count = (unsigned int)depth + 1;
+ 
+     for (start = 1; start <= (size_t)length - depth; start++) {
+-        bool distinct[256]             = {false};
+-        unsigned int repeated_count    = 0;
+-        unsigned int distinct_count    = 0;
+-        bool valid                     = true;
++        bool distinct[256]          = {false};
++        unsigned int repeated_count = 0;
++        unsigned int distinct_count = 0;
++        bool valid                  = true;
+         size_t i;
+ 
+         for (i = start; i < start + depth; i++) {
+@@ -329,10 +383,10 @@ static bool ac_select_repeated_prefix_exact_window(const uint16_t *pattern, uint
+             repeated_count < best_repeated_count ||
+             (repeated_count == best_repeated_count && distinct_count > best_distinct_count) ||
+             (repeated_count == best_repeated_count && distinct_count == best_distinct_count && start > best_start)) {
+-            found                = true;
+-            best_start           = start;
+-            best_repeated_count  = repeated_count;
+-            best_distinct_count  = distinct_count;
++            found               = true;
++            best_start          = start;
++            best_repeated_count = repeated_count;
++            best_distinct_count = distinct_count;
+         }
+     }
+ 
+@@ -353,11 +407,11 @@ static void ac_shift_pattern_prefix(struct cli_ac_patt *pattern, uint16_t ppos)
+     pattern->prefix_length[0] = ppos;
+     for (i = 0, j = 0; i < pattern->prefix_length[0]; i++) {
+         if ((pattern->prefix[i] & CLI_MATCH_WILDCARD) == CLI_MATCH_SPECIAL)
+-            pattern->special_pattern++;
++            pattern->ext->special_pattern++;
+ 
+         if ((pattern->prefix[i] & CLI_MATCH_METADATA) == CLI_MATCH_SPECIAL) {
+-            pattern->prefix_length[1] += pattern->special_table[j]->len[0];
+-            pattern->prefix_length[2] += pattern->special_table[j]->len[1];
++            pattern->prefix_length[1] += pattern->ext->special_table[j]->len[0];
++            pattern->prefix_length[2] += pattern->ext->special_table[j]->len[1];
+             j++;
+         } else {
+             pattern->prefix_length[1]++;
+@@ -377,12 +431,21 @@ static inline void link_node_lists(struct cli_ac_list **listtable, unsigned int
+     struct cli_ac_node *node = prev->node;
+     unsigned int i, nheads = 1;
+ 
++    /* Reuse build-only storage, then turn both unions into resident links.
++     * This makes ordering deterministic without enlarging every live record. */
++    prev->head_order = prev->source_order;
++    prev->next_same = NULL;
++
+     /* Link equal patterns in the next_same list (entries are already sorted by partno asc) */
+     for (i = 1; i < nentries; i++) {
+-        int ret = patt_cmp_fn(prev->me, listtable[i]->me);
++        struct cli_ac_list *entry = listtable[i];
++        uintptr_t order = entry->source_order;
++        int ret = patt_cmp_fn(prev->me, entry->me);
++        entry->next_same = NULL;
+         if (ret) {
+             /* This is a new head of a next_same chain */
+-            prev = listtable[i];
++            prev = entry;
++            prev->head_order = order;
+             if (i != nheads) {
+                 /* Move heads towards the beginning of the table */
+                 listtable[i]      = listtable[nheads];
+@@ -390,9 +453,9 @@ static inline void link_node_lists(struct cli_ac_list **listtable, unsigned int
+             }
+             nheads++;
+         } else {
+-            prev->next_same = listtable[i];
+-            prev->next      = NULL;
+-            prev            = listtable[i];
++            prev->next_same = entry;
++            prev = entry;
++            prev->next = NULL;
+         }
+     }
+ 
+@@ -437,13 +500,16 @@ static void link_lists(struct cli_matcher *root)
+  * @param trans     The trans node to be tracked.
+  * @return bool
+  */
+-static bool store_trans_node(struct cli_matcher *root, struct cli_ac_node **trans)
++static bool store_trans_node(struct cli_matcher *root, cli_ac_transition_t *trans)
+ {
+     bool bRet = false;
+ 
+     if (root->trans_cnt + 1 > root->trans_capacity) {
+-        size_t newCapacity        = root->trans_capacity + 1024;
+-        struct cli_ac_node ***ret = MPOOL_REALLOC(root->mempool, root->trans_array, newCapacity * sizeof(struct cli_ac_node **));
++        size_t newCapacity;
++        if (root->trans_capacity > SIZE_MAX / sizeof(*root->trans_array) - 1024)
++            goto done;
++        newCapacity               = root->trans_capacity + 1024;
++        cli_ac_transition_t **ret = MPOOL_REALLOC(root->mempool, root->trans_array, newCapacity * sizeof(*ret));
+         if (NULL == ret) {
+             cli_errmsg("cli_ac_addpatt: Can't allocate memory for cleanup storage of trans\n");
+             goto done;
+@@ -459,15 +525,81 @@ done:
+     return bRet;
+ }
+ 
+-/**
+- * @brief Frees all trans nodes for cleanup.
+- * cleanup.
+- *
+- * @param root      The matcher root.
+- */
++/* Transition ID 0 is unset, 1 is the root, and n + 2 is
++ * ac_nodetable[n]. Build and scan share one table; no second index is
++ * allocated when the trie is completed. */
++static inline struct cli_ac_node *ac_node(const struct cli_matcher *root, cli_ac_transition_t transition)
++{
++#ifdef CLI_AC_NODE_IDS
++    return root->ac_nodeidx[transition];
++#else
++    UNUSEDPARAM(root);
++    return transition;
++#endif
++}
++
++static inline struct cli_ac_node *ac_scan_node(const struct cli_matcher *root, cli_ac_transition_t transition)
++{
++#ifdef CLI_AC_FLAT_NODES
++    return root->ac_flatnodes + transition;
++#else
++    return ac_node(root, transition);
++#endif
++}
++
++/* Construction indices share the reference pool allocation path. */
++#define AC_INDEX_CALLOC(root, count) MPOOL_CALLOC((root)->mempool, (count), sizeof(*(root)->ac_nodeidx))
++#define AC_INDEX_REALLOC(root, bytes) MPOOL_REALLOC((root)->mempool, (root)->ac_nodeidx, (bytes))
++#define AC_INDEX_FREE(root) MPOOL_FREE((root)->mempool, (root)->ac_nodeidx)
++
++static void ac_discard_build_nodes(struct cli_matcher *root)
++{
++    uint32_t i;
++    for (i = 0; i < root->ac_nodes; i++)
++        MPOOL_FREE(root->mempool, root->ac_nodetable[i]);
++    MPOOL_FREE(root->mempool, root->ac_root);
++    AC_INDEX_FREE(root);
++    root->ac_nodeidx = root->ac_nodetable = NULL;
++    root->ac_root                         = NULL;
++}
++
++/* All lists have been linked and failure transitions completed before this
++ * conversion. Preserve node IDs and output order. The old fail fields can then
++ * serve as a temporary old-address -> new-address map without a hash table.
++ * No fallible operation follows the first mutation of the old nodes. */
++static cl_error_t ac_pack_nodes(struct cli_matcher *root)
++{
++#ifdef CLI_AC_FLAT_NODES
++    struct cli_ac_node *nodes;
++    size_t i, count;
++
++    if (!ac_array_fits(root->ac_nodes, 2, sizeof(*nodes)))
++        return CL_EMEM;
++    count = (size_t)root->ac_nodes + 2;
++    nodes = calloc(count, sizeof(*nodes));
++    if (!nodes)
++        return CL_EMEM;
++
++    for (i = 1; i < count; i++)
++        nodes[i] = *root->ac_nodeidx[i];
++    for (i = 1; i < count; i++)
++        root->ac_nodeidx[i]->fail = nodes + i;
++    for (i = 1; i < count; i++) {
++        if (nodes[i].fail)
++            nodes[i].fail = nodes[i].fail->fail;
++    }
++    ac_discard_build_nodes(root);
++    root->ac_flatnodes                    = nodes;
++    root->ac_root                         = nodes + 1;
++#else
++    UNUSEDPARAM(root);
++#endif
++    return CL_SUCCESS;
++}
++
+ static void free_trans_nodes(struct cli_matcher *root)
+ {
+-    uint32_t i = 0;
++    size_t i;
+ 
+     for (i = 0; i < root->trans_cnt; i++) {
+         MPOOL_FREE(root->mempool, root->trans_array[i]);
+@@ -479,46 +611,52 @@ static void free_trans_nodes(struct cli_matcher *root)
+     root->trans_capacity = 0;
+ }
+ 
+-static inline struct cli_ac_node *add_new_node(struct cli_matcher *root, uint16_t i, uint16_t len)
++static inline struct cli_ac_node *add_new_node(struct cli_matcher *root, uint16_t i, uint16_t len, cli_ac_transition_t *out_idx)
+ {
+     struct cli_ac_node *new;
+     struct cli_ac_node **newtable;
+ 
+-    new = (struct cli_ac_node *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_ac_node));
+-    if (!new) {
+-        cli_errmsg("cli_ac_addpatt: Can't allocate memory for AC node\n");
++    /* Reserve IDs 0 and 1 and check byte arithmetic before any allocation. */
++    if (root->ac_nodes >= UINT32_MAX - 1 ||
++        !ac_array_fits(root->ac_nodes, 3, sizeof(*newtable))) {
++        cli_errmsg("cli_ac_addpatt: AC node table exceeds representable size\n");
+         return NULL;
+     }
++    new = MPOOL_CALLOC(root->mempool, 1, sizeof(*new));
++    if (!new)
++        return NULL;
+ 
+     if (i != len - 1) {
+-        new->trans = (struct cli_ac_node **)MPOOL_CALLOC(root->mempool, 256, sizeof(struct cli_ac_node *));
++        new->trans = MPOOL_CALLOC(root->mempool, 256, sizeof(*new->trans));
+         if (!new->trans) {
+-            cli_errmsg("cli_ac_addpatt: Can't allocate memory for new->trans\n");
+             MPOOL_FREE(root->mempool, new);
+             return NULL;
+         }
+-
+         if (!store_trans_node(root, new->trans)) {
+-            /* Error printed in store_trans_node */
++            MPOOL_FREE(root->mempool, new->trans);
+             MPOOL_FREE(root->mempool, new);
+             return NULL;
+         }
+     }
+ 
+-    root->ac_nodes++;
+-    newtable = MPOOL_REALLOC(root->mempool, root->ac_nodetable, root->ac_nodes * sizeof(struct cli_ac_node *));
++    newtable = AC_INDEX_REALLOC(root, ((size_t)root->ac_nodes + 3) * sizeof(*newtable));
+     if (!newtable) {
+-        root->ac_nodes--;
+-        cli_errmsg("cli_ac_addpatt: Can't realloc ac_nodetable\n");
+-        if (new->trans)
++        if (new->trans) {
++            /* This row has been registered but cannot yet be reached. */
++            root->trans_cnt--;
+             MPOOL_FREE(root->mempool, new->trans);
++        }
+         MPOOL_FREE(root->mempool, new);
+         return NULL;
+     }
+-
+-    root->ac_nodetable                     = newtable;
+-    root->ac_nodetable[root->ac_nodes - 1] = new;
+-
++    root->ac_nodeidx                     = newtable;
++    root->ac_nodetable                   = newtable + 2;
++    root->ac_nodetable[root->ac_nodes++] = new;
++#ifdef CLI_AC_NODE_IDS
++    *out_idx = root->ac_nodes + 1;
++#else
++    *out_idx = new;
++#endif
+     return new;
+ }
+ 
+@@ -534,13 +672,15 @@ static int cli_ac_addpatt_recursive(struct cli_matcher *root, struct cli_ac_patt
+ 
+     /* if current node has no trans table, generate one */
+     if (!pt->trans) {
+-        pt->trans = (struct cli_ac_node **)MPOOL_CALLOC(root->mempool, 256, sizeof(struct cli_ac_node *));
++        pt->trans = MPOOL_CALLOC(root->mempool, 256, sizeof(*pt->trans));
+         if (!pt->trans) {
+             cli_errmsg("cli_ac_addpatt: Can't allocate memory for pt->trans\n");
+             return CL_EMEM;
+         }
+         if (!store_trans_node(root, pt->trans)) {
+             /* Error printed in store_trans_node */
++            MPOOL_FREE(root->mempool, pt->trans);
++            pt->trans = NULL;
+             return CL_EMEM;
+         }
+     }
+@@ -549,26 +689,34 @@ static int cli_ac_addpatt_recursive(struct cli_matcher *root, struct cli_ac_patt
+      * it's why this function was re-written to be recursive
+      */
+     if ((pattern->sigopts & ACPATT_OPTION_NOCASE) && (pattern->pattern[i] & 0xff) < 0x80 && isalpha((unsigned char)(pattern->pattern[i] & 0xff))) {
+-        next = pt->trans[CLI_NOCASEI((unsigned char)(pattern->pattern[i] & 0xff))];
++        unsigned char nc         = CLI_NOCASEI((unsigned char)(pattern->pattern[i] & 0xff));
++        cli_ac_transition_t nidx = pt->trans[nc];
++
++        next = ac_node(root, nidx);
+         if (!next)
+-            next = add_new_node(root, i, len);
++            next = add_new_node(root, i, len, &nidx);
+         if (!next)
+             return CL_EMEM;
+         else
+-            pt->trans[CLI_NOCASEI((unsigned char)(pattern->pattern[i] & 0xff))] = next;
++            pt->trans[nc] = nidx;
+ 
+         if ((ret = cli_ac_addpatt_recursive(root, pattern, next, i + 1, len)) != CL_SUCCESS)
+             return ret;
+     }
+ 
+     /* normal transition, also enumerates the 'normal' nocase */
+-    next = pt->trans[(unsigned char)(pattern->pattern[i] & 0xff)];
+-    if (!next)
+-        next = add_new_node(root, i, len);
+-    if (!next)
+-        return CL_EMEM;
+-    else
+-        pt->trans[(unsigned char)(pattern->pattern[i] & 0xff)] = next;
++    {
++        unsigned char c          = (unsigned char)(pattern->pattern[i] & 0xff);
++        cli_ac_transition_t cidx = pt->trans[c];
++
++        next = ac_node(root, cidx);
++        if (!next)
++            next = add_new_node(root, i, len, &cidx);
++        if (!next)
++            return CL_EMEM;
++        else
++            pt->trans[c] = cidx;
++    }
+ 
+     return cli_ac_addpatt_recursive(root, pattern, next, i + 1, len);
+ }
+@@ -591,88 +739,76 @@ cl_error_t cli_ac_addpatt(struct cli_matcher *root, struct cli_ac_patt *pattern)
+         return CL_EMALFDB;
+     }
+ 
+-    /* pattern added to master list */
+-    root->ac_patterns++;
+-    newtable = MPOOL_REALLOC(root->mempool, root->ac_pattable, root->ac_patterns * sizeof(struct cli_ac_patt *));
++    /* Reserve the master-table entry, but transfer ownership only after all
++     * recursive insertion succeeds. Error callers still own the pattern. */
++    if (root->ac_patterns == UINT32_MAX ||
++        !ac_array_fits(root->ac_patterns, 1, sizeof(*newtable)))
++        return CL_EMEM;
++    newtable = MPOOL_REALLOC(root->mempool, root->ac_pattable,
++                             ((size_t)root->ac_patterns + 1) * sizeof(*newtable));
+     if (!newtable) {
+-        root->ac_patterns--;
+         cli_errmsg("cli_ac_addpatt: Can't realloc ac_pattable\n");
+         return CL_EMEM;
+     }
+ 
+-    root->ac_pattable                        = newtable;
+-    root->ac_pattable[root->ac_patterns - 1] = pattern;
+-
+-    pattern->depth = len;
+-
+-    return cli_ac_addpatt_recursive(root, pattern, root->ac_root, 0, len);
+-}
+-
+-struct bfs_list {
+-    struct cli_ac_node *node;
+-    struct bfs_list *next;
+-};
+-
+-static int bfs_enqueue(struct bfs_list **bfs, struct bfs_list **last, struct cli_ac_node *n)
+-{
+-    struct bfs_list *new;
+-
+-    new = (struct bfs_list *)malloc(sizeof(struct bfs_list));
+-    if (!new) {
+-        cli_errmsg("bfs_enqueue: Can't allocate memory for bfs_list\n");
+-        return CL_EMEM;
+-    }
+-
+-    new->next = NULL;
+-    new->node = n;
++    root->ac_pattable = newtable;
++    pattern->depth    = len;
+ 
+-    if (*last) {
+-        (*last)->next = new;
+-        *last         = new;
+-    } else {
+-        *bfs = *last = new;
++    {
++        cl_error_t ret = cli_ac_addpatt_recursive(root, pattern, root->ac_root, 0, len);
++        if (ret != CL_SUCCESS)
++            return ret;
+     }
+-
++    root->ac_pattable[root->ac_patterns++] = pattern;
+     return CL_SUCCESS;
+ }
+ 
+-static struct cli_ac_node *bfs_dequeue(struct bfs_list **bfs, struct bfs_list **last)
++/* Builder-only FIFO. The trie is a tree before failure transitions are
++ * completed, so each pass enqueues at most ac_nodes entries. Store the same
++ * compact references as transition rows and release the whole buffer on every
++ * exit. This replaces one heap allocation/free per queued node. */
++static cl_error_t ac_bfs_enqueue(cli_ac_transition_t *queue, size_t *count,
++                                 size_t capacity, cli_ac_transition_t node)
+ {
+-    struct bfs_list *lpt;
+-    struct cli_ac_node *pt;
+-
+-    if (!(lpt = *bfs)) {
+-        return NULL;
+-    } else {
+-        *bfs = (*bfs)->next;
+-        pt   = lpt->node;
+-
+-        if (lpt == *last)
+-            *last = NULL;
+-
+-        free(lpt);
+-        return pt;
+-    }
++    if (*count >= capacity)
++        return CL_EMALFDB;
++    queue[(*count)++] = node;
++    return CL_SUCCESS;
+ }
+ 
+ static int ac_maketrans(struct cli_matcher *root)
+ {
+-    struct bfs_list *bfs = NULL, *bfs_last = NULL;
++    cli_ac_transition_t *queue = NULL;
++    size_t read = 0, count = 0;
+     struct cli_ac_node *ac_root = root->ac_root, *child, *node, *fail;
+-    int i, ret;
++    cl_error_t ret              = CL_SUCCESS;
++    int i;
++
++    if (!ac_array_fits(root->ac_nodes, 0, sizeof(*queue)))
++        return CL_EMEM;
++    if (root->ac_nodes) {
++        queue = malloc((size_t)root->ac_nodes * sizeof(*queue));
++        if (!queue)
++            return CL_EMEM;
++    }
+ 
+     for (i = 0; i < 256; i++) {
+-        node = ac_root->trans[i];
++        node = ac_node(root, ac_root->trans[i]);
+         if (!node) {
++#ifdef CLI_AC_NODE_IDS
++            ac_root->trans[i] = 1; /* index 1 == ac_root */
++#else
+             ac_root->trans[i] = ac_root;
++#endif
+         } else {
+             node->fail = ac_root;
+-            if ((ret = bfs_enqueue(&bfs, &bfs_last, node)))
+-                return ret;
++            if ((ret = ac_bfs_enqueue(queue, &count, root->ac_nodes, ac_root->trans[i])))
++                goto done;
+         }
+     }
+ 
+-    while ((node = bfs_dequeue(&bfs, &bfs_last))) {
++    while (read < count) {
++        node = ac_node(root, queue[read++]);
+         if (IS_LEAF(node)) {
+             struct cli_ac_node *failtarget = node->fail;
+ 
+@@ -686,43 +822,43 @@ static int ac_maketrans(struct cli_matcher *root)
+         }
+ 
+         for (i = 0; i < 256; i++) {
+-            child = node->trans[i];
++            child = ac_node(root, node->trans[i]);
+             if (child) {
+                 fail = node->fail;
+ 
+                 while (IS_LEAF(fail) || !fail->trans[i])
+                     fail = fail->fail;
+ 
+-                child->fail = fail->trans[i];
++                child->fail = ac_node(root, fail->trans[i]);
+ 
+-                if ((ret = bfs_enqueue(&bfs, &bfs_last, child)) != 0)
+-                    return ret;
++                if ((ret = ac_bfs_enqueue(queue, &count, root->ac_nodes, node->trans[i])) != 0)
++                    goto done;
+             }
+         }
+     }
+ 
+-    bfs = bfs_last = NULL;
++    read = count = 0;
+     for (i = 0; i < 256; i++) {
+-        node = ac_root->trans[i];
++        node = ac_node(root, ac_root->trans[i]);
+         if (node != ac_root) {
+-            if ((ret = bfs_enqueue(&bfs, &bfs_last, node)))
+-                return ret;
++            if ((ret = ac_bfs_enqueue(queue, &count, root->ac_nodes, ac_root->trans[i])))
++                goto done;
+         }
+     }
+ 
+-    while ((node = bfs_dequeue(&bfs, &bfs_last))) {
++    while (read < count) {
++        node = ac_node(root, queue[read++]);
+         if (IS_LEAF(node))
+             continue;
+         for (i = 0; i < 256; i++) {
+-            child = node->trans[i];
++            child = ac_node(root, node->trans[i]);
+             if (!child || (!IS_FINAL(child) && IS_LEAF(child))) {
+                 struct cli_ac_node *failtarget = node->fail;
+ 
+                 while (IS_LEAF(failtarget) || !failtarget->trans[i])
+                     failtarget = failtarget->fail;
+ 
+-                failtarget     = failtarget->trans[i];
+-                node->trans[i] = failtarget;
++                node->trans[i] = failtarget->trans[i];
+             } else if (IS_FINAL(child) && IS_LEAF(child)) {
+                 struct cli_ac_list *list;
+ 
+@@ -738,20 +874,84 @@ static int ac_maketrans(struct cli_matcher *root)
+ 
+                 child->trans = child->fail->trans;
+             } else {
+-                if ((ret = bfs_enqueue(&bfs, &bfs_last, child)) != 0)
+-                    return ret;
++                if ((ret = ac_bfs_enqueue(queue, &count, root->ac_nodes, node->trans[i])) != 0)
++                    goto done;
+             }
+         }
+     }
+ 
++done:
++    free(queue);
++    return ret;
++}
++
++static cl_error_t ac_build_lsig_layout(struct cli_matcher *root)
++{
++    uint32_t i;
++    size_t slots = 0;
++
++#ifndef ENABLE_COMPACT_LSIG_STATE
++    UNUSEDPARAM(root);
++    return CL_SUCCESS;
++#endif
++    if (!root->ac_lsigs || !root->ac_lsigtable)
++        return CL_SUCCESS;
++
++    if (!ac_array_fits(root->ac_lsigs, 1, sizeof(uint32_t)))
++        return CL_EMEM;
++    root->ac_lsig_offsets = MPOOL_CALLOC(root->mempool, (size_t)root->ac_lsigs + 1, sizeof(uint32_t));
++    if (!root->ac_lsig_offsets)
++        return CL_EMEM;
++
++    for (i = 0; i < root->ac_lsigs; i++) {
++        const struct cli_ac_lsig *lsig = root->ac_lsigtable[i];
++        unsigned int width             = 64;
++
++        /* Bytecode can read a complete 64-element row. YARA and macro
++         * signatures also keep the legacy layout. Missing metadata is used
++         * by some private callers and must not produce a zero-length row. */
++        if (lsig && lsig->type == CLI_LSIG_NORMAL && !lsig->bc_idx &&
++            !lsig->tdb.macro_ptids && lsig->tdb.subsigs && lsig->tdb.subsigs <= 64)
++            width = lsig->tdb.subsigs;
++
++        root->ac_lsig_offsets[i + 1] = width;
++    }
++    /* Byte-compare references are not limited by tdb.subsigs at load time.
++     * Keep their owners at the legacy width, including unused reference IDs. */
++    for (i = 0; i < root->bcomp_metas; i++) {
++        const struct cli_bcomp_meta *meta = root->bcomp_metatable[i];
++        if (meta->lsigid[0] && meta->lsigid[1] < root->ac_lsigs)
++            root->ac_lsig_offsets[meta->lsigid[1] + 1] = 64;
++    }
++    for (i = 0; i < root->ac_lsigs; i++) {
++        uint32_t width = root->ac_lsig_offsets[i + 1];
++        if (slots > SIZE_MAX / sizeof(uint32_t) - width)
++            return CL_EMEM;
++        slots += width;
++        if (slots > UINT32_MAX) {
++            /* Preserve support for engines larger than this directory can
++             * address: the legacy stride has no 32-bit offset restriction. */
++            MPOOL_FREE(root->mempool, root->ac_lsig_offsets);
++            root->ac_lsig_offsets = NULL;
++            return CL_SUCCESS;
++        }
++        root->ac_lsig_offsets[i + 1] = (uint32_t)slots;
++    }
++    root->ac_lsig_slots = slots;
+     return CL_SUCCESS;
+ }
+ 
+ cl_error_t cli_ac_buildtrie(struct cli_matcher *root)
+ {
++    cl_error_t ret;
++
+     if (!root)
+         return CL_EMALFDB;
+ 
++    ret = ac_build_lsig_layout(root);
++    if (ret != CL_SUCCESS)
++        return ret;
++
+     if (!(root->ac_root)) {
+         cli_dbgmsg("cli_ac_buildtrie: AC pattern matcher is not initialised\n");
+         return CL_SUCCESS;
+@@ -762,7 +962,10 @@ cl_error_t cli_ac_buildtrie(struct cli_matcher *root)
+ 
+     link_lists(root);
+ 
+-    return ac_maketrans(root);
++    ret = ac_maketrans(root);
++    if (ret != CL_SUCCESS)
++        return ret;
++    return ac_pack_nodes(root);
+ }
+ 
+ cl_error_t cli_ac_init(struct cli_matcher *root, uint8_t mindepth, uint8_t maxdepth, uint8_t dconf_prefiltering)
+@@ -770,35 +973,34 @@ cl_error_t cli_ac_init(struct cli_matcher *root, uint8_t mindepth, uint8_t maxde
+ #ifdef USE_MPOOL
+     assert(root->mempool && "mempool must be initialized");
+ #endif
+-
+-    root->ac_root = (struct cli_ac_node *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_ac_node));
+-    if (!root->ac_root) {
+-        cli_errmsg("cli_ac_init: Can't allocate memory for ac_root\n");
+-        return CL_EMEM;
+-    }
+-
+-    root->ac_root->trans = (struct cli_ac_node **)MPOOL_CALLOC(root->mempool, 256, sizeof(struct cli_ac_node *));
+-    if (!root->ac_root->trans) {
+-        cli_errmsg("cli_ac_init: Can't allocate memory for ac_root->trans\n");
+-        MPOOL_FREE(root->mempool, root->ac_root);
+-        return CL_EMEM;
+-    }
++    root->ac_root = MPOOL_CALLOC(root->mempool, 1, sizeof(*root->ac_root));
++    if (!root->ac_root)
++        goto nomem;
++    root->ac_nodeidx = AC_INDEX_CALLOC(root, 2);
++    if (!root->ac_nodeidx)
++        goto nomem;
++    root->ac_nodeidx[1]  = root->ac_root;
++    root->ac_nodetable   = root->ac_nodeidx + 2;
++    root->ac_root->trans = MPOOL_CALLOC(root->mempool, 256, sizeof(*root->ac_root->trans));
++    if (!root->ac_root->trans)
++        goto nomem;
+ 
+     root->ac_mindepth = mindepth;
+     root->ac_maxdepth = maxdepth;
+-
+     if (cli_mtargets[root->type].enable_prefiltering && dconf_prefiltering) {
+         root->filter = MPOOL_MALLOC(root->mempool, sizeof(*root->filter));
+-        if (!root->filter) {
+-            cli_errmsg("cli_ac_init: Can't allocate memory for ac_root->filter\n");
+-            MPOOL_FREE(root->mempool, root->ac_root->trans);
+-            MPOOL_FREE(root->mempool, root->ac_root);
+-            return CL_EMEM;
+-        }
++        if (!root->filter)
++            goto nomem;
+         filter_init(root->filter);
+     }
+-
+     return CL_SUCCESS;
++
++nomem:
++    cli_errmsg("cli_ac_init: Can't allocate AC matcher\n");
++    if (root->ac_root)
++        MPOOL_FREE(root->mempool, root->ac_root->trans);
++    ac_discard_build_nodes(root);
++    return CL_EMEM;
+ }
+ 
+ #ifdef USE_MPOOL
+@@ -813,11 +1015,11 @@ static void ac_free_special(struct cli_ac_patt *p)
+     struct cli_ac_special *a1;
+     struct cli_alt_node *b1, *b2;
+ 
+-    if (!p->special)
++    if (!p->ext)
+         return;
+ 
+-    for (i = 0; i < p->special; i++) {
+-        a1 = p->special_table[i];
++    for (i = 0; i < AC_EXT_SPECIAL(p); i++) {
++        a1 = AC_EXT_SPECIAL_TABLE(p)[i];
+         if (a1->type == AC_SPECIAL_ALT_CHAR) {
+             MPOOL_FREE(mempool, (a1->alt).byte);
+         } else if (a1->type == AC_SPECIAL_ALT_STR_FIXED) {
+@@ -835,7 +1037,30 @@ static void ac_free_special(struct cli_ac_patt *p)
+         }
+         MPOOL_FREE(mempool, a1);
+     }
+-    MPOOL_FREE(mempool, p->special_table);
++    if (AC_EXT_SPECIAL(p))
++        MPOOL_FREE(mempool, AC_EXT_SPECIAL_TABLE(p));
++}
++
++/**
++ * @brief Release a pattern's extension.
++ *
++ * Separate from ac_free_special(): during cli_ac_addsig() the extension
++ * is a stack buffer, so only callers after the fixup may free it. The
++ * macro drops the mempool argument because cli_matcher has no mempool
++ * member when built with DISABLE_MPOOL.
++ */
++#ifdef USE_MPOOL
++#define mpool_ac_free_ext(a, b) ac_free_ext(a, b)
++static void ac_free_ext(mpool_t *mempool, struct cli_ac_patt *p)
++#else
++#define mpool_ac_free_ext(a, b) ac_free_ext(b)
++static void ac_free_ext(struct cli_ac_patt *p)
++#endif
++{
++    if (p->ext) {
++        MPOOL_FREE(mempool, p->ext);
++        p->ext = NULL;
++    }
+ }
+ 
+ void cli_ac_free(struct cli_matcher *root)
+@@ -852,9 +1077,10 @@ void cli_ac_free(struct cli_matcher *root)
+                TODO: never store the virname in the ac pattern and only store it per-signature, not per-pattern. */
+             MPOOL_FREE(root->mempool, patt->virname);
+         }
+-        if (patt->special) {
++        if (AC_EXT_SPECIAL(patt)) {
+             mpool_ac_free_special(root->mempool, patt);
+         }
++        mpool_ac_free_ext(root->mempool, patt);
+         MPOOL_FREE(root->mempool, patt);
+     }
+ 
+@@ -874,23 +1100,30 @@ void cli_ac_free(struct cli_matcher *root)
+         MPOOL_FREE(root->mempool, root->ac_listtable);
+     }
+ 
+-    for (i = 0; i < root->ac_nodes; i++) {
+-        MPOOL_FREE(root->mempool, root->ac_nodetable[i]);
++    if (root->ac_root) {
++        MPOOL_FREE(root->mempool, root->ac_root->trans);
+     }
+-
+-    if (root->ac_nodetable) {
+-        MPOOL_FREE(root->mempool, root->ac_nodetable);
++    if (root->ac_flatnodes) {
++        free(root->ac_flatnodes);
++        root->ac_flatnodes = NULL;
++    } else {
++        ac_discard_build_nodes(root);
+     }
++    root->ac_root = NULL;
+ 
+-    if (root->ac_root) {
+-        MPOOL_FREE(root->mempool, root->ac_root->trans);
+-        MPOOL_FREE(root->mempool, root->ac_root);
++    if (root->ac_nodeidx) {
++        AC_INDEX_FREE(root);
++        root->ac_nodeidx   = NULL;
++        root->ac_nodetable = NULL;
+     }
+ 
+     if (root->filter) {
+         MPOOL_FREE(root->mempool, root->filter);
+     }
+ 
++    MPOOL_FREE(root->mempool, root->ac_lsig_offsets);
++    root->ac_lsig_offsets = NULL;
++    root->ac_lsig_slots = 0;
+     free_trans_nodes(root);
+ }
+ 
+@@ -1260,7 +1493,7 @@ inline static int ac_findmatch_special(const unsigned char *buffer, uint32_t off
+     uint16_t j, b = buffer[bp];
+     uint16_t wc;
+     uint32_t subbp;
+-    struct cli_ac_special *special = pattern->special_table[specialcnt];
++    struct cli_ac_special *special = AC_EXT_SPECIAL_TABLE(pattern)[specialcnt];
+     struct cli_alt_node *alt       = NULL;
+ 
+     match = special->negative;
+@@ -1401,8 +1634,8 @@ static int ac_backward_match_branch(const unsigned char *buffer, uint32_t bp, ui
+     }
+ 
+     /* left-side special checks, bp = start */
+-    if (pattern->boundary & AC_BOUNDARY_LEFT) {
+-        match = !!(pattern->boundary & AC_BOUNDARY_LEFT_NEGATIVE);
++    if (AC_EXT_BOUNDARY(pattern) & AC_BOUNDARY_LEFT) {
++        match = !!(AC_EXT_BOUNDARY(pattern) & AC_BOUNDARY_LEFT_NEGATIVE);
+         if (!filestart || (bp && (boundary[buffer[bp - 1]] == 1 || boundary[buffer[bp - 1]] == 3)))
+             match = !match;
+ 
+@@ -1410,8 +1643,8 @@ static int ac_backward_match_branch(const unsigned char *buffer, uint32_t bp, ui
+             return 0;
+     }
+ 
+-    if (pattern->boundary & AC_LINE_MARKER_LEFT) {
+-        match = !!(pattern->boundary & AC_LINE_MARKER_LEFT_NEGATIVE);
++    if (AC_EXT_BOUNDARY(pattern) & AC_LINE_MARKER_LEFT) {
++        match = !!(AC_EXT_BOUNDARY(pattern) & AC_LINE_MARKER_LEFT_NEGATIVE);
+         if (!filestart || (bp && (buffer[bp - 1] == '\n')))
+             match = !match;
+ 
+@@ -1419,8 +1652,8 @@ static int ac_backward_match_branch(const unsigned char *buffer, uint32_t bp, ui
+             return 0;
+     }
+ 
+-    if (pattern->boundary & AC_WORD_MARKER_LEFT) {
+-        match = !!(pattern->boundary & AC_WORD_MARKER_LEFT_NEGATIVE);
++    if (AC_EXT_BOUNDARY(pattern) & AC_WORD_MARKER_LEFT) {
++        match = !!(AC_EXT_BOUNDARY(pattern) & AC_WORD_MARKER_LEFT_NEGATIVE);
+         if (!filestart)
+             match = !match;
+         else if (pattern->sigopts & ACPATT_OPTION_WIDE) {
+@@ -1440,14 +1673,14 @@ static int ac_backward_match_branch(const unsigned char *buffer, uint32_t bp, ui
+      * Compare the complete tag: negation tags share bits with
+      * CLI_MATCH_IGNORE but must still be verified after a gap.
+      */
+-    if ((pattern->ch[0] & CLI_MATCH_METADATA) != CLI_MATCH_IGNORE) {
+-        if (pattern->ch_mindist[0] + (uint32_t)1 > bp)
++    if ((AC_EXT_CH(pattern, 0) & CLI_MATCH_METADATA) != CLI_MATCH_IGNORE) {
++        if (AC_EXT_CH_MINDIST(pattern, 0) + (uint32_t)1 > bp)
+             return 0;
+ 
+-        bp -= pattern->ch_mindist[0] + 1;
+-        for (i = pattern->ch_mindist[0]; i <= pattern->ch_maxdist[0]; i++) {
++        bp -= AC_EXT_CH_MINDIST(pattern, 0) + 1;
++        for (i = AC_EXT_CH_MINDIST(pattern, 0); i <= AC_EXT_CH_MAXDIST(pattern, 0); i++) {
+             match = 1;
+-            AC_MATCH_CHAR(pattern->ch[0], buffer[bp], 1);
++            AC_MATCH_CHAR(AC_EXT_CH(pattern, 0), buffer[bp], 1);
+             if (match)
+                 break;
+ 
+@@ -1484,8 +1717,8 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+     *end = bp;
+ 
+     /* right-side special checks, bp = end */
+-    if (pattern->boundary & AC_BOUNDARY_RIGHT) {
+-        match = !!(pattern->boundary & AC_BOUNDARY_RIGHT_NEGATIVE);
++    if (AC_EXT_BOUNDARY(pattern) & AC_BOUNDARY_RIGHT) {
++        match = !!(AC_EXT_BOUNDARY(pattern) & AC_BOUNDARY_RIGHT_NEGATIVE);
+         if ((length <= SCANBUFF) && (bp == length || boundary[buffer[bp]] >= 2))
+             match = !match;
+ 
+@@ -1493,8 +1726,8 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+             return 0;
+     }
+ 
+-    if (pattern->boundary & AC_LINE_MARKER_RIGHT) {
+-        match = !!(pattern->boundary & AC_LINE_MARKER_RIGHT_NEGATIVE);
++    if (AC_EXT_BOUNDARY(pattern) & AC_LINE_MARKER_RIGHT) {
++        match = !!(AC_EXT_BOUNDARY(pattern) & AC_LINE_MARKER_RIGHT_NEGATIVE);
+         if ((length <= SCANBUFF) && (bp == length || buffer[bp] == '\n' || (buffer[bp] == '\r' && bp + 1 < length && buffer[bp + 1] == '\n')))
+             match = !match;
+ 
+@@ -1502,8 +1735,8 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+             return 0;
+     }
+ 
+-    if (pattern->boundary & AC_WORD_MARKER_RIGHT) {
+-        match = !!(pattern->boundary & AC_WORD_MARKER_RIGHT_NEGATIVE);
++    if (AC_EXT_BOUNDARY(pattern) & AC_WORD_MARKER_RIGHT) {
++        match = !!(AC_EXT_BOUNDARY(pattern) & AC_WORD_MARKER_RIGHT_NEGATIVE);
+         if (length <= SCANBUFF) {
+             if (bp == length)
+                 match = !match;
+@@ -1523,15 +1756,15 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+      * Compare the complete tag: negation tags share bits with
+      * CLI_MATCH_IGNORE but must still be verified after a gap.
+      */
+-    if ((pattern->ch[1] & CLI_MATCH_METADATA) != CLI_MATCH_IGNORE) {
+-        bp += pattern->ch_mindist[1];
++    if ((AC_EXT_CH(pattern, 1) & CLI_MATCH_METADATA) != CLI_MATCH_IGNORE) {
++        bp += AC_EXT_CH_MINDIST(pattern, 1);
+ 
+-        for (i = pattern->ch_mindist[1]; i <= pattern->ch_maxdist[1]; i++) {
++        for (i = AC_EXT_CH_MINDIST(pattern, 1); i <= AC_EXT_CH_MAXDIST(pattern, 1); i++) {
+             if (bp >= length)
+                 return 0;
+ 
+             match = 1;
+-            AC_MATCH_CHAR(pattern->ch[1], buffer[bp], 0);
++            AC_MATCH_CHAR(AC_EXT_CH(pattern, 1), buffer[bp], 0);
+             if (match)
+                 break;
+ 
+@@ -1542,13 +1775,13 @@ static int ac_forward_match_branch(const unsigned char *buffer, uint32_t bp, uin
+             return 0;
+     }
+ 
+-    return ac_backward_match_branch(buffer, offset - 1, offset, fileoffset, length, pattern, pattern->prefix_length[0] - 1, pattern->special_pattern - 1, start, end);
++    return ac_backward_match_branch(buffer, offset - 1, offset, fileoffset, length, pattern, pattern->prefix_length[0] - 1, AC_EXT_SPECIAL_PATTERN(pattern) - 1, start, end);
+ }
+ 
+ inline static int ac_findmatch(const unsigned char *buffer, uint32_t offset, uint32_t fileoffset, uint32_t length, const struct cli_ac_patt *pattern, uint32_t *start, uint32_t *end)
+ {
+     int match;
+-    uint16_t specialcnt = pattern->special_pattern;
++    uint16_t specialcnt = AC_EXT_SPECIAL_PATTERN(pattern);
+ 
+     /* minimal check as the maximum variable length may exceed the buffer */
+     if ((offset + pattern->length[1] > length) || (pattern->prefix_length[1] > offset))
+@@ -1560,153 +1793,90 @@ inline static int ac_findmatch(const unsigned char *buffer, uint32_t offset, uin
+     return 0;
+ }
+ 
+-cl_error_t cli_ac_initdata(struct cli_ac_data *data, uint32_t partsigs, uint32_t lsigs, uint32_t reloffsigs, uint8_t tracklen)
++/* Allocate exactly the compiled row widths. The public/private legacy entry
++ * point below still supplies 64 slots per row. All partially initialized state
++ * is owned by data and may be released by cli_ac_freedata(). */
++static cl_error_t ac_initdata(struct cli_ac_data *data, uint32_t partsigs, uint32_t lsigs,
++                              uint32_t reloffsigs, const uint32_t *offsets, size_t slots)
+ {
+-    unsigned int i, j;
+-
+-    UNUSEDPARAM(tracklen);
++    uint32_t i;
++    size_t j;
+ 
+-    if (!data) {
+-        cli_errmsg("cli_ac_init: data == NULL\n");
++    if (!data)
+         return CL_ENULLARG;
+-    }
+-    memset((void *)data, 0, sizeof(struct cli_ac_data));
++    memset(data, 0, sizeof(*data));
++
++    if (!ac_array_fits(reloffsigs, 0, 2 * sizeof(uint32_t)) ||
++        !ac_array_fits(partsigs, 0, sizeof(uint32_t **)) ||
++        !ac_array_fits(lsigs, 0, sizeof(uint32_t *)) ||
++        !ac_array_fits(lsigs, 0, sizeof(struct cli_lsig_matches *)) ||
++        !ac_array_fits(slots, 0, sizeof(uint32_t)) || (lsigs && slots < lsigs))
++        return CL_EMEM;
+ 
+     data->reloffsigs = reloffsigs;
++    data->partsigs   = partsigs;
++    data->lsigs      = lsigs;
++
+     if (reloffsigs) {
+-        data->offset = (uint32_t *)malloc(reloffsigs * 2 * sizeof(uint32_t));
+-        if (!data->offset) {
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->offset\n");
+-            return CL_EMEM;
+-        }
+-        for (i = 0; i < reloffsigs * 2; i += 2)
+-            data->offset[i] = CLI_OFF_NONE;
++        data->offset = malloc((size_t)reloffsigs * 2 * sizeof(uint32_t));
++        if (!data->offset)
++            goto nomem;
++        for (j = 0; j < (size_t)reloffsigs * 2; j += 2)
++            data->offset[j] = CLI_OFF_NONE;
+     }
+-
+-    data->partsigs = partsigs;
+     if (partsigs) {
+-        data->offmatrix = (uint32_t ***)calloc(partsigs, sizeof(uint32_t **));
+-        if (!data->offmatrix) {
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->offmatrix\n");
+-
+-            if (reloffsigs)
+-                free(data->offset);
+-
+-            return CL_EMEM;
+-        }
++        data->offmatrix = calloc(partsigs, sizeof(*data->offmatrix));
++        if (!data->offmatrix)
++            goto nomem;
+     }
+-
+-    data->lsigs = lsigs;
+     if (lsigs) {
+-        data->lsigcnt = (uint32_t **)malloc(lsigs * sizeof(uint32_t *));
+-        if (!data->lsigcnt) {
+-            if (partsigs)
+-                free(data->offmatrix);
+-
+-            if (reloffsigs)
+-                free(data->offset);
++        data->lsig_row_offsets = offsets;
++        data->lsigcnt          = calloc(slots, sizeof(uint32_t));
++        data->lsigsuboff_last  = malloc(slots * sizeof(uint32_t));
++        data->lsigsuboff_first = malloc(slots * sizeof(uint32_t));
++        data->yr_matches       = calloc(lsigs, sizeof(*data->yr_matches));
++        data->lsig_matches     = calloc(lsigs, sizeof(*data->lsig_matches));
++        if (!data->lsigcnt || !data->lsigsuboff_last || !data->lsigsuboff_first ||
++            !data->yr_matches || !data->lsig_matches)
++            goto nomem;
+ 
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->lsigcnt\n");
+-            return CL_EMEM;
+-        }
+-        data->lsigcnt[0] = (uint32_t *)calloc(lsigs * 64, sizeof(uint32_t));
+-        if (!data->lsigcnt[0]) {
+-            free(data->lsigcnt);
+-            if (partsigs)
+-                free(data->offmatrix);
+-
+-            if (reloffsigs)
+-                free(data->offset);
+-
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->lsigcnt[0]\n");
+-            return CL_EMEM;
+-        }
+-        for (i = 1; i < lsigs; i++)
+-            data->lsigcnt[i] = data->lsigcnt[0] + 64 * i;
+-        data->yr_matches = (uint8_t *)calloc(lsigs, sizeof(uint8_t));
+-        if (data->yr_matches == NULL) {
+-            free(data->lsigcnt[0]);
+-            free(data->lsigcnt);
+-            if (partsigs)
+-                free(data->offmatrix);
+-
+-            if (reloffsigs)
+-                free(data->offset);
+-            return CL_EMEM;
+-        }
+-
+-        /* subsig offsets */
+-        data->lsig_matches = (struct cli_lsig_matches **)calloc(lsigs, sizeof(struct cli_lsig_matches *));
+-        if (!data->lsig_matches) {
+-            free(data->yr_matches);
+-            free(data->lsigcnt[0]);
+-            free(data->lsigcnt);
+-            if (partsigs)
+-                free(data->offmatrix);
+-
+-            if (reloffsigs)
+-                free(data->offset);
+-
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->lsig_matches\n");
+-            return CL_EMEM;
+-        }
+-        data->lsigsuboff_last  = (uint32_t **)malloc(lsigs * sizeof(uint32_t *));
+-        data->lsigsuboff_first = (uint32_t **)malloc(lsigs * sizeof(uint32_t *));
+-        if (!data->lsigsuboff_last || !data->lsigsuboff_first) {
+-            free(data->lsig_matches);
+-            free(data->lsigsuboff_last);
+-            free(data->lsigsuboff_first);
+-            free(data->yr_matches);
+-            free(data->lsigcnt[0]);
+-            free(data->lsigcnt);
+-            if (partsigs)
+-                free(data->offmatrix);
+-
+-            if (reloffsigs)
+-                free(data->offset);
+-
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->lsigsuboff_(last|first)\n");
+-            return CL_EMEM;
+-        }
+-        data->lsigsuboff_last[0]  = (uint32_t *)calloc(lsigs * 64, sizeof(uint32_t));
+-        data->lsigsuboff_first[0] = (uint32_t *)calloc(lsigs * 64, sizeof(uint32_t));
+-        if (!data->lsigsuboff_last[0] || !data->lsigsuboff_first[0]) {
+-            free(data->lsig_matches);
+-            free(data->lsigsuboff_last[0]);
+-            free(data->lsigsuboff_first[0]);
+-            free(data->lsigsuboff_last);
+-            free(data->lsigsuboff_first);
+-            free(data->yr_matches);
+-            free(data->lsigcnt[0]);
+-            free(data->lsigcnt);
+-            if (partsigs)
+-                free(data->offmatrix);
+-
+-            if (reloffsigs)
+-                free(data->offset);
+-
+-            cli_errmsg("cli_ac_init: Can't allocate memory for data->lsigsuboff_(last|first)[0]\n");
+-            return CL_EMEM;
+-        }
+-        for (j = 0; j < 64; j++) {
+-            data->lsigsuboff_last[0][j]  = CLI_OFF_NONE;
+-            data->lsigsuboff_first[0][j] = CLI_OFF_NONE;
+-        }
+-        for (i = 1; i < lsigs; i++) {
+-            data->lsigsuboff_last[i]  = data->lsigsuboff_last[0] + 64 * i;
+-            data->lsigsuboff_first[i] = data->lsigsuboff_first[0] + 64 * i;
+-            for (j = 0; j < 64; j++) {
+-                data->lsigsuboff_last[i][j]  = CLI_OFF_NONE;
+-                data->lsigsuboff_first[i][j] = CLI_OFF_NONE;
+-            }
++        for (j = 0; j < slots; j++) {
++            data->lsigsuboff_last[j]  = CLI_OFF_NONE;
++            data->lsigsuboff_first[j] = CLI_OFF_NONE;
+         }
+     }
+     for (i = 0; i < 32; i++)
+         data->macro_lastmatch[i] = CLI_OFF_NONE;
+-
+     data->min_partno = 1;
+-
+     return CL_SUCCESS;
++
++nomem:
++    cli_errmsg("cli_ac_initdata: Can't allocate match state\n");
++    cli_ac_freedata(data);
++    return CL_EMEM;
++}
++
++cl_error_t cli_ac_initdata(struct cli_ac_data *data, uint32_t partsigs, uint32_t lsigs, uint32_t reloffsigs, uint8_t tracklen)
++{
++    size_t count = lsigs;
++    UNUSEDPARAM(tracklen);
++    if (!data)
++        return CL_ENULLARG;
++    if (count > SIZE_MAX / sizeof(uint32_t) / 64) {
++        memset(data, 0, sizeof(*data));
++        return CL_EMEM;
++    }
++    return ac_initdata(data, partsigs, lsigs, reloffsigs, NULL, count * 64);
++}
++
++cl_error_t cli_ac_initdata_for_matcher(struct cli_ac_data *data, const struct cli_matcher *root)
++{
++    if (root && root->ac_lsig_offsets)
++        return ac_initdata(data, root->ac_partsigs, root->ac_lsigs, root->ac_reloff_num,
++                           root->ac_lsig_offsets, root->ac_lsig_slots);
++
++    return cli_ac_initdata(data, root ? root->ac_partsigs : 0, root ? root->ac_lsigs : 0,
++                           root ? root->ac_reloff_num : 0, CLI_DEFAULT_AC_TRACKLEN);
+ }
+ 
+ cl_error_t cli_ac_caloff(const struct cli_matcher *root, struct cli_ac_data *data, const struct cli_target_info *info)
+@@ -1741,7 +1911,7 @@ void cli_ac_freedata(struct cli_ac_data *data)
+     if (!data)
+         return;
+ 
+-    if (data->partsigs) {
++    if (data->offmatrix) {
+         for (i = 0; i < data->partsigs; i++) {
+             if (data->offmatrix[i]) {
+                 free(data->offmatrix[i][0]);
+@@ -1773,11 +1943,8 @@ void cli_ac_freedata(struct cli_ac_data *data)
+             data->lsig_matches = 0;
+         }
+         free(data->yr_matches);
+-        free(data->lsigcnt[0]);
+         free(data->lsigcnt);
+-        free(data->lsigsuboff_last[0]);
+         free(data->lsigsuboff_last);
+-        free(data->lsigsuboff_first[0]);
+         free(data->lsigsuboff_first);
+         data->lsigs = 0;
+     }
+@@ -1786,6 +1953,7 @@ void cli_ac_freedata(struct cli_ac_data *data)
+         free(data->offset);
+         data->reloffsigs = 0;
+     }
++    memset(data, 0, sizeof(*data));
+ }
+ 
+ /**
+@@ -1836,7 +2004,7 @@ inline static cl_error_t ac_addtype(struct cli_matched_type **list, cli_file_t t
+ 
+ void lsig_increment_subsig_match(struct cli_ac_data *mdata, uint32_t lsig_id, uint32_t subsig_id)
+ {
+-    mdata->lsigcnt[lsig_id][subsig_id]++;
++    cli_ac_lsig_counts(mdata, lsig_id)[subsig_id]++;
+ }
+ 
+ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *mdata, uint32_t lsig_id, uint32_t subsig_id, uint32_t realoff, int partial)
+@@ -1845,25 +2013,25 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
+     const struct cli_lsig_tdb *tdb    = &ac_lsig->tdb;
+ 
+     if (realoff != CLI_OFF_NONE) {
+-        if (mdata->lsigsuboff_first[lsig_id][subsig_id] == CLI_OFF_NONE) {
++        if (cli_ac_lsig_first(mdata, lsig_id)[subsig_id] == CLI_OFF_NONE) {
+             /* If this is the first subsig in the lsig, store the offset in the first-list. */
+-            mdata->lsigsuboff_first[lsig_id][subsig_id] = realoff;
++            cli_ac_lsig_first(mdata, lsig_id)[subsig_id] = realoff;
+         }
+ 
+-        if (mdata->lsigsuboff_last[lsig_id][subsig_id] != CLI_OFF_NONE &&
++        if (cli_ac_lsig_last(mdata, lsig_id)[subsig_id] != CLI_OFF_NONE &&
+             /* If this isn't the first subsig match for this logical sig and the offset
+                is earlier in the file than the last subsig match, don't count it. */
+-            ((!partial && realoff <= mdata->lsigsuboff_last[lsig_id][subsig_id]) ||
+-             (partial && realoff < mdata->lsigsuboff_last[lsig_id][subsig_id]))) {
++            ((!partial && realoff <= cli_ac_lsig_last(mdata, lsig_id)[subsig_id]) ||
++             (partial && realoff < cli_ac_lsig_last(mdata, lsig_id)[subsig_id]))) {
+             return CL_SUCCESS;
+         }
+ 
+         /* Increment the subsig count for this logical signature */
+-        mdata->lsigcnt[lsig_id][subsig_id]++;
++        cli_ac_lsig_counts(mdata, lsig_id)[subsig_id]++;
+ 
+-        if (mdata->lsigcnt[lsig_id][subsig_id] <= 1 || !tdb->macro_ptids || !tdb->macro_ptids[subsig_id]) {
++        if (cli_ac_lsig_counts(mdata, lsig_id)[subsig_id] <= 1 || !tdb->macro_ptids || !tdb->macro_ptids[subsig_id]) {
+             /* Store the offset of this subsig match in the last-list (except in certain circumstances) */
+-            mdata->lsigsuboff_last[lsig_id][subsig_id] = realoff;
++            cli_ac_lsig_last(mdata, lsig_id)[subsig_id] = realoff;
+         }
+ 
+         if (ac_lsig->type & CLI_YARA_OFFSET) {
+@@ -1914,7 +2082,7 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
+ 
+     if ((tdb->macro_ptids != NULL) &&
+         (tdb->macro_ptids[subsig_id] > 0) &&
+-        (mdata->lsigcnt[lsig_id][subsig_id] > 1)) {
++        (cli_ac_lsig_counts(mdata, lsig_id)[subsig_id] > 1)) {
+         /*
+          * This logical signature has a macro subsignature and this current subsignature has a macro following it.
+          *
+@@ -1932,30 +2100,30 @@ cl_error_t lsig_sub_matched(const struct cli_matcher *root, struct cli_ac_data *
+         id = tdb->macro_ptids[subsig_id];
+ 
+         macropt        = root->ac_pattable[id];
+-        smin           = macropt->ch_mindist[0];
+-        smax           = macropt->ch_maxdist[0];
++        smin           = AC_EXT_CH_MINDIST(macropt, 0);
++        smax           = AC_EXT_CH_MAXDIST(macropt, 0);
+         macro_group_id = macropt->sigid;
+ 
+         /* start of last macro match */
+         last_macro_match = mdata->macro_lastmatch[macro_group_id];
+ 
+         /* start of previous lsig subsig match */
+-        last_macroprev_match = mdata->lsigsuboff_last[lsig_id][subsig_id];
++        last_macroprev_match = cli_ac_lsig_last(mdata, lsig_id)[subsig_id];
+ 
+         if (last_macro_match == CLI_OFF_NONE ||
+             last_macroprev_match + smin > last_macro_match ||
+             last_macroprev_match + smax < last_macro_match) {
+             cli_dbgmsg("Canceled false lsig macro match\n");
+             /* Previous match was false - cancel it */
+-            mdata->lsigcnt[lsig_id][subsig_id]--;
+-            mdata->lsigsuboff_last[lsig_id][subsig_id] = realoff;
++            cli_ac_lsig_counts(mdata, lsig_id)[subsig_id]--;
++            cli_ac_lsig_last(mdata, lsig_id)[subsig_id] = realoff;
+         } else {
+             /* mark the macro sig itself matched */
+             cli_dbgmsg("Checking macro match: %u + (%u - %u) == %u\n",
+                        last_macroprev_match, smin, smax, last_macro_match);
+ 
+-            mdata->lsigcnt[lsig_id][subsig_id + 1]++;
+-            mdata->lsigsuboff_last[lsig_id][subsig_id + 1] = last_macro_match;
++            cli_ac_lsig_counts(mdata, lsig_id)[subsig_id + 1]++;
++            cli_ac_lsig_last(mdata, lsig_id)[subsig_id + 1] = last_macro_match;
+         }
+     }
+ 
+@@ -1997,7 +2165,7 @@ cl_error_t cli_ac_scanbuff(
+     struct cli_ac_patt *patt, *pt;
+     uint32_t i, bp, exptoff[2], realoff, matchstart, matchend;
+     uint16_t j;
+-    uint8_t found, viruses_found = 0;
++    uint8_t found;
+     uint32_t **offmatrix, swp;
+     cli_file_t type = CL_TYPE_ANY;
+     struct cli_ac_result *newres;
+@@ -2015,7 +2183,7 @@ cl_error_t cli_ac_scanbuff(
+     current = root->ac_root;
+ 
+     for (i = 0; i < length; i++) {
+-        current = current->trans[buffer[i]];
++        current = ac_scan_node(root, current->trans[buffer[i]]);
+ 
+         if (UNLIKELY(IS_FINAL(current))) {
+             struct cli_ac_list *faillist = current->fail->list;
+@@ -2131,12 +2299,12 @@ cl_error_t cli_ac_scanbuff(
+                                     if (realoff < offmatrix[pt->partno - 2][j])
+                                         found = 0;
+ 
+-                                    if (found && pt->maxdist)
+-                                        if (realoff - offmatrix[pt->partno - 2][j] > pt->maxdist)
++                                    if (found && AC_EXT_MAXDIST(pt))
++                                        if (realoff - offmatrix[pt->partno - 2][j] > AC_EXT_MAXDIST(pt))
+                                             found = 0;
+ 
+-                                    if (found && pt->mindist)
+-                                        if (realoff - offmatrix[pt->partno - 2][j] < pt->mindist)
++                                    if (found && AC_EXT_MINDIST(pt))
++                                        if (realoff - offmatrix[pt->partno - 2][j] < AC_EXT_MINDIST(pt))
+                                             found = 0;
+ 
+                                     if (found)
+@@ -2257,7 +2425,7 @@ cl_error_t cli_ac_scanbuff(
+                                             return CL_EMEM;
+                                         }
+                                         newres->virname    = pt->virname;
+-                                        newres->customdata = pt->customdata;
++                                        newres->customdata = AC_EXT_CUSTOMDATA(pt);
+                                         newres->next       = *res;
+                                         newres->offset     = (off_t)offmatrix[pt->parts - 1][1];
+                                         *res               = newres;
+@@ -2265,18 +2433,18 @@ cl_error_t cli_ac_scanbuff(
+                                         ptN = ptN->next_same;
+                                         continue;
+                                     } else {
+-                                        if (ctx && SCAN_ALLMATCHES) {
+-                                            ret = cli_append_virus(ctx, (const char *)pt->virname);
+-                                            if (ret == CL_VIRUS) {
+-                                                viruses_found = 1;
+-                                            }
+-                                        }
+                                         if (virname)
+                                             *virname = pt->virname;
+                                         if (customdata)
+-                                            *customdata = pt->customdata;
+-                                        if (!ctx || !SCAN_ALLMATCHES)
++                                            *customdata = AC_EXT_CUSTOMDATA(pt);
++                                        if (!ctx)
+                                             return CL_VIRUS;
++                                        /* Decide while the candidate cursor is still live. Weak,
++                                         * deferred PUA and callback-ignored hits must not hide
++                                         * later candidates or logical subsignatures. */
++                                        ret = cli_append_virus(ctx, pt->virname);
++                                        if (ret != CL_SUCCESS)
++                                            return ret;
+                                         ptN = ptN->next_same;
+                                         continue;
+                                     }
+@@ -2364,7 +2532,7 @@ cl_error_t cli_ac_scanbuff(
+                                         return CL_EMEM;
+                                     }
+                                     newres->virname    = pt->virname;
+-                                    newres->customdata = pt->customdata;
++                                    newres->customdata = AC_EXT_CUSTOMDATA(pt);
+                                     newres->offset     = (off_t)realoff;
+                                     newres->next       = *res;
+                                     *res               = newres;
+@@ -2372,21 +2540,17 @@ cl_error_t cli_ac_scanbuff(
+                                     ptN = ptN->next_same;
+                                     continue;
+                                 } else {
+-                                    if (ctx && SCAN_ALLMATCHES) {
+-                                        ret = cli_append_virus(ctx, (const char *)pt->virname);
+-                                        if (ret == CL_VIRUS) {
+-                                            viruses_found = 1;
+-                                        }
+-                                    }
+-
+                                     if (virname)
+                                         *virname = pt->virname;
+ 
+                                     if (customdata)
+-                                        *customdata = pt->customdata;
++                                        *customdata = AC_EXT_CUSTOMDATA(pt);
+ 
+-                                    if (!ctx || !SCAN_ALLMATCHES)
++                                    if (!ctx)
+                                         return CL_VIRUS;
++                                    ret = cli_append_virus(ctx, pt->virname);
++                                    if (ret != CL_SUCCESS)
++                                        return ret;
+ 
+                                     ptN = ptN->next_same;
+                                     continue;
+@@ -2401,9 +2565,6 @@ cl_error_t cli_ac_scanbuff(
+         }
+     }
+ 
+-    if (viruses_found)
+-        return CL_VIRUS;
+-
+     return (mode & AC_SCAN_FT) ? type : CL_CLEAN;
+ }
+ 
+@@ -2852,6 +3013,7 @@ inline static int ac_special_altstr(const char *hexpr, uint8_t sigopts, struct c
+ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const char *hexsig, uint8_t sigopts, uint32_t sigid, uint16_t parts, uint16_t partno, uint16_t rtype, uint16_t type, uint32_t mindist, uint32_t maxdist, const char *offset, const uint32_t *lsigid, unsigned int options)
+ {
+     struct cli_ac_patt *new;
++    struct cli_ac_patt_ext extbuf; /* AC_PATT_SPLIT: see below */
+     char *pt, *pt2, *hex = NULL, *hexcpy = NULL;
+     uint16_t i, j, ppos = 0, pend, *dec, nzpos = 0;
+     size_t decoded_len;
+@@ -2873,16 +3035,24 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+     if ((new = (struct cli_ac_patt *)MPOOL_CALLOC(root->mempool, 1, sizeof(struct cli_ac_patt))) == NULL)
+         return CL_EMEM;
+ 
+-    new->rtype      = rtype;
+-    new->type       = type;
+-    new->sigid      = sigid;
+-    new->parts      = parts;
+-    new->partno     = partno;
+-    new->mindist    = mindist;
+-    new->maxdist    = maxdist;
+-    new->customdata = NULL;
+-    new->ch[0] |= CLI_MATCH_IGNORE;
+-    new->ch[1] |= CLI_MATCH_IGNORE;
++    /* Parse into a stack extension and allocate one only if it ends up
++     * carrying something. Allocating per pattern and freeing the empty
++     * ones costs memory under mpool rather than saving it. */
++    memset(&extbuf, 0, sizeof(extbuf));
++    extbuf.ch[0] = CLI_MATCH_IGNORE;
++    extbuf.ch[1] = CLI_MATCH_IGNORE;
++    new->ext     = &extbuf;
++
++    new->rtype           = rtype;
++    new->type            = type;
++    new->sigid           = sigid;
++    new->parts           = parts;
++    new->partno          = partno;
++    new->ext->mindist    = mindist;
++    new->ext->maxdist    = maxdist;
++    new->ext->customdata = NULL;
++    new->ext->ch[0] |= CLI_MATCH_IGNORE;
++    new->ext->ch[1] |= CLI_MATCH_IGNORE;
+     if (lsigid) {
+         new->lsigid[0] = 1;
+         memcpy(&new->lsigid[1], lsigid, 2 * sizeof(uint32_t));
+@@ -2940,12 +3110,12 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+                 }
+ 
+                 if ((sigopts & ACPATT_OPTION_NOCASE) && ((*dec & CLI_MATCH_METADATA) == CLI_MATCH_CHAR))
+-                    new->ch[i] = CLI_NOCASE(*dec) | CLI_MATCH_NOCASE;
++                    new->ext->ch[i] = CLI_NOCASE(*dec) | CLI_MATCH_NOCASE;
+                 else
+-                    new->ch[i] = *dec;
++                    new->ext->ch[i] = *dec;
+                 free(dec);
+-                new->ch_mindist[i] = n1;
+-                new->ch_maxdist[i] = n2;
++                new->ext->ch_mindist[i] = n1;
++                new->ext->ch_maxdist[i] = n2;
+                 hex                = pt2;
+             } else if (strlen(pt2) == 2 || strlen(pt2) == 3) {
+                 i   = 1;
+@@ -2957,12 +3127,12 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+                 }
+ 
+                 if ((sigopts & ACPATT_OPTION_NOCASE) && ((*dec & CLI_MATCH_METADATA) == CLI_MATCH_CHAR))
+-                    new->ch[i] = CLI_NOCASE(*dec) | CLI_MATCH_NOCASE;
++                    new->ext->ch[i] = CLI_NOCASE(*dec) | CLI_MATCH_NOCASE;
+                 else
+-                    new->ch[i] = *dec;
++                    new->ext->ch[i] = *dec;
+                 free(dec);
+-                new->ch_mindist[i] = n1;
+-                new->ch_maxdist[i] = n2;
++                new->ext->ch_mindist[i] = n1;
++                new->ext->ch_maxdist[i] = n2;
+             } else {
+                 error = CL_EMALFDB;
+                 break;
+@@ -3056,59 +3226,59 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+              */
+             if (!strcmp(pt, "B")) {
+                 if (!*start) {
+-                    new->boundary |= AC_BOUNDARY_RIGHT;
++                    new->ext->boundary |= AC_BOUNDARY_RIGHT;
+                     if (newspecial->negative)
+-                        new->boundary |= AC_BOUNDARY_RIGHT_NEGATIVE;
++                        new->ext->boundary |= AC_BOUNDARY_RIGHT_NEGATIVE;
+                     MPOOL_FREE(root->mempool, newspecial);
+                     continue;
+                 } else if (pt - 1 == hexcpy) {
+-                    new->boundary |= AC_BOUNDARY_LEFT;
++                    new->ext->boundary |= AC_BOUNDARY_LEFT;
+                     if (newspecial->negative)
+-                        new->boundary |= AC_BOUNDARY_LEFT_NEGATIVE;
++                        new->ext->boundary |= AC_BOUNDARY_LEFT_NEGATIVE;
+                     MPOOL_FREE(root->mempool, newspecial);
+                     continue;
+                 }
+             } else if (!strcmp(pt, "L")) {
+                 if (!*start) {
+-                    new->boundary |= AC_LINE_MARKER_RIGHT;
++                    new->ext->boundary |= AC_LINE_MARKER_RIGHT;
+                     if (newspecial->negative)
+-                        new->boundary |= AC_LINE_MARKER_RIGHT_NEGATIVE;
++                        new->ext->boundary |= AC_LINE_MARKER_RIGHT_NEGATIVE;
+                     MPOOL_FREE(root->mempool, newspecial);
+                     continue;
+                 } else if (pt - 1 == hexcpy) {
+-                    new->boundary |= AC_LINE_MARKER_LEFT;
++                    new->ext->boundary |= AC_LINE_MARKER_LEFT;
+                     if (newspecial->negative)
+-                        new->boundary |= AC_LINE_MARKER_LEFT_NEGATIVE;
++                        new->ext->boundary |= AC_LINE_MARKER_LEFT_NEGATIVE;
+                     MPOOL_FREE(root->mempool, newspecial);
+                     continue;
+                 }
+             } else if (!strcmp(pt, "W")) {
+                 if (!*start) {
+-                    new->boundary |= AC_WORD_MARKER_RIGHT;
++                    new->ext->boundary |= AC_WORD_MARKER_RIGHT;
+                     if (newspecial->negative)
+-                        new->boundary |= AC_WORD_MARKER_RIGHT_NEGATIVE;
++                        new->ext->boundary |= AC_WORD_MARKER_RIGHT_NEGATIVE;
+                     MPOOL_FREE(root->mempool, newspecial);
+                     continue;
+                 } else if (pt - 1 == hexcpy) {
+-                    new->boundary |= AC_WORD_MARKER_LEFT;
++                    new->ext->boundary |= AC_WORD_MARKER_LEFT;
+                     if (newspecial->negative)
+-                        new->boundary |= AC_WORD_MARKER_LEFT_NEGATIVE;
++                        new->ext->boundary |= AC_WORD_MARKER_LEFT_NEGATIVE;
+                     MPOOL_FREE(root->mempool, newspecial);
+                     continue;
+                 }
+             }
+             cli_strlcat(hexnew, "()", hexnewsz);
+-            new->special++;
+-            newtable = (struct cli_ac_special **)MPOOL_REALLOC(root->mempool, new->special_table, new->special * sizeof(struct cli_ac_special *));
++            new->ext->special++;
++            newtable = (struct cli_ac_special **)MPOOL_REALLOC(root->mempool, new->ext->special_table, new->ext->special * sizeof(struct cli_ac_special *));
+             if (!newtable) {
+-                new->special--;
++                new->ext->special--;
+                 MPOOL_FREE(root->mempool, newspecial);
+-                cli_errmsg("cli_ac_addsig: Can't realloc new->special_table\n");
++                cli_errmsg("cli_ac_addsig: Can't realloc new->ext->special_table\n");
+                 error = CL_EMEM;
+                 break;
+             }
+-            newtable[new->special - 1] = newspecial;
+-            new->special_table         = newtable;
++            newtable[new->ext->special - 1] = newspecial;
++            new->ext->special_table         = newtable;
+ 
+             if (!strcmp(pt, "B")) {
+                 newspecial->type = AC_SPECIAL_BOUNDARY;
+@@ -3132,7 +3302,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+ 
+         if (error) {
+             free(hex);
+-            if (new->special) {
++            if (new->ext->special) {
+                 mpool_ac_free_special(root->mempool, new);
+             }
+             MPOOL_FREE(root->mempool, new);
+@@ -3145,7 +3315,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+      */
+     new->pattern = CLI_MPOOL_HEX2UI_LEN(root->mempool, hex ? hex : hexsig, &decoded_len);
+     if (new->pattern == NULL) {
+-        if (new->special)
++        if (new->ext->special)
+             mpool_ac_free_special(root->mempool, new);
+ 
+         MPOOL_FREE(root->mempool, new);
+@@ -3154,7 +3324,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+     }
+ 
+     if (decoded_len > UINT16_MAX) {
+-        if (new->special)
++        if (new->ext->special)
+             mpool_ac_free_special(root->mempool, new);
+ 
+         MPOOL_FREE(root->mempool, new->pattern);
+@@ -3166,7 +3336,7 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+     new->length[0] = (uint16_t)decoded_len;
+     if (new->length[0] < root->ac_mindepth) {
+         cli_errmsg("cli_ac_addsig: Subpattern in signature is shorter than the minimum depth of the AC trie. (%u < %u)\n", new->length[0], root->ac_mindepth);
+-        if (new->special)
++        if (new->ext->special)
+             mpool_ac_free_special(root->mempool, new);
+ 
+         MPOOL_FREE(root->mempool, new->pattern);
+@@ -3179,8 +3349,8 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         uint16_t metadata = new->pattern[i] & CLI_MATCH_METADATA;
+ 
+         if (metadata == CLI_MATCH_SPECIAL) {
+-            new->length[1] += new->special_table[j]->len[0];
+-            new->length[2] += new->special_table[j]->len[1];
++            new->length[1] += new->ext->special_table[j]->len[0];
++            new->length[2] += new->ext->special_table[j]->len[1];
+             j++;
+         } else {
+             new->length[1]++;
+@@ -3348,12 +3518,30 @@ cl_error_t cli_ac_addsig(struct cli_matcher *root, const char *virname, const ch
+         return ret;
+     }
+ 
++    /* Give the stack extension a real allocation only if it is used. */
++    if (ac_patt_ext_is_default(&extbuf)) {
++        new->ext = NULL;
++    } else {
++        new->ext = MPOOL_MALLOC(root->mempool, sizeof(*new->ext));
++        if (NULL == new->ext) {
++            new->ext = &extbuf; /* so the special table is still reachable */
++            MPOOL_FREE(root->mempool, new->prefix ? new->prefix : new->pattern);
++            mpool_ac_free_special(root->mempool, new);
++            new->ext = NULL;
++            MPOOL_FREE(root->mempool, virname_copy);
++            MPOOL_FREE(root->mempool, new);
++            return CL_EMEM;
++        }
++        memcpy(new->ext, &extbuf, sizeof(*new->ext));
++    }
++
+     if ((ret = cli_ac_addpatt(root, new))) {
+         MPOOL_FREE(root->mempool, new->prefix ? new->prefix : new->pattern);
+         if (virname_copy) {
+             MPOOL_FREE(root->mempool, virname_copy);
+         }
+         mpool_ac_free_special(root->mempool, new);
++        mpool_ac_free_ext(root->mempool, new);
+         MPOOL_FREE(root->mempool, new);
+         return ret;
+     }
+diff --git a/libclamav/matcher-ac.h b/libclamav/matcher-ac.h
+index 243d9c5d32abbe0cf6433c2633843c711eea0a78..911b5054237efb0985551382c9560f32f069bf8a 100644
+--- a/libclamav/matcher-ac.h
++++ b/libclamav/matcher-ac.h
+@@ -59,8 +59,9 @@ struct cli_lsig_matches {
+ typedef struct cli_ac_data {
+     uint32_t ***offmatrix;
+     uint32_t partsigs, lsigs, reloffsigs;
+-    uint32_t **lsigcnt;
+-    uint32_t **lsigsuboff_last, **lsigsuboff_first;
++    uint32_t *lsigcnt;
++    uint32_t *lsigsuboff_last, *lsigsuboff_first;
++    const uint32_t *lsig_row_offsets; /* Borrowed from the scan's engine. */
+     struct cli_lsig_matches **lsig_matches;
+     uint8_t *yr_matches;
+     uint32_t *offset;
+@@ -70,6 +71,28 @@ typedef struct cli_ac_data {
+     uint32_t min_partno;
+ } cli_ac_data;
+ 
++/* Three flat buffers share one immutable directory for the engine lifetime.
++ * Legacy callers use a fixed 64-slot stride and need no directory. */
++static inline size_t cli_ac_lsig_row(const struct cli_ac_data *data, uint32_t id)
++{
++    return data->lsig_row_offsets ? data->lsig_row_offsets[id] : (size_t)id * 64;
++}
++
++static inline uint32_t *cli_ac_lsig_counts(const struct cli_ac_data *data, uint32_t id)
++{
++    return data->lsigcnt ? data->lsigcnt + cli_ac_lsig_row(data, id) : NULL;
++}
++
++static inline uint32_t *cli_ac_lsig_first(const struct cli_ac_data *data, uint32_t id)
++{
++    return data->lsigsuboff_first ? data->lsigsuboff_first + cli_ac_lsig_row(data, id) : NULL;
++}
++
++static inline uint32_t *cli_ac_lsig_last(const struct cli_ac_data *data, uint32_t id)
++{
++    return data->lsigsuboff_last ? data->lsigsuboff_last + cli_ac_lsig_row(data, id) : NULL;
++}
++
+ struct cli_alt_node {
+     uint16_t *str;
+     uint16_t len;
+@@ -87,37 +110,85 @@ struct cli_ac_special {
+     uint16_t type, negative;
+ };
+ 
+-struct cli_ac_patt {
+-    uint16_t *pattern, *prefix, length[3], prefix_length[3];
++/* Rarely-used tail of struct cli_ac_patt. Read it through the AC_EXT_*
++ * accessors, never directly: they return what the inline field held when
++ * the feature was unused, which keeps patt_cmp_fn() equivalent. */
++struct cli_ac_patt_ext {
++    void *customdata;
++    struct cli_ac_special **special_table;
+     uint32_t mindist, maxdist;
+-    uint32_t sigid;
+-    uint32_t lsigid[3];
++    uint32_t boundary;
++    uint16_t special, special_pattern;
+     uint16_t ch[2];
+-    char *virname;
+-    void *customdata;
+     uint16_t ch_mindist[2];
+     uint16_t ch_maxdist[2];
+-    uint16_t parts, partno, special, special_pattern;
+-    struct cli_ac_special **special_table;
+-    uint16_t rtype, type;
++};
++
++/* Field order avoids interior padding, per 9381324ad (bb#748):
++ * pointers, then 4-byte, then 2-byte, then 1-byte members. */
++struct cli_ac_patt {
++    uint16_t *pattern, *prefix;
++    struct cli_ac_patt_ext *ext;
++    char *virname;
++    uint32_t sigid;
++    uint32_t lsigid[3];
+     uint32_t offdata[4], offset_min, offset_max;
+-    uint32_t boundary;
++    uint16_t length[3], prefix_length[3];
++    uint16_t parts, partno;
++    uint16_t rtype, type;
+     uint8_t depth;
+     uint8_t sigopts;
+ };
+ 
++/* Each accessor returns what the inline field held when the feature was
++ * unused. AC_EXT_CH is in matcher-ac.c: it needs CLI_MATCH_IGNORE, which
++ * matcher.h defines after including this header. */
++#define AC_EXT_CUSTOMDATA(p) ((p)->ext ? (p)->ext->customdata : NULL)
++#define AC_EXT_SPECIAL_TABLE(p) ((p)->ext ? (p)->ext->special_table : NULL)
++#define AC_EXT_MINDIST(p) ((p)->ext ? (p)->ext->mindist : 0U)
++#define AC_EXT_MAXDIST(p) ((p)->ext ? (p)->ext->maxdist : 0U)
++#define AC_EXT_BOUNDARY(p) ((p)->ext ? (p)->ext->boundary : 0U)
++#define AC_EXT_SPECIAL(p) ((p)->ext ? (p)->ext->special : (uint16_t)0)
++#define AC_EXT_SPECIAL_PATTERN(p) ((p)->ext ? (p)->ext->special_pattern : (uint16_t)0)
++#define AC_EXT_CH_MINDIST(p, i) ((p)->ext ? (p)->ext->ch_mindist[i] : (uint16_t)0)
++#define AC_EXT_CH_MAXDIST(p, i) ((p)->ext ? (p)->ext->ch_maxdist[i] : (uint16_t)0)
++
++struct cli_matcher;
++/* Attach an extension to a pattern, for the few call sites outside
++ * cli_ac_addsig that set a cold field. Returns NULL only on OOM. */
++struct cli_ac_patt_ext *cli_ac_patt_ext_new(struct cli_matcher *root, struct cli_ac_patt *p);
++
+ struct cli_ac_list {
+     struct cli_ac_patt *me;
+     union {
+         struct cli_ac_node *node;
+         struct cli_ac_list *next;
++        uintptr_t head_order; /* Build-only ordinal, before linking heads. */
++    };
++    union {
++        struct cli_ac_list *next_same;
++        uintptr_t source_order; /* Per-root source occurrence, before linking. */
+     };
+-    struct cli_ac_list *next_same;
+ };
+ 
++/* Pointer rows are a compile-time performance alternative, and avoid an
++ * unnecessary indirection on 32-bit targets where IDs would save no bytes. */
++#if defined(ENABLE_AC_NODE_IDS) && UINTPTR_MAX > UINT32_MAX
++typedef uint32_t cli_ac_transition_t;
++#define CLI_AC_NODE_IDS 1
++#ifdef ENABLE_AC_FLAT_NODES
++#define CLI_AC_FLAT_NODES 1
++#endif
++#else
++typedef struct cli_ac_node *cli_ac_transition_t;
++#endif
++
+ struct cli_ac_node {
+     struct cli_ac_list *list;
+-    struct cli_ac_node **trans, *fail;
++    /* 256 IDs or native pointers, selected at build time. For IDs:
++     * 0 = unset, 1 = ac_root, i + 2 = ac_nodetable[i]. */
++    cli_ac_transition_t *trans;
++    struct cli_ac_node *fail;
+ };
+ 
+ #define IS_LEAF(node) (!node->trans)
+@@ -148,6 +219,7 @@ cl_error_t cli_ac_addpatt(struct cli_matcher *root, struct cli_ac_patt *pattern)
+ void lsig_increment_subsig_match(struct cli_ac_data *mdata, uint32_t lsig_id, uint32_t subsig_id);
+ 
+ cl_error_t cli_ac_initdata(struct cli_ac_data *data, uint32_t partsigs, uint32_t lsigs, uint32_t reloffsigs, uint8_t tracklen);
++cl_error_t cli_ac_initdata_for_matcher(struct cli_ac_data *data, const struct cli_matcher *root);
+ 
+ /**
+  * @brief Increment the count for a subsignature of a logical signature.
+diff --git a/libclamav/matcher-bm.c b/libclamav/matcher-bm.c
+index 35d967e2447f833c939f1018fd58eacceb02191e..78982233ab3f2a60ff3f63e48ee1ebbdf49f1860 100644
+--- a/libclamav/matcher-bm.c
++++ b/libclamav/matcher-bm.c
+@@ -381,22 +381,20 @@ cl_error_t cli_bm_scanbuff(const unsigned char *buffer, uint32_t length, const c
+                         }
+                     }
+ 
+-                    viruses_found += 1;
+-                    if (virname) {
++                    if (virname)
+                         *virname = p->virname;
+-                        if (ctx != NULL && SCAN_ALLMATCHES) {
+-                            ret = cli_append_virus(ctx, *virname);
+-                            if (ret == CL_CLEAN && viruses_found > 0) {
+-                                viruses_found -= 1;
+-                            }
+-                        }
+-                    }
+-
+                     if (patt)
+                         *patt = p;
+ 
+-                    if (ctx != NULL && !SCAN_ALLMATCHES)
+-                        return CL_VIRUS;
++                    if (ctx) {
++                        /* Keep walking after a nonterminal indicator or an ignored
++                         * alert; the caller cannot resume this candidate chain. */
++                        ret = cli_append_virus(ctx, p->virname);
++                        if (ret != CL_SUCCESS)
++                            return ret;
++                    } else {
++                        viruses_found = 1;
++                    }
+                 }
+                 p = p->next;
+             }
+diff --git a/libclamav/matcher-byte-comp.c b/libclamav/matcher-byte-comp.c
+index 0444ddc301237f8948909c92bcec9a47519b7926..d2a13152c7f0b5a83fcc7ad49637e2dd02924657 100644
+--- a/libclamav/matcher-byte-comp.c
++++ b/libclamav/matcher-byte-comp.c
+@@ -480,15 +480,15 @@ cl_error_t cli_bcomp_scanbuf(const unsigned char *buffer, size_t buffer_length,
+             snprintf(subsigid, 3, "%hu", bcomp->ref_subsigid);
+ 
+             /* verify the ref_subsigid */
+-            val = cli_ac_chklsig(subsigid, subsigid + strlen(subsigid), mdata->lsigcnt[bcomp->lsigid[1]], &evalcnt, &evalids, 0);
++            val = cli_ac_chklsig(subsigid, subsigid + strlen(subsigid), cli_ac_lsig_counts(mdata, bcomp->lsigid[1]), &evalcnt, &evalids, 0);
+             if (val != 1) {
+                 bcm_dbgmsg("cli_bcomp_scanbuf: could not verify a match for lsig reference subsigid (%s)\n", subsigid);
+                 continue;
+             }
+ 
+             /* grab the needed offset using from the last matched subsig offset matrix, i.e. the match performed above */
+-            if (mdata->lsigsuboff_last[lsigid]) {
+-                offset = mdata->lsigsuboff_last[lsigid][ref_subsigid];
++            if (cli_ac_lsig_last(mdata, lsigid)) {
++                offset = cli_ac_lsig_last(mdata, lsigid)[ref_subsigid];
+             } else {
+                 ret = CL_SUCCESS;
+                 continue;
+@@ -523,7 +523,7 @@ cl_error_t cli_bcomp_scanbuf(const unsigned char *buffer, size_t buffer_length,
+         if (CL_VIRUS == bcomp_check) {
+             /* check to see if we are being run in sigtool or not */
+             if (bcomp->lsigid[0]) {
+-                mdata->lsigcnt[bcomp->lsigid[1]][bcomp->lsigid[2]]++;
++                cli_ac_lsig_counts(mdata, bcomp->lsigid[1])[bcomp->lsigid[2]]++;
+             } else {
+                 /* Run by sigtool's --test-sigs feature without context of whole lsig or previous subsigs */
+                 ret = cli_append_virus(ctx, "test");
+diff --git a/libclamav/matcher-hash.c b/libclamav/matcher-hash.c
+index c460ff9b8c647ea585b5bd5f30680cb817866498..af22a750f735e5d49cbabcf972e0e33d307a644f 100644
+--- a/libclamav/matcher-hash.c
++++ b/libclamav/matcher-hash.c
+@@ -267,7 +267,9 @@ cl_error_t hm_addhash_bin(struct cl_engine *engine, hash_purpose_t purpose, cons
+ static inline int hm_cmp(const uint8_t *itm, const uint8_t *ref, unsigned int keylen)
+ {
+ #if WORDS_BIGENDIAN == 0
+-    uint32_t i = *(uint32_t *)itm, r = *(uint32_t *)ref;
++    uint32_t i, r;
++    memcpy(&i, itm, sizeof(i));
++    memcpy(&r, ref, sizeof(r));
+     if (i != r)
+         return (i < r) * 2 - 1;
+     return memcmp(&itm[4], &ref[4], keylen - 4);
+diff --git a/libclamav/matcher-pcre.c b/libclamav/matcher-pcre.c
+index 38363e69b4d14ebbe0174053d89ede66d5086e1d..5180c49c8bde51616ee432c515c8a58be6083795 100644
+--- a/libclamav/matcher-pcre.c
++++ b/libclamav/matcher-pcre.c
+@@ -585,7 +585,7 @@ cl_error_t cli_pcre_scanbuf(const unsigned char *buffer, uint32_t length, const
+ #ifdef PCRE_BYPASS
+             if (strcmp(pm->trigger, PCRE_BYPASS))
+ #endif
+-                if (cli_ac_chklsig(pm->trigger, pm->trigger + strlen(pm->trigger), mdata->lsigcnt[pm->lsigid[1]], &evalcnt, &evalids, 0) != 1)
++                if (cli_ac_chklsig(pm->trigger, pm->trigger + strlen(pm->trigger), cli_ac_lsig_counts(mdata, pm->lsigid[1]), &evalcnt, &evalids, 0) != 1)
+                     continue;
+         } else {
+             cli_dbgmsg("cli_pcre_scanbuf: skipping %s check due to uninitialized lsigid\n", pm->trigger);
+diff --git a/libclamav/matcher.c b/libclamav/matcher.c
+index e9601d4085a6bda6d4696ddeca2f38888efd8a38..c7701e644e4444c0e13ee4d2d2ee66e043419a85 100644
+--- a/libclamav/matcher.c
++++ b/libclamav/matcher.c
+@@ -150,24 +150,14 @@ static inline cl_error_t matcher_run(const struct cli_matcher *root,
+         } else {
+             ret = cli_bm_scanbuff(buffer, length, virname, NULL, root, offset, tinfo, offdata, ctx);
+         }
+-        if (ret != CL_SUCCESS) {
+-            if (ret != CL_VIRUS)
+-                return ret;
+-            /* else (ret == CL_VIRUS) */
+-
+-            ret = cli_append_virus(ctx, *virname);
+-            if (ret != CL_SUCCESS)
+-                return ret;
+-        }
++        /* Context-aware matchers already record evidence and run callbacks. */
++        if (ret != CL_SUCCESS)
++            return ret;
+     }
+     perf_log_tries(acmode, 0, length);
+     ret = cli_ac_scanbuff(buffer, length, virname, NULL, acres, root, mdata, offset, ftype, ftoffset, acmode, ctx);
+     if (ret != CL_SUCCESS) {
+-        if (ret == CL_VIRUS) {
+-            ret = cli_append_virus(ctx, *virname);
+-            if (ret != CL_SUCCESS)
+-                return ret;
+-        } else if (ret > CL_TYPENO && acmode & AC_SCAN_VIR) {
++        if (ret > CL_TYPENO && acmode & AC_SCAN_VIR) {
+             saved_ret = ret;
+         } else {
+             return ret;
+@@ -247,12 +237,6 @@ static inline cl_error_t matcher_run(const struct cli_matcher *root,
+ 
+     /* end experimental fragment */
+ 
+-    if (ctx && ret == CL_VIRUS) {
+-        ret = cli_append_virus(ctx, *virname);
+-        if (ret != CL_SUCCESS)
+-            return ret;
+-    }
+-
+     if (saved_ret && ret == CL_CLEAN) {
+         return saved_ret;
+     }
+@@ -296,7 +280,7 @@ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t
+ 
+         if (!acdata) {
+             // no ac matcher data was provided, so we need to initialize our own.
+-            ret = cli_ac_initdata(&matcher_data, target_ac_root->ac_partsigs, target_ac_root->ac_lsigs, target_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
++            ret = cli_ac_initdata_for_matcher(&matcher_data, target_ac_root);
+             if (CL_SUCCESS != ret) {
+                 return ret;
+             }
+@@ -311,7 +295,7 @@ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t
+             cli_ac_freedata(&matcher_data);
+         }
+ 
+-        if (ret == CL_EMEM || ret == CL_VIRUS) {
++        if (ret != CL_SUCCESS && ret < CL_TYPENO) {
+             return ret;
+         }
+ 
+@@ -321,7 +305,7 @@ cl_error_t cli_scan_buff(const unsigned char *buffer, uint32_t length, uint32_t
+ 
+     if (!acdata) {
+         // no ac matcher data was provided, so we need to initialize our own.
+-        ret = cli_ac_initdata(&matcher_data, generic_ac_root->ac_partsigs, generic_ac_root->ac_lsigs, generic_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
++        ret = cli_ac_initdata_for_matcher(&matcher_data, generic_ac_root);
+         if (CL_SUCCESS != ret) {
+             return ret;
+         }
+@@ -856,7 +840,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+     if (status != CL_SUCCESS)
+         return status;
+ 
+-    if (cli_ac_chklsig(exp, exp_end, acdata->lsigcnt[lsid], &evalcnt, &evalids, 0) != 1) {
++    if (cli_ac_chklsig(exp, exp_end, cli_ac_lsig_counts(acdata, lsid), &evalcnt, &evalids, 0) != 1) {
+         // Logical expression did not match.
+         goto done;
+     }
+@@ -973,7 +957,7 @@ static cl_error_t lsig_eval(cli_ctx *ctx, struct cli_matcher *root, struct cli_a
+         }
+     } else {
+         // Logical sig depends on bytecode match. Check for the bytecode match.
+-        status = cli_bytecode_runlsig(ctx, target_info, &ctx->engine->bcs, ac_lsig->bc_idx, acdata->lsigcnt[lsid], acdata->lsigsuboff_first[lsid], ctx->fmap);
++        status = cli_bytecode_runlsig(ctx, target_info, &ctx->engine->bcs, ac_lsig->bc_idx, cli_ac_lsig_counts(acdata, lsid), cli_ac_lsig_first(acdata, lsid), ctx->fmap);
+         if (CL_SUCCESS != status) {
+             goto done;
+         }
+@@ -1180,7 +1164,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
+         /* If we're not doing a filetype-only scan, so we definitely need to include generic signatures.
+            So initialize the ac data for the generic signatures root. */
+ 
+-        ret = cli_ac_initdata(&generic_ac_data, generic_ac_root->ac_partsigs, generic_ac_root->ac_lsigs, generic_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
++        ret = cli_ac_initdata_for_matcher(&generic_ac_data, generic_ac_root);
+         if (CL_SUCCESS != ret) {
+             goto done;
+         }
+@@ -1205,7 +1189,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
+         /* We have to match against target-specific signatures.
+            So initialize the ac data for the target-specific signatures root. */
+ 
+-        ret = cli_ac_initdata(&target_ac_data, target_ac_root->ac_partsigs, target_ac_root->ac_lsigs, target_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN);
++        ret = cli_ac_initdata_for_matcher(&target_ac_data, target_ac_root);
+         if (CL_SUCCESS != ret) {
+             goto done;
+         }
+@@ -1300,7 +1284,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
+                               &info, ftype, ftoffset, acmode, PCRE_SCAN_FMAP, acres, ctx->fmap,
+                               bm_offsets_table_initialized ? &bm_offsets_table : NULL,
+                               &target_pcre_offsets_table, ctx);
+-            if (ret == CL_VIRUS || ret == CL_EMEM) {
++            if (ret != CL_SUCCESS && ret < CL_TYPENO) {
+                 goto done;
+             }
+         }
+@@ -1312,7 +1296,7 @@ cl_error_t cli_scan_fmap(cli_ctx *ctx, cli_file_t ftype, bool filetype_only, str
+                               &info, ftype, ftoffset, acmode, PCRE_SCAN_FMAP, acres, ctx->fmap,
+                               NULL,
+                               &generic_pcre_offsets_table, ctx);
+-            if (ret == CL_VIRUS || ret == CL_EMEM) {
++            if (ret != CL_SUCCESS && ret < CL_TYPENO) {
+                 goto done;
+             } else if ((acmode & AC_SCAN_FT) && ((cli_file_t)ret >= CL_TYPENO)) {
+                 if (ret > type)
+diff --git a/libclamav/matcher.h b/libclamav/matcher.h
+index 4b9f9172ed5dae86a3fe3d003d3726ed4add581b..fc721a8fd7b66327b9f55bf2fc133b8391765252 100644
+--- a/libclamav/matcher.h
++++ b/libclamav/matcher.h
+@@ -176,8 +176,12 @@ struct cli_matcher {
+     /* Bytecode Tracker */
+     uint32_t linked_bcs;
+ 
++    /* Owned node table: [0] = NULL, [1] = ac_root. ac_nodetable
++     * aliases ac_nodeidx + 2; it must never be freed separately. */
++    struct cli_ac_node **ac_nodeidx;
++
+     /*Store pointers to malloced trans values so that they can be more easily freed*/
+-    struct cli_ac_node ***trans_array;
++    cli_ac_transition_t **trans_array;
+     size_t trans_cnt;
+     size_t trans_capacity;
+ 
+@@ -186,6 +190,11 @@ struct cli_matcher {
+ #else
+     void *_padding_mempool;
+ #endif
++    /* Shared prefix offsets for compact scan rows; NULL uses 64-slot stride. */
++    uint32_t *ac_lsig_offsets;
++    size_t ac_lsig_slots;
++    /* Optional compiled node arena; owned separately from the memory pool. */
++    struct cli_ac_node *ac_flatnodes;
+ };
+ 
+ struct cli_cdb {
+diff --git a/libclamav/mpool.c b/libclamav/mpool.c
+index 0edba4787d87b51fd484cbba9b2f0a3105aa25fb..cb291a07175b4549361cbecc63e9c43dce7bae9d 100644
+--- a/libclamav/mpool.c
++++ b/libclamav/mpool.c
+@@ -40,6 +40,7 @@
+ #include <sys/mman.h>
+ #endif
+ #include <stddef.h>
++#include <errno.h>
+ 
+ #include "clamav.h"
+ #include "others.h"
+@@ -513,9 +514,41 @@ void mpool_destroy(struct MP *mp)
+ #endif
+ }
+ 
++/* Release only complete pages inside free fragments. Keep the free-list link
++ * and both boundary pages, so live objects, virtual addresses and allocation
++ * order are unchanged. Linux's anonymous-private MADV_DONTNEED zeroes future
++ * accesses; that is safe only for the payload of an already freed allocation.
++ * Advice failure is harmless: the pool keeps ownership and remains reusable.
++ */
++static size_t mpool_release_free_pages(struct MP *mp)
++{
++    size_t advised = 0;
++#if defined(C_LINUX) && defined(HAVE_MADVISE) && defined(MADV_DONTNEED)
++    unsigned int b;
++    int saved_errno = errno;
++
++    for (b = 0; b < FRAGSBITS; b++) {
++        struct FRAG *f;
++        if (from_bits(b) < mp->psize + sizeof(struct FRAG))
++            continue;
++        for (f = mp->avail[b]; f; f = f->u.next.ptr) {
++            uintptr_t start = align_to_pagesize(mp, (uintptr_t)f + sizeof(*f));
++            uintptr_t end   = (uintptr_t)f + from_bits(b);
++            end -= end % mp->psize;
++            if (end > start && madvise((void *)start, end - start, MADV_DONTNEED) == 0)
++                advised += end - start;
++        }
++    }
++    errno = saved_errno;
++#else
++    UNUSEDPARAM(mp);
++#endif
++    return advised;
++}
++
+ void mpool_flush(struct MP *mp)
+ {
+-    size_t used            = 0, mused;
++    size_t used            = 0, mused, advised;
+     struct MPMAP *mpm_next = mp->u.mpm.next, *mpm;
+ 
+ #ifdef EXIT_ON_FLUSH
+@@ -552,6 +585,8 @@ void mpool_flush(struct MP *mp)
+         mp->u.mpm.size = mused - sizeof(*mp);
+     }
+     used += mp->u.mpm.size;
++    advised = mpool_release_free_pages(mp);
++    cli_dbgmsg("pool free-page advice: %lu bytes\n", (unsigned long)advised);
+     cli_dbgmsg("pool memory used: %.3f MB\n", used / (1024 * 1024.0));
+     spam("Map flushed @%p, in use: %lu\n", mp, (unsigned long)used);
+ }
+diff --git a/libclamav/readdb.c b/libclamav/readdb.c
+index 01943d23a530e0dd9bad5cb65b09ea1568ccaa3e..92e6ffab1b78caff14ba4a38f5e36f866d220793 100644
+--- a/libclamav/readdb.c
++++ b/libclamav/readdb.c
+@@ -505,22 +505,32 @@ cl_error_t readdb_parse_ldb_subsignature(struct cli_matcher *root, const char *v
+ 
+         /* this is not a pattern that will be matched by AC itself, rather it is a
+          * pattern checked by the lsig code */
+-        patt->ch_mindist[0] = smin;
+-        patt->ch_maxdist[0] = smax;
+-        patt->sigid         = tid;
+-        patt->length[0]     = root->ac_mindepth;
++        /* Needs an extension: the distances are read back through
++         * macropt->ch_mindist in cli_ac_chkmacro(). */
++        if (NULL == cli_ac_patt_ext_new(root, patt)) {
++            cli_errmsg("Failed to allocate memory for macro AC pattern extension\n");
++            MPOOL_FREE(root->mempool, patt);
++            status = CL_EMEM;
++            goto done;
++        }
++        patt->ext->ch_mindist[0] = smin;
++        patt->ext->ch_maxdist[0] = smax;
++        patt->sigid              = tid;
++        patt->length[0]          = root->ac_mindepth;
+ 
+         /* dummy */
+         patt->pattern = MPOOL_CALLOC(root->mempool, patt->length[0], sizeof(*patt->pattern));
+         if (!patt->pattern) {
+-            free(patt);
++            MPOOL_FREE(root->mempool, patt->ext);
++            MPOOL_FREE(root->mempool, patt);
+             status = CL_EMEM;
+             goto done;
+         }
+ 
+         if (CL_SUCCESS != (ret = cli_ac_addpatt(root, patt))) {
+             MPOOL_FREE(root->mempool, patt->pattern);
+-            free(patt);
++            MPOOL_FREE(root->mempool, patt->ext);
++            MPOOL_FREE(root->mempool, patt);
+             status = ret;
+             goto done;
+         }
+diff --git a/libclamav/regex_list.c b/libclamav/regex_list.c
+index a4f49ad5a6915f8769e2a4b56aa41b9f82f6f52e..d861b6c0fead09bbc00c9b8d9a63f1e2a0ef66a3 100644
+--- a/libclamav/regex_list.c
++++ b/libclamav/regex_list.c
+@@ -677,7 +677,8 @@ static cl_error_t add_newsuffix(struct regex_matcher *matcher, struct regex_list
+     struct cli_matcher *root = NULL;
+     struct cli_ac_patt *new  = NULL;
+     size_t i;
+-    cl_error_t ret = CL_SUCCESS;
++    cl_error_t ret             = CL_SUCCESS;
++    bool pattern_owned_by_trie = false;
+ 
+     if (NULL == matcher) {
+         cli_errmsg("add_newsuffix: matcher must be initialized\n");
+@@ -710,12 +711,11 @@ static cl_error_t add_newsuffix(struct regex_matcher *matcher, struct regex_list
+     new->sigid      = 0;
+     new->parts      = 0;
+     new->partno     = 0;
+-    new->mindist    = 0;
+-    new->maxdist    = 0;
+     new->offset_min = CLI_OFF_ANY;
+     new->length[0]  = (uint16_t)len;
+ 
+-    new->ch[0] = new->ch[1] |= CLI_MATCH_IGNORE;
++    /* mindist/maxdist 0 and ch[] CLI_MATCH_IGNORE are what the accessors
++     * report without an extension, so those assignments are dropped. */
+     if (new->length[0] > root->maxpatlen)
+         root->maxpatlen = new->length[0];
+ 
+@@ -729,12 +729,20 @@ static cl_error_t add_newsuffix(struct regex_matcher *matcher, struct regex_list
+         new->pattern[i] = suffix[i]; /*new->pattern is short int* */
+     }
+ 
+-    new->customdata = info;
+-    new->virname    = NULL;
++    /* customdata is the one cold field this pattern needs. */
++    if (NULL == cli_ac_patt_ext_new(root, new)) {
++        cli_errmsg("add_newsuffix: Unable to allocate pattern extension\n");
++        ret = CL_EMEM;
++        goto done;
++    }
++    new->ext->customdata = info;
++    new->virname         = NULL;
+     if ((ret = cli_ac_addpatt(root, new))) {
+         goto done;
+     }
+ 
++    pattern_owned_by_trie = true;
++
+     if (filter_add_static(&matcher->filter, (const unsigned char *)suffix, len, "regex") < 0) {
+         cli_errmsg("add_newsuffix: Unable to add filter\n");
+         ret = CL_ERROR;
+@@ -744,10 +752,11 @@ static cl_error_t add_newsuffix(struct regex_matcher *matcher, struct regex_list
+ done:
+ 
+     if (CL_SUCCESS != ret) {
+-        if (NULL != new) {
++        if (NULL != new && !pattern_owned_by_trie) {
+             if (NULL != new->pattern) {
+                 MPOOL_FREE(matcher->mempool, new->pattern);
+             }
++            MPOOL_FREE(matcher->mempool, new->ext);
+             MPOOL_FREE(matcher->mempool, new);
+         }
+     }
+diff --git a/libclamav/scanners.c b/libclamav/scanners.c
+index fbdec4c348598a264bf5085de65c15ad8c786c6d..93607391e6c55fddb8bcbf02b10bba4db9ca81ea 100644
+--- a/libclamav/scanners.c
++++ b/libclamav/scanners.c
+@@ -1469,12 +1469,12 @@ static cl_error_t vba_scandata(const unsigned char *data, size_t len, cli_ctx *c
+ 
+     cl_fmap_t *new_map = NULL;
+ 
+-    if ((ret = cli_ac_initdata(&tmdata, target_ac_root->ac_partsigs, target_ac_root->ac_lsigs, target_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN))) {
++    if ((ret = cli_ac_initdata_for_matcher(&tmdata, target_ac_root))) {
+         goto done;
+     }
+     tmdata_initialized = true;
+ 
+-    if ((ret = cli_ac_initdata(&gmdata, generic_ac_root->ac_partsigs, generic_ac_root->ac_lsigs, generic_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN))) {
++    if ((ret = cli_ac_initdata_for_matcher(&gmdata, generic_ac_root))) {
+         goto done;
+     }
+     gmdata_initialized = true;
+@@ -2690,12 +2690,12 @@ static cl_error_t cli_scanscript(cli_ctx *ctx)
+     }
+     text_normalize_init(&state, normalized, SCANBUFF + maxpatlen);
+ 
+-    if ((ret = cli_ac_initdata(&tmdata, target_ac_root ? target_ac_root->ac_partsigs : 0, target_ac_root ? target_ac_root->ac_lsigs : 0, target_ac_root ? target_ac_root->ac_reloff_num : 0, CLI_DEFAULT_AC_TRACKLEN))) {
++    if ((ret = cli_ac_initdata_for_matcher(&tmdata, target_ac_root))) {
+         goto done;
+     }
+     tmdata_initialized = 1;
+ 
+-    if ((ret = cli_ac_initdata(&gmdata, generic_ac_root->ac_partsigs, generic_ac_root->ac_lsigs, generic_ac_root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN))) {
++    if ((ret = cli_ac_initdata_for_matcher(&gmdata, generic_ac_root))) {
+         goto done;
+     }
+     gmdata_initialized = 1;
+diff --git a/libclamav/yara_exec.c b/libclamav/yara_exec.c
+index 8614e5bb5ed2ca41be6ddb7172202abc9ed0d835..778fb296c19885447ad06772bb2f91d5c0a0b22a 100644
+--- a/libclamav/yara_exec.c
++++ b/libclamav/yara_exec.c
+@@ -604,7 +604,7 @@ int yr_execute_code(
+ #if REAL_YARA
+         push(string->matches[tidx].tail != NULL ? 1 : 0);
+ #else
+-        push(acdata->lsigsuboff_first[aclsig->id][string->subsig_id] != CLI_OFF_NONE ? 1 : 0);
++        push(cli_ac_lsig_first(acdata, aclsig->id)[string->subsig_id] != CLI_OFF_NONE ? 1 : 0);
+ #endif
+         break;
+ 
+@@ -723,7 +723,7 @@ int yr_execute_code(
+ #if REAL_YARA
+         push(string->matches[tidx].count);
+ #else
+-        push(acdata->lsigcnt[aclsig->id][string->subsig_id]);
++        push(cli_ac_lsig_counts(acdata, aclsig->id)[string->subsig_id]);
+ #endif
+         break;
+ 
+@@ -793,8 +793,8 @@ int yr_execute_code(
+         {
+           string = UINT64_TO_PTR(YR_STRING*, r1);
+           lsig_id = string->subsig_id;
+-          if (acdata->lsigsuboff_first[aclsig->id][lsig_id] != CLI_OFF_NONE)
+-            found++;
++          if (cli_ac_lsig_first(acdata, aclsig->id)[lsig_id] != CLI_OFF_NONE)
++              found++;
+           count++;
+           pop(r1);
+         }
+diff --git a/libclamav_rust/CMakeLists.txt b/libclamav_rust/CMakeLists.txt
+index 5a58b6313b37562b1647d72016147162c5b95c12..e99715401a1fab155860d221afc379a2f0774a93 100644
+--- a/libclamav_rust/CMakeLists.txt
++++ b/libclamav_rust/CMakeLists.txt
+@@ -15,6 +15,9 @@ if(NOT MSVC)
+ endif()
+ list(APPEND ENVIRONMENT "OPENSSL_LIB_DIR=${OPENSSL_LIB_DIR}")
+ 
++# Headers can change the ABI without modifying any Rust sources.
++file(GLOB CLAMAV_RUST_ABI_HEADERS "${CMAKE_SOURCE_DIR}/libclamav/*.h")
++
+ # libclamav rust static library
+ add_rust_library(TARGET clamav_rust
+     SOURCE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+@@ -24,6 +27,7 @@ add_rust_library(TARGET clamav_rust
+     # Tests cannot be pre-compiled here, because there are circular dependencies
+     # between libclamav_rust and libclamav to include calls like `cli_getdsig()`
+     # as well as the logging functions.
++    DEPENDS ${CLAMAV_RUST_ABI_HEADERS} "${CMAKE_BINARY_DIR}/clamav-config.h"
+     PRECOMPILE_TESTS FALSE
+ )
+ if (WIN32)
+diff --git a/libclamav_rust/build.rs b/libclamav_rust/build.rs
+index 0904fd9ecf290d6a170991a8d6d9491a7e927741..9e5434704da024bd0f123cd501ac0f181a8a1e9c 100644
+--- a/libclamav_rust/build.rs
++++ b/libclamav_rust/build.rs
+@@ -106,6 +106,10 @@ fn main() -> Result<(), &'static str> {
+         .filter(|(k, _)| ENV_PATTERNS.iter().any(|prefix| k.starts_with(prefix)))
+         .for_each(|(k, v)| eprintln!("  {}={:?}", k, v));
+ 
++    // Once rerun-if-changed is used for headers, Cargo needs the Rust source
++    // directory too: the same build script generates C declarations with cbindgen.
++    println!("cargo:rerun-if-changed=src");
++    println!("cargo:rerun-if-changed=build.rs");
+     detect_clamav_build()?;
+ 
+     // We only want to generate bindings for `cargo build`, not `cargo test`.
+@@ -143,14 +147,24 @@ fn execute_bindgen() -> Result<(), &'static str> {
+     let mut builder = builder()
+         // Silence code-style warnings for generated bindings.
+         .raw_line("#![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]")
++        // C owns transition storage and chooses its element type at build time.
++        // Rust only carries pointers to it; committed bindings must not assume
++        // that a native-pointer build stores u32 elements.
++        .blocklist_type("cli_ac_transition_t")
++        .raw_line("pub type cli_ac_transition_t = ::std::os::raw::c_void;")
+         // Make the bindings pretty.
+         .formatter(bindgen::Formatter::Rustfmt)
+         // Disable the layout tests.
+         // We're committing to source control. Pointer width, integer size, etc
+         // are probably not the same when generated as when compiled.
+         .layout_tests(false)
++        // Track transitive headers as well as the top-level inputs.
++        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+         // Enable bindgen to find generated headers in the build directory, too.
+-        .clang_arg(build_include_path);
++        .clang_arg(build_include_path)
++        // Match the C compiler's configuration, including the selected AC
++        // transition representation and memory-pool layout.
++        .clang_arg("-DHAVE_CONFIG_H");
+ 
+     // If include directories were specified, add them to the builder.
+     if let Some(include_directories) = has_include_directories {
+diff --git a/libclamav_rust/src/evidence.rs b/libclamav_rust/src/evidence.rs
+index 0d753cd2ca5261bccbfee7bba4511c62ab3f9a97..c26402b3bede1fe4fea149a38c594bd7daf027f4 100644
+--- a/libclamav_rust/src/evidence.rs
++++ b/libclamav_rust/src/evidence.rs
+@@ -24,7 +24,7 @@ use std::{ffi::CStr, mem::ManuallyDrop, os::raw::c_char};
+ 
+ use log::{debug, error, warn};
+ 
+-use indexmap::IndexMap;
++use indexmap::{map::RawEntryApiV1, IndexMap};
+ 
+ use crate::{ffi_error, ffi_util::FFIError, rrf_call, sys, validate_str_param};
+ 
+@@ -401,19 +401,19 @@ impl Evidence {
+             object_id,
+         };
+ 
+-        match indicator_type {
+-            IndicatorType::Strong => {
+-                self.strong.entry(name.to_string()).or_default().push(meta);
+-            }
+-
+-            IndicatorType::PotentiallyUnwanted => {
+-                self.pua.entry(name.to_string()).or_default().push(meta);
+-            }
+-
+-            IndicatorType::Weak => {
+-                self.weak.entry(name.to_string()).or_default().push(meta);
+-            }
+-        }
++        let indicators = match indicator_type {
++            IndicatorType::Strong => &mut self.strong,
++            IndicatorType::PotentiallyUnwanted => &mut self.pua,
++            IndicatorType::Weak => &mut self.weak,
++        };
++        // Look up the borrowed name before allocating its owned key. Repeated
++        // evidence keeps every metadata item and the existing insertion order.
++        indicators
++            .raw_entry_mut_v1()
++            .from_key(name)
++            .or_insert_with(|| (name.to_owned(), Vec::new()))
++            .1
++            .push(meta);
+ 
+         Ok(())
+     }
+@@ -530,3 +530,114 @@ impl Evidence {
+         Ok(())
+     }
+ }
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use std::ffi::CString;
++
++    #[test]
++    fn duplicate_names_preserve_pointer_history_and_insertion_order() {
++        let first = CString::new("same").unwrap();
++        let second = CString::new("same").unwrap();
++        let other = CString::new("other").unwrap();
++        assert_ne!(first.as_ptr(), second.as_ptr());
++        for kind in 0..3 {
++            let indicator_type = || match kind {
++                0 => IndicatorType::Strong,
++                1 => IndicatorType::PotentiallyUnwanted,
++                _ => IndicatorType::Weak,
++            };
++            let mut evidence = Evidence::default();
++            evidence
++                .add_indicator("same", first.as_ptr(), indicator_type(), 2, 10)
++                .unwrap();
++            evidence
++                .add_indicator("other", other.as_ptr(), indicator_type(), 3, 11)
++                .unwrap();
++            evidence
++                .add_indicator("same", second.as_ptr(), indicator_type(), 4, 12)
++                .unwrap();
++            let map = match kind {
++                0 => &evidence.strong,
++                1 => &evidence.pua,
++                _ => &evidence.weak,
++            };
++            assert_eq!(
++                map.keys().map(String::as_str).collect::<Vec<_>>(),
++                ["same", "other"]
++            );
++            let history = &map["same"];
++            assert_eq!(history.len(), 2);
++            assert_eq!(
++                (
++                    history[0].static_virname,
++                    history[0].depth,
++                    history[0].object_id
++                ),
++                (first.as_ptr(), 2, 10)
++            );
++            assert_eq!(
++                (
++                    history[1].static_virname,
++                    history[1].depth,
++                    history[1].object_id
++                ),
++                (second.as_ptr(), 4, 12)
++            );
++
++            evidence.remove_indicator("same", indicator_type()).unwrap();
++            let map = match kind {
++                0 => &evidence.strong,
++                1 => &evidence.pua,
++                _ => &evidence.weak,
++            };
++            assert_eq!(map["same"].last().unwrap().static_virname, first.as_ptr());
++            evidence.remove_indicator("same", indicator_type()).unwrap();
++            evidence
++                .add_indicator("same", second.as_ptr(), indicator_type(), 5, 13)
++                .unwrap();
++            let map = match kind {
++                0 => &evidence.strong,
++                1 => &evidence.pua,
++                _ => &evidence.weak,
++            };
++            assert_eq!(
++                map.keys().map(String::as_str).collect::<Vec<_>>(),
++                ["other", "same"]
++            );
++        }
++    }
++
++    #[test]
++    fn child_merge_retains_every_context_and_severity() {
++        let name = CString::new("name").unwrap();
++        let mut child = Evidence::default();
++        for indicator_type in [
++            IndicatorType::Strong,
++            IndicatorType::PotentiallyUnwanted,
++            IndicatorType::Weak,
++        ] {
++            child
++                .add_indicator("name", name.as_ptr(), indicator_type, 7, 91)
++                .unwrap();
++        }
++        let mut parent = Evidence::default();
++        parent.add_child_evidence(&child, false).unwrap();
++        parent.add_child_evidence(&child, true).unwrap();
++        for map in [&parent.strong, &parent.pua, &parent.weak] {
++            assert_eq!(map.len(), 1);
++            let history = &map["name"];
++            assert_eq!(history.len(), 2);
++            assert_eq!((history[0].depth, history[1].depth), (8, 7));
++            for meta in history {
++                assert_eq!(meta.static_virname, name.as_ptr());
++                assert_eq!(meta.object_id, 91);
++            }
++        }
++        assert_eq!(child.strong["name"][0].depth, 7);
++        assert!(Evidence::default()
++            .add_child_evidence(&Evidence::default(), false)
++            .is_err());
++    }
++}
+diff --git a/libclamav_rust/src/sys.rs b/libclamav_rust/src/sys.rs
+index a56a25cd37f76e34733a2047d65cc1db71795a86..491110abe4da6e0c36e97e64ad6aa23d5c5947da 100644
+--- a/libclamav_rust/src/sys.rs
++++ b/libclamav_rust/src/sys.rs
+@@ -1,6 +1,7 @@
+ /* automatically generated by rust-bindgen 0.65.1 */
+ 
+ #![allow(non_snake_case, non_camel_case_types, non_upper_case_globals)]
++pub type cli_ac_transition_t = ::std::os::raw::c_void;
+ 
+ pub type __off_t = ::std::os::raw::c_long;
+ pub type __time_t = ::std::os::raw::c_long;
+@@ -359,7 +360,12 @@ pub struct cli_ftype {
+ pub struct json_object {
+     _unused: [u8; 0],
+ }
+-pub type mpool_t = ::std::os::raw::c_void;
++#[repr(C)]
++#[derive(Debug, Copy, Clone)]
++pub struct MP {
++    _unused: [u8; 0],
++}
++pub type mpool_t = MP;
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+ pub struct cli_dconf {
+@@ -781,6 +787,7 @@ pub struct cl_engine {
+     pub pcre_match_limit: u64,
+     pub pcre_recmatch_limit: u64,
+     pub pcre_max_filesize: u64,
++    pub yara_global: *mut _yara_global,
+ }
+ extern "C" {
+     #[doc = " @brief Append an alert.\n\n An FP-check will verify that the file is not allowed.\n The allow list check does not happen before the scan because allowing files\n is so infrequent that such action would be detrimental to performance.\n\n TODO: Replace implementation with severity scale, and severity threshold\n wherein signatures that do not meet the threshold are documented in JSON\n metadata but do not halt the scan.\n\n @param ctx       The scan context.\n @param virname   The alert name.\n @return cl_error_t CL_VIRUS if scan should be halted due to an alert, CL_CLEAN if scan should continue."]
+@@ -790,9 +797,10 @@ extern "C" {
+     ) -> cl_error_t;
+ }
+ extern "C" {
++    #[doc = " @brief If the SCAN_HEURISTIC_EXCEEDS_MAX option is enabled, append a \"potentially unwanted\" indicator.\n\n There is no return value because the caller should select the appropriate \"CL_EMAX*\" error code regardless\n of whether or not an FP sig is found, or allmatch is enabled, or whatever.\n That is, the scan must not continue because of an FP sig.\n\n @param ctx       The scan context.\n @param virname   The name of the potentially unwanted indicator."]
+     pub fn cli_append_potentially_unwanted_if_heur_exceedsmax(
+         ctx: *mut cli_ctx,
+-        vname: *mut ::std::os::raw::c_char,
++        virname: *mut ::std::os::raw::c_char,
+     );
+ }
+ extern "C" {
+@@ -871,9 +879,10 @@ pub struct cli_ac_data {
+     pub partsigs: u32,
+     pub lsigs: u32,
+     pub reloffsigs: u32,
+-    pub lsigcnt: *mut *mut u32,
+-    pub lsigsuboff_last: *mut *mut u32,
+-    pub lsigsuboff_first: *mut *mut u32,
++    pub lsigcnt: *mut u32,
++    pub lsigsuboff_last: *mut u32,
++    pub lsigsuboff_first: *mut u32,
++    pub lsig_row_offsets: *const u32,
+     pub lsig_matches: *mut *mut cli_lsig_matches,
+     pub yr_matches: *mut u8,
+     pub offset: *mut u32,
+@@ -908,31 +917,36 @@ pub union cli_ac_special__bindgen_ty_1 {
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+-pub struct cli_ac_patt {
+-    pub pattern: *mut u16,
+-    pub prefix: *mut u16,
+-    pub length: [u16; 3usize],
+-    pub prefix_length: [u16; 3usize],
++pub struct cli_ac_patt_ext {
++    pub customdata: *mut ::std::os::raw::c_void,
++    pub special_table: *mut *mut cli_ac_special,
+     pub mindist: u32,
+     pub maxdist: u32,
+-    pub sigid: u32,
+-    pub lsigid: [u32; 3usize],
++    pub boundary: u32,
++    pub special: u16,
++    pub special_pattern: u16,
+     pub ch: [u16; 2usize],
+-    pub virname: *mut ::std::os::raw::c_char,
+-    pub customdata: *mut ::std::os::raw::c_void,
+     pub ch_mindist: [u16; 2usize],
+     pub ch_maxdist: [u16; 2usize],
++}
++#[repr(C)]
++#[derive(Debug, Copy, Clone)]
++pub struct cli_ac_patt {
++    pub pattern: *mut u16,
++    pub prefix: *mut u16,
++    pub ext: *mut cli_ac_patt_ext,
++    pub virname: *mut ::std::os::raw::c_char,
++    pub sigid: u32,
++    pub lsigid: [u32; 3usize],
++    pub offdata: [u32; 4usize],
++    pub offset_min: u32,
++    pub offset_max: u32,
++    pub length: [u16; 3usize],
++    pub prefix_length: [u16; 3usize],
+     pub parts: u16,
+     pub partno: u16,
+-    pub special: u16,
+-    pub special_pattern: u16,
+-    pub special_table: *mut *mut cli_ac_special,
+     pub rtype: u16,
+     pub type_: u16,
+-    pub offdata: [u32; 4usize],
+-    pub offset_min: u32,
+-    pub offset_max: u32,
+-    pub boundary: u32,
+     pub depth: u8,
+     pub sigopts: u8,
+ }
+@@ -941,19 +955,26 @@ pub struct cli_ac_patt {
+ pub struct cli_ac_list {
+     pub me: *mut cli_ac_patt,
+     pub __bindgen_anon_1: cli_ac_list__bindgen_ty_1,
+-    pub next_same: *mut cli_ac_list,
++    pub __bindgen_anon_2: cli_ac_list__bindgen_ty_2,
+ }
+ #[repr(C)]
+ #[derive(Copy, Clone)]
+ pub union cli_ac_list__bindgen_ty_1 {
+     pub node: *mut cli_ac_node,
+     pub next: *mut cli_ac_list,
++    pub head_order: usize,
++}
++#[repr(C)]
++#[derive(Copy, Clone)]
++pub union cli_ac_list__bindgen_ty_2 {
++    pub next_same: *mut cli_ac_list,
++    pub source_order: usize,
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+ pub struct cli_ac_node {
+     pub list: *mut cli_ac_list,
+-    pub trans: *mut *mut cli_ac_node,
++    pub trans: *mut cli_ac_transition_t,
+     pub fail: *mut cli_ac_node,
+ }
+ #[repr(C)]
+@@ -1147,10 +1168,14 @@ pub struct cli_matcher {
+     pub bcomp_metatable: *mut *mut cli_bcomp_meta,
+     pub fuzzy_hashmap: fuzzyhashmap_t,
+     pub linked_bcs: u32,
+-    pub trans_array: *mut *mut *mut cli_ac_node,
++    pub ac_nodeidx: *mut *mut cli_ac_node,
++    pub trans_array: *mut *mut cli_ac_transition_t,
+     pub trans_cnt: usize,
+     pub trans_capacity: usize,
+     pub mempool: *mut mpool_t,
++    pub ac_lsig_offsets: *mut u32,
++    pub ac_lsig_slots: usize,
++    pub ac_flatnodes: *mut cli_ac_node,
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
+@@ -1239,6 +1264,11 @@ pub struct CACHE {
+ }
+ #[repr(C)]
+ #[derive(Debug, Copy, Clone)]
++pub struct _yara_global {
++    pub _address: u8,
++}
++#[repr(C)]
++#[derive(Debug, Copy, Clone)]
+ pub struct filter {
+     pub _address: u8,
+ }
+diff --git a/tools/compact-memory/check_layout.py b/tools/compact-memory/check_layout.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..1563d7468d651d221c2b554c042e7d0c81353863
+--- /dev/null
++++ b/tools/compact-memory/check_layout.py
+@@ -0,0 +1,59 @@
++#!/usr/bin/env python3
++"""Compare the C/Rust record layouts affected by the compact matcher changes."""
++import argparse
++from pathlib import Path
++import subprocess
++import tempfile
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--build', type=Path, required=True)
++    parser.add_argument('--include', type=Path, action='append', default=[])
++    args = parser.parse_args()
++    source = Path(__file__).resolve().parents[2]
++    build = args.build.resolve()
++    fields = {
++        'cli_ac_list': [],
++        'cli_hash_patt': ['sizehashes'],
++        'cli_matcher': ['ac_nodes', 'ac_lsigtable', 'ac_root', 'ac_nodetable',
++                        'fuzzy_hashmap', 'ac_nodeidx', 'trans_array', 'ac_lsig_offsets', 'ac_lsig_slots',
++                        'ac_flatnodes'],
++        'cli_ac_lsig': ['id', 'bc_idx', 'type', 'flag', 'u', 'virname', 'tdb'],
++        'cli_ac_data': ['lsigcnt', 'lsigsuboff_first', 'lsigsuboff_last', 'lsig_row_offsets'],
++        'cli_ac_patt': ['pattern', 'ext', 'virname', 'lsigid', 'sigopts'],
++        'cli_ac_patt_ext': ['customdata', 'special_table', 'mindist', 'ch'],
++        'cli_ac_node': ['list', 'trans', 'fail'],
++    }
++    c = ['#include <stdio.h>', '#include <stddef.h>', '#include "matcher-ac.h"', 'int main(void) {']
++    rust = [f'#[path = "{source / "libclamav_rust/src/sys.rs"}"] mod sys;',
++            'fn main() {']
++    for struct, members in fields.items():
++        c.append(f'printf("{struct}.sizeof=%zu\\n", sizeof(struct {struct}));')
++        rust.append(f'println!("{struct}.sizeof={{}}", std::mem::size_of::<sys::{struct}>());')
++        for member in members:
++            c.append(f'printf("{struct}.{member}=%zu\\n", offsetof(struct {struct}, {member}));')
++            rust_member = member + '_' if member == 'type' else member
++            rust.append(f'println!("{struct}.{member}={{}}", std::mem::offset_of!(sys::{struct}, {rust_member}));')
++    c.append('return 0; }')
++    rust.append('}')
++    with tempfile.TemporaryDirectory(prefix='clamav-layout-') as name:
++        temp = Path(name)
++        (temp / 'layout.c').write_text('\n'.join(c))
++        (temp / 'layout.rs').write_text('\n'.join(rust))
++        includes = [build, build / 'libclamav', source / 'libclamav',
++                    source / 'libclamunrar_iface', source / 'libclammspack', *args.include]
++        subprocess.run(['cc', '-DHAVE_CONFIG_H', *['-I' + str(p) for p in includes],
++                        str(temp / 'layout.c'), '-o', str(temp / 'c')], check=True)
++        subprocess.run(['rustc', '-A', 'warnings', str(temp / 'layout.rs'),
++                        '-o', str(temp / 'rust')], check=True)
++        expected = subprocess.check_output([str(temp / 'c')], text=True)
++        actual = subprocess.check_output([str(temp / 'rust')], text=True)
++        if actual != expected:
++            raise SystemExit('C/Rust ABI mismatch\nC:\n' + expected + '\nRust:\n' + actual)
++        print(expected, end='')
++        print('All affected record sizes and field offsets agree.')
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/tools/compact-memory/test_mpool_flush.py b/tools/compact-memory/test_mpool_flush.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..db12c694f793950090733a6a63a4790f0e9a2dbc
+--- /dev/null
++++ b/tools/compact-memory/test_mpool_flush.py
+@@ -0,0 +1,207 @@
++#!/usr/bin/env python3
++"""Regression test of production mpool_flush: page release, failures and reuse.
++
++Linux harness with minimal compatibility headers and original allocator code.
++Run with SOURCE [--sanitize] [--no-advice]; no cloned purge implementation.
++"""
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import platform
++import shutil
++import subprocess
++import tempfile
++
++HEADERS = {'clamav.h': '#include <stdint.h>\nstruct cl_engine { struct MP *mempool; };\n', 'clamav-types.h': '#include <stdint.h>\n#include <stddef.h>\n', 'others.h': '\n#include <stdio.h>\n#include <stdlib.h>\n#include <stdarg.h>\n#define UNUSEDPARAM(x) ((void)(x))\n#define CLI_STRNLEN strnlen\nstruct unaligned_ptr { void *ptr; } __attribute__((packed));\nstatic size_t cli_getpagesize(void) { return (size_t)sysconf(_SC_PAGESIZE); }\nstatic void cli_errmsg(const char *s, ...) {\n    va_list a; va_start(a,s); vfprintf(stderr,s,a); va_end(a);\n}\n#define cli_dbgmsg(...) ((void)0)\n', 'str.h': 'int cli_hex2str_to(const char *, char *, size_t);\nint cli_realhex2ui(const char *, uint16_t *, unsigned int, size_t *);\n', 'readdb.h': '/* No definitions needed by mpool.c. */\n'}
++
++HARNESS = r'''
++#include <assert.h>
++#include <inttypes.h>
++#include <errno.h>
++#include <sys/mman.h>
++#include <sys/syscall.h>
++#include <unistd.h>
++#include <stddef.h>
++struct purge_stats { size_t fragments, calls, bytes, failures; };
++static struct purge_stats stats;
++static int fail_advice;
++static int test_madvise(void *p, size_t size, int advice) {
++    ++stats.calls;
++    if (fail_advice) { ++stats.failures; errno=EINVAL; return -1; }
++    int result = (int)syscall(SYS_madvise,p,size,advice);
++    if (result==0) stats.bytes+=size; else ++stats.failures;
++    return result;
++}
++#define madvise test_madvise
++#include "mpool.c"
++#undef madvise
++
++static struct purge_stats run_flush(mpool_t *mp) {
++    stats = (struct purge_stats){0};
++    for (unsigned b=0; b<FRAGSBITS; ++b)
++        for (struct FRAG *f=mp->avail[b]; f; f=f->u.next.ptr) ++stats.fragments;
++    mpool_flush(mp);
++    return stats;
++}
++
++static size_t rss_kib(void) {
++    FILE *f = fopen("/proc/self/smaps_rollup", "r");
++    assert(f);
++    char line[512]; size_t rss = 0;
++    while (fgets(line, sizeof(line), f))
++        if (sscanf(line, "Rss: %zu kB", &rss) == 1) break;
++    fclose(f); assert(rss); return rss;
++}
++
++static void check_bytes(const unsigned char *p, size_t n, unsigned char value) {
++    for (size_t i = 0; i < n; ++i) assert(p[i] == value);
++}
++
++struct free_node { struct FRAG *base, *next; unsigned bucket; };
++static size_t snapshot(mpool_t *mp, struct free_node *nodes, size_t capacity) {
++    size_t n = 0;
++    for (unsigned b = 0; b < FRAGSBITS; ++b)
++        for (struct FRAG *f = mp->avail[b]; f; f = f->u.next.ptr) {
++            assert(n < capacity);
++            nodes[n++] = (struct free_node){f, f->u.next.ptr, b};
++        }
++    return n;
++}
++static void check_snapshot(mpool_t *mp, struct free_node *nodes, size_t n) {
++    size_t i = 0;
++    for (unsigned b = 0; b < FRAGSBITS; ++b)
++        for (struct FRAG *f = mp->avail[b]; f; f = f->u.next.ptr) {
++            assert(i < n && nodes[i].base == f && nodes[i].bucket == b);
++            assert(nodes[i].next == f->u.next.ptr); ++i;
++        }
++    assert(i == n);
++}
++
++int main(void) {
++    enum {N = 32, SMALL = 128};
++    const size_t large_size = 1048512;
++    mpool_t *mp = mpool_create(); assert(mp);
++    unsigned char *live[N], *large[N], *small[SMALL];
++    struct free_node nodes[256];
++    for (int i = 0; i < N; ++i) {
++        live[i] = mpool_malloc(mp, 193); assert(live[i]);
++        memset(live[i], 0x31 + i, 193);
++    }
++    for (int i = 0; i < SMALL; ++i) {
++        small[i] = mpool_malloc(mp, 97); assert(small[i]);
++        memset(small[i], 0x7d, 97);
++    }
++    for (int i = 0; i < SMALL; i += 2) mpool_free(mp, small[i]);
++    size_t n = snapshot(mp, nodes, 256);
++    struct purge_stats small_stats = run_flush(mp);
++    assert(small_stats.fragments == SMALL/2 && small_stats.calls == 0);
++    check_snapshot(mp, nodes, n);
++    for (int i = 1; i < SMALL; i += 2) check_bytes(small[i], 97, 0x7d);
++
++    for (int i = 0; i < N; ++i) {
++        large[i] = mpool_malloc(mp, large_size); assert(large[i]);
++        memset(large[i], 0xa5, large_size);
++    }
++    /* Add irregular sizes whose page edges must not overwrite neighboring data. */
++    const size_t sizes[] = {3753,4093,8191,16384,63500,65536};
++    unsigned char *edges[6], *guards[6];
++    for (int i = 0; i < 6; ++i) {
++        edges[i] = mpool_malloc(mp, sizes[i]); assert(edges[i]);
++        memset(edges[i], 0x99, sizes[i]);
++        guards[i] = mpool_malloc(mp, 101); assert(guards[i]);
++        memset(guards[i], 0x6a, 101);
++    }
++    for (int i = 0; i < 6; ++i) mpool_free(mp, edges[i]);
++    for (int i = 0; i < N; ++i) mpool_free(mp, large[i]);
++    fail_advice=1;
++    errno=ERANGE;
++    struct purge_stats rejected=run_flush(mp);
++    assert(errno==ERANGE && rejected.bytes==0);
++#ifdef HAVE_MADVISE
++    assert(rejected.failures>0);
++#else
++    assert(rejected.calls==0);
++#endif
++    fail_advice=0;
++    (void)rss_kib();
++    n = snapshot(mp, nodes, 256);
++    size_t before = rss_kib();
++    struct purge_stats s = run_flush(mp);
++    size_t after = rss_kib();
++    #ifdef HAVE_MADVISE
++    assert(s.calls > 0 && s.failures == 0 && s.bytes > 31u*1024u*1024u);
++#else
++    assert(s.calls == 0 && s.bytes == 0);
++#endif
++    check_snapshot(mp, nodes, n);
++    for (int i = 0; i < N; ++i) check_bytes(live[i], 193, 0x31 + i);
++    for (int i = 0; i < 6; ++i) check_bytes(guards[i], 101, 0x6a);
++    for (int i = 1; i < SMALL; i += 2) check_bytes(small[i], 97, 0x7d);
++
++    /* Repeat purge without mutation: free links must remain valid. */
++    struct purge_stats again = run_flush(mp);
++    assert(again.bytes == s.bytes && again.failures == 0);
++    check_snapshot(mp, nodes, n);
++
++    /* Same free-list pop sequence and user addresses after physical reclamation. */
++    for (int i = N-1; i >= 0; --i) {
++        unsigned char *p = mpool_malloc(mp, large_size);
++        assert(p == large[i]);
++        memset(p, 0x42, large_size);
++        check_bytes(p, large_size, 0x42);
++    }
++    for (int i = 0; i < N; ++i) mpool_free(mp, large[i]);
++    assert(run_flush(mp).failures == 0);
++    for (int i = N-1; i >= 0; --i) {
++        unsigned char *p = mpool_calloc(mp, 1, large_size);
++        assert(p == large[i]); check_bytes(p, large_size, 0);
++        large[i] = p;
++    }
++    for (int i = 0; i < N; ++i) check_bytes(live[i], 193, 0x31 + i);
++    for (int i = 0; i < 6; ++i) check_bytes(guards[i], 101, 0x6a);
++    printf("{\"page_bytes\":%zu,\"fragments\":%zu,\"advice_calls\":%zu,"
++           "\"advised_bytes\":%zu,\"advice_failures\":%zu,\"rss_before_kib\":%zu,"
++           "\"rss_after_kib\":%zu,\"rss_reduction_kib\":%zd,"
++           "\"small_only_advice_calls\":%zu,\"checks\":\"passed\"}\n",
++           mp->psize,s.fragments,s.calls,s.bytes,s.failures,before,after,
++           (ssize_t)before-(ssize_t)after,small_stats.calls);
++    mpool_destroy(mp);
++    return 0;
++}
++'''
++
++def main():
++    p = argparse.ArgumentParser(description=__doc__)
++    p.add_argument("source", type=Path)
++    p.add_argument("--sanitize", action="store_true")
++    p.add_argument("--no-advice", action="store_true")
++    args = p.parse_args()
++    source = args.source.resolve() / "libclamav" / "mpool.c"
++    with tempfile.TemporaryDirectory(prefix="mpool-reconsideration-") as temp:
++        work = Path(temp)
++        shutil.copy2(source, work / "mpool.c")
++        shutil.copy2(source.with_name("mpool.h"), work / "mpool.h")
++        for name, content in HEADERS.items():
++            (work / name).write_text(content)
++        (work / "probe.c").write_text(HARNESS)
++        flags = ["-std=c11", "-D_DEFAULT_SOURCE", "-DUSE_MPOOL", "-DHAVE_UNISTD_H=1",
++                 "-DHAVE_STRING_H=1", "-DHAVE_MMAP=1", "-DHAVE_SYS_MMAN_H=1",
++                 "-DSIZEOF_VOID_P=8", "-DC_LINUX=1", "-DANONYMOUS_MAP=MAP_ANONYMOUS",
++                 "-ffunction-sections", "-fdata-sections", "-Wl,--gc-sections"]
++        if not args.no_advice:
++            flags += ["-DHAVE_MADVISE=1"]
++        flags += (["-O1", "-g", "-fno-omit-frame-pointer", "-fsanitize=address,undefined"]
++                  if args.sanitize else ["-O2"])
++        subprocess.run(["cc", *flags, "probe.c", "-o", "probe"], cwd=work, check=True)
++        runs = [json.loads(subprocess.check_output([str(work/"probe")], text=True))
++                for _ in range(1 if args.sanitize else 3)]
++    print(json.dumps({"scope":"production mpool_flush isolated regression",
++                      "mpool_source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
++                      "platform":platform.platform(), "compiler":subprocess.check_output(
++                          ["cc","--version"],text=True).splitlines()[0],
++                      "sanitized":args.sanitize, "advice_enabled":not args.no_advice, "asan_options":os.environ.get("ASAN_OPTIONS"), "runs":runs}, indent=2))
++
++if __name__ == "__main__":
++    main()
+diff --git a/unit_tests/check_matchers.c b/unit_tests/check_matchers.c
+index f35f58f9b2607129aaa145c4f1aefba34589811d..e9302ace3b8c76664f1ba679ca8455dbc5e99a24 100644
+--- a/unit_tests/check_matchers.c
++++ b/unit_tests/check_matchers.c
+@@ -32,6 +32,7 @@
+ #include "matcher.h"
+ #include "matcher-ac.h"
+ #include "matcher-bm.h"
++#include "matcher-byte-comp.h"
+ #include "matcher-pcre.h"
+ #include "others.h"
+ #include "default.h"
+@@ -198,6 +199,288 @@ static void teardown(void)
+     free(ctx.recursion_stack);
+ }
+ 
++/* Allocation addresses intentionally run opposite to source order. Repeated
++ * names must remain distinct occurrences, and equally sized candidate heads
++ * must use the same source policy as each next_same chain. */
++START_TEST(test_ac_source_occurrence_order)
++{
++    enum { COUNT = 18 };
++    struct cli_matcher *root = ctx.engine->root[0];
++    struct cli_ac_patt *patterns[COUNT];
++    struct cli_ac_patt records[COUNT];
++    static const char *hex[] = {"41424344??46", "414243??4546", "414243444546"};
++    struct cli_ac_node *node;
++    struct cli_ac_list *head, *entry;
++    unsigned i, j, group;
++    const unsigned char anchor[] = "ABC";
++
++    root->ac_only = 1;
++    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
++    for (i = 0; i < COUNT; i++) {
++        ck_assert_int_eq(cli_add_content_match_pattern(root, "Source.Repeated", hex[i % 3],
++                                                       0, 0, 0, "*", NULL, 0), CL_SUCCESS);
++        patterns[i] = root->ac_pattable[i];
++        patterns[i]->sigid = i;
++        records[i] = *patterns[i];
++    }
++    /* Sort only the fixture's allocation addresses, largest first. */
++    for (i = 1; i < COUNT; i++) {
++        struct cli_ac_patt *p = patterns[i];
++        for (j = i; j && (uintptr_t)patterns[j - 1] < (uintptr_t)p; j--)
++            patterns[j] = patterns[j - 1];
++        patterns[j] = p;
++    }
++    /* Relocate only this fixture's already-created records to reverse their
++     * addresses, keeping every owned payload and source occurrence intact. All
++     * records share the ABC trie anchor and have no relative-offset aliases. */
++    for (i = 0; i < COUNT; i++) {
++        *patterns[i] = records[i];
++        root->ac_pattable[i] = patterns[i];
++    }
++    for (i = 0; i < root->ac_lists; i++) {
++        struct cli_ac_list *item = root->ac_listtable[i];
++        ck_assert_uint_lt(item->source_order, COUNT);
++        item->me = patterns[item->source_order];
++    }
++    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
++    node = root->ac_root;
++    for (i = 0; i < sizeof(anchor) - 1; i++) {
++#ifdef CLI_AC_FLAT_NODES
++        node = root->ac_flatnodes + node->trans[anchor[i]];
++#elif defined(CLI_AC_NODE_IDS)
++        node = root->ac_nodeidx[node->trans[anchor[i]]];
++#else
++        node = node->trans[anchor[i]];
++#endif
++    }
++    head = node->list;
++    for (group = 0; group < 3; group++) {
++        ck_assert_ptr_nonnull(head);
++        entry = head;
++        for (i = group; i < COUNT; i += 3) {
++            ck_assert_ptr_nonnull(entry);
++            ck_assert_uint_eq(entry->me->sigid, i);
++            if (entry != head) ck_assert_ptr_null(entry->next);
++            entry = entry->next_same;
++        }
++        ck_assert_ptr_null(entry);
++        head = head->next;
++    }
++    ck_assert_ptr_null(head);
++}
++END_TEST
++
++START_TEST(test_ac_compact_lsig_state)
++{
++    struct cli_matcher root    = {0};
++    struct cli_ac_lsig sigs[9] = {{0}};
++    struct cli_ac_lsig *table[10];
++    struct cli_bcomp_meta bytecomp     = {0};
++    struct cli_bcomp_meta *bytecomps[] = {&bytecomp};
++    struct cli_ac_data compact, independent, legacy;
++#ifdef ENABLE_COMPACT_LSIG_STATE
++    const unsigned widths[] = {1, 3, 64, 64, 64, 64, 64, 64, 64, 64};
++#else
++    const unsigned widths[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
++#endif
++    uint32_t macro = 0;
++    size_t slots = 0, pos = 0;
++    unsigned i, j;
++
++    for (i = 0; i < 9; i++) {
++        table[i]     = &sigs[i];
++        sigs[i].type = CLI_LSIG_NORMAL;
++    }
++    table[9]                = NULL;
++    sigs[0].tdb.subsigs     = 1;
++    sigs[1].tdb.subsigs     = 3;
++    sigs[2].tdb.subsigs     = 64;
++    sigs[3].tdb.subsigs     = 6;
++    sigs[3].bc_idx          = 1;
++    sigs[4].tdb.subsigs     = 4;
++    sigs[4].type            = CLI_YARA_NORMAL;
++    sigs[5].tdb.subsigs     = 2;
++    sigs[5].tdb.macro_ptids = &macro;
++    sigs[7].tdb.subsigs     = 65;
++    sigs[8].tdb.subsigs     = 2;
++    bytecomp.lsigid[0]      = 1;
++    bytecomp.lsigid[1]      = 8;
++    bytecomp.ref_subsigid   = 63;
++    root.bcomp_metas        = 1;
++    root.bcomp_metatable    = bytecomps;
++    root.ac_lsigs           = 10;
++    root.ac_lsigtable       = table;
++#ifdef USE_MPOOL
++    root.mempool = mpool_create();
++    ck_assert_ptr_nonnull(root.mempool);
++#endif
++    ck_assert_int_eq(cli_ac_init(&root, 2, 3, 0), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_buildtrie(&root), CL_SUCCESS);
++    for (i = 0; i < 10; i++) {
++#ifdef ENABLE_COMPACT_LSIG_STATE
++        ck_assert_uint_eq((root.ac_lsig_offsets[i + 1] - root.ac_lsig_offsets[i]), widths[i]);
++#else
++        ck_assert_ptr_null(root.ac_lsig_offsets);
++#endif
++        slots += widths[i];
++    }
++#ifdef ENABLE_COMPACT_LSIG_STATE
++    ck_assert_uint_eq(root.ac_lsig_slots, slots);
++#endif
++    ck_assert_int_eq(cli_ac_initdata_for_matcher(&compact, &root), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_initdata_for_matcher(&independent, &root), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_initdata(&legacy, 0, 10, 0, CLI_DEFAULT_AC_TRACKLEN), CL_SUCCESS);
++    ck_assert_ptr_eq(compact.lsig_row_offsets, root.ac_lsig_offsets);
++    ck_assert_ptr_eq(independent.lsig_row_offsets, root.ac_lsig_offsets);
++    ck_assert_ptr_null(legacy.lsig_row_offsets);
++    for (i = 0; i < 10; i++) {
++        ck_assert_ptr_eq(cli_ac_lsig_counts(&compact, i), cli_ac_lsig_counts(&compact, 0) + pos);
++        ck_assert_ptr_eq(cli_ac_lsig_first(&compact, i), cli_ac_lsig_first(&compact, 0) + pos);
++        ck_assert_ptr_eq(cli_ac_lsig_last(&compact, i), cli_ac_lsig_last(&compact, 0) + pos);
++        ck_assert_ptr_eq(cli_ac_lsig_counts(&legacy, i), cli_ac_lsig_counts(&legacy, 0) + i * 64);
++        for (j = 0; j < widths[i]; j++) {
++            ck_assert_uint_eq(cli_ac_lsig_counts(&compact, i)[j], 0);
++            ck_assert_uint_eq(cli_ac_lsig_first(&compact, i)[j], CLI_OFF_NONE);
++            ck_assert_uint_eq(cli_ac_lsig_last(&compact, i)[j], CLI_OFF_NONE);
++        }
++        /* Writing the end of one row must not overwrite the next row,
++         * nor any state belonging to another scan of the same engine. */
++        cli_ac_lsig_counts(&compact, i)[widths[i] - 1] = 100 + i;
++        cli_ac_lsig_first(&compact, i)[widths[i] - 1]  = 200 + i;
++        cli_ac_lsig_last(&compact, i)[widths[i] - 1]   = 300 + i;
++        ck_assert_uint_eq(cli_ac_lsig_counts(&independent, i)[widths[i] - 1], 0);
++        ck_assert_uint_eq(cli_ac_lsig_first(&independent, i)[widths[i] - 1], CLI_OFF_NONE);
++        ck_assert_uint_eq(cli_ac_lsig_last(&independent, i)[widths[i] - 1], CLI_OFF_NONE);
++        pos += widths[i];
++    }
++    cli_ac_freedata(&compact);
++    cli_ac_freedata(&independent);
++    cli_ac_freedata(&legacy);
++    cli_ac_free(&root);
++#ifdef USE_MPOOL
++    mpool_destroy(root.mempool);
++#endif
++    ck_assert_int_eq(cli_ac_initdata_for_matcher(&compact, NULL), CL_SUCCESS);
++    cli_ac_freedata(&compact);
++    ck_assert_int_eq(cli_ac_buildtrie(NULL), CL_EMALFDB);
++}
++END_TEST
++
++/* Run the same stateful matcher with compact and legacy storage. This checks
++ * duplicate suppression, overlapping windows, suffix outputs, case folding,
++ * wildcard verification, and the highest legal subsignature ID. */
++START_TEST(test_ac_compact_scan_equivalence)
++{
++    static const unsigned widths[] = {1, 64, 3};
++    static const struct {
++        const char *hex;
++        uint32_t lsig, subsig;
++        uint8_t options;
++    } patterns[] = {
++        {"6162636465", 0, 0, 0},
++        {"6162636465", 1, 63, 0},
++        {"62636465", 2, 0, 0},
++        {"6162636465", 2, 1, ACPATT_OPTION_NOCASE},
++        {"6162??6465", 2, 2, 0},
++    };
++    static const unsigned char input[] = "abcde--ABCDE--abXde--abcde--bcde";
++    struct cli_matcher *root           = ctx.engine->root[0];
++    struct cli_ac_data compact, legacy;
++    uint32_t ids[2];
++    unsigned i, j, pass;
++
++    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
++    root->ac_lsigtable = MPOOL_CALLOC(root->mempool, 3, sizeof(*root->ac_lsigtable));
++    ck_assert_ptr_nonnull(root->ac_lsigtable);
++    for (i = 0; i < 3; i++) {
++        struct cli_ac_lsig *sig = MPOOL_CALLOC(root->mempool, 1, sizeof(*sig));
++        ck_assert_ptr_nonnull(sig);
++        sig->type                            = CLI_LSIG_NORMAL;
++        sig->tdb.subsigs                     = widths[i];
++        sig->id                              = i;
++        root->ac_lsigtable[root->ac_lsigs++] = sig;
++    }
++    for (i = 0; i < sizeof(patterns) / sizeof(patterns[0]); i++) {
++        ids[0] = patterns[i].lsig;
++        ids[1] = patterns[i].subsig;
++        ck_assert_int_eq(cli_add_content_match_pattern(root, "CompactEquivalence", patterns[i].hex,
++                                                       patterns[i].options, 0, 0, "*", ids, 0),
++                         CL_SUCCESS);
++    }
++    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
++#ifdef CLI_AC_FLAT_NODES
++    ck_assert_ptr_nonnull(root->ac_flatnodes);
++    ck_assert_ptr_eq(root->ac_root, root->ac_flatnodes + 1);
++    ck_assert_ptr_null(root->ac_nodeidx);
++    ck_assert_ptr_null(root->ac_nodetable);
++    for (i = 1; i < root->ac_nodes + 2; i++) {
++        const struct cli_ac_node *node = root->ac_flatnodes + i;
++        if (node->fail) {
++            uintptr_t fail = (uintptr_t)node->fail;
++            ck_assert_msg(fail >= (uintptr_t)(root->ac_flatnodes + 1) &&
++                              fail < (uintptr_t)(root->ac_flatnodes + root->ac_nodes + 2),
++                          "failure pointer must reference the packed arena");
++        }
++        for (j = 0; j < 256; j++) {
++            ck_assert_msg(node->trans[j] > 0 && node->trans[j] < root->ac_nodes + 2,
++                          "completed transition must be a valid arena index");
++        }
++    }
++#else
++    ck_assert_ptr_null(root->ac_flatnodes);
++    ck_assert_ptr_nonnull(root->ac_nodeidx);
++#endif
++    /* Every retained list link must refer to a list, never a discarded build
++     * node, including the last member of a next_same chain. */
++    for (i = 0; i < root->ac_lists; i++) {
++        struct cli_ac_list *next = root->ac_listtable[i]->next;
++        if (!next) continue;
++        for (j = 0; j < root->ac_lists && root->ac_listtable[j] != next; j++) {
++        }
++        ck_assert_msg(j < root->ac_lists, "compiled list retained a construction pointer");
++    }
++    ck_assert_int_eq(cli_ac_initdata_for_matcher(&compact, root), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_initdata(&legacy, root->ac_partsigs, root->ac_lsigs,
++                                     root->ac_reloff_num, CLI_DEFAULT_AC_TRACKLEN),
++                     CL_SUCCESS);
++    for (pass = 0; pass < 4; pass++) {
++        /* Repeat the first window, then overlap it, then advance. */
++        uint32_t offset = pass < 2 ? 0 : (pass == 2 ? 7 : 100);
++        ck_assert_int_eq(cli_ac_scanbuff(input, sizeof(input) - 1, NULL, NULL, NULL,
++                                         root, &compact, offset, 0, NULL, AC_SCAN_VIR, NULL),
++                         CL_CLEAN);
++        ck_assert_int_eq(cli_ac_scanbuff(input, sizeof(input) - 1, NULL, NULL, NULL,
++                                         root, &legacy, offset, 0, NULL, AC_SCAN_VIR, NULL),
++                         CL_CLEAN);
++        for (i = 0; i < 3; i++) {
++            for (j = 0; j < widths[i]; j++) {
++                ck_assert_uint_eq(cli_ac_lsig_counts(&compact, i)[j], cli_ac_lsig_counts(&legacy, i)[j]);
++                ck_assert_uint_eq(cli_ac_lsig_first(&compact, i)[j], cli_ac_lsig_first(&legacy, i)[j]);
++                ck_assert_uint_eq(cli_ac_lsig_last(&compact, i)[j], cli_ac_lsig_last(&legacy, i)[j]);
++            }
++        }
++    }
++    ck_assert_uint_gt(cli_ac_lsig_counts(&compact, 0)[0], 0);
++    ck_assert_uint_eq(cli_ac_lsig_counts(&compact, 0)[0], cli_ac_lsig_counts(&compact, 1)[63]);
++    ck_assert_uint_gt(cli_ac_lsig_counts(&compact, 2)[2], 0);
++
++    /* Offsets keep their full uint32_t range, including zero and both
++     * reserved values; the original update routine defines the semantics. */
++    {
++        const uint32_t offsets[] = {0, 0, 1, UINT32_MAX - 2, CLI_OFF_NONE, CLI_OFF_ANY};
++        for (i = 0; i < sizeof(offsets) / sizeof(offsets[0]); i++) {
++            ck_assert_int_eq(lsig_sub_matched(root, &compact, 1, 63, offsets[i], i & 1), CL_SUCCESS);
++            ck_assert_int_eq(lsig_sub_matched(root, &legacy, 1, 63, offsets[i], i & 1), CL_SUCCESS);
++            ck_assert_uint_eq(cli_ac_lsig_counts(&compact, 1)[63], cli_ac_lsig_counts(&legacy, 1)[63]);
++            ck_assert_uint_eq(cli_ac_lsig_last(&compact, 1)[63], cli_ac_lsig_last(&legacy, 1)[63]);
++        }
++    }
++    cli_ac_freedata(&compact);
++    cli_ac_freedata(&legacy);
++    cli_ac_freedata(&compact); /* Cleanup is safe after partial/complete cleanup. */
++}
++END_TEST
++
+ START_TEST(test_ac_logical_pattern_does_not_keep_borrowed_virname)
+ {
+     struct cli_matcher *root;
+@@ -225,6 +508,38 @@ START_TEST(test_ac_logical_pattern_does_not_keep_borrowed_virname)
+ }
+ END_TEST
+ 
++START_TEST(test_ac_compact_allocation_boundaries)
++{
++    struct cli_matcher *root   = ctx.engine->root[0];
++    struct cli_ac_data partial = {0};
++    cl_error_t status;
++
++    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
++    /* An unrepresentable next ID must fail before accessing the node table,
++     * and the rejected pattern must not become owned by the trie. */
++    root->ac_nodes = UINT32_MAX - 1;
++    root->ac_only  = 1;
++    status         = cli_add_content_match_pattern(root, "Overflow", "61626364", 0, 0, 0, "*", NULL, 0);
++    root->ac_nodes = 0;
++    ck_assert_int_eq(status, CL_EMEM);
++    ck_assert_uint_eq(root->ac_patterns, 0);
++
++    /* Model failure after some, but not all, scan-state allocations. */
++    partial.partsigs         = 4;
++    partial.reloffsigs       = 2;
++    partial.lsigs            = 2;
++    partial.lsigcnt          = calloc(128, sizeof(*partial.lsigcnt));
++    partial.lsigsuboff_first = calloc(128, sizeof(*partial.lsigsuboff_first));
++    ck_assert_ptr_nonnull(partial.lsigcnt);
++    ck_assert_ptr_nonnull(partial.lsigsuboff_first);
++    cli_ac_freedata(&partial);
++    ck_assert_ptr_null(partial.lsigcnt);
++    ck_assert_uint_eq(partial.lsigs, 0);
++    cli_ac_freedata(&partial);
++    ck_assert_int_eq(cli_ac_initdata_for_matcher(NULL, root), CL_ENULLARG);
++}
++END_TEST
++
+ START_TEST(test_ac_scanbuff)
+ {
+     struct cli_ac_data mdata;
+@@ -349,8 +664,8 @@ START_TEST(test_ac_native_hex_negation_representation)
+      * special-alternate representation used by !(...).
+      */
+     ck_assert_uint_eq(pattern->prefix_length[0] + pattern->length[0], 7);
+-    ck_assert_uint_eq(pattern->special, 0);
+-    ck_assert_ptr_null(pattern->special_table);
++    ck_assert_uint_eq(AC_EXT_SPECIAL(pattern), 0);
++    ck_assert_ptr_null(AC_EXT_SPECIAL_TABLE(pattern));
+     ck_assert_uint_eq(tokens[2] & CLI_MATCH_METADATA, CLI_MATCH_NOT_BYTE);
+     ck_assert_uint_eq(tokens[3] & CLI_MATCH_METADATA, CLI_MATCH_NOT_NIBBLE_LOW);
+     ck_assert_uint_eq(tokens[4] & CLI_MATCH_METADATA, CLI_MATCH_NOT_NIBBLE_HIGH);
+@@ -514,6 +829,109 @@ START_TEST(test_ac_scanbuff_allscan_ex)
+ }
+ END_TEST
+ 
++struct matcher_callback_state {
++    unsigned calls;
++    cl_error_t first_result;
++};
++
++static cl_error_t matcher_alert_callback(cl_scan_layer_t *layer, void *context)
++{
++    struct matcher_callback_state *state = context;
++    (void)layer;
++    return state->calls++ == 0 ? state->first_result : CL_VIRUS;
++}
++
++/* Exercise the complete matcher_run path so duplicate callback dispatch in
++ * its caller is also detected. The first marker ends before the second starts,
++ * making this independent of pointer-order tie breaking. */
++START_TEST(test_matcher_nonterminal_indicators)
++{
++    static const char *names[] = {
++        "Weak.First", "PUA.First", "Heuristics.First", "Ignored.First",
++        "Break.First", "Trusted.First", "Weak.Only", "PUA.Only",
++        "Strong.First", "PUA.Precedence"
++    };
++    static const char *patterns[] = {
++        "41424344??464748", "41424344{1}464748", "4142434445464748"
++    };
++    static const unsigned char input[] = "ABCDEFGH--IJKLMNOP";
++    unsigned matcher = _i / 10, scenario = _i % 10;
++    struct cli_matcher *root = ctx.engine->root[0];
++    struct matcher_callback_state state = {0, CL_VIRUS};
++    cl_error_t expected = CL_VIRUS;
++    unsigned length = sizeof(input) - 1, calls = 1;
++
++    root->ac_only = matcher != 2;
++    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
++    if (matcher == 2)
++        ck_assert_int_eq(cli_bm_init(root), CL_SUCCESS);
++    ck_assert_int_eq(cli_add_content_match_pattern(root, names[scenario], patterns[matcher],
++                                                   0, 0, 0, "*", NULL, 0), CL_SUCCESS);
++    ck_assert_int_eq(cli_add_content_match_pattern(root, "Strong.Second",
++                                                   matcher == 2 ? "494a4b4c4d4e4f50" : "494a4b4c??4e4f50",
++                                                   0, 0, 0, "*", NULL, 0), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
++    cl_engine_set_scan_callback((struct cl_engine *)ctx.engine, matcher_alert_callback, CL_SCAN_CALLBACK_ALERT);
++    ctx.cb_ctx = &state;
++
++    if (scenario == 3) {
++        state.first_result = CL_CLEAN;
++        calls = 2;
++    } else if (scenario == 4 || scenario == 5) {
++        /* All-match must still honor an explicit stop/trust callback. */
++        options.general |= CL_SCAN_GENERAL_ALLMATCHES;
++        expected = state.first_result = scenario == 4 ? CL_BREAK : CL_VERIFIED;
++    } else if (scenario == 6 || scenario == 7) {
++        length = 8;
++        expected = CL_SUCCESS;
++        calls = 0;
++    } else if (scenario == 9) {
++        options.general |= CL_SCAN_GENERAL_HEURISTIC_PRECEDENCE;
++    }
++    ck_assert_int_eq(cli_scan_buff(input, length, 0, &ctx, 0, NULL), expected);
++    ck_assert_uint_eq(state.calls, calls);
++    if (scenario <= 3) {
++        ck_assert_str_eq(evidence_get_last_alert(ctx.this_layer_evidence), "Strong.Second.UNOFFICIAL");
++        ck_assert_int_eq(ctx.recursion_stack[0].verdict, CL_VERDICT_STRONG_INDICATOR);
++    } else if (scenario == 6) {
++        ck_assert_ptr_null(evidence_get_last_alert(ctx.this_layer_evidence));
++    } else if (scenario == 7 || scenario >= 8) {
++        char expected_name[64];
++        snprintf(expected_name, sizeof(expected_name), "%s.UNOFFICIAL", names[scenario]);
++        ck_assert_str_eq(evidence_get_last_alert(ctx.this_layer_evidence), expected_name);
++    }
++}
++END_TEST
++
++START_TEST(test_ac_weak_hit_preserves_lsig_accounting)
++{
++    struct cli_matcher *root = ctx.engine->root[0];
++    struct cli_ac_data data;
++    uint32_t ids[] = {0, 0};
++    static const unsigned char input[] = "ABCDEFGH--IJKLMNOP";
++    root->ac_only = 1;
++    ck_assert_int_eq(cli_ac_init(root, 2, 3, 0), CL_SUCCESS);
++    root->ac_lsigtable = MPOOL_CALLOC(root->mempool, 1, sizeof(*root->ac_lsigtable));
++    ck_assert_ptr_nonnull(root->ac_lsigtable);
++    root->ac_lsigtable[0] = MPOOL_CALLOC(root->mempool, 1, sizeof(*root->ac_lsigtable[0]));
++    ck_assert_ptr_nonnull(root->ac_lsigtable[0]);
++    root->ac_lsigs = 1;
++    root->ac_lsigtable[0]->tdb.subsigs = 1;
++    root->ac_lsigtable[0]->type = CLI_LSIG_NORMAL;
++    ck_assert_int_eq(cli_add_content_match_pattern(root, "Weak.First", "41424344??464748",
++                                                   0, 0, 0, "*", NULL, 0), CL_SUCCESS);
++    ck_assert_int_eq(cli_add_content_match_pattern(root, "Logical.Second", "494a4b4c??4e4f50",
++                                                   0, 0, 0, "*", ids, 0), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_buildtrie(root), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_initdata(&data, 0, 1, 0, CLI_DEFAULT_AC_TRACKLEN), CL_SUCCESS);
++    ck_assert_int_eq(cli_ac_scanbuff(input, sizeof(input) - 1, &virname, NULL, NULL,
++                                     root, &data, 0, 0, NULL, AC_SCAN_VIR, &ctx), CL_SUCCESS);
++    ck_assert_uint_eq(cli_ac_lsig_counts(&data, 0)[0], 1);
++    ck_assert_uint_eq(cli_ac_lsig_first(&data, 0)[0], 10);
++    cli_ac_freedata(&data);
++}
++END_TEST
++
+ START_TEST(test_bm_scanbuff)
+ {
+     struct cli_matcher *root;
+@@ -701,6 +1119,10 @@ Suite *test_matchers_suite(void)
+     suite_add_tcase(s, tc_matchers);
+     tcase_add_checked_fixture(tc_matchers, setup, teardown);
+     tcase_add_test(tc_matchers, test_ac_logical_pattern_does_not_keep_borrowed_virname);
++    tcase_add_test(tc_matchers, test_ac_source_occurrence_order);
++    tcase_add_test(tc_matchers, test_ac_compact_lsig_state);
++    tcase_add_test(tc_matchers, test_ac_compact_scan_equivalence);
++    tcase_add_test(tc_matchers, test_ac_compact_allocation_boundaries);
+     tcase_add_test(tc_matchers, test_ac_scanbuff);
+     tcase_add_test(tc_matchers, test_ac_repeated_prefix_does_not_shift_to_repeated_window);
+     tcase_add_test(tc_matchers, test_ac_scanbuff_ex);
+@@ -709,6 +1131,8 @@ Suite *test_matchers_suite(void)
+     tcase_add_test(tc_matchers, test_ac_scanbuff_allscan);
+     tcase_add_test(tc_matchers, test_ac_scanbuff_allscan_ex);
+     tcase_add_test(tc_matchers, test_bm_scanbuff_allscan);
++    tcase_add_loop_test(tc_matchers, test_matcher_nonterminal_indicators, 0, 30);
++    tcase_add_test(tc_matchers, test_ac_weak_hit_preserves_lsig_accounting);
+     tcase_add_test(tc_matchers, test_pcre_scanbuff_allscan);
+ 
+     tc_hex_negation = tcase_create("hex negation");

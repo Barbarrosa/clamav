@@ -1,0 +1,54 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 5.035736176000228,
+  "child_peak_kib": 19924,
+  "address_space_limit_mib": 512,
+  "preparation": {
+    "protocol": 1,
+    "kind": "preparation",
+    "coverage_qualified": false,
+    "profile_qualified": false,
+    "native_syntax_validation": "not-performed",
+    "sources": [
+      {
+        "name": "bytecode.cvd",
+        "sha256": "6d4aa01f219e988060fc419f495d07f27e0cdf1a2cccc065971da922c76f7ffb",
+        "size": 281702,
+        "signature_verified": true,
+        "version": 339,
+        "created_at": 1757593759
+      },
+      {
+        "name": "daily.cvd",
+        "sha256": "bbbe24cfe66a9e00bdba3f78d47b36700ac29114f38f2ff5aebec504f5c733e6",
+        "size": 23443876,
+        "signature_verified": true,
+        "version": 28164,
+        "created_at": 1792909452
+      },
+      {
+        "name": "main.cvd",
+        "sha256": "0b2182d229f46981ec8f535382222f7c9dfdd656b250ad47988b910a8d302365",
+        "size": 89072577,
+        "signature_verified": true,
+        "version": 63,
+        "created_at": 1765927102
+      }
+    ],
+    "max_line_bytes": 131072,
+    "status": "prepared",
+    "inventory_status": "passed",
+    "schema_version": 1,
+    "members": 124,
+    "classified_records": 428471,
+    "excluded_callback_keys": 369986,
+    "protected_bytecode_names": 85,
+    "custom_signatures": "unsupported; no external inputs accepted",
+    "required_qualification_evidence": [
+      "complete-native-validation",
+      "guard-and-ordering-qualification"
+    ],
+    "qualification_authority": "bound-generation-manifest-and-compiled-qualification"
+  },
+  "skip_sha256": "0896db5c9930ae4d8d0dfe2e328daa0bc6c0e9f1d0ea68bc38f023f05b50f20f"
+}

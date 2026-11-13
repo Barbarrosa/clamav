@@ -1,0 +1,14 @@
+{
+  "exit_code": 2,
+  "profile_published": false,
+  "result": {
+    "protocol": 1,
+    "kind": "preparation",
+    "coverage_qualified": false,
+    "profile_qualified": false,
+    "native_syntax_validation": "not-performed",
+    "sources": [],
+    "status": "failed",
+    "reason": "official database signature verification failed"
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "requests": [
+    {
+      "protocol": 1,
+      "status": "clean",
+      "completed": true,
+      "applicability_proven": true,
+      "coverage_qualified": true,
+      "sha256": "fe2c099fe63d10e5d699940a156cc13daa67b9955d6c04d6822323635fbb5a97",
+      "size": 628,
+      "engine_version": "1.6.0-devel-20261113",
+      "generation_id": "9e2c1993315173667396372b640a8ea5cca052d544ac7586d134923ee91ca715",
+      "requested_profile": "pdf-jpeg-png-pe-exclusions",
+      "effective_profile": "pdf-jpeg-png-pe-exclusions",
+      "findings": [],
+      "reason_codes": [],
+      "root_type": "CL_TYPE_PDF",
+      "scanned_bytes": 672,
+      "native_status": 0,
+      "request_id": "0"
+    },
+    {
+      "protocol": 1,
+      "status": "held",
+      "completed": true,
+      "applicability_proven": false,
+      "coverage_qualified": true,
+      "sha256": "6af5b4373ee720ee7a92e5b6188d0b771f76b138ba670c35c93a64db03b5fff3",
+      "size": 773,
+      "engine_version": "1.6.0-devel-20261113",
+      "generation_id": "9e2c1993315173667396372b640a8ea5cca052d544ac7586d134923ee91ca715",
+      "requested_profile": "pdf-jpeg-png-pe-exclusions",
+      "effective_profile": "pdf-jpeg-png-pe-exclusions",
+      "findings": [],
+      "reason_codes": [
+        "excluded-pe-consumer-reached"
+      ],
+      "root_type": "CL_TYPE_PDF",
+      "scanned_bytes": 2309,
+      "native_status": 32,
+      "request_id": "1"
+    },
+    {
+      "protocol": 1,
+      "status": "clean",
+      "completed": true,
+      "applicability_proven": true,
+      "coverage_qualified": true,
+      "sha256": "fe2c099fe63d10e5d699940a156cc13daa67b9955d6c04d6822323635fbb5a97",
+      "size": 628,
+      "engine_version": "1.6.0-devel-20261113",
+      "generation_id": "9e2c1993315173667396372b640a8ea5cca052d544ac7586d134923ee91ca715",
+      "requested_profile": "pdf-jpeg-png-pe-exclusions",
+      "effective_profile": "pdf-jpeg-png-pe-exclusions",
+      "findings": [],
+      "reason_codes": [],
+      "root_type": "CL_TYPE_PDF",
+      "scanned_bytes": 672,
+      "native_status": 0,
+      "request_id": "2"
+    },
+    {
+      "protocol": 1,
+      "status": "detected",
+      "completed": true,
+      "applicability_proven": true,
+      "coverage_qualified": true,
+      "sha256": "8aed2477ecf4588feb31f1de88fccc9cc300bf08f743891ccaa88d058d96225c",
+      "size": 674,
+      "engine_version": "1.6.0-devel-20261113",
+      "generation_id": "9e2c1993315173667396372b640a8ea5cca052d544ac7586d134923ee91ca715",
+      "requested_profile": "pdf-jpeg-png-pe-exclusions",
+      "effective_profile": "pdf-jpeg-png-pe-exclusions",
+      "findings": [
+        {
+          "name": "Eicar-Test-Signature"
+        },
+        {
+          "name": "Eicar-Test-Signature"
+        },
+        {
+          "name": "Eicar-Signature"
+        }
+      ],
+      "reason_codes": [],
+      "root_type": "CL_TYPE_PDF",
+      "scanned_bytes": 810,
+      "native_status": 0,
+      "request_id": "3"
+    }
+  ],
+  "mutation_result": {
+    "protocol": 1,
+    "status": "failed",
+    "completed": false,
+    "applicability_proven": false,
+    "coverage_qualified": false,
+    "sha256": null,
+    "size": 0,
+    "engine_version": "1.6.0-devel-20261113",
+    "generation_id": "9e2c1993315173667396372b640a8ea5cca052d544ac7586d134923ee91ca715",
+    "requested_profile": "pdf-jpeg-png-pe-exclusions",
+    "effective_profile": "pdf-jpeg-png-pe-exclusions",
+    "findings": [],
+    "reason_codes": [
+      "worker-generation-changed-or-stale"
+    ],
+    "request_id": "changed"
+  },
+  "engine_reused": true,
+  "fresh_context_guard_reset": true,
+  "bound_generation_mutation_rejected": true,
+  "historical_freshness_override_seconds": 2592000,
+  "rar_parser_available": true,
+  "scope": "Earlier f31 build: real signed DB and production worker under640MiB AS; current359b gateway worker reset/reuse is separately recorded.",
+  "engine_sha256_observed": "f31d32f99545d0b27a23ffd96ef2c1394f586f3ebb552f540197defdaf362178"
+}

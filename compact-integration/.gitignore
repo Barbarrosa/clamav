@@ -1,0 +1,4 @@
+# Upstream ignores build directories named Release; this is maintained tooling.
+!release/
+!release/**
+release/__pycache__/

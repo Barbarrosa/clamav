@@ -1,0 +1,20 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "real_native_worker": true,
+  "authenticated_streaming_checks": true,
+  "guard_and_reset_results": [
+    "clean",
+    "held",
+    "clean"
+  ],
+  "worker_reused": true,
+  "request_id_bound": true,
+  "scratch_deleted_after_every_request": true,
+  "bad_auth_rejected": true,
+  "bad_hash_rejected_before_native_load": true,
+  "historical_freshness_override_seconds": 2592000,
+  "engine_sha256": "359b79e9d2037926d43822492a6a8d938079bfa1b99357d79b8cd3963dcc3f07",
+  "validation_mode": "bounded-native-records",
+  "scope": "ASGI protocol and real signed/native integration, no live HTTP/TLS deployment"
+}

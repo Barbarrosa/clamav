@@ -1,0 +1,898 @@
+diff --git a/libclamav_rust/src/cdiff.rs b/libclamav_rust/src/cdiff.rs
+index 2731d89e..3984df2d 100644
+--- a/libclamav_rust/src/cdiff.rs
++++ b/libclamav_rust/src/cdiff.rs
+@@ -88,6 +88,157 @@ struct Context {
+ 
+     // Lines to append to the database
+     additions: Vec<u8>,
++    // Only a bounded window of edits/additions is retained. Sorted edit runs
++    // are merged on disk, preserving last-command-wins for duplicate lines.
++    edits_run: Option<tempfile::NamedTempFile>,
++    additions_run: Option<tempfile::NamedTempFile>,
++    edit_bytes: usize,
++}
++
++// Buffer sizes are implementation windows, not limits on accepted databases.
++const EDIT_WINDOW_BYTES: usize = 1024 * 1024;
++
++fn spill_error(error: std::io::Error) -> InputError {
++    InputError::ProcessingString(format!("CDIFF spill I/O: {}", error))
++}
++
++fn write_edit<W: Write>(out: &mut W, edit: &EditNode) -> std::io::Result<()> {
++    out.write_all(&(edit.line_no as u64).to_le_bytes())?;
++    out.write_all(&(edit.orig_line.len() as u64).to_le_bytes())?;
++    out.write_all(
++        &edit
++            .new_line
++            .as_ref()
++            .map_or(u64::MAX, |v| v.len() as u64)
++            .to_le_bytes(),
++    )?;
++    out.write_all(&edit.orig_line)?;
++    if let Some(line) = &edit.new_line {
++        out.write_all(line)?;
++    }
++    Ok(())
++}
++
++fn read_edit<R: Read>(input: &mut R) -> std::io::Result<Option<EditNode>> {
++    let mut header = [0u8; 24];
++    if input.read(&mut header[..1])? == 0 {
++        return Ok(None);
++    }
++    input.read_exact(&mut header[1..])?;
++    let number = u64::from_le_bytes(header[..8].try_into().unwrap());
++    let old_len = u64::from_le_bytes(header[8..16].try_into().unwrap());
++    let new_len = u64::from_le_bytes(header[16..24].try_into().unwrap());
++    let limit = update_line_limit();
++    if number > usize::MAX as u64
++        || old_len > limit as u64
++        || (new_len != u64::MAX && new_len > limit as u64)
++    {
++        return Err(std::io::Error::new(
++            std::io::ErrorKind::InvalidData,
++            "CDIFF edit exceeds configured line bound",
++        ));
++    }
++    let mut original = vec![0; old_len as usize];
++    input.read_exact(&mut original)?;
++    let new_line = if new_len == u64::MAX {
++        None
++    } else {
++        let mut replacement = vec![0; new_len as usize];
++        input.read_exact(&mut replacement)?;
++        Some(replacement)
++    };
++    Ok(Some(EditNode {
++        line_no: number as usize,
++        orig_line: original,
++        new_line,
++    }))
++}
++
++fn update_line_limit() -> usize {
++    // The integration's policy-calculated limit is passed explicitly. Ordinary
++    // upstream callers retain their historical accepted-line behavior.
++    std::env::var("CLAMAV_UPDATE_MAX_LINE_BYTES")
++        .ok()
++        .and_then(|value| value.parse::<usize>().ok())
++        .filter(|&value| value > 0)
++        .unwrap_or(usize::MAX)
++}
++
++fn read_line_bounded<R: BufRead>(input: &mut R, out: &mut Vec<u8>) -> std::io::Result<usize> {
++    let limit = update_line_limit();
++    let count = (&mut *input)
++        .take((limit as u64).saturating_add(1))
++        .read_until(b'\n', out)?;
++    if out.len() > limit {
++        return Err(std::io::Error::new(
++            std::io::ErrorKind::InvalidData,
++            "CDIFF line exceeds configured bound",
++        ));
++    }
++    Ok(count)
++}
++
++fn spill_edits(ctx: &mut Context) -> Result<(), InputError> {
++    if ctx.edits.is_empty() {
++        return Ok(());
++    }
++    let previous = ctx.edits_run.take();
++    let mut old = previous
++        .as_ref()
++        .map(|file| file.reopen().map(BufReader::new))
++        .transpose()
++        .map_err(spill_error)?;
++    let mut output = tempfile::Builder::new()
++        .prefix(".cdiff-edits-")
++        .tempfile_in("./")
++        .map_err(spill_error)?;
++    let mut writer = BufWriter::new(output.as_file_mut());
++    let mut old_edit = match old.as_mut() {
++        Some(file) => read_edit(file).map_err(spill_error)?,
++        None => None,
++    };
++    let mut incoming = std::mem::take(&mut ctx.edits).into_iter();
++    let mut new_edit = incoming.next().map(|(_, edit)| edit);
++    while old_edit.is_some() || new_edit.is_some() {
++        let ordering = match (&old_edit, &new_edit) {
++            (Some(old), Some(new)) => old.line_no.cmp(&new.line_no),
++            (Some(_), None) => std::cmp::Ordering::Less,
++            _ => std::cmp::Ordering::Greater,
++        };
++        if ordering == std::cmp::Ordering::Less {
++            write_edit(&mut writer, &old_edit.take().unwrap()).map_err(spill_error)?;
++            old_edit = read_edit(old.as_mut().unwrap()).map_err(spill_error)?;
++        } else {
++            write_edit(&mut writer, &new_edit.take().unwrap()).map_err(spill_error)?;
++            new_edit = incoming.next().map(|(_, edit)| edit);
++            if ordering == std::cmp::Ordering::Equal {
++                old_edit = read_edit(old.as_mut().unwrap()).map_err(spill_error)?;
++            }
++        }
++    }
++    writer.flush().map_err(spill_error)?;
++    drop(writer);
++    ctx.edits_run = Some(output);
++    ctx.edit_bytes = 0;
++    Ok(())
++}
++
++fn insert_edit(ctx: &mut Context, edit: EditNode) -> Result<(), InputError> {
++    let bytes = edit
++        .orig_line
++        .len()
++        .saturating_add(edit.new_line.as_ref().map_or(0, Vec::len))
++        .saturating_add(128);
++    if ctx.edit_bytes.saturating_add(bytes) > EDIT_WINDOW_BYTES {
++        spill_edits(ctx)?;
++    }
++    // Overcounting replaced nodes only causes an earlier spill.
++    ctx.edit_bytes = ctx.edit_bytes.saturating_add(bytes);
++    ctx.edits.insert(edit.line_no, edit);
++    if ctx.edit_bytes >= EDIT_WINDOW_BYTES {
++        spill_edits(ctx)?;
++    }
++    Ok(())
+ }
+ 
+ /// Possible errors returned by cdiff_apply() and script2cdiff
+@@ -788,8 +939,26 @@ fn cmd_add(ctx: &mut Context, signature: &[u8]) -> Result<(), InputError> {
+     if ctx.open_db.is_none() {
+         return Err(InputError::NoDBForAction("ADD"));
+     }
+-    ctx.additions.extend_from_slice(signature);
+-
++    if ctx.additions_run.is_some()
++        || ctx.additions.len().saturating_add(signature.len()) > EDIT_WINDOW_BYTES
++    {
++        if ctx.additions_run.is_none() {
++            let mut run = tempfile::Builder::new()
++                .prefix(".cdiff-additions-")
++                .tempfile_in("./")
++                .map_err(spill_error)?;
++            run.write_all(&ctx.additions).map_err(spill_error)?;
++            ctx.additions.clear();
++            ctx.additions_run = Some(run);
++        }
++        ctx.additions_run
++            .as_mut()
++            .unwrap()
++            .write_all(signature)
++            .map_err(spill_error)?;
++    } else {
++        ctx.additions.extend_from_slice(signature);
++    }
+     Ok(())
+ }
+ 
+@@ -800,15 +969,14 @@ fn cmd_del(ctx: &mut Context, del_op: DelOp) -> Result<(), InputError> {
+         return Err(InputError::NoDBForAction("DEL"));
+     }
+ 
+-    ctx.edits.insert(
+-        del_op.line_no,
++    insert_edit(
++        ctx,
+         EditNode {
+             line_no: del_op.line_no,
+             orig_line: del_op.del_line.to_owned(),
+             new_line: None,
+         },
+-    );
+-    Ok(())
++    )
+ }
+ 
+ /// Set up Context structure with data parsed from command exchange
+@@ -818,15 +986,14 @@ fn cmd_xchg(ctx: &mut Context, xchg_op: XchgOp) -> Result<(), InputError> {
+         return Err(InputError::NoDBForAction("XCHG"));
+     }
+ 
+-    ctx.edits.insert(
+-        xchg_op.line_no,
++    insert_edit(
++        ctx,
+         EditNode {
+             line_no: xchg_op.line_no,
+             orig_line: xchg_op.orig_line.to_owned(),
+             new_line: Some(xchg_op.new_line.to_owned()),
+         },
+-    );
+-    Ok(())
++    )
+ }
+ 
+ /// Move range of lines from one DB file into another
+@@ -883,7 +1050,7 @@ fn cmd_move(ctx: &mut Context, move_op: MoveOp) -> Result<(), InputError> {
+         // cdiff files start at line 1
+         line_no += 1;
+         line.clear();
+-        let n_read = src_reader.read_until(b'\n', &mut line).map_err(|e| {
++        let n_read = read_line_bounded(&mut src_reader, &mut line).map_err(|e| {
+             InputError::ProcessingString(format!(
+                 "Failed to read from source file {:?} for MOVE command: {}",
+                 &move_op.src, e
+@@ -963,8 +1130,17 @@ fn cmd_close(ctx: &mut Context) -> Result<(), InputError> {
+         .take()
+         .ok_or(InputError::NoDBForAction("CLOSE"))?;
+ 
+-    let mut edits = ctx.edits.iter_mut();
+-    let mut next_edit = edits.next();
++    spill_edits(ctx)?;
++    let edit_run = ctx.edits_run.take();
++    let mut edits = edit_run
++        .as_ref()
++        .map(|file| file.reopen().map(BufReader::new))
++        .transpose()
++        .map_err(spill_error)?;
++    let mut next_edit = match edits.as_mut() {
++        Some(file) => read_edit(file).map_err(spill_error)?,
++        None => None,
++    };
+ 
+     if next_edit.is_some() {
+         // Open src in read-only mode
+@@ -992,7 +1168,7 @@ fn cmd_close(ctx: &mut Context) -> Result<(), InputError> {
+         let mut linebuf = Vec::new();
+         for line_no in 1.. {
+             linebuf.clear();
+-            let n_read = src_reader.read_until(b'\n', &mut linebuf).map_err(|e| {
++            let n_read = read_line_bounded(&mut src_reader, &mut linebuf).map_err(|e| {
+                 InputError::ProcessingString(format!(
+                     "Failed to read temp file {:?} for CLOSE command: {}",
+                     tmp_named_file.path(),
+@@ -1014,12 +1190,12 @@ fn cmd_close(ctx: &mut Context) -> Result<(), InputError> {
+             // This is a placeholder so that we can provide a reference to
+             // something in the same scope
+             let repl_line;
+-            let new_line = if let Some((_, edit)) = &next_edit {
++            let new_line = if let Some(edit) = &next_edit {
+                 if line_no == edit.line_no {
+                     // Matching line.  Check for content match
+                     if cur_line.starts_with(&edit.orig_line) {
+-                        repl_line = next_edit.unwrap().1.new_line.take();
+-                        next_edit = edits.next();
++                        repl_line = next_edit.take().unwrap().new_line;
++                        next_edit = read_edit(edits.as_mut().unwrap()).map_err(spill_error)?;
+ 
+                         repl_line.as_deref()
+                     } else {
+@@ -1065,7 +1241,7 @@ fn cmd_close(ctx: &mut Context) -> Result<(), InputError> {
+         drop(src_reader);
+ 
+         // Make sure that all delete and exchange lines were processed
+-        if let Some((_, edit)) = next_edit {
++        if let Some(edit) = next_edit {
+             return Err(
+                 ProcessingError::NotAllEditProcessed(if edit.new_line.is_some() {
+                     "exchange"
+@@ -1118,7 +1294,7 @@ fn cmd_close(ctx: &mut Context) -> Result<(), InputError> {
+     }
+ 
+     // Test for lines to add
+-    if !ctx.additions.is_empty() {
++    if !ctx.additions.is_empty() || ctx.additions_run.is_some() {
+         let mut db_file = OpenOptions::new()
+             .create(true)
+             .append(true)
+@@ -1129,6 +1305,11 @@ fn cmd_close(ctx: &mut Context) -> Result<(), InputError> {
+                     open_db, e
+                 ))
+             })?;
++        if let Some(mut run) = ctx.additions_run.take() {
++            run.flush().map_err(spill_error)?;
++            run.seek(SeekFrom::Start(0)).map_err(spill_error)?;
++            std::io::copy(&mut run, &mut db_file).map_err(spill_error)?;
++        }
+         db_file.write_all(&ctx.additions).map_err(|e| {
+             InputError::ProcessingString(format!(
+                 "Failed to write add lines to db {:?} for CLOSE command: {}",
+@@ -1234,7 +1415,7 @@ where
+     loop {
+         line_no += 1;
+         linebuf.clear();
+-        match reader.read_until(b'\n', &mut linebuf)? {
++        match read_line_bounded(reader, &mut linebuf)? {
+             0 => break,
+             n_read => {
+                 decompressed_bytes = decompressed_bytes + n_read + 1;
+@@ -1338,25 +1519,15 @@ fn get_hash(file: &mut File, len: usize) -> Result<[u8; 32], Error> {
+     // Seek to beginning of file
+     file.rewind()?;
+ 
+-    let mut sum: usize = 0;
+-
+-    // Read READ_SIZE bytes at a time,
+-    // calculating the hash along the way. Stop
+-    // after signature is reached.
+-    loop {
+-        let mut buf = Vec::with_capacity(READ_SIZE);
+-        let n = file.take(READ_SIZE as u64).read_to_end(&mut buf)?;
+-        if sum + n >= len {
+-            // update with len - sum
+-            hasher.update(&buf[..(len - sum)]);
+-            let hash = hasher.finalize();
+-            return Ok(hash.into());
+-        } else {
+-            // update with n
+-            hasher.update(&buf);
+-        }
+-        sum += n;
++    let mut remaining = len;
++    let mut buffer = [0u8; READ_SIZE];
++    while remaining > 0 {
++        let capacity = remaining.min(buffer.len());
++        file.read_exact(&mut buffer[..capacity])?;
++        hasher.update(&buffer[..capacity]);
++        remaining -= capacity;
+     }
++    Ok(hasher.finalize().into())
+ }
+ 
+ fn print_file_data(buf: Vec<u8>, len: usize) {
+@@ -1385,6 +1556,76 @@ mod tests {
+         FromUtf8Error(#[from] std::string::FromUtf8Error),
+     }
+ 
++    #[test]
++    fn streaming_edits_spill_sort_and_last_command_wins() {
++        let mut context = Context::default();
++        insert_edit(
++            &mut context,
++            EditNode {
++                line_no: 7,
++                orig_line: b"old".to_vec(),
++                new_line: Some(vec![b'a'; EDIT_WINDOW_BYTES + 1]),
++            },
++        )
++        .unwrap();
++        assert!(context.edits_run.is_some());
++        insert_edit(
++            &mut context,
++            EditNode {
++                line_no: 2,
++                orig_line: b"two".to_vec(),
++                new_line: None,
++            },
++        )
++        .unwrap();
++        insert_edit(
++            &mut context,
++            EditNode {
++                line_no: 7,
++                orig_line: b"old".to_vec(),
++                new_line: Some(b"last".to_vec()),
++            },
++        )
++        .unwrap();
++        spill_edits(&mut context).unwrap();
++        let mut reader = BufReader::new(context.edits_run.as_ref().unwrap().reopen().unwrap());
++        assert_eq!(read_edit(&mut reader).unwrap().unwrap().line_no, 2);
++        let last = read_edit(&mut reader).unwrap().unwrap();
++        assert_eq!(last.line_no, 7);
++        assert_eq!(last.new_line.unwrap(), b"last");
++        assert!(read_edit(&mut reader).unwrap().is_none());
++    }
++
++    #[test]
++    fn streaming_additions_spill_preserves_order() {
++        let mut original = tempfile::NamedTempFile::new().unwrap();
++        original.write_all(b"first\n").unwrap();
++        let mut context = Context {
++            open_db: Some(original.path().to_str().unwrap().to_owned()),
++            ..Default::default()
++        };
++        let large = vec![b'x'; EDIT_WINDOW_BYTES + 100];
++        cmd_add(&mut context, &large).unwrap();
++        cmd_add(&mut context, b"\nlast\n").unwrap();
++        assert!(context.additions_run.is_some());
++        cmd_close(&mut context).unwrap();
++        let result = fs::read(original.path()).unwrap();
++        assert!(result.starts_with(b"first\n"));
++        assert_eq!(&result[6..6 + large.len()], large.as_slice());
++        assert!(result.ends_with(b"\nlast\n"));
++    }
++
++    #[test]
++    fn streaming_hash_rejects_truncated_input() {
++        let mut file = tempfile::tempfile().unwrap();
++        file.write_all(b"short").unwrap();
++        assert!(get_hash(&mut file, 20).is_err());
++        assert_eq!(
++            get_hash(&mut file, 5).unwrap().as_slice(),
++            Sha256::digest(b"short").as_slice()
++        );
++    }
++
+     #[test]
+     fn parse_move_works() {
+         let move_op = MoveOp::new(b"a b 1 hello 2 world").expect("Should've worked!");
+diff --git a/libclamav_rust/src/codesign.rs b/libclamav_rust/src/codesign.rs
+index ba0437f5..a527da96 100644
+--- a/libclamav_rust/src/codesign.rs
++++ b/libclamav_rust/src/codesign.rs
+@@ -433,17 +433,6 @@ pub fn verify_signed_file(
+ ) -> Result<String, Error> {
+     let signature_file: File = File::open(signature_file_path)?;
+ 
+-    let mut signed_file: File = File::open(signed_file_path)?;
+-
+-    let mut file_data = Vec::<u8>::new();
+-    let read_result = signed_file.read_to_end(&mut file_data);
+-    if let Err(e) = read_result {
+-        return Err(Error::CannotVerify(format!(
+-            "Error reading file '{:?}': {}",
+-            signed_file_path, e
+-        )));
+-    }
+-
+     let reader = BufReader::new(signature_file);
+ 
+     for (index, line) in reader.lines().enumerate() {
+@@ -504,7 +493,7 @@ pub fn verify_signed_file(
+ 
+                 match *sig {
+                     DigitalSig::Pkcs7(pkcs7) => {
+-                        match verifier.verify(&file_data, &pkcs7) {
++                        match verifier.verify_file(signed_file_path, &pkcs7) {
+                             Ok(signer) => {
+                                 return Ok(signer);
+                             }
+@@ -657,14 +646,75 @@ impl Verifier {
+         })
+     }
+ 
++    /// Verify detached content using an OpenSSL file BIO, without retaining the
++    /// content or a verified-output copy in memory. The certificate policy and
++    /// PKCS7 flags are the same as the in-memory verifier.
++    #[cfg(unix)]
++    pub fn verify_file(&self, path: &Path, pkcs7: &Pkcs7) -> Result<String, Error> {
++        use std::os::fd::AsRawFd;
++        use std::os::raw::c_int;
++        extern "C" {
++            fn BIO_new_fd(fd: c_int, close_flag: c_int) -> *mut c_void;
++            fn BIO_free(bio: *mut c_void) -> c_int;
++            fn PKCS7_verify(
++                p7: *mut c_void,
++                certs: *mut c_void,
++                store: *mut c_void,
++                input: *mut c_void,
++                output: *mut c_void,
++                flags: c_int,
++            ) -> c_int;
++        }
++        if pkcs7.signed().is_none() {
++            return Err(Error::NotSigned);
++        }
++        let file = File::open(path)?;
++        let input = unsafe { BIO_new_fd(file.as_raw_fd(), 0) }; // BIO_NOCLOSE
++        if input.is_null() {
++            return Err(openssl::error::ErrorStack::get().into());
++        }
++        let flags = Pkcs7Flags::DETACHED | Pkcs7Flags::BINARY | Pkcs7Flags::NOCRL;
++        let p7: &openssl::pkcs7::Pkcs7Ref = pkcs7.as_ref();
++        let store: &openssl::x509::store::X509StoreRef = self.store.as_ref();
++        let result = unsafe {
++            PKCS7_verify(
++                p7 as *const _ as *mut c_void,
++                std::ptr::null_mut(),
++                store as *const _ as *mut c_void,
++                input,
++                std::ptr::null_mut(),
++                flags.bits(),
++            )
++        };
++        unsafe {
++            BIO_free(input);
++        }
++        if result != 1 {
++            return Err(Error::InvalidDigitalSignature(
++                openssl::error::ErrorStack::get().to_string(),
++            ));
++        }
++        let certs = stack::Stack::new()?;
++        let signers = pkcs7.signers(&certs, flags)?;
++        signers
++            .iter()
++            .map(|cert| certificate_common_name(cert).map_err(Error::InvalidDigitalSignature))
++            .collect::<Result<Vec<_>, _>>()
++            .map(|names| names.join(", "))
++    }
++
++    #[cfg(not(unix))]
++    pub fn verify_file(&self, path: &Path, pkcs7: &Pkcs7) -> Result<String, Error> {
++        // The integration targets POSIX. Preserve the existing API elsewhere.
++        self.verify(&std::fs::read(path)?, pkcs7)
++    }
++
+     pub fn verify(&self, data: &[u8], pkcs7: &Pkcs7) -> Result<String, Error> {
+         if let Some(_signed) = pkcs7.signed() {
+             // verify signature
+             let certs = stack::Stack::new()?;
+             let flags = Pkcs7Flags::DETACHED | Pkcs7Flags::BINARY | Pkcs7Flags::NOCRL;
+-            let mut output = Vec::new();
+-
+-            let result = pkcs7.verify(&certs, &self.store, Some(data), Some(&mut output), flags);
++            let result = pkcs7.verify(&certs, &self.store, Some(data), None, flags);
+ 
+             // get the signer's common name
+             let signer = pkcs7.signers(&certs, flags)?;
+@@ -700,6 +750,68 @@ impl Verifier {
+ mod tests {
+     use super::*;
+ 
++    #[cfg(unix)]
++    #[test]
++    fn streaming_file_signature_checks_content_and_trust() {
++        use openssl::{asn1::Asn1Time, hash::MessageDigest, rsa::Rsa, x509::X509NameBuilder};
++        let key = PKey::from_rsa(Rsa::generate(2048).unwrap()).unwrap();
++        let mut name = X509NameBuilder::new().unwrap();
++        name.append_entry_by_text("CN", "streaming test").unwrap();
++        let name = name.build();
++        let mut certificate = X509::builder().unwrap();
++        certificate.set_version(2).unwrap();
++        certificate.set_subject_name(&name).unwrap();
++        certificate.set_issuer_name(&name).unwrap();
++        certificate.set_pubkey(&key).unwrap();
++        certificate
++            .set_not_before(Asn1Time::days_from_now(0).unwrap().as_ref())
++            .unwrap();
++        certificate
++            .set_not_after(Asn1Time::days_from_now(1).unwrap().as_ref())
++            .unwrap();
++        certificate.sign(&key, MessageDigest::sha256()).unwrap();
++        let certificate = certificate.build();
++        let mut store = X509StoreBuilder::new().unwrap();
++        store.add_cert(certificate.clone()).unwrap();
++        let verifier = Verifier {
++            store: store.build(),
++            certs_directory: PathBuf::new(),
++        };
++        let data = vec![0x5a; 4 * 1024 * 1024];
++        let certs = Stack::new().unwrap();
++        let signature = Pkcs7::sign(
++            &certificate,
++            &key,
++            &certs,
++            &data,
++            Pkcs7Flags::DETACHED | Pkcs7Flags::BINARY,
++        )
++        .unwrap();
++        let mut file = tempfile::NamedTempFile::new().unwrap();
++        file.write_all(&data).unwrap();
++        assert_eq!(
++            verifier.verify_file(file.path(), &signature).unwrap(),
++            "streaming test"
++        );
++        file.as_file_mut()
++            .seek(std::io::SeekFrom::Start(100))
++            .unwrap();
++        file.write_all(b"tamper").unwrap();
++        assert!(matches!(
++            verifier.verify_file(file.path(), &signature),
++            Err(Error::InvalidDigitalSignature(_))
++        ));
++        file.as_file_mut()
++            .seek(std::io::SeekFrom::Start(0))
++            .unwrap();
++        file.write_all(&data).unwrap();
++        let untrusted = Verifier {
++            store: X509StoreBuilder::new().unwrap().build(),
++            certs_directory: PathBuf::new(),
++        };
++        assert!(untrusted.verify_file(file.path(), &signature).is_err());
++    }
++
+     #[test]
+     fn clamsign_header_accepts_supported_version() {
+         validate_clamsign_header("#clamsign-1.0").expect("valid clamsign header");
+diff --git a/libclamav_rust/src/cvd.rs b/libclamav_rust/src/cvd.rs
+index b76cb467..2a2274bf 100644
+--- a/libclamav_rust/src/cvd.rs
++++ b/libclamav_rust/src/cvd.rs
+@@ -19,12 +19,13 @@
+  */
+ 
+ use std::{
++    collections::HashSet,
+     ffi::{CStr, CString},
+-    fs::File,
++    fs::{File, OpenOptions},
+     io::{prelude::*, BufReader},
+     mem::ManuallyDrop,
+     os::raw::{c_char, c_void},
+-    path::{Path, PathBuf},
++    path::{Component, Path, PathBuf},
+     str::FromStr,
+     time::{Duration, SystemTime},
+ };
+@@ -38,7 +39,7 @@ use std::os::windows::io::AsRawHandle;
+ use crate::codesign::Verifier;
+ use flate2::read::GzDecoder;
+ use hex;
+-use log::{debug, error, warn};
++use log::{debug, warn};
+ use tar::Archive;
+ 
+ use crate::{
+@@ -259,86 +260,65 @@ impl CVD {
+             .seek(std::io::SeekFrom::Start(512))
+             .map_err(|_| Error::Parse("Failed to seek past CVD header".to_string()))?;
+ 
+-        let mut file_bytes = Vec::<u8>::new();
+-        let bytes_read = self
+-            .file
+-            .read_to_end(&mut file_bytes)
+-            .map_err(|_| Error::Parse("Failed to read CVD file".to_string()))?;
+-
+-        debug!("Read {} bytes from CVD file", bytes_read);
+-
+-        let mut archive: Archive<Box<dyn Read>> = if self.is_compressed {
+-            tar::Archive::new(Box::new(GzDecoder::new(file_bytes.as_slice())))
++        // Stream the authenticated payload. A CVD can be much larger than the
++        // available RAM, and extraction does not require a second whole-file copy.
++        let reader = BufReader::new(&mut self.file);
++        let input: Box<dyn Read + '_> = if self.is_compressed {
++            Box::new(GzDecoder::new(reader))
+         } else {
+-            tar::Archive::new(Box::new(BufReader::new(file_bytes.as_slice())))
++            Box::new(reader)
+         };
+-
+-        archive
+-            .entries()
+-            .map_err(|e| {
+-                Error::Parse(format!(
+-                    "Failed to enumerate files in signature archive: {}",
+-                    e
+-                ))
+-            })?
+-            // .filter_map(|e| e.ok())
+-            .for_each(|entry| {
+-                let mut entry = match entry {
+-                    Ok(entry) => entry,
+-                    Err(e) => {
+-                        error!("Failed to get entry in signature archive: {}", e);
+-                        return;
+-                    }
+-                };
+-
+-                let file_path = match entry.path() {
+-                    Ok(file_path) => file_path,
+-                    Err(e) => {
+-                        error!("Failed to get path for file in signature archive: {}", e);
+-                        return;
+-                    }
+-                };
+-
+-                let filename = match file_path.file_name() {
+-                    Some(filename) => filename,
+-                    None => {
+-                        error!(
+-                            "Failed to get filename for file in signature archive: {:?}",
+-                            file_path
+-                        );
+-                        return;
+-                    }
+-                };
+-
+-                let destination_file_path = path.join(filename);
+-
+-                debug!("Unpacking {:?} to: {:?}", filename, destination_file_path);
+-
+-                if let Err(e) = entry.unpack(&destination_file_path) {
+-                    error!("Unpack failed: {}", e);
+-                }
+-            });
++        let mut archive = Archive::new(input);
++        let mut names = HashSet::new();
++        for entry in archive.entries().map_err(|e| Error::Parse(e.to_string()))? {
++            let mut entry = entry.map_err(|e| Error::Parse(e.to_string()))?;
++            let name = entry
++                .path()
++                .map_err(|e| Error::Parse(e.to_string()))?
++                .into_owned();
++            let mut components = name.components();
++            if !matches!(components.next(), Some(Component::Normal(_)))
++                || components.next().is_some()
++                || !entry.header().entry_type().is_file()
++                || !names.insert(name.clone())
++            {
++                return Err(Error::Parse(format!(
++                    "Unsafe or duplicate CVD member: {:?}",
++                    name
++                )));
++            }
++            // Never follow a pre-existing link or overwrite a sibling entry.
++            let destination = path.join(&name);
++            let mut output = OpenOptions::new()
++                .write(true)
++                .create_new(true)
++                .open(&destination)
++                .map_err(|e| Error::Parse(format!("Create {:?}: {}", destination, e)))?;
++            std::io::copy(&mut entry, &mut output)
++                .map_err(|e| Error::Parse(format!("Extract {:?}: {}", destination, e)))?;
++            output.flush().map_err(|e| Error::Parse(e.to_string()))?;
++        }
+ 
+         Ok(())
+     }
+ 
+     pub fn verify_rsa_dsig(&mut self) -> Result<(), Error> {
+-        let mut file_bytes = Vec::<u8>::new();
+-
+         self.file
+             .seek(std::io::SeekFrom::Start(512))
+             .map_err(|_| Error::Parse("Failed to seek past CVD header".to_string()))?;
+-
+-        let bytes_read = self
+-            .file
+-            .read_to_end(&mut file_bytes)
+-            .map_err(|_| Error::Parse("Failed to read CVD file".to_string()))?;
+-
+-        debug!("Read {} bytes from CVD file", bytes_read);
+-
+-        let digest = md5::compute(&file_bytes);
+-        let calculated_md5 = digest.as_slice();
+-        let calculated_md5 = hex::encode(calculated_md5);
++        let mut context = md5::Context::new();
++        let mut buffer = [0u8; 65536];
++        loop {
++            let count = self
++                .file
++                .read(&mut buffer)
++                .map_err(|e| Error::Parse(format!("Read CVD: {}", e)))?;
++            if count == 0 {
++                break;
++            }
++            context.consume(&buffer[..count]);
++        }
++        let calculated_md5 = hex::encode(context.compute().0);
+ 
+         debug!("MD5 hash: {}", calculated_md5);
+ 
+@@ -819,3 +799,61 @@ pub unsafe extern "C" fn cvd_get_file_handle(cvd: *const c_void) -> *mut c_void
+ 
+     cvd.file.as_raw_handle()
+ }
++
++#[cfg(test)]
++mod streaming_tests {
++    use super::*;
++    fn archive(entries: &[(&str, &[u8])]) -> tempfile::NamedTempFile {
++        let mut file = tempfile::NamedTempFile::new().unwrap();
++        file.write_all(&[b' '; 512]).unwrap();
++        let mut builder = tar::Builder::new(file.as_file_mut());
++        for (name, bytes) in entries {
++            let mut header = tar::Header::new_gnu();
++            header.set_size(bytes.len() as u64);
++            header.set_mode(0o600);
++            header.set_cksum();
++            builder.append_data(&mut header, name, *bytes).unwrap();
++        }
++        builder.finish().unwrap();
++        drop(builder);
++        file
++    }
++    fn cvd(file: &tempfile::NamedTempFile) -> CVD {
++        CVD {
++            name: "test".into(),
++            time_creation: SystemTime::UNIX_EPOCH,
++            version: 1,
++            num_sigs: 0,
++            min_flevel: 0,
++            rsa_dsig: None,
++            md5: None,
++            builder: "test".into(),
++            file: file.reopen().unwrap(),
++            path: file.path().to_owned(),
++            is_compressed: false,
++        }
++    }
++    #[test]
++    fn extraction_streams_members_and_rejects_duplicate_overwrite() {
++        let file = archive(&[("COPYING", b"license"), ("test.ndb", b"rules")]);
++        let out = tempfile::tempdir().unwrap();
++        cvd(&file).unpack_to(out.path()).unwrap();
++        assert_eq!(
++            std::fs::read(out.path().join("test.ndb")).unwrap(),
++            b"rules"
++        );
++        assert!(cvd(&file).unpack_to(out.path()).is_err());
++        let duplicate = archive(&[("test.ndb", b"one"), ("test.ndb", b"two")]);
++        assert!(cvd(&duplicate)
++            .unpack_to(tempfile::tempdir().unwrap().path())
++            .is_err());
++    }
++    #[test]
++    fn extraction_propagates_truncated_member_error() {
++        let mut file = archive(&[("test.ndb", &[b'a'; 4096])]);
++        file.as_file_mut().set_len(512 + 512 + 100).unwrap();
++        assert!(cvd(&file)
++            .unpack_to(tempfile::tempdir().unwrap().path())
++            .is_err());
++    }
++}
+diff --git a/libfreshclam/libfreshclam.c b/libfreshclam/libfreshclam.c
+index 467fc4bc..45b17c81 100644
+--- a/libfreshclam/libfreshclam.c
++++ b/libfreshclam/libfreshclam.c
+@@ -481,7 +481,7 @@ fc_error_t fc_test_database_ex(const char *dbFilename, int bBytecodeEnabled, cha
+ 
+     logg(LOGG_DEBUG, "Loading signatures from %s\n", dbFilename);
+     if (NULL == (engine = cl_engine_new())) {
+-        status = FC_ETESTFAIL;
++        status = FC_EMEM;
+         goto done;
+     }
+ 
+@@ -500,22 +500,28 @@ fc_error_t fc_test_database_ex(const char *dbFilename, int bBytecodeEnabled, cha
+         dboptions |= CL_DB_FIPS_LIMITS;
+     }
+ 
++    errno = 0;
+     if (CL_SUCCESS != (cl_ret = cl_load(
+                            dbFilename,
+                            engine,
+                            &newsigs,
+                            dboptions))) {
++        /* Some native parsers report CL_EMALFDB after an allocation fails.
++         * Preserve only explicitly observed allocation failure for bounded retry. */
++        int allocation_failure = cl_ret == CL_EMEM || errno == ENOMEM;
+         logg(LOGG_ERROR, "Failed to load new database: %s\n", cl_strerror(cl_ret));
+-        status = FC_ETESTFAIL;
++        status = allocation_failure ? FC_EMEM : FC_ETESTFAIL;
+         goto done;
+     }
+ 
++    errno = 0;
+     if (bBytecodeEnabled && (CL_SUCCESS != (cl_ret = cli_bytecode_prepare2(
+                                                 engine, &engine->bcs,
+                                                 engine->dconf->bytecode
+                                                 /*FIXME: dconf has no sense here */)))) {
++        int allocation_failure = cl_ret == CL_EMEM || errno == ENOMEM;
+         logg(LOGG_ERROR, "Failed to compile/load bytecode: %s\n", cl_strerror(cl_ret));
+-        status = FC_ETESTFAIL;
++        status = allocation_failure ? FC_EMEM : FC_ETESTFAIL;
+         goto done;
+     }
+     logg(LOGG_DEBUG, "Properly loaded %u signatures from %s\n", newsigs, dbFilename);
+diff --git a/libfreshclam/libfreshclam_internal.c b/libfreshclam/libfreshclam_internal.c
+index 65e3353a..4160bfa3 100644
+--- a/libfreshclam/libfreshclam_internal.c
++++ b/libfreshclam/libfreshclam_internal.c
+@@ -780,6 +780,10 @@ static size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, voi
+         return 0;
+     }
+ 
++    /* A Range-ignoring server must not turn a 512-byte metadata request into
++     * an unbounded allocation. Fail this probe; the full download path streams. */
++    if (real_size > CVD_HEADER_SIZE || receivedData->size > CVD_HEADER_SIZE - real_size)
++        return 0;
+     char *newBuffer = realloc(receivedData->buffer, receivedData->size + real_size + 1);
+     if (NULL == newBuffer) {
+         logg(LOGG_ERROR, "remote_cvdhead - recv callback: Failed to allocate memory CVD header data.\n");

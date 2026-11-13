@@ -1,0 +1,21 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "original_source_sha256": "c9d7e2dbb62a0d44723195b28d391f9b708637f5a15ed090f98e89c1407af4eb",
+  "cases": [
+    {
+      "function": "cli_scan_buff",
+      "mutation_rejected": true,
+      "probe_exit": -11,
+      "mutated_source_sha256": "cf2c9799abf8e5ae537e50b5d623d01806365c0d6f5403ad632ef08834a3e6b5"
+    },
+    {
+      "function": "cli_scan_fmap",
+      "mutation_rejected": true,
+      "probe_exit": 3,
+      "mutated_source_sha256": "8f8340e7baa6effe0c98e9de9cf5a1163125abd429add650bac442ede2aa671f"
+    }
+  ],
+  "shipping_source_modified": false,
+  "scope": "central buffer/fmap guards before target-root presence; actual per-family recursive guards tested separately"
+}

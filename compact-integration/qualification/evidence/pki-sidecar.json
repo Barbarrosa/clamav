@@ -1,0 +1,90 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "pki_only_legacy_disabled": true,
+  "test_only_trust_sha256": "7157e5edce8a61c7bed53e2c206d481cdec0b799c04dcda6d8bee9dd2c76c916",
+  "matching_sidecar_pinned": true,
+  "tampered_sidecar_rejected": true,
+  "production_trust_modified": false,
+  "cases": [
+    {
+      "tampered": false,
+      "return_code": 0,
+      "status": "prepared",
+      "sources": [
+        {
+          "name": "bytecode.cvd",
+          "sha256": "a8e7208ce38d8b8495b066e309ae9ddac03c4c32e9718b57a8261b112a98a0df",
+          "size": 9483,
+          "signature_verified": true,
+          "version": 3,
+          "created_at": 1624408809,
+          "detached_signature": {
+            "name": "bytecode-3.cvd.sign",
+            "sha256": "dd71ae78261aad5367b974b0cfb588f0de3b3192b6f306001011f879d15f7d9c",
+            "size": 5170
+          }
+        },
+        {
+          "name": "daily.cvd",
+          "sha256": "bf82fa9ef2c8c65aead0ff3d167a116515890149b7612fc23d352cd9bf8bd930",
+          "size": 8387,
+          "signature_verified": true,
+          "version": 2,
+          "created_at": 1624395301,
+          "detached_signature": {
+            "name": "daily-2.cvd.sign",
+            "sha256": "0000f12812c92bacb366eb80a09eff3fcdcad12d37c22d5fc6f52b423dc4eba6",
+            "size": 5170
+          }
+        },
+        {
+          "name": "main.cvd",
+          "sha256": "a39c001ff5a02af09afc204f5710b58290dc68bdc76b6343011188179bf4d7cd",
+          "size": 8394,
+          "signature_verified": true,
+          "version": 1,
+          "created_at": 1624388302,
+          "detached_signature": {
+            "name": "main-1.cvd.sign",
+            "sha256": "4ded40caa7ab78d0a70d950588c0a233b490da87218d221b445a2d16c649cb4b",
+            "size": 5170
+          }
+        }
+      ]
+    },
+    {
+      "tampered": true,
+      "return_code": 2,
+      "status": "failed",
+      "sources": [
+        {
+          "name": "bytecode.cvd",
+          "sha256": "a8e7208ce38d8b8495b066e309ae9ddac03c4c32e9718b57a8261b112a98a0df",
+          "size": 9483,
+          "signature_verified": true,
+          "version": 3,
+          "created_at": 1624408809,
+          "detached_signature": {
+            "name": "bytecode-3.cvd.sign",
+            "sha256": "dd71ae78261aad5367b974b0cfb588f0de3b3192b6f306001011f879d15f7d9c",
+            "size": 5170
+          }
+        },
+        {
+          "name": "daily.cvd",
+          "sha256": "bf82fa9ef2c8c65aead0ff3d167a116515890149b7612fc23d352cd9bf8bd930",
+          "size": 8387,
+          "signature_verified": true,
+          "version": 2,
+          "created_at": 1624395301,
+          "detached_signature": {
+            "name": "daily-2.cvd.sign",
+            "sha256": "0000f12812c92bacb366eb80a09eff3fcdcad12d37c22d5fc6f52b423dc4eba6",
+            "size": 5170
+          }
+        }
+      ]
+    }
+  ]
+}
