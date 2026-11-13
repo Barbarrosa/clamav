@@ -19,6 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location('release_verify', ROOT / 'release/verify_candidate.py')
 VERIFY = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(VERIFY)
+STREAMING_SPEC = importlib.util.spec_from_file_location('release_streaming', ROOT / 'release/run_rust_streaming.py')
+STREAMING = importlib.util.module_from_spec(STREAMING_SPEC)
+STREAMING_SPEC.loader.exec_module(STREAMING)
 sys.path.insert(0, str(ROOT / 'release'))
 try:
     PACKAGE_SPEC = importlib.util.spec_from_file_location('native_package', ROOT / 'release/package.py')
@@ -27,6 +30,53 @@ try:
 finally:
     sys.path.pop(0)
 COMMIT = 'a' * 40
+
+
+class StreamingGateTests(unittest.TestCase):
+    def fixture(self, root, mode='success'):
+        deps = root / 'x86_64-unknown-linux-gnu/release/deps'
+        deps.mkdir(parents=True)
+        binary = deps / 'clamav_rust-fixture'
+        library_path = ':'.join(str(root / part) for part in STREAMING.LIBRARY_DIRECTORIES)
+        binary.write_text('#!' + sys.executable + '\n' +
+            'import os,sys\n' +
+            'assert os.environ["LD_LIBRARY_PATH"]==' + repr(library_path) + '\n' +
+            'mode=' + repr(mode) + '\n' +
+            'if mode=="loader-failure":\n print("missing libclamav.so",file=sys.stderr);sys.exit(127)\n' +
+            'if "--list" in sys.argv:\n' +
+            ' print("cvd::streaming_tests::extract: test" if mode!="no-matches" else "0 tests, 0 benchmarks")\n' +
+            'elif mode=="child-failure":\n print("streaming assertion failed",file=sys.stderr);sys.exit(9)\n' +
+            'else:\n print("test result: ok. "+("0" if mode=="zero-executed" else "1")+" passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;")\n')
+        binary.chmod(0o700)
+
+    def test_missing_binary_cannot_pass_streaming_gate(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaisesRegex(RuntimeError, 'No compiled Rust test executable'):
+                STREAMING.run(Path(temp))
+
+    def test_library_environment_is_pinned_and_nonempty_tests_execute(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.fixture(root)
+            with mock.patch.dict(os.environ, {'LD_LIBRARY_PATH': '/untrusted/libraries'}):
+                self.assertEqual(STREAMING.run(root), 1)
+
+    def test_loader_and_test_process_failure_propagate(self):
+        for mode, status in [('loader-failure', 127), ('child-failure', 9)]:
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                self.fixture(root, mode)
+                with self.assertRaises(subprocess.CalledProcessError) as failure:
+                    STREAMING.run(root)
+                self.assertEqual(failure.exception.returncode, status)
+
+    def test_empty_list_or_zero_executed_tests_cannot_pass(self):
+        for mode in ['no-matches', 'zero-executed']:
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                self.fixture(root, mode)
+                with self.assertRaises(RuntimeError):
+                    STREAMING.run(root)
 
 
 class CandidateTests(unittest.TestCase):

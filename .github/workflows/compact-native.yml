@@ -76,7 +76,7 @@ jobs:
             > "$RUNNER_TEMP/logs/bounded-updater.log" 2>&1
           docker exec compact-native ctest --test-dir /work/build -R '^freshclam$' --output-on-failure \
             >> "$RUNNER_TEMP/logs/bounded-updater.log" 2>&1
-          docker exec compact-native sh -c 'find /work/build/x86_64-unknown-linux-gnu/release/deps -maxdepth 1 -type f -name "clamav_rust-*" -executable -exec {} streaming --test-threads=1 \;' \
+          docker exec compact-native python3 /workspace/repo/compact-integration/release/run_rust_streaming.py --build /work/build \
             >> "$RUNNER_TEMP/logs/bounded-updater.log" 2>&1
           docker update --memory=4g --memory-swap=4g compact-native
           docker network connect bridge compact-native
