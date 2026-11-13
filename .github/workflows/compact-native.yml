@@ -94,6 +94,7 @@ jobs:
         env:
           RELEASE_CHANNEL: ${{ inputs.channel || 'preview' }}
         run: |
+          mkdir -p "$RUNNER_TEMP/release"
           docker exec compact-native python3 /workspace/repo/compact-integration/release/collect_dependencies.py --enable-deb-src
           version=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["integration_version"])')
           upstream=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["upstream_commit"])')
