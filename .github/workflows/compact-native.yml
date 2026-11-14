@@ -130,6 +130,7 @@ jobs:
           path: |
             ${{ runner.temp }}/logs/
             ${{ runner.temp }}/qualification.json
+            ${{ runner.temp }}/native-resource-qualification.json
             ${{ runner.temp }}/build/Testing/Temporary/
             ${{ runner.temp }}/build/unit_tests/test*.log
       - name: Clean up the isolated builder

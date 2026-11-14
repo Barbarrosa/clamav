@@ -395,6 +395,11 @@ static json_object *result_base(const char *profile,const char *generation) {
     json_object_object_add(o,"findings",json_object_new_array());json_object_object_add(o,"reason_codes",json_object_new_array());return o;
 }
 static void emit(json_object *o){puts(json_object_to_json_string_ext(o,JSON_C_TO_STRING_PLAIN));fflush(stdout);json_object_put(o);}
+static void emit_startup_failure(json_object *o) {
+    const char *text=json_object_to_json_string_ext(o,JSON_C_TO_STRING_PLAIN);
+    if(text){ci_emergency_write(text,strlen(text));ci_emergency_write("\n",1);}
+    json_object_put(o);
+}
 /* The lock may be inherited from the local updater. Matching inode plus flock
  * on the same inherited open-file description avoids recursive deadlock. */
 static int acquire_lock(const char *state, const char *inherited) {
@@ -432,6 +437,7 @@ static json_object *scan_one(struct cl_engine *engine,const struct generation *g
     struct context ctx={json_object_new_array(),json_object_new_array(),0,false,false};
     bool reduced=!strcmp(profile,CI_PROFILE);int fd=-1,exitcode=2;
     set_error("");
+    if(ci_cpu_budget_check(limits)){set_error("native-cpu-budget-exhausted");goto scan_done;}
     fd=open(input,O_RDONLY|O_NOFOLLOW|O_CLOEXEC|O_NONBLOCK);
     struct stat before,after;
     if(fd<0||fstat(fd,&before)||!S_ISREG(before.st_mode)||before.st_size<0||(uint64_t)before.st_size>CI_MAX_FILE||((uint64_t)before.st_size>limits->file_bytes)){set_error("input-invalid-or-too-large");goto scan_done;}
@@ -454,6 +460,7 @@ static json_object *scan_one(struct cl_engine *engine,const struct generation *g
     if(ctx.bad_callback){set_error("scanner-metadata-invalid");goto scan_done;}
     bool success=rc==CL_SUCCESS||(rc==CL_VIRUS&&(verdict==CL_VERDICT_STRONG_INDICATOR||verdict==CL_VERDICT_POTENTIALLY_UNWANTED))||(rc==CL_ESTATE&&ctx.guard);
     if(!success){set_error("native-scan-failed");goto scan_done;}
+    if(ci_cpu_budget_check(limits)){set_error("native-cpu-budget-exhausted");goto scan_done;}
     add_b(out,"completed",true);
     bool qualified=!reduced||(CI_REDUCED_COVERAGE_QUALIFIED&&gen->manifest_qualification);
     bool applicable=!reduced||(qualified&&!ctx.guard&&eligible_type);
@@ -500,6 +507,10 @@ static int worker_loop(struct cl_engine *engine,const struct generation *gen,con
         valid=valid&&job&&*job&&strlen(job)<=128&&input&&input[0]=='/'&&strlen(input)<PATH_MAX;
         if(valid)for(const unsigned char *p=(const unsigned char*)job;*p;p++)if(*p<32||*p==127)valid=false;
         if(!valid){if(request)json_object_put(request);return 2;}
+        /* Waiting for a request and processing it have separate wall envelopes.
+         * An original arriving near the idle deadline still gets its full job
+         * allowance; CPU remains cumulative over the worker lifetime. */
+        alarm((unsigned)limits->wall_seconds);
         struct generation checked={0};checked.dirfd=-1;
         bool same=verify_generation(&checked,generation,engine_hash,max_age)
             &&!strcmp(checked.id,gen->id)&&!strcmp(checked.manifest_sha256,gen->manifest_sha256);
@@ -510,7 +521,7 @@ static int worker_loop(struct cl_engine *engine,const struct generation *gen,con
         else{response=result_base(profile,gen->id);json_object *reasons=NULL;json_object_object_get_ex(response,"reason_codes",&reasons);
             json_object_array_add(reasons,json_object_new_string("worker-generation-changed-or-stale"));}
         add_s(response,"request_id",job);emit(response);json_object_put(request);
-        if(!same)return 2;
+        if(!same||ci_cpu_budget_check(limits))return 2;
     }
     return 0;
 }
@@ -522,18 +533,34 @@ int main(int argc,char **argv) {
     const char *command=argv[1],*generation=argument(argc,argv,"--generation"),*certs=argument(argc,argv,"--certs");
     const char *profile=argument(argc,argv,"--profile");if(!profile)profile="full";
     const char *state=argument(argc,argv,"--state"),*inherited=argument(argc,argv,"--lock-fd");
+    bool identity_only=!strcmp(command,"doctor")||!strcmp(command,"options");
     struct ci_limits limits={0};
     if(state&&(ci_limits_parse(argc,argv,&limits)||ci_limits_apply(&limits))) {
         json_object *o=result_base(profile,NULL);json_object *a=NULL;
-        json_object_object_get_ex(o,"reason_codes",&a);json_object_array_add(a,json_object_new_string("native-limits-invalid"));emit(o);return 2;
+        json_object_object_get_ex(o,"reason_codes",&a);json_object_array_add(a,json_object_new_string("native-limits-invalid"));emit_startup_failure(o);return 2;
+    }
+    if(!state){
+        pid_t expected_parent;
+        if(ci_expected_parent(&expected_parent)||ci_parent_death(expected_parent)){
+            json_object *o=result_base(profile,NULL);json_object *a=NULL;
+            json_object_object_get_ex(o,"reason_codes",&a);json_object_array_add(a,json_object_new_string("native-parent-invalid"));emit_startup_failure(o);return 2;
+        }
+    }
+    /* Do not initialize parsers or hash the DSO while another job owns this
+     * state. The descriptor intentionally lives through free() and atexit;
+     * process exit releases it after the complete native lifetime. */
+    if(state||!identity_only){
+        int lock=acquire_lock(state,inherited);
+        if(lock<0){json_object *o=result_base(profile,NULL);json_object *a=NULL;
+            json_object_object_get_ex(o,"reason_codes",&a);json_object_array_add(a,json_object_new_string(error_reason));emit_startup_failure(o);return 2;}
     }
     if(!bootstrap_modules()||cl_init(CL_INIT_DEFAULT)!=CL_SUCCESS||!(cl_subset_runtime_capabilities()&1U)) {
         json_object *o=result_base(profile,NULL);json_object *a=NULL;json_object_object_get_ex(o,"reason_codes",&a);
-        json_object_array_add(a,json_object_new_string("required-rar-parser-unavailable"));emit(o);return 2;
+        json_object_array_add(a,json_object_new_string("required-rar-parser-unavailable"));emit_startup_failure(o);return 2;
     }
     char hash[65]={0},options[65]={0};options_hash(options);
     if(!engine_identity(hash)){fprintf(stderr,"cannot bind loaded engine\n");return 2;}
-    if(!strcmp(command,"doctor")||!strcmp(command,"options")) {
+    if(identity_only) {
         json_object *o=result_base(profile,NULL);add_s(o,"status","ready");add_b(o,"completed",true);
         add_s(o,"engine_sha256",hash);add_s(o,"scan_options_sha256",options);add_s(o,"scan_option_spec",option_spec);
         add_s(o,"guard_version",cl_subset_guard_version());add_s(o,"ordering_version",CI_ORDERING_VERSION);
@@ -541,28 +568,23 @@ int main(int argc,char **argv) {
     }
     if(!strcmp(command,"prepare")) {
         if(!generation||!certs){fprintf(stderr,"prepare requires --generation and --certs\n");return 2;}
-        int lock=acquire_lock(state,inherited);
-        if(lock<0){json_object *o=result_base(profile,NULL);json_object *a=NULL;json_object_object_get_ex(o,"reason_codes",&a);json_object_array_add(a,json_object_new_string(error_reason));emit(o);return 2;}
         uint64_t line_limit=0;
         if(ci_positive_number(argument(argc,argv,"--line-bytes"),&line_limit)) {
             json_object *o=result_base(profile,NULL);json_object *a=NULL;json_object_object_get_ex(o,"reason_codes",&a);
-            json_object_array_add(a,json_object_new_string("line-limit-required"));emit(o);close(lock);return 2;
+            json_object_array_add(a,json_object_new_string("line-limit-required"));emit(o);return 2;
         }
-        int rc=ci_prepare_generation_with_line_limit(generation,certs,line_limit);close(lock);return rc;
+        return ci_prepare_generation_with_line_limit(generation,certs,line_limit);
     }
     if(!strcmp(command,"validate-bounded")) {
         if(!generation||!certs||!state){fprintf(stderr,"validate-bounded requires generation, certs, state and native resource limits\n");return 2;}
-        int lock=acquire_lock(state,inherited);
-        if(lock<0){fprintf(stderr,"%s\n",error_reason);return 2;}
-        int rc=ci_validate_bounded(generation,certs,&limits);close(lock);return rc;
+        return ci_validate_bounded(generation,certs,&limits);
     }
     json_object *out=result_base(profile,NULL);struct context ctx={json_object_new_array(),json_object_new_array(),0,false,false};
-    struct generation gen={0};gen.dirfd=-1;struct skips skips={0};struct cl_engine *engine=NULL;int exitcode=2,lock=-1;
+    struct generation gen={0};gen.dirfd=-1;struct skips skips={0};struct cl_engine *engine=NULL;int exitcode=2;
     bool reduced=!strcmp(profile,CI_PROFILE);
     if(strcmp(profile,"full")&&!reduced){set_error("unsupported-profile");goto done;}
     if(strcmp(command,"scan")&&strcmp(command,"worker")&&strcmp(command,"self-test")&&strcmp(command,"selftest")){set_error("unsupported-command");goto done;}
     if(!generation||!certs){set_error("missing-generation-or-certificates");goto done;}
-    lock=acquire_lock(state,inherited);if(lock<0)goto done;
     uint64_t max_age=48*3600;
     const char *age=argument(argc,argv,"--max-age-seconds");
     if(age&&ci_positive_number(age,&max_age)){set_error("database-age-limit-invalid");goto done;}
@@ -575,6 +597,7 @@ int main(int argc,char **argv) {
         if(!json_object_object_get_ex(files,"profile/skip.tsv",&spec)||!load_skips(&skips,gen.dirfd)) {set_error("profile-exclusions-invalid");goto done;}}
     engine=engine_load(generation,certs,reduced,&skips);
     if(!engine){set_error("database-load-or-compile-failed");goto done;}
+    if(ci_cpu_budget_check(&limits)){set_error("native-cpu-budget-exhausted");goto done;}
     if(strcmp(command,"scan")&&strcmp(command,"worker")) {add_s(out,"status","ready");add_b(out,"completed",true);reason(&ctx,"selected-engine-load-and-compile-passed");exitcode=0;goto done;}
     if(!strcmp(command,"worker")) {
         uint64_t requests=0;
@@ -594,7 +617,6 @@ done:
             json_object_object_add(out,"findings",ctx.findings);json_object_object_add(out,"reason_codes",ctx.reasons);}
         emit(out);
     }
-    if(lock>=0)close(lock);
     if(engine)cl_engine_free(engine);
     free(skips.keys);free(skips.bytes);
     if(gen.manifest)json_object_put(gen.manifest);

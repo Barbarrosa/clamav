@@ -1,0 +1,26 @@
+test_bounded_failure_or_semantic_failure_preserves_active_tuple (test_update.UpdaterTests.test_bounded_failure_or_semantic_failure_preserves_active_tuple) ... ok
+test_code_and_database_activate_as_one_tuple (test_update.UpdaterTests.test_code_and_database_activate_as_one_tuple) ... ok
+test_cooldown_survives_new_invocations (test_update.UpdaterTests.test_cooldown_survives_new_invocations) ... ok
+test_corrupt_freshclam_state_is_not_reset (test_update.UpdaterTests.test_corrupt_freshclam_state_is_not_reset) ... ok
+test_database_update_preserves_program_and_unknown_pointer_fields (test_update.UpdaterTests.test_database_update_preserves_program_and_unknown_pointer_fields) ... ok
+test_disk_reserve_defers_before_fetch (test_update.UpdaterTests.test_disk_reserve_defers_before_fetch) ... ok
+test_failed_validation_preserves_active_generation (test_update.UpdaterTests.test_failed_validation_preserves_active_generation) ... ok
+test_file_cap_must_fit_explicit_monitor_headroom (test_update.UpdaterTests.test_file_cap_must_fit_explicit_monitor_headroom) ... ok
+test_full_state_byte_or_inode_allocation_defers_before_fetch (test_update.UpdaterTests.test_full_state_byte_or_inode_allocation_defers_before_fetch) ... ok
+test_internal_subcommand_cannot_skip_lock (test_update.UpdaterTests.test_internal_subcommand_cannot_skip_lock) ... ok
+test_lock_contention_defers (test_update.UpdaterTests.test_lock_contention_defers) ... ok
+test_only_explicit_memory_failure_uses_bounded_native_validation (test_update.UpdaterTests.test_only_explicit_memory_failure_uses_bounded_native_validation) ... ok
+test_repeated_snapshot_is_idempotent (test_update.UpdaterTests.test_repeated_snapshot_is_idempotent) ... ok
+test_required_policy_has_no_mutation (test_update.UpdaterTests.test_required_policy_has_no_mutation) ... ok
+test_rollback_pointer_retains_previous_tuple (test_update.UpdaterTests.test_rollback_pointer_retains_previous_tuple) ... ok
+test_stale_database_or_candidate_selection_cannot_republish_old_runtime (test_update.UpdaterTests.test_stale_database_or_candidate_selection_cannot_republish_old_runtime) ... ok
+test_state_growth_during_child_stops_without_activation_or_pruning (test_update.UpdaterTests.test_state_growth_during_child_stops_without_activation_or_pruning) ... ok
+test_state_symlink_is_rejected_without_following_it (test_update.UpdaterTests.test_state_symlink_is_rejected_without_following_it) ... ok
+test_success_validates_each_database_in_fresh_child (test_update.UpdaterTests.test_success_validates_each_database_in_fresh_child) ... ok
+test_wall_limit_exits_with_full_undrained_stdout_and_reaps_fetch (test_update.UpdaterTests.test_wall_limit_exits_with_full_undrained_stdout_and_reaps_fetch) ... ok
+test_wall_limit_prevents_promotion (test_update.UpdaterTests.test_wall_limit_prevents_promotion) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 15.199s
+
+OK

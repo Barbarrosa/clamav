@@ -6,6 +6,12 @@ same options and original databases. It is not a certificate that either
 profile detects all malware, that ClamAV recognizes every embedded format, or
 that this package has passed deployment tests on SiteGround.
 
+`resource-limits.json` and [the resource-limit notes](../docs/RESOURCE_LIMITS.md)
+record subsequent adapter lifecycle hardening. Historical detection, memory and
+update observations retain their original source/binary identities; resource
+regressions are labeled separately. The scan options and core patch queue are
+unchanged by that hardening.
+
 The scanner retains generic signatures, file-type/effect rules, bytecode,
 uncertain logical signatures, and name groups that include a retained occurrence
 or bytecode dependency. It excludes only selected terminal Target1 NDB/LDB name

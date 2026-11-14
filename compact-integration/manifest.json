@@ -1,6 +1,6 @@
 {
   "protocol": 1,
-  "integration_version": "0.1.0",
+  "integration_version": "0.1.1",
   "upstream_repository": "https://github.com/Cisco-Talos/clamav.git",
   "upstream_commit": "14915a94cf00ca3a3b7d93b4da050b4dc7f7b76a",
   "patches": [

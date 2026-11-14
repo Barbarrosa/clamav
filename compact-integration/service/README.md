@@ -28,6 +28,17 @@ resource policy; the service supplies no site quota or memory guesses.
   COMPACT_DISK_RESERVE_BYTES, COMPACT_AS_BYTES, COMPACT_CPU_SECONDS,
   COMPACT_WALL_SECONDS, COMPACT_FILE_BYTES, COMPACT_OUTPUT_BYTES,
   COMPACT_MAX_REQUESTS and COMPACT_MAX_AGE_SECONDS.
+- Native work also requires positive whole-CPU-second allocations
+  COMPACT_CPU_HOUR_SECONDS, COMPACT_CPU_DAY_SECONDS and
+  COMPACT_CPU_MONTH_SECONDS. These are the service's confirmed allocations, not
+  guessed provider thresholds. Unknown allocations keep HTTP/status responsive
+  but defer scans and native updates with `scan_budget_unknown` or
+  `maintenance_budget_unknown`. Configure the allocation or use an independently
+  budgeted offline native command; accounting debt is never discarded.
+- Optional COMPACT_RESPONSE_SECONDS and COMPACT_MAINTENANCE_WAIT_SECONDS only
+  tighten COMPACT_WALL_SECONDS; otherwise that existing confirmed deadline is
+  reused. Include maintenance waiting, code checking, database work and response
+  transmission in the administrative proxy/client deadline.
 - Automatic database updates additionally require absolute COMPACT_UPDATER and
   positive COMPACT_LINE_BYTES, COMPACT_CONNECT_SECONDS,
   COMPACT_LOW_SPEED_SECONDS, COMPACT_MAX_ATTEMPTS, COMPACT_MAX_STATE_BYTES
@@ -56,9 +67,40 @@ resource policy; the service supplies no site quota or memory guesses.
 Native address-space ceilings are per process; the service/container budget must
 also account for Python, the proxy, transport buffers and other processes. The
 native worker retains one engine and is recycled at its configured request or
-native lifetime limit. Profile or active-generation changes replace the worker.
-The gateway stops the resident worker before updating. Its asynchronous lock and
-the native state/job.lock serialize scans and updates.
+native lifetime limit. Its CPU ceiling is cumulative for the process and is not
+reset for each request. Profile or generation changes replace the worker. The
+parent acquires state/job.lock before startup and passes the same locked file
+descriptor to the native child. Every service-created child receives the actual
+COMPACT_PARENT_PID for native parent-death handling.
+
+Shared admission permits one operation before input copying or native startup.
+POLICY constants cap scans at 80% of each rolling hour/day/31-day allocation,
+leaving at least 20% for maintenance; maintenance may use any unspent total.
+Scans are paced at the slowest allocation rate without idle burst credit. Each
+admitted scan conservatively charges at least one CPU second and the full native
+worker lifetime allowance, even for tiny or uncertain/cancelled requests. Worker
+recycling and service restarts do not reset debt. Maintenance reserves the doctor
+and updater ceilings for both a possible code candidate and the trusted active
+runtime fallback before either attempt starts.
+If the extra code-candidate reservation cannot fit, the code check defers while
+the separately reserved trusted database maintenance still runs.
+
+Control metadata is fixed at 898,020 bytes with minute buckets, bounded pending
+reservations, checksum and an initialization marker. Atomic replacement briefly
+needs a second bounded copy: allow about 1.8 MiB of control-file workspace in
+addition to the deployment's confirmed reserve. Crashes charge uncertain work
+fully. Corruption, deletion of initialized state and clock rollback hold work.
+Unchanged status reads and denials do not rewrite the ring; cached retry times
+also avoid repeated ledger reads under a refusal flood. These are conservative
+admission/work charges, not substitutes for kernel/provider CPU or memory quotas.
+
+An authenticated maintenance intent blocks new scans while waiting boundedly for
+the current operation. After admission and reservation it stops the resident
+worker and updates. Receive/hash failures before native dispatch keep a healthy
+worker. Cleanup and accounting finish before the processing lease is released;
+response sending has its own bounded deadline outside the lease. Slow readers
+cannot hold the native slot. Status reports cached configuration/last decisions
+without rehashing program files or scanning accounting history per request.
 
 ## HTTP protocol
 
@@ -69,7 +111,8 @@ are rejected. All responses are JSON and are marked no-store.
   credential, a decimal Content-Length and the lowercase SHA256 of the exact
   request bytes in X-Content-SHA256. Omitting profile selects full. The original
   hash, size, generation, requested/effective profile, completion and native
-  request ID are checked before returning a result. Qualified clean, detected
+  request ID are checked before returning a result. Empty input is rejected
+  before native dispatch. Qualified clean, detected
   and held are distinct outcomes; HTTP 200 alone does not mean clean.
 - GET /v1/status uses the scan credential and reports busy state.
 - POST /v1/update uses only the separate admin credential and accepts no query
@@ -78,7 +121,9 @@ are rejected. All responses are JSON and are marked no-store.
   activation, so an unconfirmed response requires checking the active generation
   rather than assuming that the old generation is still current.
 
-Busy operations return 503, malformed identities/queries return 400, oversized
+Busy, paced or exhausted work returns 503 with a reason/retry hint; unknown
+maintenance allocations also return structured 503 without native work.
+Malformed identities/queries and empty input return 400, oversized
 inputs return 413 and authentication failures return 401. Input, output,
 subprocess diagnostics and deadlines are bounded. Subprocesses are killed and
 reaped on failure, timeout, cancellation and service shutdown.
@@ -122,10 +167,15 @@ those authenticated releases and never builds code on the deployment host.
 Live TLS, CDN reachability, provider quotas and process limits must be checked on
 the actual deployment.
 
-Run python3 compact-integration/tests/test_gateway.py. The 13 tests cover
+Run python3 compact-integration/tests/test_gateway.py. The gateway tests cover
 credentials, streaming identities, malformed queries, disk and size envelopes,
 private temporary cleanup, contention, worker request IDs/profile rotation,
-stdout/stderr floods, timeouts, cancellation and process-group fallback cleanup.
+stdout/stderr floods, timeouts, cancellation and process-group fallback cleanup,
+unknown budgets, zero/tiny floods, restart debt, response backpressure, healthy
+worker preservation, inherited leases and maintenance priority. Run
+python3 compact-integration/tests/test_work_budget.py for rolling allocations,
+scan pacing/reserve, bounded metadata, process competition, crash settlement and
+corruption/clock/deletion holds.
 A separate authentic signed/native probe passed clean PDF, held PE and clean PDF
 in one reused worker, with matching request IDs and deletion after every request.
 That is ASGI/native integration evidence; it does not claim live HTTP/TLS testing.

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ASGI and native-pipe lifecycle tests; no deployment or network access."""
 import asyncio
+import gc
 from dataclasses import replace
 import hashlib
 import importlib.util
@@ -66,9 +67,10 @@ async def request(gateway, *, body=b'data', query=b'', headers=None, path='/v1/s
 
 
 WORKER=r'''#!/usr/bin/env python3
-import hashlib,json,sys,time
+import hashlib,json,os,sys,time
 from pathlib import Path
 MODE=__MODE__
+assert os.environ['COMPACT_PARENT_PID']==str(os.getppid())
 if sys.argv[1]=='doctor':
  if MODE=='doctor-flood':
   print('x'*1000000);sys.exit(0)
@@ -78,6 +80,7 @@ if sys.argv[1]=='doctor':
  sys.exit(0)
 args=dict(zip(sys.argv[2::2],sys.argv[3::2]))
 assert Path(args['--certs']).is_dir()
+assert os.fstat(int(args['--lock-fd'])).st_size==0
 for line in sys.stdin:
  job=json.loads(line)
  if MODE=='hang':time.sleep(30)
@@ -97,7 +100,8 @@ for line in sys.stdin:
  print(json.dumps(result),flush=True)
 '''
 UPDATER=r'''#!/usr/bin/env python3
-import json,sys,time
+import json,os,sys,time
+assert os.environ['COMPACT_PARENT_PID']==str(os.getppid())
 MODE=__MODE__
 if MODE=='updater-flood':
  sys.stderr.write('x'*1000000);sys.stderr.flush();time.sleep(30)
@@ -121,7 +125,10 @@ class GatewayTests(unittest.IsolatedAsyncioTestCase):
             max_input_bytes=4096,disk_reserve_bytes=1,as_bytes=128*1024*1024,cpu_seconds=10,
             wall_seconds=2,file_bytes=1024*1024,output_bytes=8192,max_requests=2,max_age_seconds=86400,
             admin_token=ADMIN,updater=self.updater,certs=self.certs,line_bytes=4096,
-            connect_seconds=1,low_speed_seconds=1,max_attempts=1,max_state_bytes=16*1024*1024,max_state_inodes=1000)
+            connect_seconds=1,low_speed_seconds=1,max_attempts=1,max_state_bytes=16*1024*1024,max_state_inodes=1000,
+            # Explicit test-only allocations remove pacing between unrelated
+            # fixture assertions; dedicated tests exercise the real low limits.
+            cpu_hour_seconds=3600*1000000,cpu_day_seconds=86400*1000000,cpu_month_seconds=2678400*1000000)
         self.worker=FakeWorker()
         self.gateway=app.Gateway(self.config,self.worker)
         self.native=[]
@@ -185,9 +192,13 @@ class GatewayTests(unittest.IsolatedAsyncioTestCase):
         first=asyncio.create_task(request(self.gateway))
         await self.worker.started.wait()
         self.assertEqual((await request(self.gateway))[0],503)
-        self.assertEqual((await request(self.gateway,path='/v1/update',token=ADMIN))[0],503)
+        maintenance=asyncio.create_task(request(self.gateway,path='/v1/update',token=ADMIN))
+        while not self.gateway.maintenance_waiting:
+            await asyncio.sleep(0)
+        self.assertEqual((await request(self.gateway))[0],503)
         self.worker.release.set()
         self.assertEqual((await first)[0],200)
+        self.assertEqual((await maintenance)[0],200)
         self.assertEqual(list(self.scratch.iterdir()),[])
 
     async def test_admin_token_is_separate_and_cannot_supply_commands(self):
@@ -249,6 +260,150 @@ class GatewayTests(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(asyncio.CancelledError):
             await task
         self.assertEqual(list(self.scratch.iterdir()),[])
+
+    async def test_unknown_cpu_allocations_defer_both_routes_without_native_work(self):
+        gateway=app.Gateway(replace(self.config,cpu_month_seconds=0),self.worker)
+        for path,token,code in [('/v1/scan',TOKEN,'scan_budget_unknown'),
+                                ('/v1/update',ADMIN,'maintenance_budget_unknown')]:
+            status,row=await request(gateway,path=path,token=token)
+            self.assertEqual((status,row['error']),(503,code))
+        status,row=await request(gateway,path='/v1/status',method='GET')
+        self.assertEqual(status,200);self.assertFalse(row['scan_budget']['configured'])
+        self.assertEqual(self.worker.calls,[]);self.assertEqual(self.worker.stops,0)
+        self.assertEqual(list(self.scratch.iterdir()),[])
+        self.assertFalse((self.state/'service-work-budget.bin').exists())
+
+    async def test_zero_input_never_consumes_budget_or_starts_native_work(self):
+        status,row=await request(self.gateway,body=b'')
+        self.assertEqual((status,row['error']),(400,'empty-input-not-accepted'))
+        self.assertEqual(self.worker.calls,[])
+        self.assertFalse((self.state/'service-work-budget.bin').exists())
+
+    async def test_tiny_flood_is_paced_and_restart_does_not_reset_debt(self):
+        config=replace(self.config,cpu_seconds=0.1,cpu_hour_seconds=3600,
+                       cpu_day_seconds=86400,cpu_month_seconds=2678400)
+        gateway=app.Gateway(config,self.worker)
+        self.assertEqual((await request(gateway,body=b'x'))[0],200)
+        ledger=self.state/'service-work-budget.bin';identity=ledger.stat()
+        with mock.patch.object(gateway.budget,'reserve',wraps=gateway.budget.reserve) as reserve:
+            for _ in range(20):
+                self.assertEqual((await request(gateway,body=b'x'))[0],503)
+            self.assertEqual(reserve.call_count,0)  # cached denials avoid ledger I/O.
+        self.assertEqual((ledger.stat().st_ino,ledger.stat().st_mtime_ns),
+                         (identity.st_ino,identity.st_mtime_ns))
+        restarted=app.Gateway(config,self.worker)
+        self.assertEqual((await request(restarted,body=b'x'))[0],503)
+        self.assertEqual(len(self.worker.calls),1)
+        snapshot=restarted.budget.snapshot()
+        self.assertEqual(snapshot['windows']['hour']['scan_seconds'],1)
+
+    async def test_pre_scan_ingress_failures_keep_a_healthy_worker(self):
+        self.assertEqual((await request(self.gateway))[0],200)
+        gateway=app.Gateway(replace(self.config,wall_seconds=0.1),self.worker)
+        async def stalled():await asyncio.sleep(30)
+        self.assertEqual((await request(gateway,receive_hook=stalled))[0],503)
+        self.assertEqual(self.worker.stops,0);self.assertEqual(len(self.worker.calls),1)
+        self.assertEqual(list(self.scratch.iterdir()),[])
+        self.assertEqual((await request(gateway))[0],200)
+
+    async def test_response_backpressure_releases_processing_slot_and_has_deadline(self):
+        gateway=app.Gateway(replace(self.config,response_seconds=0.08),self.worker)
+        ready=asyncio.Event();responses=[]
+        async def receive():return {'type':'http.request','body':b'x','more_body':False}
+        async def blocked_send(message):
+            responses.append(message)
+            if message['type']=='http.response.body':
+                ready.set();await asyncio.Event().wait()
+        scope={'type':'http','path':'/v1/scan','method':'POST','query_string':b'',
+               'headers':[(b'authorization',b'Bearer '+TOKEN.encode()),(b'content-length',b'1'),
+                          (b'x-content-sha256',hashlib.sha256(b'x').hexdigest().encode())]}
+        first=asyncio.create_task(gateway(scope,receive,blocked_send))
+        await ready.wait()
+        self.assertFalse(gateway.lock.locked());self.assertEqual(list(self.scratch.iterdir()),[])
+        self.assertEqual((await request(gateway,body=b'next'))[0],200)
+        with self.assertRaises(TimeoutError):await first
+        self.assertEqual(self.worker.stops,0)
+
+    async def test_separate_gateway_cannot_duplicate_global_work(self):
+        self.worker.release=asyncio.Event()
+        first=asyncio.create_task(request(self.gateway))
+        await self.worker.started.wait()
+        second_worker=FakeWorker();second=app.Gateway(self.config,second_worker)
+        self.assertEqual((await request(second))[0],503)
+        self.assertEqual(second_worker.calls,[])
+        self.worker.release.set();self.assertEqual((await first)[0],200)
+
+    async def test_maintenance_intent_blocks_other_gateways_and_cancellation_releases_it(self):
+        self.worker.release=asyncio.Event()
+        first=asyncio.create_task(request(self.gateway))
+        await self.worker.started.wait()
+        pending=asyncio.create_task(request(self.gateway,path='/v1/update',token=ADMIN))
+        while not self.gateway.maintenance_waiting:await asyncio.sleep(0)
+        other=app.Gateway(self.config,FakeWorker())
+        status,row=await request(other)
+        self.assertEqual((status,row['error']),(503,'maintenance-pending'))
+        pending.cancel()
+        with self.assertRaises(asyncio.CancelledError):await pending
+        self.assertFalse(self.gateway.maintenance_waiting)
+        intent=app.work_budget.acquire_lease(self.state,'service-maintenance.lock')
+        self.assertIsNotNone(intent);intent.close()
+        self.worker.release.set();self.assertEqual((await first)[0],200)
+
+    async def test_native_lease_precedes_runtime_verification_and_releases_on_stop(self):
+        worker=app.NativeWorker(self.config);self.native.append(worker)
+        original=app.Config.runtime;observed=[]
+        def runtime(config,current):
+            probe=app.work_budget.acquire_lease(config.state,'job.lock')
+            observed.append(probe is None)
+            if probe is not None:probe.close()
+            return original(config,current)
+        path=self.root/'original';path.write_bytes(b'original')
+        with mock.patch.object(app.Config,'runtime',runtime):
+            await worker.scan(path,'full',hashlib.sha256(b'original').hexdigest(),8)
+        self.assertEqual(observed,[True])
+        await worker.stop()
+        released=app.work_budget.acquire_lease(self.state,'job.lock')
+        self.assertIsNotNone(released);released.close()
+
+    async def test_cancelled_admin_child_is_reaped_and_all_admission_leases_release(self):
+        self.set_programs(updater='updater-hang')
+        task=asyncio.create_task(request(self.gateway,path='/v1/update',token=ADMIN))
+        while not self.gateway.processes:await asyncio.sleep(0)
+        task.cancel()
+        with self.assertRaises(asyncio.CancelledError):await task
+        self.assertEqual(self.gateway.processes,set());self.assertFalse(self.gateway.lock.locked())
+        for name in ('service-maintenance.lock','service-admission.lock'):
+            lease=app.work_budget.acquire_lease(self.state,name)
+            self.assertIsNotNone(lease);lease.close()
+
+    async def test_insufficient_code_cpu_reserve_still_runs_trusted_database_update(self):
+        config=replace(self.config,release_public_key='configured-test-placeholder',code_update_seconds=1,
+                       cpu_hour_seconds=20,cpu_day_seconds=20,cpu_month_seconds=20)
+        releases=types.SimpleNamespace(health={'status':'configured'},stage_next=mock.AsyncMock())
+        gateway=app.Gateway(config,self.worker,releases)
+        status,row=await request(gateway,path='/v1/update',token=ADMIN)
+        self.assertEqual((status,row['status']),(200,'up_to_date'))
+        self.assertEqual(row['code_update']['reason'],'code-cpu-budget-unavailable')
+        releases.stage_next.assert_not_awaited()
+
+    async def test_cancelled_command_retrieves_original_gather_result(self):
+        loop=asyncio.get_running_loop();previous=loop.get_exception_handler();unhandled=[]
+        loop.set_exception_handler(lambda _loop,context:unhandled.append(context))
+        processes=set()
+        try:
+            task=asyncio.create_task(app.bounded_command(
+                [sys.executable,'-c','import time;time.sleep(30)'],
+                output_bytes=8192,wall_seconds=2,processes=processes))
+            while not processes:await asyncio.sleep(0)
+            task.cancel()
+            with self.assertRaises(asyncio.CancelledError):await task
+            self.assertEqual(processes,set())
+            del task
+            gc.collect();await asyncio.sleep(0)
+            self.assertEqual(unhandled,[])
+        finally:
+            for process in tuple(processes):await app.kill_process(process)
+            loop.set_exception_handler(previous)
 
 
 if __name__=='__main__':

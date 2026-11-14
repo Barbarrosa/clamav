@@ -46,12 +46,12 @@ static int ci_batch_callback(const char *format,const char *name,unsigned custom
 /* Stock validation's PUA/enhanced superset is loaded here, with bytecode always
  * enabled. The actual scanner's STDOPT engine is compiled again by self-test. */
 static void ci_batch_child(const char *generation,const char *certs,struct skips *skips,
-                           uint64_t start,uint64_t count,int pipefd,const struct ci_limits *limits) {
+                           uint64_t start,uint64_t count,int pipefd,struct ci_limits *limits,pid_t expected_parent) {
     struct ci_batch_context context={0};context.skips=skips;context.start=start;context.count=count;
     int nullfd=open("/dev/null",O_WRONLY|O_CLOEXEC);
     if(nullfd<0||dup2(nullfd,STDOUT_FILENO)<0)_exit(120);
     close(nullfd);
-    if(ci_limits_apply(limits))_exit(120);
+    if(ci_limits_apply_for_parent(limits,expected_parent))_exit(120);
     context.digest=EVP_MD_CTX_new();
     struct cl_engine *engine=cl_engine_new();
     char databases[PATH_MAX];
@@ -99,15 +99,14 @@ static int ci_batch_run(const char *generation,const char *certs,struct skips *s
                         uint64_t start,uint64_t count,const struct ci_limits *limits,
                         struct ci_batch_result *result,int *termination) {
     int fds[2];if(pipe2(fds,O_CLOEXEC))return -1;
-    struct rusage self,children;
-    if(getrusage(RUSAGE_SELF,&self)||getrusage(RUSAGE_CHILDREN,&children)){close(fds[0]);close(fds[1]);return -1;}
-    uint64_t used=(uint64_t)self.ru_utime.tv_sec+(uint64_t)self.ru_stime.tv_sec
-        +(uint64_t)children.ru_utime.tv_sec+(uint64_t)children.ru_stime.tv_sec+1;
-    if(used>=limits->cpu_seconds){close(fds[0]);close(fds[1]);return -1;}
-    struct ci_limits remaining=*limits;remaining.cpu_seconds-=used;
+    struct ci_limits remaining=*limits;
+    if(ci_cpu_budget_remaining(limits,&remaining.cpu_seconds)){
+        close(fds[0]);close(fds[1]);set_error("bounded-cpu-budget-exhausted");return -1;
+    }
+    pid_t expected_parent=getpid();
     pid_t child=fork();
     if(child<0){close(fds[0]);close(fds[1]);return -1;}
-    if(!child){close(fds[0]);ci_batch_child(generation,certs,skips,start,count,fds[1],&remaining);}
+    if(!child){close(fds[0]);ci_batch_child(generation,certs,skips,start,count,fds[1],&remaining,expected_parent);}
     close(fds[1]);size_t received=0;memset(result,0,sizeof(*result));
     while(received<sizeof(*result)){
         ssize_t n=read(fds[0],(unsigned char *)result+received,sizeof(*result)-received);
@@ -119,6 +118,7 @@ static int ci_batch_run(const char *generation,const char *certs,struct skips *s
     while(wait4(child,&status,0,&usage)<0){if(errno!=EINTR)return -1;}
     result->peak_rss_kib=(uint64_t)usage.ru_maxrss;
     *termination=status;
+    if(ci_cpu_budget_check(limits)){set_error("bounded-cpu-budget-exhausted");return -1;}
     if(WIFEXITED(status)&&WEXITSTATUS(status)==0&&received==sizeof(*result))
         return result->success?0:result->resource_failure?1:-1;
     if(WIFSIGNALED(status)&&(WTERMSIG(status)==SIGKILL||WTERMSIG(status)==SIGXCPU||WTERMSIG(status)==SIGALRM))return 1;
@@ -210,7 +210,7 @@ static int ci_validate_bounded(const char *generation,const char *certs,struct c
     if(log<0||receipt<0){set_error("bounded-receipt-already-exists-or-unwritable");goto done;}
     int status=ci_batch_run(generation,certs,&skips,0,0,limits,&baseline,&termination);attempts++;
     ci_batch_record(log,0,0,status,termination,&baseline);
-    if(status||*error_reason){set_error("bounded-retained-baseline-rejected");goto done;}
+    if(status||*error_reason){if(!*error_reason)set_error("bounded-retained-baseline-rejected");goto done;}
     memcpy(aggregate,baseline.counters,sizeof(aggregate));
     for(unsigned i=0;i<CL_SUBSET_VALIDATION_COUNTERS;i++)
         if(aggregate[i]>ci_counter_limit(i)){set_error("bounded-baseline-native-counter-unsupported");goto done;}
@@ -244,6 +244,7 @@ static int ci_validate_bounded(const char *generation,const char *certs,struct c
     if(passed!=baseline.eligible||!ci_bounded_fingerprint(root,after)||strcmp(fingerprint,after)){
         set_error("bounded-coverage-or-generation-mismatch");goto done;
     }
+    if(ci_cpu_budget_check(limits)){set_error("bounded-cpu-budget-exhausted");goto done;}
     add_s(out,"status","passed");add_s(out,"snapshot_sha256",fingerprint);
     char transcript[65];for(unsigned i=0;i<32;i++)snprintf(transcript+2*i,3,"%02x",baseline.transcript[i]);
     add_s(out,"transcript_sha256",transcript);
@@ -255,6 +256,7 @@ static int ci_validate_bounded(const char *generation,const char *certs,struct c
     add_s(out,"scope","all retained records compiled together in every pass; whole omitted callback occurrences compiled in complete disjoint windows; aggregate overflow bounds; no combined full PE compile");
     code=0;
 done:
+    if(!code&&ci_cpu_budget_check(limits)){set_error("bounded-cpu-budget-exhausted");code=2;add_s(out,"status","failed");}
     if(code)add_s(out,"reason",*error_reason?error_reason:"bounded-validation-failed");
     if(receipt>=0){const char *text=json_object_to_json_string_ext(out,JSON_C_TO_STRING_PRETTY);
         if(dprintf(receipt,"%s\n",text)<0||fsync(receipt)||fchmod(receipt,0400))code=2;

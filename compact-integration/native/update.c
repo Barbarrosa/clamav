@@ -8,6 +8,7 @@
 #include <openssl/evp.h>
 #include <json-c/json.h>
 #include "qualification.h"
+#include "limits.h"
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -43,7 +44,7 @@ static volatile sig_atomic_t interrupted;
 static int job_lock = -1;
 static double job_deadline;
 static uint64_t retry_after;
-static double child_cpu_used;
+static uint64_t child_cpu_used_us;
 static int last_child_status = -1;
 static int bounded_validation;
 static const char *last_stage = "preflight";
@@ -55,7 +56,7 @@ static void stop(int sig) { (void)sig; interrupted = 1; }
 static void expired(int sig) {
     (void)sig;
     static const char record[]="{\"protocol\":1,\"status\":\"failed\",\"reason\":\"job_wall_limit\",\"next_attempt_after\":null}\n";
-    (void)write(STDOUT_FILENO,record,sizeof(record)-1);
+    ci_emergency_write(record,sizeof(record)-1);
     _exit(124);
 }
 static int error(const char *reason) { failure = reason; return -1; }
@@ -247,15 +248,18 @@ static int set_limit(int resource, uint64_t value) {
     struct rlimit next = {requested, requested};
     return setrlimit(resource, &next);
 }
-static int child_limits(void) {
+static int child_limits(pid_t expected_parent) {
+    if(ci_parent_death(expected_parent))return -1;
     if (set_limit(RLIMIT_AS, opt.as_bytes) || set_limit(RLIMIT_CPU, opt.cpu_seconds) || set_limit(RLIMIT_FSIZE, opt.file_bytes))
         return -1;
     struct rlimit no_core = {0, 0};
     if (setrlimit(RLIMIT_CORE, &no_core)) return -1;
 #ifdef __linux__
-    if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) || prctl(PR_SET_PDEATHSIG, SIGKILL)) return -1;
-    if (getppid() == 1) return -1;
+    if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0)) return -1;
 #endif
+    struct rlimit actual_cpu;
+    if(getrlimit(RLIMIT_CPU,&actual_cpu)||actual_cpu.rlim_cur==RLIM_INFINITY||!actual_cpu.rlim_cur)return -1;
+    opt.cpu_seconds=(uint64_t)actual_cpu.rlim_cur;
     char line[32]; snprintf(line, sizeof(line), "%" PRIu64, opt.line_bytes);
     return setenv("CLAMAV_UPDATE_MAX_LINE_BYTES", line, 1);
 }
@@ -264,29 +268,32 @@ static double monotonic(void) {
     if (clock_gettime(CLOCK_MONOTONIC, &now)) return -1;
     return (double)now.tv_sec + (double)now.tv_nsec / 1e9;
 }
-static double driver_cpu(void) {
-    struct rusage used;
-    if(getrusage(RUSAGE_SELF,&used))return (double)opt.cpu_seconds;
-    return (double)used.ru_utime.tv_sec+(double)used.ru_stime.tv_sec+
-           ((double)used.ru_utime.tv_usec+(double)used.ru_stime.tv_usec)/1e6;
+static int job_cpu_check(void) {
+    struct ci_limits budget={opt.as_bytes,opt.cpu_seconds,opt.wall_seconds,opt.file_bytes};
+    return ci_cpu_budget_check(&budget)?error("job_cpu_limit"):0;
 }
 static int run(char *const argv[], const char *log, const char *root, int share_lock) {
     last_stage=argv[1];
     last_child_status=-1;
     if(snprintf(last_log,sizeof(last_log),"%s",log)>=(int)sizeof(last_log))return error("stage_log_path");
-    if(child_cpu_used+driver_cpu()>=(double)opt.cpu_seconds)return error("job_cpu_limit");
-    uint64_t remaining_cpu=(uint64_t)((double)opt.cpu_seconds-child_cpu_used-driver_cpu());
-    if(!remaining_cpu)return error("job_cpu_limit");
+    struct ci_limits budget={opt.as_bytes,opt.cpu_seconds,opt.wall_seconds,opt.file_bytes};
+    uint64_t remaining_cpu=0;
+    if(ci_cpu_budget_remaining(&budget,&remaining_cpu))return error("job_cpu_limit");
     if (space(root, 0) || state_capacity(0,1)) return -1;
     int fd = open(log, O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0600);
     if (fd < 0) return error("stage_log");
     double start = monotonic();
     if (start < 0) { close(fd); return error("monotonic_clock"); }
+    pid_t expected_parent=getpid();
     pid_t child = fork();
     if (!child) {
         (void)setpgid(0, 0);
         opt.cpu_seconds=remaining_cpu;
-        if (dup2(fd, STDOUT_FILENO) < 0 || dup2(fd, STDERR_FILENO) < 0 || child_limits()) _exit(125);
+        char parent_text[32],cpu_text[32];
+        snprintf(parent_text,sizeof(parent_text),"%ld",(long)expected_parent);
+        snprintf(cpu_text,sizeof(cpu_text),"%" PRIu64,remaining_cpu);
+        if (dup2(fd, STDOUT_FILENO) < 0 || dup2(fd, STDERR_FILENO) < 0 || child_limits(expected_parent)
+            ||setenv("COMPACT_PARENT_PID",parent_text,1)||setenv("COMPACT_UPDATE_cpu_seconds",cpu_text,1)) _exit(125);
         close(fd);
         if (share_lock && fcntl(job_lock, F_SETFD, 0)) _exit(125);
         execv(argv[0], argv); _exit(126);
@@ -314,9 +321,10 @@ static int run(char *const argv[], const char *log, const char *root, int share_
         struct timespec pause = {0, 100000000}; nanosleep(&pause, NULL);
     }
     if(state_capacity(0,0))return -1;
-    child_cpu_used+=(double)usage.ru_utime.tv_sec+(double)usage.ru_stime.tv_sec+
-                    ((double)usage.ru_utime.tv_usec+(double)usage.ru_stime.tv_usec)/1e6;
-    if(child_cpu_used+driver_cpu()>(double)opt.cpu_seconds)return error("job_cpu_limit");
+    uint64_t used=0;
+    if(ci_usage_microseconds(&usage,&used)||used>UINT64_MAX-child_cpu_used_us)return error("job_cpu_accounting");
+    child_cpu_used_us+=used;
+    if(job_cpu_check())return -1;
     last_child_status=WIFEXITED(status) ? WEXITSTATUS(status) : -1;
     return last_child_status == 0 ? 0 : error("stage_failed");
 }
@@ -677,18 +685,20 @@ static int update(void) {
     if (job_lock < 0 || fstat(job_lock, &st) || !S_ISREG(st.st_mode) || st.st_uid != geteuid() || st.st_nlink != 1)
         return error("job_lock_invalid");
     if (flock(job_lock, LOCK_EX | LOCK_NB)) { close(job_lock); return error("job_busy"); }
+    /* Keep the shared descriptor through cleanup and atexit. */
+    if(cl_init(CL_INIT_DEFAULT)!=CL_SUCCESS)return error("native_initialization");
     int rc = -1;
-    if(expected_pointer() || state_capacity(0,0)){close(job_lock);return -1;}
+    if(expected_pointer() || state_capacity(0,0))return -1;
     if(recover_scratch(generations,".stage-") || recover_scratch(opt.state,".pointer-next-")) {
-        close(job_lock);return -1;
+        return -1;
     }
     double started=monotonic();
-    if(started<0){close(job_lock);return error("monotonic_clock");}
+    if(started<0)return error("monotonic_clock");
     job_deadline=started+(double)opt.wall_seconds;
-    if(cache_safe(cache)){close(job_lock);return -1;}
-    if(inherit_program()){close(job_lock);return -1;}
+    if(cache_safe(cache))return -1;
+    if(inherit_program())return -1;
     int cooldown=cached_cooldown();
-    if(cooldown){close(job_lock);return cooldown>0 ? deferred_cooldown() : -1;}
+    if(cooldown)return cooldown>0 ? deferred_cooldown() : -1;
     if (space(opt.state, 0) || state_capacity(0,4) || path(stage, generations, ".stage-XXXXXX") || !mkdtemp(stage) ||
         path(dbdir, stage, "databases") || private_dir(dbdir) || path(log, stage, "fetch.log")) goto done;
     char lock_string[32]; snprintf(lock_string, sizeof(lock_string), "%d", job_lock);
@@ -775,10 +785,10 @@ static int update(void) {
                           "--cpu-seconds",cpu_string,"--wall-seconds",wall_string,"--file-bytes",file_string,"--line-bytes",line_string,"--max-age-seconds",age_string,NULL};
         if(run(existing,log,opt.state,1))goto done;
     } else if(errno!=ENOENT || freeze(stage) || rename(stage,destination)){error("generation_publish");goto done;}
-    if(child_cpu_used+driver_cpu()>(double)opt.cpu_seconds){error("job_cpu_limit");goto done;}
+    if(job_cpu_check())goto done;
     if(state_capacity(0,2) || sync_dir(generations) || pointer_write(opt.state,id))goto done;
     if(existed)(void)remove_scratch(stage);
-    printf("{\"protocol\":1,\"status\":\"%s\",\"generation\":\"%s\",\"next_attempt_after\":null,\"child_cpu_seconds\":%.6f}\n",existed?"up_to_date":"updated",id,child_cpu_used);
+    printf("{\"protocol\":1,\"status\":\"%s\",\"generation\":\"%s\",\"next_attempt_after\":null,\"child_cpu_seconds\":%.6f}\n",existed?"up_to_date":"updated",id,(double)child_cpu_used_us/1000000);
     rc = 0;
 done:
     if(rc && last_log[0]) {
@@ -788,7 +798,6 @@ done:
         }
     }
     if(stage[0])(void)remove_scratch(stage);
-    close(job_lock);
     return rc;
 }
 static uint64_t number(const char *value) {
@@ -838,10 +847,11 @@ static int export_internal(void) {
     return 0;
 }
 int main(int argc, char **argv) {
+    pid_t expected_parent;
     umask(0077); signal(SIGTERM, stop); signal(SIGINT, stop);
-    if (argc < 2 || parse(argc, argv) || !opt.certs || opt.certs[0] != '/') goto failed;
+    if (ci_expected_parent(&expected_parent)||argc < 2 || parse(argc, argv) || !opt.certs || opt.certs[0] != '/') goto failed;
     if (!strcmp(argv[1], "fetch") || !strcmp(argv[1], "test-db")) {
-        if (import_internal() || opt.wall_seconds>UINT_MAX || inherited_lock() || child_limits()) goto failed;
+        if (import_internal() || opt.wall_seconds>UINT_MAX || inherited_lock() || child_limits(expected_parent)) goto failed;
         signal(SIGALRM,expired); alarm((unsigned)opt.wall_seconds);
         if (!strcmp(argv[1], "fetch")) return opt.state ? fresh_fetch() : 2;
         return opt.database ? test_database() : 2;
@@ -856,11 +866,15 @@ int main(int argc, char **argv) {
         (opt.program_id && (strncmp(opt.program_id,"pkg-",4) || !hash_text(opt.program_id+4))) || export_internal()) { error("required_policy_missing"); goto failed; }
     if (!realpath(argv[0], executable)) { error("executable_path"); goto failed; }
     signal(SIGALRM,expired); alarm((unsigned)opt.wall_seconds);
-    if (child_limits() || cl_init(CL_INIT_DEFAULT) != CL_SUCCESS || update()) goto failed;
-    alarm(0);
+    if (child_limits(expected_parent) || update()) goto failed;
+    /* Keep the deadline active through buffered output and atexit cleanup. */
     return 0;
 failed:
-    fprintf(stdout, "{\"protocol\":1,\"status\":\"%s\",\"reason\":\"%s\",\"phase\":\"%s\",\"next_attempt_after\":null}\n",
-            !strcmp(failure,"job_busy") || !strcmp(failure,"disk_reserve") || !strcmp(failure,"current_pointer_changed") || !strcmp(failure,"state_byte_limit") || !strcmp(failure,"state_inode_limit") ? "deferred" : "failed",failure,last_stage);
+    {
+        char record[512];
+        int length=snprintf(record,sizeof(record),"{\"protocol\":1,\"status\":\"%s\",\"reason\":\"%s\",\"phase\":\"%s\",\"next_attempt_after\":null}\n",
+                !strcmp(failure,"job_busy") || !strcmp(failure,"disk_reserve") || !strcmp(failure,"current_pointer_changed") || !strcmp(failure,"state_byte_limit") || !strcmp(failure,"state_inode_limit") ? "deferred" : "failed",failure,last_stage);
+        if(length>0&&(size_t)length<sizeof(record))ci_emergency_write(record,(size_t)length);
+    }
     return 2;
 }

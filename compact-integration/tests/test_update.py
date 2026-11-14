@@ -341,6 +341,81 @@ class UpdaterTests(unittest.TestCase):
         self.assertIn(row['reason'],('stage_wall_limit','job_wall_limit'))
         self.assertFalse((self.state/'current.json').exists())
 
+    def test_wall_limit_exits_with_full_undrained_stdout_and_reaps_fetch(self):
+        import ctypes
+        import signal
+        import sys
+        if not sys.platform.startswith('linux'):
+            self.skipTest('Linux subreaper required for descendant cleanup')
+        self.assertEqual(self.call()[0].returncode,0)
+        before=(self.state/'current.json').read_bytes()
+        audit_count=len(self.audit.read_text().splitlines())
+        self.env.update(TEST_FETCH_SLEEP='3',TEST_DB_VERSION='2',COMPACT_PARENT_PID=str(os.getpid()))
+        command=self.args+['--expected-current-sha256',hashlib.sha256(before).hexdigest()]
+        command[command.index('--wall-seconds')+1]='1'
+        libc=ctypes.CDLL(None,use_errno=True)
+        previous=ctypes.c_int()
+        self.assertEqual(libc.prctl(37,ctypes.byref(previous),0,0,0),0)  # PR_GET_CHILD_SUBREAPER
+        read_fd=write_fd=-1
+        process=None
+        changed_subreaper=False
+
+        def fetch_pids():
+            records=self.audit.read_text().splitlines()[audit_count:]
+            return {int(fields[0]) for fields in map(str.split,records)
+                    if len(fields)>=2 and fields[0].isdigit() and fields[1]=='fetch'}
+
+        try:
+            self.assertEqual(libc.prctl(36,1,0,0,0),0)  # PR_SET_CHILD_SUBREAPER
+            changed_subreaper=True
+            read_fd,write_fd=os.pipe()
+            os.set_blocking(write_fd,False)
+            for chunk in (b'x'*4096,b'x'):
+                while True:
+                    try:os.write(write_fd,chunk)
+                    except BlockingIOError:break
+            os.set_blocking(write_fd,True)
+            started=time.monotonic()
+            process=subprocess.Popen([str(self.binary),*command],env=self.env,stdout=write_fd,
+                                     stderr=subprocess.DEVNULL,start_new_session=True)
+            os.close(write_fd);write_fd=-1
+            # Keep the read end open and do not consume any bytes until exit.
+            # A blocking emergency write would otherwise hold this forever.
+            process.wait(timeout=4)
+            self.assertLess(time.monotonic()-started,4)
+            self.assertIn(process.returncode,(124,2))
+            children=fetch_pids()
+            self.assertTrue(children,'the sleeping fetch helper must actually run')
+            for child in children:
+                deadline=time.monotonic()+1
+                while True:
+                    try:reaped,_=os.waitpid(child,os.WNOHANG)
+                    except ChildProcessError:
+                        # The updater may have reaped it before its own exit.
+                        with self.assertRaises(ProcessLookupError):os.kill(child,0)
+                        break
+                    if reaped:break
+                    if time.monotonic()>=deadline:self.fail('fetch helper survived the updater wall limit')
+                    time.sleep(0.01)
+            self.assertEqual((self.state/'current.json').read_bytes(),before)
+            with (self.state/'job.lock').open('rb') as lock:
+                fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        finally:
+            if process is not None and process.poll() is None:
+                process.kill();process.wait(timeout=2)
+            # Reap only PIDs created by this test's fetch; signal one only after
+            # waitpid confirms it is still our adopted, live child.
+            for child in fetch_pids():
+                try:reaped,_=os.waitpid(child,os.WNOHANG)
+                except ChildProcessError:continue
+                if not reaped:
+                    try:os.kill(child,signal.SIGKILL)
+                    except ProcessLookupError:pass
+                    os.waitpid(child,0)
+            if write_fd>=0:os.close(write_fd)
+            if read_fd>=0:os.close(read_fd)
+            if changed_subreaper:self.assertEqual(libc.prctl(36,previous.value,0,0,0),0)
+
     def test_disk_reserve_defers_before_fetch(self):
         self.args[self.args.index('--disk-reserve-bytes')+1]=str(2**64-1)
         result,row=self.call()

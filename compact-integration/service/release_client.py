@@ -374,11 +374,12 @@ class ReleaseClient:
                     output.write(data)
             process = None
             try:
+                environment = dict(os.environ, COMPACT_PARENT_PID=str(os.getpid()))
                 process = await asyncio.create_subprocess_exec(
                     'openssl', 'pkeyutl', '-verify', '-rawin', '-pubin', '-keyform', 'DER',
                     '-inkey', str(root / 'public.der'), '-sigfile', str(root / 'signature'), '-in', str(root / 'manifest'),
                     stdin=asyncio.subprocess.DEVNULL, stdout=asyncio.subprocess.DEVNULL,
-                    stderr=asyncio.subprocess.DEVNULL, start_new_session=True)
+                    stderr=asyncio.subprocess.DEVNULL, start_new_session=True, env=environment)
                 if await asyncio.wait_for(process.wait(), self.remaining()) != 0:
                     raise ReleaseError('invalid-release-signature')
             finally:

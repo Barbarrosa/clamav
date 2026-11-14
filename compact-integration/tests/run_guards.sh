@@ -25,3 +25,4 @@ python3 "$ci_tests/test_guard_mutations.py" --source "$ci_source" --build "$ci_b
   --probe "$ci_report/guard-entry-probe" --output "$ci_report/mutations"
 ${CC:-cc} -std=c11 -O2 -Wall -Wextra -Werror "$ci_tests/test_limits.c" -o "$ci_report/test-limits"
 "$ci_report/test-limits"
+sh "$ci_tests/test_cpu_parent.sh"

@@ -1,0 +1,45 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "engine_sha256": "359b79e9d2037926d43822492a6a8d938079bfa1b99357d79b8cd3963dcc3f07",
+  "test_only_upstream_trust": true,
+  "production_trust_modified": false,
+  "delay_and_observation_hooks_diagnostic_only": true,
+  "observations": {
+    "real_test_signed_prepare_stock_load_and_selected_compile": true,
+    "compressed_archive_member_limit": {
+      "uncompressed_member_bytes": 105906176,
+      "compressed_original_bytes": 103094,
+      "sha256": "cd7389e23b65b5d76f16ac969868ebc9b45455158b0c6bd142bfc48c3c8fb283",
+      "status": "detected",
+      "reason_codes": [
+        "parser-error",
+        "scan-limit-encryption-or-parser-alert",
+        "profile-root-type-unsupported"
+      ],
+      "process_reaped": true,
+      "wall_seconds": 0.836716074999913
+    },
+    "full_stdout_pipe_wall_exit_seconds": 1.0243189130001156,
+    "rejected_parent_full_stdout_exit_seconds": 0.01764044300034584,
+    "lock_held_through_engine_free_and_atexit": true,
+    "busy_rejected_before_parser_initialization": true,
+    "worker_after_idle_and_second_original": [
+      "clean",
+      "held",
+      "clean"
+    ],
+    "worker_idle_deadline_preserved": true,
+    "worker_cpu_budget_spans_originals": [
+      "clean",
+      "clean",
+      "clean",
+      "clean",
+      "failed"
+    ],
+    "incorrect_trusted_parent_rejected": true
+  },
+  "integration_version": "0.1.1",
+  "scanner_sha256": "d85c4ae51f633e6dfc735256b311b6a63f9e85df8be10ce59ab2ee5788f0cbb8",
+  "updater_sha256": "9471f13d9528c5703e1b0ea2d03bf08223bc332f4d54696537119b228a2e3ec0"
+}

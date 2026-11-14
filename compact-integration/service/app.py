@@ -10,6 +10,7 @@ from dataclasses import dataclass
 import hashlib
 import hmac
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -22,7 +23,7 @@ import time
 
 # Also support direct file loading by the standalone integration probes.
 if __package__:
-    from . import release_client
+    from . import release_client, work_budget
 else:
     import importlib.util
     import sys
@@ -32,6 +33,12 @@ else:
         release_client = importlib.util.module_from_spec(_release_spec)
         sys.modules[_release_spec.name] = release_client
         _release_spec.loader.exec_module(release_client)
+    _budget_spec = importlib.util.spec_from_file_location('compact_work_budget', Path(__file__).with_name('work_budget.py'))
+    work_budget = sys.modules.get(_budget_spec.name)
+    if work_budget is None:
+        work_budget = importlib.util.module_from_spec(_budget_spec)
+        sys.modules[_budget_spec.name] = work_budget
+        _budget_spec.loader.exec_module(work_budget)
 
 PROFILES = {'full', 'pdf-jpeg-png-pe-exclusions'}
 
@@ -66,6 +73,11 @@ class Config:
     code_check_seconds: int = 0
     max_state_bytes: int = 0
     max_state_inodes: int = 0
+    cpu_hour_seconds: int = 0
+    cpu_day_seconds: int = 0
+    cpu_month_seconds: int = 0
+    maintenance_wait_seconds: float = 0
+    response_seconds: float = 0
 
     @classmethod
     def environment(cls):
@@ -74,6 +86,20 @@ class Config:
             if value <= 0:
                 raise ValueError(name + ' must be positive')
             return value
+        def allocation(name):
+            # Unknown new allocations keep HTTP/status available but authorize
+            # no native work. They are never replaced with provider guesses.
+            try:
+                value = int(os.environ.get('COMPACT_' + name, '0'))
+                return value if value > 0 else 0
+            except ValueError:
+                return 0
+        def tightening(name):
+            try:
+                value = float(os.environ.get('COMPACT_' + name, '0'))
+                return value if math.isfinite(value) and value > 0 else 0
+            except ValueError:
+                return 0
         config = cls(Path(os.environ['COMPACT_SCANNER']), Path(os.environ['COMPACT_STATE']),
                      Path(os.environ['COMPACT_SCRATCH']), os.environ['COMPACT_TOKEN'],
                      *(positive(k) for k in ['MAX_INPUT_BYTES', 'DISK_RESERVE_BYTES', 'AS_BYTES', 'CPU_SECONDS',
@@ -92,7 +118,12 @@ class Config:
                      code_update_seconds=int(os.environ.get('COMPACT_CODE_UPDATE_SECONDS', '0')),
                      code_check_seconds=int(os.environ.get('COMPACT_CODE_CHECK_SECONDS', '0')),
                      max_state_bytes=int(os.environ.get('COMPACT_MAX_STATE_BYTES', '0')),
-                     max_state_inodes=int(os.environ.get('COMPACT_MAX_STATE_INODES', '0')))
+                     max_state_inodes=int(os.environ.get('COMPACT_MAX_STATE_INODES', '0')),
+                     cpu_hour_seconds=allocation('CPU_HOUR_SECONDS'),
+                     cpu_day_seconds=allocation('CPU_DAY_SECONDS'),
+                     cpu_month_seconds=allocation('CPU_MONTH_SECONDS'),
+                     maintenance_wait_seconds=tightening('MAINTENANCE_WAIT_SECONDS'),
+                     response_seconds=tightening('RESPONSE_SECONDS'))
         if len(config.token) < 32 or (config.admin_token and (len(config.admin_token) < 32 or config.admin_token == config.token)):
             raise ValueError('Use distinct random scan/admin credentials, at least 32 characters')
         if any(not path.is_absolute() for path in (config.scanner, config.state, config.scratch, config.certs)):
@@ -101,10 +132,11 @@ class Config:
             raise ValueError('Program path must be absolute')
         if config.updater is not None and not config.updater.is_absolute():
             raise ValueError('Updater path must be absolute')
-        config.scratch.mkdir(mode=0o700, parents=True, exist_ok=True)
-        if (config.scratch.is_symlink() or config.scratch.stat().st_mode & 0o077
-                or config.scratch.stat().st_uid != os.geteuid()):
-            raise ValueError('Scratch directory must be private and non-symlinked')
+        for directory in (config.state, config.scratch):
+            directory.mkdir(mode=0o700, parents=True, exist_ok=True)
+            if (directory.is_symlink() or directory.stat().st_mode & 0o077
+                    or directory.stat().st_uid != os.geteuid()):
+                raise ValueError('State and scratch directories must be private and non-symlinked')
         return config
 
     def runtime(self, current=None):
@@ -119,6 +151,16 @@ class Config:
     def limits(self):
         return ['--as-bytes', str(self.as_bytes), '--cpu-seconds', str(self.cpu_seconds),
                 '--wall-seconds', str(self.wall_seconds), '--file-bytes', str(self.file_bytes)]
+
+    def timeout(self, tightening=0):
+        # Optional values only tighten an already confirmed work deadline.
+        return min(self.wall_seconds, tightening) if tightening > 0 else self.wall_seconds
+
+
+def child_environment(environment=None):
+    value = dict(os.environ if environment is None else environment)
+    value['COMPACT_PARENT_PID'] = str(os.getpid())
+    return value
 
 
 def json_object(raw):
@@ -173,6 +215,7 @@ async def kill_process(process):
 async def bounded_command(command, *, output_bytes, wall_seconds, environment=None, processes=None):
     process = None
     tasks = []
+    combined = None
     total = 0
 
     async def read(stream):
@@ -188,14 +231,14 @@ async def bounded_command(command, *, output_bytes, wall_seconds, environment=No
     try:
         process = await asyncio.create_subprocess_exec(
             *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
-            start_new_session=True, env=environment, limit=min(65536, output_bytes + 1))
+            start_new_session=True, env=child_environment(environment), limit=min(65536, output_bytes + 1))
         if processes is not None:
             processes.add(process)
         tasks = [asyncio.create_task(read(process.stdout)),
                  asyncio.create_task(read(process.stderr)),
                  asyncio.create_task(process.wait())]
-        stdout, stderr, code = await asyncio.wait_for(
-            asyncio.gather(*tasks), wall_seconds)
+        combined = asyncio.gather(*tasks)
+        stdout, stderr, code = await asyncio.wait_for(combined, wall_seconds)
         if code != 0:
             raise RuntimeError('subprocess did not complete')
         return stdout, stderr
@@ -209,6 +252,10 @@ async def bounded_command(command, *, output_bytes, wall_seconds, environment=No
                 task.cancel()
         if tasks:
             await asyncio.gather(*tasks, return_exceptions=True)
+        if combined is not None:
+            # Retrieve the original gather's cancellation/error too; awaiting
+            # its individual children does not consume this future's result.
+            await asyncio.gather(combined, return_exceptions=True)
 
 
 class NativeWorker:
@@ -218,6 +265,7 @@ class NativeWorker:
         self.identity = None
         self.requests = 0
         self.stderr_task = None
+        self.native_lease = None
 
     def active_snapshot(self):
         pointer = self.config.state / 'current.json'
@@ -256,6 +304,9 @@ class NativeWorker:
                 self.stderr_task = None
             self.identity = None
             self.requests = 0
+            if self.native_lease is not None:
+                self.native_lease.close()
+                self.native_lease = None
 
     async def stderr(self, process):
         count = 0
@@ -275,16 +326,23 @@ class NativeWorker:
         line_task = None
         try:
             if not self.process:
+                # Take the native OFD lease before integrity hashing or process
+                # startup. The child inherits exactly this already locked FD.
+                self.native_lease = work_budget.acquire_lease(self.config.state, 'job.lock')
+                if self.native_lease is None:
+                    raise RuntimeError('native state is busy')
                 scanner, _, certs, _ = self.config.runtime(current)
                 environment = {k: os.environ[k] for k in ('PATH',) if k in os.environ}
                 environment.update(LANG='C.UTF-8', TMPDIR=str(self.config.scratch))
                 self.process = await asyncio.create_subprocess_exec(
                     str(scanner), 'worker', '--state', str(self.config.state),
+                    '--lock-fd', str(self.native_lease.fd),
                     '--generation', str(generation), '--certs', str(certs),
                     '--profile', profile, '--worker-max-requests', str(self.config.max_requests),
                     '--max-age-seconds', str(self.config.max_age_seconds), *self.config.limits(),
                     stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
-                    limit=self.config.output_bytes + 1, env=environment, start_new_session=True)
+                    limit=self.config.output_bytes + 1, env=child_environment(environment),
+                    start_new_session=True, pass_fds=(self.native_lease.fd,))
                 self.identity = identity
                 self.stderr_task = asyncio.create_task(self.stderr(self.process))
             job = {'input': str(path), 'request_id': os.urandom(16).hex()}
@@ -335,11 +393,24 @@ class NativeWorker:
 
 
 class Gateway:
-    def __init__(self, config, worker=None, releases=None):
+    def __init__(self, config, worker=None, releases=None, budget=None):
         self.config = config
         self.worker = worker or NativeWorker(config)
         self.lock = asyncio.Lock()
         self.processes = set()
+        self.maintenance_waiting = False
+        self.scan_retry_at = 0
+        self.budget = budget or work_budget.BudgetLedger(config.state, config.cpu_hour_seconds,
+                                                        config.cpu_day_seconds, config.cpu_month_seconds)
+        allocations = (config.cpu_hour_seconds, config.cpu_day_seconds, config.cpu_month_seconds)
+        self.budget_status = {
+            'configured': all(type(value) is int and 0 < value <= ((1 << 64) - 1) // 1000
+                              for value in allocations),
+            'allocations_seconds': dict(zip(('hour', 'day', 'month'), allocations)),
+            'scan_fraction_policy': 0.8, 'maintenance_reserve_policy': 0.2,
+            'minimum_scan_charge_seconds_policy': 1, 'month_seconds_policy': 2678400,
+            'charges_are_conservative': True,
+        }
         self.releases = releases or release_client.ReleaseClient(
             programs=config.programs, public_key=config.release_public_key, channel=config.release_channel,
             staging_bytes=config.code_staging_bytes, metadata_bytes=config.output_bytes,
@@ -374,9 +445,46 @@ class Gateway:
 
     async def respond(self, send, status, value):
         raw = json.dumps(value, separators=(',', ':'), allow_nan=False).encode()
-        await send({'type': 'http.response.start', 'status': status,
-                    'headers': [(b'content-type', b'application/json'), (b'cache-control', b'no-store'), (b'x-content-type-options', b'nosniff')]})
-        await send({'type': 'http.response.body', 'body': raw})
+        if len(raw) > self.config.output_bytes:
+            status, raw = 503, b'{"error":"response-exceeds-envelope"}'
+            if len(raw) > self.config.output_bytes:
+                raw = b''
+        async def transmit():
+            await send({'type': 'http.response.start', 'status': status,
+                        'headers': [(b'content-type', b'application/json'), (b'cache-control', b'no-store'), (b'x-content-type-options', b'nosniff')]})
+            await send({'type': 'http.response.body', 'body': raw})
+        # A stalled reader cannot hold the processing slot or an unbounded task.
+        await asyncio.wait_for(transmit(), self.config.timeout(self.config.response_seconds))
+
+    def budget_denial(self, kind, error):
+        reason = error.reason if isinstance(error, work_budget.BudgetDeferred) else 'budget_state_invalid'
+        retry = error.retry_after if isinstance(error, work_budget.BudgetDeferred) else 1
+        self.budget_status.update(last_denial=reason, retry_after=retry)
+        if kind == 'scan':
+            self.scan_retry_at = max(self.scan_retry_at, time.time() + retry)
+        return 503, {'error': kind + '_budget_unknown' if reason == 'cpu_allocation_unknown'
+                     else kind + '_budget_deferred', 'reason': reason, 'retry_after': retry}
+
+    def settle_budget(self, token):
+        if token is not None:
+            self.budget.finish(token)
+            try:
+                snapshot = self.budget.snapshot()
+                self.budget_status.update(snapshot)
+                self.scan_retry_at = max(self.scan_retry_at, snapshot['scan_next_at'])
+            except work_budget.BudgetDeferred as error:
+                # Committed conservative debt is authoritative. Status refresh
+                # cannot erase it or turn an incomplete scan into clean.
+                self.budget_status.update(last_denial=error.reason)
+
+    def reserve_budget(self, kind, charge, duration):
+        try:
+            # Fixed control-format workspace, not a guessed hosting quota.
+            if shutil.disk_usage(self.config.state).free < self.config.disk_reserve_bytes + 2 * work_budget.METADATA_BYTES:
+                raise work_budget.BudgetDeferred('budget_state_capacity')
+        except OSError as error:
+            raise work_budget.BudgetDeferred('budget_state_capacity') from error
+        return self.budget.reserve(kind, charge, duration)
 
     async def __call__(self, scope, receive, send):
         if scope['type'] == 'lifespan':
@@ -410,9 +518,14 @@ class Gateway:
             except Exception:
                 active = {'status': 'unavailable'}
             return await self.respond(send, 200, {'protocol': 1, 'busy': self.lock.locked(),
+                'maintenance_pending': self.maintenance_waiting, 'scan_budget': self.budget_status,
                 'retains_uploads': False, 'active_pointer': active, 'code_update': self.code_status})
         if scope['path'] != '/v1/scan' or scope['method'] != 'POST':
             return await self.respond(send, 404, {'error': 'not-found'})
+        status, response = await self.scan_request(scope, receive, headers)
+        return await self.respond(send, status, response)
+
+    async def scan_request(self, scope, receive, headers):
         try:
             query_bytes = scope.get('query_string', b'')
             if len(query_bytes) > 3 * (len('profile=') + max(map(len, PROFILES))):
@@ -430,64 +543,114 @@ class Gateway:
             if b'transfer-encoding' in headers:
                 raise ValueError('ambiguous request framing')
         except (ValueError, UnicodeError):
-            return await self.respond(send, 400, {'error': 'invalid-profile-or-input-identity'})
+            return 400, {'error': 'invalid-profile-or-input-identity'}
+        if length == 0:
+            return 400, {'error': 'empty-input-not-accepted'}
         if length > self.config.max_input_bytes or length > self.config.file_bytes:
-            return await self.respond(send, 413, {'error': 'input-exceeds-envelope'})
+            return 413, {'error': 'input-exceeds-envelope'}
+        if not self.budget_status['configured']:
+            return self.budget_denial('scan', work_budget.BudgetDeferred('cpu_allocation_unknown'))
+        if self.maintenance_waiting:
+            return 503, {'error': 'maintenance-pending'}
+        if time.time() < self.scan_retry_at:
+            return 503, {'error': 'scan_budget_deferred', 'reason': 'scan_paced',
+                         'retry_after': max(1, math.ceil(self.scan_retry_at - time.time()))}
         if self.lock.locked():
-            return await self.respond(send, 503, {'error': 'scanner-busy'})
-        async with self.lock:
-            path = None
-            status, response = 503, {'error': 'scan-did-not-complete'}
-            deadline = time.monotonic() + self.config.wall_seconds
-            try:
-                if shutil.disk_usage(self.config.scratch).free < self.config.disk_reserve_bytes + length:
-                    return await self.respond(send, 503, {'error': 'scratch-capacity-unavailable'})
-                fd, name = tempfile.mkstemp(prefix='scan-', dir=self.config.scratch)
-                path = Path(name)
-                size, digest = 0, hashlib.sha256()
-                with os.fdopen(fd, 'wb') as output:
-                    while True:
-                        remaining = deadline - time.monotonic()
-                        if remaining <= 0:
-                            raise TimeoutError('input deadline')
-                        message = await asyncio.wait_for(receive(), remaining)
-                        if message['type'] == 'http.disconnect':
-                            raise ConnectionError('client disconnected')
-                        if message['type'] != 'http.request':
-                            raise ValueError('invalid request event')
-                        chunk = message.get('body', b'')
-                        size += len(chunk)
-                        if size > length:
-                            raise ValueError('input size changed')
-                        if shutil.disk_usage(self.config.scratch).free < self.config.disk_reserve_bytes + len(chunk):
-                            raise OSError('scratch reserve exhausted')
-                        output.write(chunk)
-                        digest.update(chunk)
-                        if not message.get('more_body', False):
-                            break
-                    output.flush()
-                    os.fsync(output.fileno())
-                if size != length or not hmac.compare_digest(digest.hexdigest(), expected_hash):
-                    raise ValueError('input identity changed')
-                path.chmod(0o400)
-                remaining = deadline - time.monotonic()
-                if remaining <= 0:
-                    raise TimeoutError('scan deadline')
-                response = await asyncio.wait_for(
-                    self.worker.scan(path, profile[0], digest.hexdigest(), size), remaining)
-                status = 200
-            except (ValueError, ConnectionError):
-                status, response = 400, {'error': 'input-incomplete-or-changed'}
-            except Exception:
+            return 503, {'error': 'scanner-busy'}
+        lease = None
+        try:
+            intent = work_budget.acquire_lease(self.config.state, 'service-maintenance.lock')
+            if intent is None:
+                return 503, {'error': 'maintenance-pending'}
+            intent.close()
+            lease = work_budget.acquire_lease(self.config.state, 'service-admission.lock')
+            if lease is None:
+                return 503, {'error': 'scanner-busy'}
+            async with self.lock:
+                return await self.scan_admitted(receive, profile[0], expected_hash, length)
+        except work_budget.BudgetDeferred as error:
+            return self.budget_denial('scan', error)
+        finally:
+            if lease is not None:
+                lease.close()
+
+    async def scan_admitted(self, receive, profile, expected_hash, length):
+        path = None
+        token = None
+        native_started = False
+        status, response = 503, {'error': 'scan-did-not-complete'}
+        deadline = time.monotonic() + self.config.wall_seconds
+        try:
+            # POLICY: every admitted request reserves at least one CPU
+            # second, and the full native lifetime allowance when actual
+            # per-request CPU is unavailable. Recycling cannot reset debt.
+            token = self.reserve_budget('scan', max(1, self.config.cpu_seconds), self.config.wall_seconds)
+            if shutil.disk_usage(self.config.scratch).free < self.config.disk_reserve_bytes + length:
+                status, response = 503, {'error': 'scratch-capacity-unavailable'}
+                return status, response
+            fd, name = tempfile.mkstemp(prefix='scan-', dir=self.config.scratch)
+            path = Path(name)
+            size, digest = 0, hashlib.sha256()
+            with os.fdopen(fd, 'wb') as output:
+                while True:
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        raise TimeoutError('input deadline')
+                    message = await asyncio.wait_for(receive(), remaining)
+                    if message['type'] == 'http.disconnect':
+                        raise ConnectionError('client disconnected')
+                    if message['type'] != 'http.request':
+                        raise ValueError('invalid request event')
+                    chunk = message.get('body', b'')
+                    size += len(chunk)
+                    if size > length:
+                        raise ValueError('input size changed')
+                    if shutil.disk_usage(self.config.scratch).free < self.config.disk_reserve_bytes + len(chunk):
+                        raise OSError('scratch reserve exhausted')
+                    output.write(chunk)
+                    digest.update(chunk)
+                    if not message.get('more_body', False):
+                        break
+                output.flush()
+                os.fsync(output.fileno())
+            if size != length or not hmac.compare_digest(digest.hexdigest(), expected_hash):
+                raise ValueError('input identity changed')
+            path.chmod(0o400)
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError('scan deadline')
+            native_started = True
+            response = await asyncio.wait_for(
+                self.worker.scan(path, profile, digest.hexdigest(), size), remaining)
+            status = 200
+        except work_budget.BudgetDeferred as error:
+            status, response = self.budget_denial('scan', error)
+        except (ValueError, ConnectionError):
+            if native_started:
                 await self.worker.stop()
-            finally:
-                if path is not None:
-                    try:
-                        path.unlink(missing_ok=True)
-                    except OSError:
-                        status, response = 503, {'error': 'scratch-cleanup-failed'}
-                        await self.worker.stop()
-            await self.respond(send, status, response)
+                status, response = 503, {'error': 'scan-did-not-complete'}
+            else:
+                status, response = 400, {'error': 'input-incomplete-or-changed'}
+        except asyncio.CancelledError:
+            if native_started:
+                await self.worker.stop()
+            raise
+        except Exception:
+            if native_started:
+                await self.worker.stop()
+        finally:
+            if path is not None:
+                try:
+                    path.unlink(missing_ok=True)
+                except OSError:
+                    status, response = 503, {'error': 'scratch-cleanup-failed'}
+                    await self.worker.stop()
+            if token is not None:
+                try:
+                    self.settle_budget(token)
+                except Exception:
+                    status, response = 503, {'error': 'scan-budget-settlement-failed'}
+        return status, response
 
     async def command(self, arguments, deadline):
         remaining = deadline - time.monotonic()
@@ -500,7 +663,8 @@ class Gateway:
         scanner, updater, certs, program, expected = runtime
         if updater is None or certs is None:
             raise ValueError('runtime updater is not configured')
-        raw, _ = await self.command([str(scanner), 'doctor'], deadline)
+        raw, _ = await self.command([str(scanner), 'doctor', '--state', str(self.config.state),
+                                    *self.config.limits()], deadline)
         info = json_object(raw)
         if type(info.get('protocol')) is not int or info['protocol'] != 1 or info.get('status') != 'ready':
             raise ValueError('runtime protocol')
@@ -539,23 +703,93 @@ class Gateway:
         return result
 
     async def update(self, scope, send):
+        status, response = await self.maintenance_request(scope)
+        return await self.respond(send, status, response)
+
+    async def maintenance_request(self, scope):
         if scope['method'] != 'POST' or self.config.updater is None or self.config.certs is None:
-            return await self.respond(send, 404, {'error': 'not-found'})
+            return 404, {'error': 'not-found'}
         if scope.get('query_string'):
-            return await self.respond(send, 400, {'error': 'update-arguments-not-accepted'})
-        if self.lock.locked():
-            return await self.respond(send, 503, {'error': 'scanner-busy'})
+            return 400, {'error': 'update-arguments-not-accepted'}
+        if not self.budget_status['configured']:
+            return self.budget_denial('maintenance', work_budget.BudgetDeferred('cpu_allocation_unknown'))
         if min(self.config.max_state_bytes, self.config.max_state_inodes) <= 0:
-            return await self.respond(send, 503, {'error': 'update-state-policy-not-configured'})
+            return 503, {'error': 'update-state-policy-not-configured'}
         if self.config.file_bytes > self.config.max_state_bytes // 5:
-            return await self.respond(send, 503, {'error': 'update-file-cap-exceeds-state-headroom'})
-        async with self.lock:
-            await self.worker.stop()
-            try:
-                baseline = self.active_runtime()
-            except Exception:
-                return await self.respond(send, 503, {'error': 'active-runtime-unavailable'})
-            candidate = None
+            return 503, {'error': 'update-file-cap-exceeds-state-headroom'}
+        if self.maintenance_waiting:
+            return 503, {'error': 'maintenance-already-pending'}
+        intent = lease = None
+        acquired = False
+        tokens = []
+        status, response = 503, {'error': 'update-status-unconfirmed-check-active-generation',
+                                 'code_update': self.code_status}
+        try:
+            intent = work_budget.acquire_lease(self.config.state, 'service-maintenance.lock')
+            if intent is None:
+                return 503, {'error': 'maintenance-already-pending'}
+            self.maintenance_waiting = True
+            deadline = time.monotonic() + self.config.timeout(self.config.maintenance_wait_seconds)
+            # Do not acquire in a separate wait_for task: cancellation after
+            # that task takes the lock could otherwise lose its ownership.
+            while self.lock.locked():
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise TimeoutError('maintenance admission deadline')
+                await asyncio.sleep(min(0.025, remaining))
+            if time.monotonic() >= deadline:
+                raise TimeoutError('maintenance admission deadline')
+            await self.lock.acquire()  # Uncontended; no suspension before ownership is recorded.
+            acquired = True
+            while lease is None:
+                lease = work_budget.acquire_lease(self.config.state, 'service-admission.lock')
+                if lease is None:
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        raise TimeoutError('maintenance admission deadline')
+                    # Scheduler granularity only; not a provider resource allowance.
+                    await asyncio.sleep(min(0.025, remaining))
+            duration = self.config.wall_seconds + max(0, self.config.code_update_seconds)
+            charge = 2 * max(1, self.config.cpu_seconds)  # doctor plus updater.
+            tokens.append(self.reserve_budget('maintenance', charge, duration))
+            code_allowed = True
+            if self.config.release_public_key and self.config.code_update_seconds > 0:
+                try:
+                    tokens.append(self.reserve_budget('maintenance', charge, duration))
+                except work_budget.BudgetDeferred as error:
+                    if error.reason not in ('cpu_budget_exhausted', 'budget_busy'):
+                        raise
+                    # Preserve the already reserved trusted DB update even
+                    # when a second code-candidate allowance is unavailable.
+                    code_allowed = False
+            status, response = await self.update_admitted(code_allowed)
+        except work_budget.BudgetDeferred as error:
+            status, response = self.budget_denial('maintenance', error)
+        except TimeoutError:
+            status, response = 503, {'error': 'maintenance-wait-deadline'}
+        finally:
+            for token in tokens:
+                try:
+                    self.settle_budget(token)
+                except Exception:
+                    status, response = 503, {'error': 'maintenance-budget-settlement-failed'}
+            if lease is not None:
+                lease.close()
+            if acquired:
+                self.lock.release()
+            self.maintenance_waiting = False
+            if intent is not None:
+                intent.close()
+        return status, response
+
+    async def update_admitted(self, code_allowed=True):
+        await self.worker.stop()
+        try:
+            baseline = self.active_runtime()
+        except Exception:
+            return 503, {'error': 'active-runtime-unavailable'}
+        candidate = None
+        if code_allowed:
             try:
                 if self.config.release_public_key and self.config.code_update_seconds > 0:
                     candidate = await asyncio.wait_for(self.releases.stage_next(), self.config.code_update_seconds)
@@ -564,30 +798,32 @@ class Gateway:
             except TimeoutError:
                 self.releases.health = {'status': 'failed', 'reason': 'code-update-deadline'}
             except Exception:
-                # Code release failures must not disable independently trusted DB updates.
+                # Code failures never disable independently trusted DB updates.
                 pass
             self.code_health(dict(self.releases.health))
-            deadline = time.monotonic() + self.config.wall_seconds
-            try:
-                if candidate is not None:
-                    try:
-                        runtime = (*release_client.resolve_program(self.config.programs, candidate.id), candidate.id, baseline[4])
-                        result = await self.update_runtime(runtime, deadline)
-                        if result['status'] in ('updated', 'up_to_date'):
-                            self.code_health({'status': 'active', 'program': candidate.id,
-                                              'generation': result['generation'], 'sequence': candidate.manifest['sequence']})
-                            return await self.respond(send, 200, dict(result, code_update=self.code_status))
-                    except Exception:
-                        pass
-                    self.code_health({'status': 'failed', 'reason': 'candidate-qualification-or-activation-unconfirmed',
-                                      'candidate_program': candidate.id})
-                # Re-read the atomic tuple after a lost acknowledgement; do not assume
-                # candidate failure means activation could not already have happened.
-                result = await self.update_runtime(self.active_runtime(), deadline)
-                await self.respond(send, 200, dict(result, code_update=self.code_status))
-            except Exception:
-                await self.respond(send, 503, {'error': 'update-status-unconfirmed-check-active-generation',
-                                              'code_update': self.code_status})
+        else:
+            self.code_health({'status': 'deferred', 'reason': 'code-cpu-budget-unavailable'})
+        deadline = time.monotonic() + self.config.wall_seconds
+        try:
+            if candidate is not None:
+                try:
+                    runtime = (*release_client.resolve_program(self.config.programs, candidate.id), candidate.id, baseline[4])
+                    result = await self.update_runtime(runtime, deadline)
+                    if result['status'] in ('updated', 'up_to_date'):
+                        self.code_health({'status': 'active', 'program': candidate.id,
+                                          'generation': result['generation'], 'sequence': candidate.manifest['sequence']})
+                        return 200, dict(result, code_update=self.code_status)
+                except Exception:
+                    pass
+                self.code_health({'status': 'failed', 'reason': 'candidate-qualification-or-activation-unconfirmed',
+                                  'candidate_program': candidate.id})
+            # Re-read the atomic tuple after a lost acknowledgement; do not assume
+            # candidate failure means activation could not already have happened.
+            result = await self.update_runtime(self.active_runtime(), deadline)
+            return 200, dict(result, code_update=self.code_status)
+        except Exception:
+            return 503, {'error': 'update-status-unconfirmed-check-active-generation',
+                         'code_update': self.code_status}
 
 
 def create_app():

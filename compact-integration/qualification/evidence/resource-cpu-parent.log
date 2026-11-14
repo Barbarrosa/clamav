@@ -1,0 +1,6 @@
+effective inherited CPU passed
+fractional cumulative CPU passed
+subreaper adoption before parent registration passed
+subreaper adoption before limits registration passed
+registered parent death passed
+native CPU and parent regression tests passed

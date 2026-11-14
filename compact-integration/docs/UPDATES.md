@@ -4,6 +4,10 @@ compact-update is a one-shot, unprivileged libfreshclam client. It downloads
 official main/daily/bytecode content directly from database.clamav.net; there
 is no secondary database publisher and no compilation on the website host.
 
+[Native resource limits](RESOURCE_LIMITS.md) describe inherited/cumulative CPU
+accounting, nonblocking fatal output, parent binding and lock lifetime through
+process cleanup. These controls also apply to updater helper processes.
+
 The entry point is:
 
     compact-update update \

@@ -1,0 +1,441 @@
+{
+  "protocol": 1,
+  "status": "passed",
+  "cases": 61,
+  "checks": [
+    {
+      "family": "ndb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "pe-renamed.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "raw.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "flate.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "hex.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "nested.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "nested-pdf.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "root.zip",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "clean.pdf",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "ndb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "ndb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ndb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "ldb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "pe-renamed.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "raw.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "flate.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "hex.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "nested.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "nested-pdf.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "root.zip",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "clean.pdf",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "ldb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "ldb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "ldb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "mdb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "pe-renamed.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "raw.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "flate.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "hex.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "nested.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "nested-pdf.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "root.zip",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "clean.pdf",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "mdb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "mdb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "mdb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "msb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "pe-renamed.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "raw.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "flate.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "hex.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "nested.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "nested-pdf.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "root.zip",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "clean.pdf",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "msb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "msb",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "msb",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "imp",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "pe-renamed.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "raw.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "flate.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "hex.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "nested.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "nested-pdf.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "root.zip",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "clean.pdf",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "imp",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "imp",
+      "file": "pe.bin",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    },
+    {
+      "family": "imp",
+      "file": "clean.txt",
+      "passed": true,
+      "guarded": false,
+      "full_detected": false
+    },
+    {
+      "family": "retained-handler",
+      "file": "handler.pdf",
+      "passed": true,
+      "guarded": true,
+      "full_detected": true
+    }
+  ],
+  "production_guard_used": true,
+  "empty_target_matcher_tested": true,
+  "repeated_scan_and_reset_tested": true,
+  "missing_notification_tested": true,
+  "cache_reenable_attempt_tested": true,
+  "retained_handler_tested": true,
+  "absolute_parser_completeness_claimed": false
+}

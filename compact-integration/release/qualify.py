@@ -55,6 +55,10 @@ def main():
             '--probe', str(bounded_probe), '--certs', str(a.source / 'certs'),
             '--output', str(a.output.parent / 'bounded-native-qualification.json')], None),
         ('packaged-adapter', [str(a.build / 'compact-adapter/compact-scan'), 'doctor'], None),
+        ('native-resource-lifecycle', ['python3', str(a.integration / 'tests/test_native_dos.py'),
+            '--scanner', str(a.build / 'compact-adapter/compact-scan'),
+            '--updater', str(a.build / 'compact-adapter/compact-update'), '--source', str(a.source),
+            '--report', str(a.output.parent / 'native-resource-qualification.json')], None),
     ]
     report = {'integration_sha': a.commit, 'passed': False, 'stable_release_qualified': False,
               'subset_release_qualified': False, 'siteground_qualified': False,

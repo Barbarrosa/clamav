@@ -1,0 +1,121 @@
+{
+  "protocol": 1,
+  "integration_version": "0.1.1",
+  "baseline_integration_commit": "0e7802f0af865062af6240bbe689340b94bf76c1",
+  "recorded_at": "2026-11-14",
+  "status": "resource-regressions-passed",
+  "scope": "adapter process lifetime and denial-of-service resource hardening; historical detection/benchmark controls remain separately labeled",
+  "stable_release_qualified": false,
+  "subset_release_qualified": false,
+  "siteground_qualified": false,
+  "core_patch_queue_changed_by_this_update": false,
+  "scan_options_changed": false,
+  "scan_options_sha256": "d3a4bc3a09fbe57cce578046817cb5da1a709b98a59b02d4bfc6f13db464ed3b",
+  "runtime_fixture_sha256": "359b79e9d2037926d43822492a6a8d938079bfa1b99357d79b8cd3963dcc3f07",
+  "scanner_sha256": "d85c4ae51f633e6dfc735256b311b6a63f9e85df8be10ce59ab2ee5788f0cbb8",
+  "updater_sha256": "9471f13d9528c5703e1b0ea2d03bf08223bc332f4d54696537119b228a2e3ec0",
+  "build_scope": "strict C11 -O2 -Wall -Wextra -Werror adapters linked against existing runtime libraries; no local core/Rust rebuild",
+  "core_patches_sha256": {
+    "patches/010-compact-runtime.patch": "7360f8a6bf4442c36bbdc0c0b0b7e650609b1e8a8954c0d2f58462ba58e5db8d",
+    "patches/020-streaming-updates.patch": "f2c1ce5b8ca7f2ceb85d28ab7b11f4add0aef3d8ae1d273f063626570b25e8df",
+    "patches/030-subset-guards.patch": "8187e7342e8a34ab69c920a5a4439ed82214b18ff70dac2460bfb3ae15dc6abe"
+  },
+  "sources_sha256": {
+    "manifest.json": "0d14ad1658f25bdc2534a4c7cdbdf8f0b35463071af2a9b468bfae8f4ecd535f",
+    "native/scan.c": "a66f59d050fbadda3b039d715f84c21a9f1199dffde796faa8c98c21e140d4f7",
+    "native/limits.h": "2093ba78ae33a9aa4bef7925769201bee1529eb5796a20619800257493460946",
+    "native/bounded.c": "43e8b0466e13d74f2311566556ce582fbf1a1487f76f19ec610c19e1b71870c2",
+    "native/update.c": "b605dfcc783334a9ce9d49ead1d9bb9a11b320fcd251597d84750c48c3662c71",
+    "native/prepare.c": "94dcb9f2c22b1341f306801a701ef88dacfabf7358645762b3e2b8ff8323db1c",
+    "native/prepare.h": "175dbd07d79aad66c7021f283567cafb3a82ec6b1f36fe1b64f4cf7aee579f0a",
+    "native/qualification.h": "9a0ce7330c2b79d278f5919b11c4e53ed95cb880cb87b1336597123b2d244cd8",
+    "native/profile_names.h": "2277092e509c1b0603bf1758bdc2c03213ac382f73cdec3ccb69b8fe860b9f88",
+    "release/qualify.py": "a2ac7d081ace0338ec3020fe357e42aafa0223d595c7fc07a09cbafe9816e2c1",
+    "tests/test_limits.c": "0ec9e6bac88369c67d2bbbf0bd25a348b49efdd795b1245346679847079f063c",
+    "tests/test_cpu_parent.c": "ed9ab4a422df301f0c816d56da01da376fcd6f59606989b79c63fcf88adca015",
+    "tests/test_cpu_parent.sh": "9f5df0e2c73ae9d99a03f3463ff4935af79a599035e51498ea1f98f8308f4f9e",
+    "tests/test_update.py": "276cf450d28ab3453e1211d322472aec3a748b05d8f4f425ef59e2dfe9a28b44",
+    "tests/native_lifecycle_hooks.c": "474a61f15c4653b80093a5aabe3f610c080292802cfd41d1c7b0deed7c0a9508",
+    "tests/test_native_dos.py": "11b874340d855388778a413070c8ce00d227413359ed780fc587d70f9f196aee",
+    "tests/run_guards.sh": "83e2fd590d12f5b08cbae95b58187672d163df20a1061284af4965a7a8ce4715",
+    "tests/test_bounded_native.py": "c3fb04902561103414eef9ff5b66b03226f31630a50454f4066178609fc211e3",
+    "tests/bounded_native_probe.c": "cd32f8a386e03af50f08e8705a72507b499cf196f5320a77f6a820df8388a18f",
+    "docs/RESOURCE_LIMITS.md": "1e86f17865fe02b28d0b44a82ba020190947760af1ceb948482178c8d55b3be7",
+    "docs/UPDATES.md": "8fd1583d1511645eef4698558c21958de28f6782ffc856e620ce31381ea9eca6",
+    "qualification/README.md": "3a9513aa8b3c9cd005fea5bfe2f4040464d71276435cf7665ae0d01bb19bf1ac"
+  },
+  "evidence_sha256": {
+    "evidence/native-resource-lifecycle.json": "cde74f982bb405eb168c085c4d6a3ffa37cf28820d3f2f11cb965a6bee2f1d89",
+    "evidence/resource-cpu-parent.log": "a7b4b1ca83f66642551b3a00ad555c1393d72d121637a4ee8807649845edb765",
+    "evidence/resource-updater.log": "45250e31f14f5d26342ccb48382d228aad94c9f24a8267aff0a9116d641a520f",
+    "evidence/resource-guards.json": "4174316f467d28d2dece5d8fa69c348b5ff6c3550fef883543c1d9434d0b7f82",
+    "evidence/resource-bounded-native.json": "fd8f2fcd991c359739a5e6cabc45709c3b37d24a27378a4efb7b15bf803e4b63"
+  },
+  "checks": {
+    "native_signed_lifecycle": "passed",
+    "updater_orchestration_cases": 21,
+    "actual_cpu_parent_helper_cases": 5,
+    "production_guard_cases": 61,
+    "bounded_native_parser_cases": 9,
+    "preparation_and_inherited_limit_checks": "passed"
+  },
+  "lifecycle_observations": {
+    "real_test_signed_prepare_stock_load_and_selected_compile": true,
+    "compressed_archive_member_limit": {
+      "uncompressed_member_bytes": 105906176,
+      "compressed_original_bytes": 103094,
+      "sha256": "cd7389e23b65b5d76f16ac969868ebc9b45455158b0c6bd142bfc48c3c8fb283",
+      "status": "detected",
+      "reason_codes": [
+        "parser-error",
+        "scan-limit-encryption-or-parser-alert",
+        "profile-root-type-unsupported"
+      ],
+      "process_reaped": true,
+      "wall_seconds": 0.836716074999913
+    },
+    "full_stdout_pipe_wall_exit_seconds": 1.0243189130001156,
+    "rejected_parent_full_stdout_exit_seconds": 0.01764044300034584,
+    "lock_held_through_engine_free_and_atexit": true,
+    "busy_rejected_before_parser_initialization": true,
+    "worker_after_idle_and_second_original": [
+      "clean",
+      "held",
+      "clean"
+    ],
+    "worker_idle_deadline_preserved": true,
+    "worker_cpu_budget_spans_originals": [
+      "clean",
+      "clean",
+      "clean",
+      "clean",
+      "failed"
+    ],
+    "incorrect_trusted_parent_rejected": true
+  },
+  "security_properties": [
+    "state lock acquired before parser/module bootstrap and engine hashing",
+    "state lock retained through engine free and atexit until process exit",
+    "fatal and startup failure output is best-effort nonblocking",
+    "actual inherited CPU cap reflected into child policy",
+    "exact self and reaped-child microsecond accounting before batches, after reap and before success",
+    "worker idle and received-original wall envelopes separated; CPU remains lifetime cumulative",
+    "expected creator captured before internal forks; trusted optional COMPACT_PARENT_PID checked around parent-death registration"
+  ],
+  "memory_scope": {
+    "AS": "hard per-process address-space limit; no aggregate account/cgroup quota",
+    "large_engine_overlap": "one scanner engine; bounded engine children sequential and reaped; metadata parents/coordinators still resident",
+    "headroom": "20 percent application reserve cannot certify other account processes, page cache or aggregate hosting/cgroup memory",
+    "public_admission": "PHP/gateway must enforce account admission and parent leases before spawning or parsing uploads"
+  },
+  "test_inputs": {
+    "database_sources": "tiny upstream TEST-signed CVD fixtures and isolated upstream TEST trust; production trust unchanged",
+    "archive": "stream-built ZIP with101MiB member, fixed1MiB Python chunk and103094compressed bytes; original SHA/size bound to native nonclean result",
+    "hooks": "standalone diagnostic LD_PRELOAD observes/delays lifecycle and input reads; no native parser/authentication bypass, never enabled by production launchers"
+  },
+  "limitations": [
+    "This report does not claim a new all-input detection or parser-completeness proof.",
+    "Historical official-database differential/memory observations retain their original source and binary identities.",
+    "Fresh candidate CI must bind the final integration commit; no signed release or SiteGround account is certified."
+  ]
+}
