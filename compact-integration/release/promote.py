@@ -31,6 +31,32 @@ def api_optional(endpoint):
         raise
 
 
+def find_release(repository, tag):
+    """Published releases have a tag endpoint; drafts require lookup by release ID."""
+    release = api_optional(f'repos/{repository}/releases/tags/{quote(tag, safe="")}')
+    if release is not None:
+        return release
+    for page in range(1, 11):
+        releases = json.loads(gh('api', f'repos/{repository}/releases?per_page=100&page={page}'))
+        if (not isinstance(releases, list) or len(releases) > 100
+                or any(not isinstance(item, dict) for item in releases)):
+            raise ValueError('Invalid release lookup inventory')
+        matches = [item for item in releases if item.get('tag_name') == tag]
+        if len(matches) > 1:
+            raise ValueError('Ambiguous release tag')
+        if matches:
+            release_id = matches[0].get('id')
+            if type(release_id) is not int or release_id < 1:
+                raise ValueError('Release lookup has no numeric identity')
+            release = json.loads(gh('api', f'repos/{repository}/releases/{release_id}'))
+            if release.get('id') != release_id or release.get('tag_name') != tag:
+                raise ValueError('Release lookup identity differs')
+            return release
+        if len(releases) < 100:
+            return None
+    raise ValueError('Release lookup exceeds its bounded inventory')
+
+
 def trusted_run(repository, run_id, workflow, qualification_job=None):
     if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repository):
         raise ValueError('Invalid GitHub repository')
@@ -216,7 +242,7 @@ def publish(repository, run_id, workflow, candidate, public_key_b64=None,
             obj = json.loads(gh('api', f'repos/{repository}/git/tags/{obj["sha"]}'))['object']
         if obj['type'] != 'commit' or obj['sha'] != commit:
             raise ValueError('An existing tag points elsewhere; versions are immutable')
-    release = api_optional(f'repos/{repository}/releases/tags/{encoded_tag}')
+    release = find_release(repository, tag)
     if release is not None:
         if existing_tag is None or release.get('tag_name') != tag:
             raise ValueError('Existing release has an inconsistent tag')
@@ -241,8 +267,8 @@ def publish(repository, run_id, workflow, candidate, public_key_b64=None,
             gh(*args)
         # Only private drafts may replace assets or notes when a publication was interrupted.
         gh('release', 'upload', tag, '--repo', repository, '--clobber', *(str(path) for path in files))
-        uploaded = json.loads(gh('api', f'repos/{repository}/releases/tags/{encoded_tag}'))
-        if uploaded.get('draft') is not True or uploaded.get('tag_name') != tag:
+        uploaded = find_release(repository, tag)
+        if uploaded is None or uploaded.get('draft') is not True or uploaded.get('tag_name') != tag:
             raise ValueError('Release stopped being the expected private draft')
         verify_draft_inventory(uploaded, files, complete=True)
         gh('release', 'edit', tag, '--repo', repository, '--notes-file', str(body), '--draft=false',

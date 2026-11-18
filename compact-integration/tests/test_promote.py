@@ -77,6 +77,41 @@ class QualificationTests(unittest.TestCase):
                 subprocess.CalledProcessError(1, ['gh'], stderr='gh: Not Found (HTTP 404)')):
             self.assertIsNone(PROMOTE.api_optional('endpoint'))
 
+    def test_draft_lookup_uses_numeric_id_when_tag_endpoint_returns_404(self):
+        draft = {'id': 42, 'tag_name': TAG, 'draft': True, 'assets': []}
+        with mock.patch.object(PROMOTE, 'api_optional', return_value=None) as tag_lookup, \
+                mock.patch.object(PROMOTE, 'gh', side_effect=[json.dumps([draft]), json.dumps(draft)]) as gh:
+            self.assertEqual(PROMOTE.find_release(REPOSITORY, TAG), draft)
+        self.assertIn('%2Bcompact.7', tag_lookup.call_args.args[0])
+        self.assertEqual(gh.call_args_list[-1].args, ('api', 'repos/' + REPOSITORY + '/releases/42'))
+
+    def test_published_lookup_and_absent_or_inconsistent_drafts(self):
+        release = {'id': 42, 'tag_name': TAG, 'draft': False}
+        with mock.patch.object(PROMOTE, 'api_optional', return_value=release), \
+                mock.patch.object(PROMOTE, 'gh') as gh:
+            self.assertEqual(PROMOTE.find_release(REPOSITORY, TAG), release)
+            gh.assert_not_called()
+        with mock.patch.object(PROMOTE, 'api_optional', return_value=None), \
+                mock.patch.object(PROMOTE, 'gh', return_value='[]'):
+            self.assertIsNone(PROMOTE.find_release(REPOSITORY, TAG))
+        with mock.patch.object(PROMOTE, 'api_optional', return_value=None), \
+                mock.patch.object(PROMOTE, 'gh', side_effect=[json.dumps([release]),
+                    json.dumps({**release, 'tag_name': 'different'})]):
+            with self.assertRaisesRegex(ValueError, 'identity differs'):
+                PROMOTE.find_release(REPOSITORY, TAG)
+
+    def test_draft_lookup_pagination_is_bounded_and_metadata_errors_fail(self):
+        unrelated = [{'id': i + 1, 'tag_name': 'other'} for i in range(100)]
+        with mock.patch.object(PROMOTE, 'api_optional', return_value=None), \
+                mock.patch.object(PROMOTE, 'gh', return_value=json.dumps(unrelated)) as gh:
+            with self.assertRaisesRegex(ValueError, 'bounded'):
+                PROMOTE.find_release(REPOSITORY, TAG)
+            self.assertEqual(gh.call_count, 10)
+        with mock.patch.object(PROMOTE, 'api_optional', return_value=None), \
+                mock.patch.object(PROMOTE, 'gh', side_effect=subprocess.CalledProcessError(1, ['gh'])):
+            with self.assertRaises(subprocess.CalledProcessError):
+                PROMOTE.find_release(REPOSITORY, TAG)
+
     def test_publisher_only_retry_uses_latest_actual_qualification_without_hiding_failure(self):
         run = {**run_data(), 'status': 'in_progress', 'conclusion': None}
         base = [json.dumps(run), json.dumps({'default_branch': 'upstream-optimized'}),
@@ -125,7 +160,8 @@ class PublicationTests(unittest.TestCase):
     def publish(self, api=(None, None), **kwargs):
         uploaded = {**self.public_release(), 'draft': True}
         with mock.patch.object(PROMOTE, 'trusted_run', return_value=run_data()), \
-                mock.patch.object(PROMOTE, 'api_optional', side_effect=api) as optional, \
+                mock.patch.object(PROMOTE, 'api_optional', return_value=api[0]) as optional, \
+                mock.patch.object(PROMOTE, 'find_release', side_effect=[api[1], uploaded]), \
                 mock.patch.object(PROMOTE, 'gh', return_value=json.dumps(uploaded)) as gh:
             PROMOTE.publish(REPOSITORY, RUN_ID, WORKFLOW, self.root,
                             allow_unsigned_preview=True, **kwargs)
@@ -201,14 +237,13 @@ class PublicationTests(unittest.TestCase):
         self.assertIn('--draft', commands[1])
         self.assertIn('--prerelease', commands[1])
         self.assertEqual(commands[2][0:2], ('release', 'upload'))
-        self.assertEqual(commands[3][0], 'api')
-        self.assertEqual(commands[4][0:2], ('release', 'edit'))
-        self.assertIn('--draft=false', commands[4])
+        self.assertEqual(commands[3][0:2], ('release', 'edit'))
+        self.assertIn('--draft=false', commands[3])
         self.assertFalse((self.root / 'release-notes.txt').exists())
 
     def test_draft_resume_does_not_recreate_tag_or_release(self):
         _, calls = self.publish(api=(self.tag(), {'draft': True, 'tag_name': TAG}))
-        self.assertEqual([call.args[0] for call in calls], ['release', 'api', 'release'])
+        self.assertEqual([call.args[0] for call in calls], ['release', 'release'])
         self.assertEqual(calls[0].args[1], 'upload')
         self.assertEqual(calls[-1].args[1], 'edit')
 
@@ -259,6 +294,7 @@ class PublicationTests(unittest.TestCase):
             return ''
         with mock.patch.object(PROMOTE, 'trusted_run', return_value=run_data()), \
                 mock.patch.object(PROMOTE, 'api_optional', return_value=None), \
+                mock.patch.object(PROMOTE, 'find_release', return_value=None), \
                 mock.patch.object(PROMOTE, 'gh', side_effect=gh) as command:
             with self.assertRaises(subprocess.CalledProcessError):
                 PROMOTE.publish(REPOSITORY, RUN_ID, WORKFLOW, self.root, allow_unsigned_preview=True)
