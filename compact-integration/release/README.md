@@ -14,6 +14,20 @@ merge its PR, publish databases, or deploy anything. On drift, qualification als
 builds a separate unmodified upstream control. That control does not certify the
 optimized adapter or reduced profile and cannot become an optimized release.
 
+Tracking is resumable after a permissions or dispatch failure. If a previous run
+pushed its proposal but could not open the PR, the next run reuses that exact
+commit after verifying the intended upstream pin, unchanged patch inventory,
+pending qualification and manifest-only changes. It never force-pushes over an
+existing branch; unexpected orphan-branch edits require manual review. Existing
+open PRs may contain deliberate adaptations and are preserved.
+
+The tracker checks native qualification for the exact proposal head. An active
+or successful run is reused; a missing, failed or cancelled run can be dispatched
+again, including when the PR already exists. The workflow tests these recovery
+paths before creating or resuming a proposal. Repository Actions settings must
+permit PR creation; the workflow already requests the scoped content, PR and
+Actions permissions and uses `GITHUB_TOKEN`, without an additional personal token.
+
 ## Qualification and pending artifacts
 
 `compact-native.yml` builds with the recorded Rust 1.90.0 Bookworm image digest
