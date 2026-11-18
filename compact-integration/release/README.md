@@ -70,32 +70,63 @@ source package and notice accompany the release. TLS roots are kept outside the
 `certs/` directory used for ClamAV database signing trust; local builder/proxy
 certificates are excluded.
 
+## Automatic releases and version identity
+
+A passing optimized build from the default branch automatically publishes a
+GitHub **prerelease**. Pull-request runs and pristine fallback builds cannot
+publish. Publication uses the qualified candidate and its GitHub provenance;
+it does not rebuild the programs.
+
+The native version follows the version reported by the built upstream engine,
+then adds the fork revision in SemVer's optional build metadata:
+
+| Identity | Example |
+| --- | --- |
+| Qualified upstream engine | `1.6.0-devel-20261118` |
+| Fork release version | `1.6.0-devel-20261118+compact.13` |
+| GitHub tag | `clamav-1.6.0-devel-20261118+compact.13` |
+| Manifest sequence / fork revision | `13` |
+
+The revision is the qualification workflow's `GITHUB_RUN_NUMBER`. If upstream
+already supplies build metadata, it is preserved: `1.6.0+vendor.4` becomes
+`1.6.0+vendor.4.compact.13`. The recipe's `integration_version` is an independent
+internal version; it does not replace the upstream engine version. The WordPress
+plugin also keeps its own version and `v<version>` tags.
+
+The candidate contains `CHANGELOG.md`, with upstream and fork changes, source
+commits and full comparison links. Its SHA-256 is recorded in the manifest and
+the same notes accompany the release. First-release notes identify the initial
+source baseline explicitly. Published tags and assets are immutable; a correction
+uses a new workflow revision. A rerun may resume an interrupted draft, but cannot
+replace published assets.
+
+GitHub download URLs percent-encode `+` as `%2B`. The clients require canonical
+tag/URL identities and retain support for existing `compact-v<SemVer>` releases.
+SemVer build metadata does not determine update ordering: clients enforce the
+signed monotonic sequence and reject replay or rollback.
+
 ## Manifest and trust
 
-Native tags are `compact-v<SemVer>`; the initial candidate is
-`compact-v0.1.0`. Every published rebuild gets a new version, including an
-upstream-only rebuild. The exact upstream and integration commits are in the
-manifest. Tags and published release assets must be immutable.
-
-Both channels use assets named `manifest.json` and `manifest.sig`. The latter is
+Signed releases in both channels use `manifest.json` and `manifest.sig`. The latter is
 the raw 64-byte Ed25519 signature of the exact manifest bytes. The protocol is:
 
 ```json
 {
   "protocol": 1,
-  "sequence": 1,
+  "sequence": 13,
   "expires_at": 1900000000,
-  "version": "0.1.0",
+  "version": "1.6.0-devel-20261118+compact.13",
   "channel": "preview",
   "platform": "linux-x86_64-glibc2.36",
   "repository": "Barbarrosa/clamav",
+  "tag": "clamav-1.6.0-devel-20261118+compact.13",
   "files": [
     {
       "path": "bin/compact-scan",
       "size": 123,
       "sha256": "full-lowercase-SHA-256",
       "mode": "0500",
-      "url": "https://github.com/Barbarrosa/clamav/releases/download/compact-v0.1.0/<sha-prefix16>--compact-scan"
+      "url": "https://github.com/Barbarrosa/clamav/releases/download/clamav-1.6.0-devel-20261118%2Bcompact.13/<sha-prefix16>--compact-scan"
     }
   ]
 }
@@ -110,7 +141,7 @@ Manifests must not be parsed and reserialized before signature verification.
 GitHub authentication grants access to release assets. It does not replace the
 bundled Ed25519 public-key trust root. GitHub build attestations additionally bind
 the candidate and manifest to the expected qualification workflow and original
-source commit. The promotion workflow verifies both identities before signing.
+source commit. The publishing workflows verify both identities before signing.
 
 ## Protected promotion
 
@@ -123,13 +154,30 @@ assets, repository-wide secrets, or chat. Install matching channel public keys i
 the plugin through the reviewed trust-root mechanism; key rotation requires a
 trusted update, not an unsigned key downloaded beside a package.
 
-Release keys and environments are not configured by these files. Without them,
-CI produces **pending unsigned Actions artifacts** only. The signer exits without
-creating a signature when its key is absent. Stable promotion also rejects an
-incomplete stable qualification report.
+Release keys and environment protections need repository configuration. Automatic
+preview publication handles the key configuration explicitly:
 
-To promote, select the successful default-branch qualification run, its exact
-candidate archive SHA-256, version and channel in `compact-promote.yml`. Promotion
+| Preview configuration | Result |
+| --- | --- |
+| Both keys absent | Publish an **unsigned development prerelease**, clearly labelled in its notes. |
+| Both keys present and environment protection valid | Sign the exact manifest and publish an installable signed prerelease. |
+| Only one key present, invalid keys or invalid protection | Fail publication; do not fall back to unsigned publication. |
+
+Unsigned development releases include source, evidence and a changelog for review.
+They are **not installable by the authenticated update clients**. GitHub provenance
+does not replace the configured Ed25519 trust root. Stable publication remains
+manual and requires signing, protected reviewers and completed stable qualification.
+
+The publishing job needs `GITHUB_TOKEN` content-write permission. This uses GitHub
+Actions and Releases without another account or service. Configuring installable
+updates additionally needs access to repository environments, branch protection
+and protected signing-key storage.
+
+For manual promotion, select the successful default-branch qualification run,
+its exact candidate archive SHA-256, public release version and channel in
+`compact-promote.yml`. The candidate transport is
+`clamav-<version>-candidate.tar.gz`; its corresponding source archive is
+`clamav-<version>-source.tar.gz`. Promotion
 downloads and verifies that exact artifact; it does not rebuild it. After signing,
 it creates the version tag, uploads all assets into a draft, then publishes the
 signed preview/stable release. An interrupted draft can resume against the same

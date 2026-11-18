@@ -21,14 +21,18 @@ import ssl
 import stat
 import tempfile
 import time
-from urllib.parse import urlsplit
+from urllib.parse import quote, urlsplit
 
 REPOSITORY = 'Barbarrosa/clamav'
 API = 'https://api.github.com/repos/' + REPOSITORY + '/releases'
 DOWNLOAD = 'https://github.com/' + REPOSITORY + '/releases/download/'
 PLATFORM = 'linux-x86_64-glibc2.36'
 HOSTS = {'api.github.com', 'github.com', 'release-assets.githubusercontent.com', 'objects.githubusercontent.com'}
-SEMVER = r'[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?'
+NUMBER = r'(?:0|[1-9][0-9]*)'
+PRERELEASE_ID = r'(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][A-Za-z0-9-]*)'
+SEMVER_BASE = NUMBER + r'\.' + NUMBER + r'\.' + NUMBER + r'(?:-' + PRERELEASE_ID + r'(?:\.' + PRERELEASE_ID + r')*)?'
+SEMVER = SEMVER_BASE + r'(?:\+[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*)?'
+RELEASE_TAG = r'(?:compact-v' + SEMVER + r'|clamav-' + SEMVER_BASE + r'\+(?:[A-Za-z0-9-]+\.)*compact\.[1-9][0-9]*)'
 REQUIRED = {'bin/compact-scan', 'bin/compact-update', 'lib/compact-scan.real',
             'lib/compact-update.real', 'certs/clamav.crt'}
 
@@ -112,8 +116,21 @@ def atomic_json(path, value):
         Path(temporary).unlink(missing_ok=True)
 
 
+def release_identity(tag, version=None, sequence=None):
+    """Accept legacy tags and upstream-versioned fork releases without normalizing identities."""
+    if not isinstance(tag, str) or not re.fullmatch(RELEASE_TAG, tag):
+        return False
+    if version is None:
+        return True
+    return (isinstance(version, str) and re.fullmatch(SEMVER, version) is not None
+            and tag in ('compact-v' + version, 'clamav-' + version)
+            and (not tag.startswith('clamav-') or sequence is None
+                 or tag.rsplit('.', 1)[-1] == str(sequence)))
+
+
 def inventory(manifest):
-    if not isinstance(manifest.get('tag'), str) or not re.fullmatch('compact-v' + SEMVER, manifest['tag']):
+    if (not isinstance(manifest.get('version'), str)
+            or not release_identity(manifest.get('tag'), manifest['version'], manifest.get('sequence'))):
         raise ReleaseError('invalid-release-tag')
     files = manifest.get('files')
     if not isinstance(files, list) or not 5 <= len(files) <= 512:
@@ -134,7 +151,7 @@ def inventory(manifest):
         executable = path.startswith('bin/') or path in ('lib/compact-scan.real', 'lib/compact-update.real')
         if item.get('mode') != ('0500' if executable else '0400'):
             raise ReleaseError('unsafe-release-mode')
-        expected_url = DOWNLOAD + manifest['tag'] + '/' + item['sha256'][:16] + '--' + PurePosixPath(path).name
+        expected_url = DOWNLOAD + quote(manifest['tag'], safe='') + '/' + quote(item['sha256'][:16] + '--' + PurePosixPath(path).name, safe='')
         if item.get('url') != expected_url:
             raise ReleaseError('release-asset-outside-fixed-repository')
         if any(path.startswith(old + '/') or old.startswith(path + '/') for old in paths):
@@ -298,7 +315,7 @@ class ReleaseClient:
                     continue
                 name = asset['name']
                 if (name in assets or asset.get('state') != 'uploaded' or type(asset.get('size')) is not int
-                        or asset['size'] <= 0 or asset.get('browser_download_url') != DOWNLOAD + tag + '/' + name):
+                        or asset['size'] <= 0 or asset.get('browser_download_url') != DOWNLOAD + quote(tag, safe='') + '/' + name):
                     raise ReleaseError('invalid-release-manifest-assets')
                 assets[name] = asset
             if (set(assets) != {'manifest.json', 'manifest.sig'} or assets['manifest.sig']['size'] != 64
@@ -351,7 +368,7 @@ class ReleaseClient:
             return None
         if (not isinstance(value, dict) or value.get('draft') is not False
                 or value.get('prerelease') is not (self.channel == 'preview')
-                or not isinstance(value.get('tag_name'), str) or not re.fullmatch('compact-v' + SEMVER, value['tag_name'])
+                or not release_identity(value.get('tag_name'))
                 or not isinstance(value.get('assets'), list) or len(value['assets']) > 1024):
             raise ReleaseError('release-channel-or-tag-mismatch')
         return value
@@ -417,8 +434,8 @@ class ReleaseClient:
                 or manifest.get('platform') != PLATFORM or type(manifest.get('sequence')) is not int
                 or not 1 <= manifest['sequence'] <= 2**63 - 1 or type(manifest.get('expires_at')) is not int
                 or not now < manifest['expires_at'] <= 2**63 - 1
-                or not isinstance(manifest.get('version'), str) or not re.fullmatch(SEMVER, manifest['version'])
-                or manifest.get('tag') != 'compact-v' + manifest['version']
+                or not isinstance(manifest.get('version'), str)
+                or not release_identity(manifest.get('tag'), manifest['version'], manifest['sequence'])
                 or tag is not None and manifest['tag'] != tag):
             raise ReleaseError('expired-or-incompatible-release-manifest')
         self.check_platform(manifest)

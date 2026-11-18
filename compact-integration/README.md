@@ -70,6 +70,10 @@ originals privately and reuses a bounded native worker. The separate
 Daily upstream tracking proposes pin changes and explicitly dispatches
 qualification. Actions test native/Rust/parser/guard behavior and a pristine
 control, then package matching source, notices, dependencies, SBOM and provenance.
-Protected preview/stable promotion signs the exact artifact without rebuilding.
-No signing private keys are included; unsigned builds remain development artifacts
-and cannot be installed automatically. See [release procedures](release/README.md).
+Passing default-branch builds automatically publish prereleases with a generated
+changelog and upstream-based tags such as
+`clamav-1.6.0-devel-20261118+compact.13`. Preview signing uses the protected channel
+keys when configured; otherwise publication is labelled as an unsigned development
+release that update clients cannot install. Stable promotion remains protected
+and manual. No signing private keys are included. See
+[release procedures](release/README.md) for versioning, trust and setup.

@@ -17,6 +17,7 @@ import time
 import types
 import unittest
 from unittest import mock
+from urllib.parse import quote
 
 import test_gateway as gateway_tests
 app = gateway_tests.app
@@ -87,7 +88,7 @@ class ReleaseFixture(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(signature),64)
         return raw,signature
 
-    def fixture(self,sequence=1,mode='normal',marker='candidate'):
+    def fixture(self,sequence=1,mode='normal',marker='candidate',version=None,tag=None):
         scanner=gateway_tests.WORKER.replace('__MODE__',repr('normal')).replace(
             "print(json.dumps(result),flush=True)", "result['release_marker']="+repr(marker)+";print(json.dumps(result),flush=True)")
         payload={'bin/compact-scan':scanner.encode(),
@@ -95,27 +96,28 @@ class ReleaseFixture(unittest.IsolatedAsyncioTestCase):
                  'lib/compact-scan.real':b'explicit unused native fixture',
                  'lib/compact-update.real':b'explicit unused updater fixture',
                  'certs/clamav.crt':b'explicit release-file fixture, not a CVD trust test'}
-        tag='compact-v0.1.'+str(sequence)
+        version='0.1.'+str(sequence) if version is None else version
+        tag='compact-v'+version if tag is None else tag
         files=[]
         for path,data in payload.items():
             digest=hashlib.sha256(data).hexdigest()
-            url=release.DOWNLOAD+tag+'/'+digest[:16]+'--'+Path(path).name
+            url=release.DOWNLOAD+quote(tag,safe='')+'/'+quote(digest[:16]+'--'+Path(path).name,safe='')
             files.append({'path':path,'size':len(data),'sha256':digest,
                           'mode':'0400' if path.startswith('certs/') else '0500','url':url})
             self.mapping[url]=(200,{},data)
-        manifest={'protocol':1,'sequence':sequence,'expires_at':int(time.time())+3600,'version':'0.1.'+str(sequence),
+        manifest={'protocol':1,'sequence':sequence,'expires_at':int(time.time())+3600,'version':version,
                   'channel':'preview','repository':release.REPOSITORY,'platform':release.PLATFORM,'tag':tag,'files':files,
                   'platform_requirements':{'architecture':'x86_64','libc':'glibc','minimum_glibc':'2.36','other_sonames':[]}}
         return manifest
 
     def discovery(self,manifest,raw,signature):
         tag=manifest['tag']
-        assets=[{'name':name,'state':'uploaded','size':len(data),'browser_download_url':release.DOWNLOAD+tag+'/'+name}
+        assets=[{'name':name,'state':'uploaded','size':len(data),'browser_download_url':release.DOWNLOAD+quote(tag,safe='')+'/'+name}
                 for name,data in [('manifest.json',raw),('manifest.sig',signature)]]
         value={'draft':False,'prerelease':True,'tag_name':tag,'assets':assets}
         self.mapping[release.API+'?per_page=3&page=1']=(200,{},json.dumps([value]).encode())
-        self.mapping[release.DOWNLOAD+tag+'/manifest.json']=(200,{},raw)
-        self.mapping[release.DOWNLOAD+tag+'/manifest.sig']=(200,{},signature)
+        self.mapping[release.DOWNLOAD+quote(tag,safe='')+'/manifest.json']=(200,{},raw)
+        self.mapping[release.DOWNLOAD+quote(tag,safe='')+'/manifest.sig']=(200,{},signature)
 
 class ReleaseTests(ReleaseFixture):
     async def test_missing_key_does_not_fetch_or_create_programs(self):
@@ -139,6 +141,98 @@ class ReleaseTests(ReleaseFixture):
         count=len(self.calls)
         self.assertEqual((await self.client.stage(raw,signature)).id,candidate.id)
         self.assertEqual(len(self.calls),count)
+
+    async def test_upstream_versioned_discovery_stages_exact_encoded_identity(self):
+        version='1.6.0-devel-20261118+compact.123'
+        manifest=self.fixture(sequence=123,version=version,tag='clamav-'+version)
+        raw,signature=self.signed(manifest);self.discovery(manifest,raw,signature)
+        candidate=await self.client.stage_next()
+        self.assertEqual(candidate.manifest['version'],version)
+        self.assertEqual(candidate.manifest['tag'],'clamav-'+version)
+        self.assertIn('%2B',self.calls[1])
+        self.assertEqual((candidate.path/'manifest.exact').read_bytes(),raw)
+        scanner,_,_=release.resolve_program(self.programs,candidate.id)
+        self.assertEqual(scanner.read_bytes(),self.mapping[manifest['files'][0]['url']][2])
+        self.assertFalse((self.programs/'current.json').exists())
+
+    async def test_canonical_stable_and_upstream_build_metadata_stage(self):
+        for sequence,version,channel in [(12,'1.5.1+compact.12','stable'),
+                                         (13,'1.6.0-rc.1+vendor.004.compact.13','preview')]:
+            with self.subTest(version=version):
+                manifest=self.fixture(sequence=sequence,version=version,tag='clamav-'+version)
+                manifest['channel']=channel
+                raw,signature=self.signed(manifest)
+                self.discovery(manifest,raw,signature)
+                if channel=='stable':
+                    value=json.loads(self.mapping[release.API+'?per_page=3&page=1'][2])[0]
+                    value['prerelease']=False
+                    self.mapping[release.API+'/latest']=(200,{},json.dumps(value).encode())
+                candidate=await self.new_client(channel=channel).stage_next()
+                self.assertEqual(candidate.manifest['version'],version)
+                release.resolve_program(self.programs,candidate.id)
+
+    async def test_malformed_semver_or_fork_metadata_stops_at_discovery(self):
+        for version in ['01.6.0+compact.1','1.06.0+compact.1','1.6.00+compact.1',
+                        '1.6.0-01+compact.1','1.6.0+compact.01','1.6.0+compact.0',
+                        '1.6.0+compact..1','1.6.0+compact.1.','1.6.0+vendor..compact.1',
+                        '1.6.0+compact.1+other','1.6.0+vendor.1','1.6.0+']:
+            with self.subTest(version=version):
+                manifest=self.fixture(version=version,tag='clamav-'+version)
+                raw,signature=self.signed(manifest);self.discovery(manifest,raw,signature)
+                client=self.new_client();client.deadline=time.monotonic()+5
+                self.calls.clear()
+                with self.assertRaisesRegex(release.ReleaseError,'channel-or-tag'):
+                    await client.discover()
+                self.assertEqual(self.calls,[release.API+'?per_page=3&page=1'])
+                # A direct caller cannot bypass discovery's syntax validation.
+                self.calls.clear()
+                with self.assertRaises(release.ReleaseError):
+                    await self.new_client().stage(raw,signature)
+                self.assertEqual(self.calls,[])
+
+    async def test_upstream_tag_binds_version_sequence_and_encoded_asset_path(self):
+        version='1.6.0-devel-20261118+compact.123'
+        for fault in ['version','tag','sequence','file-url']:
+            with self.subTest(fault=fault):
+                manifest=self.fixture(sequence=123,version=version,tag='clamav-'+version)
+                if fault=='version':manifest['version']='1.6.0-devel-20261118+compact.124'
+                elif fault=='tag':manifest['tag']='clamav-1.6.0-devel-20261118+compact.124'
+                elif fault=='sequence':manifest['sequence']=124
+                else:manifest['files'][0]['url']=manifest['files'][0]['url'].replace('%2B','+')
+                raw,signature=self.signed(manifest)
+                with self.assertRaises(release.ReleaseError):
+                    await self.new_client().stage(raw,signature,tag='clamav-'+version)
+                self.assertEqual(self.calls,[])
+
+    async def test_upstream_discovery_requires_signature_and_exact_asset_url(self):
+        version='1.6.0-devel-20261118+compact.123'
+        for fault in ['unsigned','raw-plus','other-fork-revision']:
+            with self.subTest(fault=fault):
+                manifest=self.fixture(sequence=123,version=version,tag='clamav-'+version)
+                raw,signature=self.signed(manifest);self.discovery(manifest,raw,signature)
+                endpoint=release.API+'?per_page=3&page=1'
+                value=json.loads(self.mapping[endpoint][2])
+                if fault=='unsigned':value[0]['assets'].pop()
+                elif fault=='raw-plus':value[0]['assets'][0]['browser_download_url']=value[0]['assets'][0]['browser_download_url'].replace('%2B','+')
+                else:value[0]['assets'][0]['browser_download_url']=value[0]['assets'][0]['browser_download_url'].replace('compact.123','compact.124')
+                self.mapping[endpoint]=(200,{},json.dumps(value).encode())
+                self.calls.clear()
+                client=self.new_client(programs=self.root/fault)
+                with self.assertRaises(release.ReleaseError):
+                    await client.stage_next()
+                self.assertEqual(self.calls,[endpoint])
+
+    async def test_new_upstream_version_cannot_reset_sequence_floor(self):
+        version='1.5.1+compact.123'
+        manifest=self.fixture(sequence=123,version=version,tag='clamav-'+version)
+        raw,signature=self.signed(manifest);await self.client.stage(raw,signature)
+        self.calls.clear()
+        version='1.6.0+compact.122'
+        old=self.fixture(sequence=122,version=version,tag='clamav-'+version)
+        raw,signature=self.signed(old)
+        with self.assertRaisesRegex(release.ReleaseError,'replay'):
+            await self.new_client().stage(raw,signature)
+        self.assertEqual(self.calls,[])
 
     async def test_tampered_or_foreign_signature_never_downloads_payload(self):
         manifest=self.fixture();raw,signature=self.signed(manifest)

@@ -9,7 +9,7 @@ on:
         description: Exact candidate.tar.gz SHA-256 shown by qualification
         required: true
       version:
-        default: '0.1.0'
+        description: Exact candidate version, e.g. 1.6.0-devel-20261118+compact.13
         required: true
       channel:
         type: choice
@@ -26,6 +26,7 @@ jobs:
     environment: compact-${{ inputs.channel }}
     permissions:
       actions: read
+      attestations: read
       contents: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -56,14 +57,27 @@ jobs:
           QUALIFIED_COMMIT: ${{ steps.qualified.outputs.commit }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh attestation verify "$RUNNER_TEMP/pending/compact-v$RELEASE_VERSION-candidate.tar.gz" \
+          tag=$(python3 - "$RELEASE_VERSION" "$RUNNER_TEMP/pending" <<'PY'
+          import pathlib, sys
+          sys.path.insert(0, 'compact-integration/release')
+          from versioning import native_tag, valid_semver
+          version, pending = sys.argv[1:]
+          if not valid_semver(version):
+              raise ValueError('Invalid release version')
+          if (pathlib.Path(pending) / ('clamav-' + version + '-candidate.tar.gz')).is_file():
+              print(native_tag(version))
+          else:
+              print('compact-v' + version)
+          PY
+          )
+          gh attestation verify "$RUNNER_TEMP/pending/$tag-candidate.tar.gz" \
             --repo "$GITHUB_REPOSITORY" --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/compact-native.yml" \
             --source-ref "refs/heads/${{ github.event.repository.default_branch }}" --source-digest "$QUALIFIED_COMMIT"
           python3 compact-integration/release/verify_candidate.py \
-            --archive "$RUNNER_TEMP/pending/compact-v$RELEASE_VERSION-candidate.tar.gz" \
+            --archive "$RUNNER_TEMP/pending/$tag-candidate.tar.gz" \
             --sha256 "$CANDIDATE_DIGEST" --destination "$RUNNER_TEMP/promotion" \
             --repository "$GITHUB_REPOSITORY" --commit "$QUALIFIED_COMMIT" \
-            --version "$RELEASE_VERSION" --channel "$RELEASE_CHANNEL" --tag "compact-v$RELEASE_VERSION"
+            --version "$RELEASE_VERSION" --channel "$RELEASE_CHANNEL" --tag "$tag"
       - name: Sign only after protected environment approval
         env:
           COMPACT_SIGNING_KEY_B64: ${{ secrets.COMPACT_SIGNING_KEY_B64 }}

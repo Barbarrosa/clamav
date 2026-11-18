@@ -12,8 +12,10 @@ import shutil
 import subprocess
 import tarfile
 import time
+from urllib.parse import quote
 
 from collect_dependencies import collect, digest
+from versioning import SEMVER, built_identity
 
 PLATFORM = 'linux-x86_64-glibc2.36'
 IGNORED = {'.git', '.pytest_cache', '__pycache__', 'target', 'node_modules'}
@@ -99,7 +101,7 @@ def copy_tls_ca_bundle(payload):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('source', 'build', 'output', 'qualification'):
+    for name in ('source', 'build', 'output', 'qualification', 'changelog'):
         parser.add_argument('--' + name, type=Path, required=True)
     for name in ('upstream-sha', 'integration-sha', 'version', 'repository'):
         parser.add_argument('--' + name, required=True)
@@ -108,7 +110,7 @@ def main():
     parser.add_argument('--channel', choices=('preview', 'stable'), default='preview')
     parser.add_argument('--dependency-sources', type=Path)
     args = parser.parse_args()
-    if not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?', args.version):
+    if not re.fullmatch(SEMVER, args.version):
         parser.error('Version must be an immutable semantic version')
     if args.sequence < 1 or args.expires_at <= int(time.time()):
         parser.error('Positive sequence and future expiration are required')
@@ -119,12 +121,21 @@ def main():
         parser.error('Candidate output must not already exist')
     if args.output.resolve().is_relative_to(args.source.resolve()):
         parser.error('Release output must be outside the source tree')
+    if not args.changelog.is_file() or args.changelog.stat().st_size == 0:
+        parser.error('A nonempty generated release changelog is required')
     source_identity = json.loads((args.source / 'compact-source.json').read_text())
+    recipe_manifest_path = Path(__file__).resolve().parents[1] / 'manifest.json'
+    recipe_manifest = json.loads(recipe_manifest_path.read_text())
     if (source_identity.get('upstream_commit') != args.upstream_sha
-            or source_identity.get('integration_version') != args.version
+            or args.upstream_sha != recipe_manifest.get('upstream_commit')
+            or source_identity.get('integration_version') != recipe_manifest.get('integration_version')
+            or source_identity.get('manifest_sha256') != digest(recipe_manifest_path)
             or source_identity.get('variant') != 'optimized'
             or not (args.source / 'compact-adapter/scan.c').is_file()):
         parser.error('An exact materialized optimized source tree is required')
+    identity = built_identity(args.build, args.sequence)
+    if args.version != identity['version']:
+        parser.error('Release version must match the built upstream engine and fork sequence')
     report = json.loads(args.qualification.read_text())
     if report.get('integration_sha') != args.integration_sha or report.get('passed') is not True:
         parser.error('Qualification report must identify this tested source and pass')
@@ -164,8 +175,8 @@ def main():
                            args.dependency_sources or output / 'dependency-sources',
                            data_owners=('/usr/sbin/update-ca-certificates',))
     write_json(output / 'dependencies.json', dependencies)
-    tag = 'compact-v' + args.version
-    base_url = 'https://github.com/' + args.repository + '/releases/download/' + tag + '/'
+    tag = identity['tag']
+    base_url = 'https://github.com/' + args.repository + '/releases/download/' + quote(tag, safe='') + '/'
     files = []
     for path in sorted(payload.rglob('*')):
         if path.is_file():
@@ -180,19 +191,25 @@ def main():
                 raise ValueError('Conflicting release asset name: ' + asset)
             files.append({'path': relative, 'sha256': sha, 'size': path.stat().st_size,
                           'mode': '0500' if path.stat().st_mode & 0o111 else '0400',
-                          'url': base_url + asset})
+                          'url': base_url + quote(asset, safe='')})
     manifest = {'protocol': 1, 'sequence': args.sequence, 'expires_at': args.expires_at,
                 'channel': args.channel, 'version': args.version, 'platform': PLATFORM,
                 'files': files, 'upstream_sha': args.upstream_sha,
                 'integration_sha': args.integration_sha, 'repository': args.repository,
+                'upstream_version': identity['upstream_version'],
+                'fork_revision': identity['fork_revision'],
+                'integration_version': recipe_manifest['integration_version'],
                 'tag': tag, 'experimental': args.channel != 'stable',
                 'subset_release_qualified': report.get('subset_release_qualified') is True,
                 'platform_requirements': {'architecture': 'x86_64', 'libc': 'glibc',
                                           'minimum_glibc': '2.36', 'other_sonames': dependencies['platform_sonames']}}
     write_json(output / 'manifest.json', manifest)
     shutil.copyfile(args.qualification, output / 'qualification.json')
+    shutil.copyfile(args.changelog, output / 'CHANGELOG.md')
+    manifest['changelog_sha256'] = digest(output / 'CHANGELOG.md')
     write_json(output / 'provenance.json', {
         'source': {'upstream_sha': args.upstream_sha, 'integration_sha': args.integration_sha},
+        'release': identity, 'integration_version': recipe_manifest['integration_version'],
         'platform': PLATFORM, 'compiler': subprocess.check_output(['cc', '--version'], text=True).splitlines()[0],
         'rust': subprocess.check_output(['rustc', '--version'], text=True).strip(),
         'github_run_id': os.environ.get('GITHUB_RUN_ID'),
@@ -236,12 +253,22 @@ def main():
             [(args.source, tag + '/clamav'),
              (args.dependency_sources or output / 'dependency-sources', tag + '/dependency-sources'),
              (vendor, tag + '/rust-vendor'), (materials, tag)])
-    doctor = subprocess.check_output([str(payload / 'bin/compact-scan'), 'doctor'], text=True)
-    write_json(output / 'packaged-smoke.json', json.loads(doctor))
+    smoke_environment = os.environ.copy()
+    for name in ('LD_PRELOAD', 'LD_AUDIT'):
+        smoke_environment.pop(name, None)
+    smoke_environment['COMPACT_PARENT_PID'] = str(os.getpid())
+    doctor = subprocess.check_output([str(payload / 'bin/compact-scan'), 'doctor'], text=True,
+                                     env=smoke_environment, timeout=30)
+    packaged_identity = json.loads(doctor)
+    if (not isinstance(packaged_identity, dict) or packaged_identity.get('protocol') != 1
+            or packaged_identity.get('status') != 'ready' or packaged_identity.get('completed') is not True
+            or packaged_identity.get('engine_version') != identity['upstream_version']):
+        raise ValueError('Packaged engine version differs from the qualified build identity')
+    write_json(output / 'packaged-smoke.json', packaged_identity)
     source_archive = output / (tag + '-source.tar.gz')
     manifest['source_archives'] = [{'name': source_archive.name, 'sha256': digest(source_archive),
                                     'size': source_archive.stat().st_size,
-                                    'url': base_url + source_archive.name}]
+                                    'url': base_url + quote(source_archive.name, safe='')}]
     for name in ('sbom.spdx.json', 'provenance.json', 'qualification.json'):
         manifest[name.replace('.', '_') + '_sha256'] = digest(output / name)
     write_json(output / 'manifest.json', manifest)

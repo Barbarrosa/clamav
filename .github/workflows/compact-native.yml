@@ -24,6 +24,11 @@ jobs:
       contents: read
       attestations: write
       id-token: write
+    outputs:
+      variant: ${{ steps.build.outputs.variant }}
+      version: ${{ steps.package.outputs.version }}
+      tag: ${{ steps.package.outputs.tag }}
+      candidate_sha256: ${{ steps.package.outputs.candidate_sha256 }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -90,22 +95,34 @@ jobs:
           docker exec compact-native ctest --test-dir /work/upstream-build -R '^(libclamav|clamscan|sigtool)$' --output-on-failure \
             > "$RUNNER_TEMP/logs/upstream-tests.log" 2>&1
       - name: Collect complete matching source and pending artifacts
+        id: package
         if: steps.build.outputs.variant == 'optimized' && github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
         env:
           RELEASE_CHANNEL: ${{ inputs.channel || 'preview' }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p "$RUNNER_TEMP/release"
           docker exec compact-native python3 /workspace/repo/compact-integration/release/collect_dependencies.py --enable-deb-src
-          version=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["integration_version"])')
+          docker exec compact-native python3 /workspace/repo/compact-integration/release/versioning.py \
+            --build /work/build --revision "$GITHUB_RUN_NUMBER" --output /work/release-version.json
+          version=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["version"])' "$RUNNER_TEMP/release-version.json")
+          tag=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["tag"])' "$RUNNER_TEMP/release-version.json")
           upstream=$(python3 -c 'import json; print(json.load(open("compact-integration/manifest.json"))["upstream_commit"])')
+          python3 compact-integration/release/changelog.py --repository "$GITHUB_REPOSITORY" \
+            --commit "$GITHUB_SHA" --upstream-sha "$upstream" --version "$version" --output "$RUNNER_TEMP/CHANGELOG.md"
           expires=$(( $(date +%s) + 2592000 ))
           docker exec -e GITHUB_RUN_ID compact-native python3 /workspace/repo/compact-integration/release/package.py \
             --source /work/source --build /work/build --output /work/release/candidate --qualification /work/qualification.json \
             --upstream-sha "$upstream" --integration-sha "$GITHUB_SHA" --version "$version" \
+            --changelog /work/CHANGELOG.md \
             --repository "$GITHUB_REPOSITORY" --sequence "$GITHUB_RUN_NUMBER" --expires-at "$expires" --channel "$RELEASE_CHANNEL" \
             > "$RUNNER_TEMP/logs/package.log" 2>&1
-          sha256sum "$RUNNER_TEMP/release/compact-v$version-candidate.tar.gz" | tee "$RUNNER_TEMP/release/candidate.sha256" >> "$GITHUB_STEP_SUMMARY"
-          echo 'Pending signature: no installable release has been published.' >> "$GITHUB_STEP_SUMMARY"
+          sha256sum "$RUNNER_TEMP/release/$tag-candidate.tar.gz" | tee "$RUNNER_TEMP/release/candidate.sha256" >> "$GITHUB_STEP_SUMMARY"
+          digest=$(sha256sum "$RUNNER_TEMP/release/$tag-candidate.tar.gz" | cut -d ' ' -f 1)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "candidate_sha256=$digest" >> "$GITHUB_OUTPUT"
+          echo 'Exact candidate qualified; preview publication runs after this job succeeds. Stable publication requires protected promotion.' >> "$GITHUB_STEP_SUMMARY"
       - name: Attest the tested build before transport
         uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2
         if: steps.build.outputs.variant == 'optimized' && github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
@@ -136,3 +153,77 @@ jobs:
       - name: Clean up the isolated builder
         if: always()
         run: docker rm -f compact-native || true
+  publish-preview:
+    needs: qualification
+    if: >-
+      needs.qualification.outputs.variant == 'optimized' &&
+      github.event_name != 'pull_request' &&
+      github.ref_name == github.event.repository.default_branch &&
+      (inputs.channel || 'preview') == 'preview'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment: compact-preview
+    permissions:
+      actions: read
+      attestations: read
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: compact-native-pending
+          path: ${{ runner.temp }}/pending
+      - name: Verify exact attested qualification artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ needs.qualification.outputs.version }}
+          RELEASE_TAG: ${{ needs.qualification.outputs.tag }}
+          CANDIDATE_DIGEST: ${{ needs.qualification.outputs.candidate_sha256 }}
+        run: |
+          commit=$(python3 compact-integration/release/promote.py --repository "$GITHUB_REPOSITORY" \
+            --run-id "$GITHUB_RUN_ID" --workflow compact-native.yml --qualification-job qualification --check-run-only)
+          test "$commit" = "$GITHUB_SHA"
+          gh attestation verify "$RUNNER_TEMP/pending/$RELEASE_TAG-candidate.tar.gz" \
+            --repo "$GITHUB_REPOSITORY" --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/compact-native.yml" \
+            --source-ref "refs/heads/${{ github.event.repository.default_branch }}" --source-digest "$commit"
+          python3 compact-integration/release/verify_candidate.py \
+            --archive "$RUNNER_TEMP/pending/$RELEASE_TAG-candidate.tar.gz" \
+            --sha256 "$CANDIDATE_DIGEST" --destination "$RUNNER_TEMP/promotion" \
+            --repository "$GITHUB_REPOSITORY" --commit "$commit" \
+            --version "$RELEASE_VERSION" --channel preview --tag "$RELEASE_TAG"
+      - name: Sign with configured protected preview keys
+        id: authentication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPACT_SIGNING_KEY_B64: ${{ secrets.COMPACT_SIGNING_KEY_B64 }}
+          RELEASE_PUBLIC_KEY_B64: ${{ vars.COMPACT_RELEASE_PUBLIC_KEY_B64 }}
+        run: |
+          if [ -n "$COMPACT_SIGNING_KEY_B64" ] || [ -n "$RELEASE_PUBLIC_KEY_B64" ]; then
+            test -n "$COMPACT_SIGNING_KEY_B64" && test -n "$RELEASE_PUBLIC_KEY_B64"
+            python3 compact-integration/release/check_environment.py --repository "$GITHUB_REPOSITORY" --channel preview
+            python3 compact-integration/release/sign.py --manifest "$RUNNER_TEMP/promotion/candidate/manifest.json" \
+              --signature "$RUNNER_TEMP/promotion/candidate/manifest.sig" --public-key-b64 "$RELEASE_PUBLIC_KEY_B64"
+            echo 'signed=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'signed=false' >> "$GITHUB_OUTPUT"
+            echo 'Development prerelease: no preview signing keys configured. Strict update clients will reject unsigned artifacts.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Publish immutable prerelease and generated changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_PUBLIC_KEY_B64: ${{ vars.COMPACT_RELEASE_PUBLIC_KEY_B64 }}
+          RELEASE_SIGNED: ${{ steps.authentication.outputs.signed }}
+          RELEASE_TAG: ${{ needs.qualification.outputs.tag }}
+        run: |
+          args=()
+          if [ "$RELEASE_SIGNED" = true ]; then
+            args+=(--public-key-b64 "$RELEASE_PUBLIC_KEY_B64")
+          else
+            args+=(--allow-unsigned-preview)
+          fi
+          python3 compact-integration/release/promote.py --repository "$GITHUB_REPOSITORY" \
+            --run-id "$GITHUB_RUN_ID" --workflow compact-native.yml --qualification-job qualification \
+            --candidate "$RUNNER_TEMP/promotion/candidate" "${args[@]}"
+          echo "Published [$RELEASE_TAG](https://github.com/$GITHUB_REPOSITORY/releases/tag/$RELEASE_TAG)." >> "$GITHUB_STEP_SUMMARY"
